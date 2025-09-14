@@ -112,6 +112,9 @@ nav{
 .grid-3{grid-template-columns:repeat(3,1fr)}
 .grid-2{grid-template-columns:repeat(2,1fr)}
 @media(max-width:900px){.grid-3,.grid-2{grid-template-columns:1fr}}
+#kontakt h2{color:var(--slate)}
+#kontakt a{color:var(--slate)}
+#kontakt a:hover{color:var(--accent)}
 
 .card{
   background:#fff;
