@@ -1,19 +1,19 @@
-:root{
+:root {
   --ink:#232323;
   --slate:#415A77;       /* modrá – primární */
   --slate-600:#354a63;
   --accent:#EAE151;      /* žlutá – akcent */
   --accent-dark:#c9c23f;
-  --ivory:#FFFBEF;
+  --ivory:#ffffff;       /* bílé pozadí */
   --muted:#6b7c8f;
   --radius:16px;
   --max:1200px;
-  --shadow:0 8px 24px rgba(0,0,0,.12);
+  --shadow:0 8px 24px rgba(0,0,0,.08);
   --font:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
 }
 
 *{box-sizing:border-box}
-html,body{
+html,body {
   margin:0;
   padding:0;
   background:var(--ivory);
@@ -29,7 +29,7 @@ a:hover{color:var(--slate)}
 .container{max-width:var(--max);margin:0 auto;padding:0 20px}
 
 /* NAVBAR */
-nav{
+nav {
   position:sticky;top:0;
   background:rgba(255,255,255,.95);
   backdrop-filter:saturate(180%) blur(14px);
@@ -48,7 +48,7 @@ nav{
 .nav-social a:hover svg{fill:var(--accent)}
 
 /* BUTTONS */
-.btn{
+.btn {
   display:inline-block;
   padding:12px 20px;
   border-radius:999px;
@@ -58,19 +58,13 @@ nav{
 }
 .btn:hover{transform:translateY(-1px)}
 
-.btn--primary{
-  background:var(--slate);
-  color:#fff;
-}
+.btn--primary {background:var(--slate);color:#fff}
 .btn--primary:hover{background:var(--slate-600)}
 
-.btn--accent{
-  background:var(--accent);
-  color:#111;
-}
+.btn--accent {background:var(--accent);color:#111}
 .btn--accent:hover{background:var(--accent-dark)}
 
-.btn--outline{
+.btn--outline {
   background:transparent;
   border:2px solid var(--slate);
   color:var(--slate);
@@ -78,10 +72,10 @@ nav{
 .btn--outline:hover{background:rgba(65,90,119,.08)}
 
 /* HERO */
-.hero{position:relative}
+.hero{position:relative;background:#fff}
 .hero-media{
   height:58vh;min-height:420px;
-  background:#111 center/cover no-repeat;
+  background:#fff center/cover no-repeat; /* bílé pozadí pro čistotu */
   border-radius:0 0 24px 24px;
 }
 .hero .container{position:relative;margin-top:-120px}
@@ -104,14 +98,14 @@ nav{
 }
 
 /* SECTIONS */
-.section{padding:56px 0}
-.section--alt{background:#fff}
+.section{padding:56px 0;background:#fff}
 .section h2{font-size:clamp(22px,2.6vw,34px);margin:0 0 12px;color:var(--slate)}
 .section p.lead{color:var(--muted);margin:0 0 20px}
 .grid{display:grid;gap:22px}
 .grid-3{grid-template-columns:repeat(3,1fr)}
 .grid-2{grid-template-columns:repeat(2,1fr)}
 @media(max-width:900px){.grid-3,.grid-2{grid-template-columns:1fr}}
+
 #kontakt h2{color:var(--slate)}
 #kontakt a{color:var(--slate)}
 #kontakt a:hover{color:var(--accent)}
@@ -144,11 +138,7 @@ nav{
   font-weight:700;
 }
 
-/* FOOTER */
-footer{margin-top:40px;background:#0f1113;color:#eef1f5}
-.footer-inner{display:grid;gap:26px;grid-template-columns:1.1fr .9fr}
-footer h3{margin:0 0 12px}
-footer a{color:#eef1f5}
+/* FORMS */
 .form{display:grid;gap:12px}
 input,textarea{
   width:100%;
@@ -158,13 +148,22 @@ input,textarea{
   background:#fff;
 }
 input:focus,textarea:focus{outline:2px solid var(--accent)}
-small.help{color:#c8d1da}
+small.help{color:#999}
+
+/* FOOTER */
+footer{
+  margin-top:40px;
+  background:#fff;      /* světlý footer */
+  color:#666;
+  border-top:1px solid #eee;
+}
+footer a{color:var(--slate)}
 .footer-bottom{
   display:flex;
   justify-content:space-between;
   gap:14px;
   margin-top:10px;
-  border-top:1px solid rgba(255,255,255,.12);
+  border-top:1px solid #eee;
   padding-top:14px;
 }
 .tag{
