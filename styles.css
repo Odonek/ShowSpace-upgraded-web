@@ -13,6 +13,38 @@
   --font:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
 }
 
+
+/* sekce Prohlídka */
+#prohlidka {
+  text-align: center;       /* vše na střed */
+}
+
+#prohlidka h2 {
+  font-size: clamp(24px, 2.6vw, 36px);
+  color: var(--slate);
+  margin-bottom: 12px;
+}
+
+#prohlidka p.lead {
+  color: var(--muted);
+  margin-bottom: 24px;
+  font-size: 18px;
+}
+
+#prohlidka .tour {
+  max-width: 900px;         /* omezit šířku, aby to nebylo moc široké */
+  margin: 0 auto;           /* vycentrovat */
+}
+
+#prohlidka .tour iframe {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border: 0;
+  border-radius: 18px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+}
+
+
 /* grid pro benefity – 3 karty */
 .benefits-center {
   display: grid;
