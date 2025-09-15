@@ -151,35 +151,47 @@ nav {
   max-width:var(--max);
   padding:0 20px;
   z-index: 5; /* nad overlayem */
+  text-align:center;
+  color:#fff; /* výchozí text na obrázku bílý */
 }
 
-/* poloprůhledná karta – zůstane vidět fotka za ní */
+/* odstraněná karta – už není pozadí ani rámeček */
 .hero-card{
-  background: rgba(255,255,255,0.9);
-  padding: 32px;
-  border-radius: 24px;
-  box-shadow: var(--shadow);
-  text-align: center;
-  backdrop-filter: blur(4px); /* jemný glass efekt */
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
   margin: 0 auto;
   max-width: 820px;
 }
 
-.hero h1{font-size:clamp(32px,4.2vw,56px);margin:0 0 12px;color:var(--slate)}
-.hero p{color:var(--muted);margin:0 0 22px;font-size:clamp(16px,1.6vw,18px)}
+.hero h1{
+  font-size:clamp(32px,4.2vw,56px);
+  margin:0 0 12px;
+  color:#fff; /* bílý nadpis */
+}
+.hero p{
+  color:#f1f1f1; /* světlejší text */
+  margin:0 0 22px;
+  font-size:clamp(16px,1.6vw,18px);
+}
 .badge{
-  display:inline-flex;gap:8px;align-items:center;
+  display:inline-flex;
+  gap:8px;
+  align-items:center;
   padding:6px 12px;
   border-radius:999px;
   background:var(--accent);
   color:#111;
   font-size:.85rem;
   font-weight:600;
-  margin-bottom: 12px;
+  margin-bottom:12px;
 }
 
 /* mezery mezi CTA */
 .hero-card .btn{ margin: 6px 6px 0 6px; }
+
 
 /* ===================== SECTIONS ===================== */
 
