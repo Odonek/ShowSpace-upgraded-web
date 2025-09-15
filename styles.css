@@ -30,7 +30,7 @@ a:hover{color:var(--slate)}
 
 /* NAVBAR */
 nav {
-  position: fixed;
+  position: absolute;
   top: 0; left: 0; right: 0;
   background: transparent;
   border-bottom: none;
@@ -38,10 +38,7 @@ nav {
   transition: background 0.3s, box-shadow 0.3s;
   padding: 20px 0;
 }
-nav.scrolled {
-  background: rgba(255,255,255,0.95);
-  box-shadow: 0 2px 8px rgba(0,0,0,.08);
-  border-bottom: 1px solid #eee;
+
 }
 .nav-inner {
   display: flex;
@@ -58,6 +55,32 @@ nav.scrolled {
   max-width: var(--max);
   margin-left: auto;
   margin-right: auto;                  /* zarovnání doprostřed */
+}
+
+/* SCROLL TO TOP BUTTON */
+#toTop {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--slate);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+#toTop.show {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem}
