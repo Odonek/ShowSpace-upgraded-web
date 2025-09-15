@@ -71,6 +71,15 @@ nav {
 }
 .btn--outline:hover{background:rgba(65,90,119,.08)}
 
+
+
+.logo img {
+  height: 40px;       /* výška loga */
+  width: auto;        /* zachová poměr stran */
+  display: block;
+}
+
+
 /* HERO */
 .hero{position:relative;background:#fff}
 .hero-media{
