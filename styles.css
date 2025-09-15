@@ -28,7 +28,7 @@ a:hover{color:var(--slate)}
 /* Layout */
 .container{max-width:var(--max);margin:0 auto;padding:0 20px}
 
-/* NAVBAR */
+/* NAVBAR – oválný box, žlutá linka, posun odshora */
 nav {
   position: absolute;
   top: 0; left: 0; right: 0;
@@ -36,12 +36,7 @@ nav {
   border-bottom: none;
   z-index: 100;
   transition: background 0.3s, box-shadow 0.3s;
-  padding: 20px 0;
-}
-nav.scrolled {
-  background: rgba(255,255,255,0.95);
-  box-shadow: 0 2px 8px rgba(0,0,0,.08);
-  border-bottom: 1px solid #eee;
+  padding: 20px 0; /* mezera nad i pod oválným boxem */
 }
 
 .nav-inner {
@@ -61,7 +56,7 @@ nav.scrolled {
   margin-right: auto;                  /* zarovnání doprostřed */
 }
 
-/* SCROLL TO TOP BUTTON */
+/* SCROLL TO TOP BUTTON (pokud používáš) */
 #toTop {
   position: fixed;
   bottom: 24px;
@@ -81,12 +76,9 @@ nav.scrolled {
   pointer-events: none;
   transition: opacity 0.3s;
 }
+#toTop.show { opacity: 1; pointer-events: auto; }
 
-#toTop.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
+/* NAV obsah */
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem}
 .logo-dot{width:14px;height:14px;border-radius:50%;background:var(--accent)}
 .menu{display:flex;gap:18px;align-items:center}
@@ -100,10 +92,7 @@ nav.scrolled {
   opacity:1;
   transition:.2s;
 }
-.menu a:hover{
-  background:var(--accent);
-  color:#111;
-}
+.menu a:hover{ background:var(--accent); color:#111; }
 .nav-right{display:flex;gap:16px;align-items:center}
 .nav-social{display:flex;gap:12px}
 .nav-social a svg{width:20px;height:20px;fill:var(--slate);transition:.2s}
@@ -119,52 +108,65 @@ nav.scrolled {
   box-shadow:var(--shadow);
 }
 .btn:hover{transform:translateY(-1px)}
-
 .btn--primary {background:var(--slate);color:#fff}
 .btn--primary:hover{background:var(--slate-600)}
-
 .btn--accent {background:var(--accent);color:#111}
 .btn--accent:hover{background:var(--accent-dark)}
-
-.btn--outline {
-  background:transparent;
-  border:2px solid var(--slate);
-  color:var(--slate);
-}
+.btn--outline { background:transparent; border:2px solid var(--slate); color:var(--slate); }
 .btn--outline:hover{background:rgba(65,90,119,.08)}
 
 /* LOGO */
-.logo img {
-  height: 80px;
-  width: auto;
-  display: block;
+.logo img { height: 80px; width: auto; display: block; }
+
+/* ===================== HERO ===================== */
+.hero{
+  position:relative;
+  background:#fff;
+  min-height:100vh; /* jistota přes celou obrazovku */
 }
 
-/* HERO */
-.hero{position:relative;background:#fff}
+/* full-screen foto */
 .hero-media {
   position: relative;
-  height: 100vh;            /* celá výška okna */
-  min-height: 600px;        /* aby to bylo dost velké i na menších monitorech */
+  height: 100vh;
+  min-height: 600px;
   background: url("images/titulweb1.png") center/cover no-repeat;
   border-radius: 0 0 24px 24px;
   overflow: hidden;
 }
-.hero-media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,.35); /* overlay pro čitelnost textu */
+.hero-media::after{
+  content:"";
+  position:absolute; inset:0;
+  /* jemný gradient: tmavší dole pro čitelnost, lehčí nahoře */
+  background: linear-gradient(180deg, rgba(0,0,0,.15) 0%, rgba(0,0,0,.35) 65%, rgba(0,0,0,.45) 100%);
 }
-.hero .container{position:relative;margin-top:-120px}
+
+/* vycentrovaný obsah uprostřed obrazovky */
+.hero .container{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:100%;
+  max-width:var(--max);
+  padding:0 20px;
+  z-index: 5; /* nad overlayem */
+}
+
+/* poloprůhledná karta – zůstane vidět fotka za ní */
 .hero-card{
-  background:#fff;
-  padding:28px;
-  border-radius:24px;
-  box-shadow:var(--shadow);
+  background: rgba(255,255,255,0.9);
+  padding: 32px;
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  backdrop-filter: blur(4px); /* jemný glass efekt */
+  margin: 0 auto;
+  max-width: 820px;
 }
-.hero h1{font-size:clamp(28px,3.2vw,46px);margin:0 0 8px;color:var(--slate)}
-.hero p{color:var(--muted);margin:0 0 20px}
+
+.hero h1{font-size:clamp(32px,4.2vw,56px);margin:0 0 12px;color:var(--slate)}
+.hero p{color:var(--muted);margin:0 0 22px;font-size:clamp(16px,1.6vw,18px)}
 .badge{
   display:inline-flex;gap:8px;align-items:center;
   padding:6px 12px;
@@ -173,13 +175,16 @@ nav.scrolled {
   color:#111;
   font-size:.85rem;
   font-weight:600;
+  margin-bottom: 12px;
 }
 
-/* SECTIONS */
-/* Posunout první header pod navbar */
-header.section {
-  padding-top: 140px; /* uprav podle výšky tvého navbaru */
-}
+/* mezery mezi CTA */
+.hero-card .btn{ margin: 6px 6px 0 6px; }
+
+/* ===================== SECTIONS ===================== */
+
+/* posunout první header u podstránek pod navbar (Služby, Galerie) */
+header.section { padding-top: 140px; }
 
 .section{padding:56px 0;background:#fff}
 .section h2{font-size:clamp(22px,2.6vw,34px);margin:0 0 12px;color:var(--slate)}
@@ -255,4 +260,13 @@ footer a{color:var(--slate)}
   border-radius:999px;
   color:#fff;
   font-size:.85rem;
+}
+
+/* ============ RESPONSIVE DOLADĚNÍ ============ */
+@media (max-width: 780px){
+  .logo img{ height:56px; }
+  .nav-inner{ padding: 0 16px; }
+  .menu{ gap:10px; }
+  .menu a{ padding:6px 10px; }
+  .hero-card{ padding: 24px; }
 }
