@@ -1,4 +1,5 @@
 :root {
+  --font: "Funnel Display", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --ink:#232323;
   --slate:#415A77;       /* modrá – primární */
   --slate-600:#354a63;
@@ -20,7 +21,21 @@ html,body {
   color:var(--ink);
   font-family:var(--font);
   line-height:1.55;
+  font-weight: 300;
 }
+
+h2, h3, h4, h5, h6,
+.menu a,
+.btn,
+.badge {
+  font-weight: 500;
+}
+
+/* hlavní claim – ExtraBold 800 */
+.hero h1 {
+  font-weight: 800;
+}
+
 img{max-width:100%;display:block;border-radius:var(--radius)}
 a{color:inherit;text-decoration:none;transition:.2s}
 a:hover{color:var(--slate)}
