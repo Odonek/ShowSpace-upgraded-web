@@ -145,5 +145,26 @@
   <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
 </footer>
 
+
+  <!-- Tlačítko nahoru -->
+<div id="toTop" title="Zpět nahoru">↑</div>
+
+<script>
+  // zobrazí tlačítko po scrollu
+  const toTop = document.getElementById("toTop");
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 200) {
+      toTop.classList.add("show");
+    } else {
+      toTop.classList.remove("show");
+    }
+  });
+
+  // posun nahoru po kliknutí
+  toTop.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+</script>
+
 </body>
 </html>
