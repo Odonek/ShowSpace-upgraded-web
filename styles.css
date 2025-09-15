@@ -30,12 +30,19 @@ a:hover{color:var(--slate)}
 
 /* NAVBAR */
 nav {
-  position:sticky;top:0;
-  background:rgba(255,255,255,.95);
-  backdrop-filter:saturate(180%) blur(14px);
-  border-bottom:3px solid var(--accent);
-  z-index:50;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: transparent;
+  border-bottom: none;
+  z-index: 100;
+  transition: background 0.3s, box-shadow 0.3s;
 }
+nav.scrolled {
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  border-bottom: 1px solid #eee;
+}
+
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem}
 .logo-dot{width:14px;height:14px;border-radius:50%;background:var(--accent)}
@@ -82,11 +89,22 @@ nav {
 
 /* HERO */
 .hero{position:relative;background:#fff}
-.hero-media{
-  height:58vh;min-height:420px;
-  background:#fff center/cover no-repeat; /* bílé pozadí pro čistotu */
-  border-radius:0 0 24px 24px;
+.hero-media {
+  position: relative;
+  height: 100vh;            /* celá výška okna */
+  min-height: 600px;        /* aby to bylo dost velké i na menších monitorech */
+  background: url("images/titulweb1.png") center/cover no-repeat;
+  border-radius: 0 0 24px 24px;
+  overflow: hidden;
 }
+
+.hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.35); /* overlay pro čitelnost textu */
+}
+
 .hero .container{position:relative;margin-top:-120px}
 .hero-card{
   background:#fff;
