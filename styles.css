@@ -18,15 +18,26 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 28px;
-  justify-items: center;
   text-align: center;
+  align-items: stretch; /* všechny karty stejná výška */
 }
 
-/* zvětšené karty jen v sekci benefity */
+/* samotné karty */
 .benefits-center .card.benefit.big {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* vycentrování obsahu */
   padding: 40px 24px;
-  max-width: 320px;
+  border: 2px solid #eee;     /* decentní rámeček */
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--shadow);
+  transition: transform .3s, box-shadow .3s;
+}
+.benefits-center .card.benefit.big:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
 }
 
 .benefits-center .benefit-icon {
@@ -55,13 +66,12 @@
   margin: 0;
 }
 
-/* mobilní responzivita */
+/* mobilní verze */
 @media (max-width: 900px) {
   .benefits-center {
     grid-template-columns: 1fr;
   }
 }
-
 
 
 
