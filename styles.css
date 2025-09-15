@@ -13,29 +13,34 @@
   --font:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
 }
 
-/* Grid 4 pro benefity */
-.grid-4 {
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:22px;
+/* grid pro 3 karty */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
 }
-@media(max-width:1000px){.grid-4{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.grid-4{grid-template-columns:1fr}}
 
-/* zvětšené karty benefitů */
+/* zarovnání na střed celé sekce */
+.benefits-center {
+  justify-items: center;
+  text-align: center;
+}
+
+/* zvětšené karty */
 .card.benefit.big {
   text-align: center;
   padding: 40px 24px;
+  max-width: 320px;   /* omezení šířky pro pěkné vycentrování */
 }
-/* Ikonky benefitů */
+
 .benefit-icon {
-  font-size: 64px;     /* obří ikona */
+  font-size: 64px;
   margin-bottom: 16px;
   line-height: 1;
 }
 
 .benefit-number {
-  font-size: 48px;     /* velké procento/číslo */
+  font-size: 48px;
   font-weight: 800;
   color: var(--slate);
   margin-bottom: 12px;
@@ -53,6 +58,14 @@
   color: var(--muted);
   margin: 0;
 }
+
+/* mobilní responzivita */
+@media (max-width: 900px) {
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 
 
