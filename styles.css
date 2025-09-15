@@ -36,6 +36,7 @@ nav {
   border-bottom: none;
   z-index: 100;
   transition: background 0.3s, box-shadow 0.3s;
+  padding: 20px 0;
 }
 nav.scrolled {
   background: rgba(255,255,255,0.95);
@@ -47,12 +48,16 @@ nav.scrolled {
   align-items: center;
   justify-content: space-between;
   height: 64px;
-  padding: 0 24px;
+  padding: 0 28px;
 
   background: rgba(255,255,255,0.95);
-  border-radius: 999px;          /* oválný rámeček */
+  border-radius: 999px;                /* oválný rámeček */
   box-shadow: 0 4px 12px rgba(0,0,0,.08);
   border-top: 4px solid var(--accent); /* žlutá linka nahoře */
+  margin-top: 20px;                    /* posun od horního okraje */
+  max-width: var(--max);
+  margin-left: auto;
+  margin-right: auto;                  /* zarovnání doprostřed */
 }
 
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem}
