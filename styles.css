@@ -22,19 +22,36 @@
 @media(max-width:1000px){.grid-4{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.grid-4{grid-template-columns:1fr}}
 
+/* zvětšené karty benefitů */
+.card.benefit.big {
+  text-align: center;
+  padding: 40px 24px;
+}
 /* Ikonky benefitů */
 .benefit-icon {
-  font-size:2rem;
-  margin-bottom:10px;
+  font-size: 64px;     /* obří ikona */
+  margin-bottom: 16px;
+  line-height: 1;
 }
-#benefity h3 {
-  color:var(--slate);
-  margin:6px 0 8px;
-  font-weight:500;
+
+.benefit-number {
+  font-size: 48px;     /* velké procento/číslo */
+  font-weight: 800;
+  color: var(--slate);
+  margin-bottom: 12px;
 }
-#benefity .counter {
-  font-weight:800; /* čísla výrazná */
-  color:var(--slate);
+
+.card.benefit.big h3 {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  color: var(--slate);
+}
+
+.card.benefit.big p {
+  font-size: 16px;
+  color: var(--muted);
+  margin: 0;
 }
 
 
