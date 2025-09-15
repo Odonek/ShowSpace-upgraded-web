@@ -13,6 +13,32 @@
   --font:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
 }
 
+/* Grid 4 pro benefity */
+.grid-4 {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:22px;
+}
+@media(max-width:1000px){.grid-4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.grid-4{grid-template-columns:1fr}}
+
+/* Ikonky benefitů */
+.benefit-icon {
+  font-size:2rem;
+  margin-bottom:10px;
+}
+#benefity h3 {
+  color:var(--slate);
+  margin:6px 0 8px;
+  font-weight:500;
+}
+#benefity .counter {
+  font-weight:800; /* čísla výrazná */
+  color:var(--slate);
+}
+
+
+
 *{box-sizing:border-box}
 html,body {
   margin:0;
