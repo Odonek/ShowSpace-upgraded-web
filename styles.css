@@ -42,8 +42,19 @@ nav.scrolled {
   box-shadow: 0 2px 8px rgba(0,0,0,.08);
   border-bottom: 1px solid #eee;
 }
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 24px;
 
-.nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
+  background: rgba(255,255,255,0.95);
+  border-radius: 999px;          /* oválný rámeček */
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  border-top: 4px solid var(--accent); /* žlutá linka nahoře */
+}
+
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem}
 .logo-dot{width:14px;height:14px;border-radius:50%;background:var(--accent)}
 .menu{display:flex;gap:18px;align-items:center}
