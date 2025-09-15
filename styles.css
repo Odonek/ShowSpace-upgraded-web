@@ -244,6 +244,7 @@ footer{
   background:#fff;
   color:#666;
   border-top:1px solid #eee;
+  text-align:center;
 }
 footer a{color:var(--slate)}
 .footer-bottom{
