@@ -179,28 +179,57 @@
 
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const counters = document.querySelectorAll('.counter');
-  const speed = 30; // menší číslo = rychlejší
+(function(){
+  // Animace jedné číslice
+  function animateCounter(el, target, duration = 1200) {
+    const start = 0;
+    const startTime = performance.now();
 
-  counters.forEach(counter => {
-    const animate = () => {
-      const target = +counter.getAttribute('data-target');
-      const value = +counter.innerText;
-      const increment = Math.ceil(target / 100); 
+    function tick(now){
+      const progress = Math.min((now - startTime) / duration, 1);
+      // easeOutCubic pro hezké dojetí
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = Math.round(start + (target - start) * eased);
+      el.textContent = value;
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
 
-      if(value < target){
-        counter.innerText = value + increment;
-        setTimeout(animate, speed);
-      } else {
-        counter.innerText = target;
+  // Spouštěč animace při vstupu do viewportu
+  const section = document.querySelector('#benefity');
+  if (!section) return;
+
+  const counters = section.querySelectorAll('.counter');
+  let played = false; // spustit jen jednou
+
+  function runCounters(){
+    counters.forEach(el => {
+      const target = parseInt(el.getAttribute('data-target'), 10) || 0;
+      animateCounter(el, target);
+    });
+  }
+
+  // Pokud IntersectionObserver není podporován, spustíme hned
+  if (!('IntersectionObserver' in window)) {
+    runCounters();
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !played) {
+        played = true;
+        runCounters();
+        observer.disconnect(); // už znovu nespouštět
       }
-    };
+    });
+  }, { root: null, threshold: 0.25 }); // 25 % sekce v záběru
 
-    animate();
-  });
-});
+  observer.observe(section);
+})();
 </script>
+
 
   
 </body>
