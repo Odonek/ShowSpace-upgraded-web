@@ -29,28 +29,35 @@
   align-items: center;
   justify-content: center; /* vycentrování obsahu */
   padding: 40px 24px;
-  border: 2px solid #eee;     /* decentní rámeček */
   border-radius: 16px;
   background: #fff;
-  box-shadow: var(--shadow);
+
+  /* linka nahoře */
+  border-top: 6px solid var(--accent);
+
+  /* větší stín */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+
   transition: transform .3s, box-shadow .3s;
 }
+
 .benefits-center .card.benefit.big:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  transform: translateY(-8px);
+  box-shadow: 0 14px 38px rgba(0,0,0,0.22);
 }
 
 .benefits-center .benefit-icon {
-  font-size: 64px;
-  margin-bottom: 16px;
+  font-size: 72px; /* ještě o trochu větší */
+  margin-bottom: 20px;
   line-height: 1;
+  color: var(--accent); /* ikona taky žlutá */
 }
 
 .benefits-center .benefit-number {
-  font-size: 48px;
+  font-size: 52px;
   font-weight: 800;
   color: var(--slate);
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .benefits-center .card h3 {
@@ -72,6 +79,7 @@
     grid-template-columns: 1fr;
   }
 }
+
 
 
 
