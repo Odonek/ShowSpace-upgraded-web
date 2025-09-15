@@ -65,33 +65,42 @@
   </div>
 </section>
 
-<footer id="kontakt">
-  <div class="container footer-inner">
+<section id="kontakt" class="section section--alt">
+  <div class="container grid grid-2">
+    <!-- Levá část: text a údaje -->
     <div>
-      <h3>Zaujal vás výsledek?</h3>
-      <p>Napište nám – navrhneme řešení na míru.</p>
+      <h2>Kontaktujte nás</h2>
+      <p class="lead">Ozveme se ještě dnes s orientační cenou a termínem.</p>
+      <p><strong>ShowSpace</strong><br>
+        Tel: <a href="tel:+420123456789">+420 123 456 789</a><br>
+        E-mail: <a href="mailto:info@showspace.cz">info@showspace.cz</a></p>
+      <p>IČO: 00000000<br>
+         DIČ: CZ00000000<br>
+         Sídlo: Ulice 123, 110 00 Praha</p>
+      <div class="kpis">
+        <div class="kpi">Google Street View cert.</div>
+        <div class="kpi">Matterport Pro</div>
+        <div class="kpi">Dron A1/A3</div>
+      </div>
+    </div>
+
+    <!-- Pravá část: formulář -->
+    <div>
       <form class="form" action="https://formspree.io/f/yourendpoint" method="POST">
         <input name="jmeno" placeholder="Jméno a příjmení" required>
         <input name="email" type="email" placeholder="E-mail" required>
         <input name="telefon" placeholder="Telefon">
-        <textarea name="zprava" rows="4" placeholder="Který projekt je podobný tomu vašemu?"></textarea>
-        <button class="btn" type="submit">Odeslat poptávku</button>
+        <textarea name="zprava" rows="4" placeholder="Stručně popište projekt (m², typ prostoru, lokalita)"></textarea>
+        <button class="btn btn--accent" type="submit">Odeslat poptávku</button>
         <small class="help">Odesláním souhlasíte se zpracováním údajů pro vyřízení poptávky.</small>
       </form>
     </div>
-    <div>
-      <h3>Kontakt</h3>
-      <p><strong>ShowSpace</strong><br>
-        Tel: <a href="tel:+420123456789">+420 123 456 789</a><br>
-        E-mail: <a href="mailto:info@showspace.cz">info@showspace.cz</a></p>
-      <p>IČO: 00000000<br>DIČ: CZ00000000<br>Sídlo: Ulice 123, 110 00 Praha</p>
-      <div class="footer-bottom">
-        <span class="tag">Google Street View cert.</span>
-        <span class="tag">Matterport Pro</span>
-        <span class="tag">Dron A1/A3</span>
-      </div>
-    </div>
   </div>
+</section>
+
+  
+<footer>
+  
   <div class="container" style="padding:16px 0;opacity:.75;font-size:.9rem">© ShowSpace <span id="y"></span></div>
   <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
 </footer>
