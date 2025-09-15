@@ -13,9 +13,10 @@
 <!-- NAVBAR -->
 <nav>
   <div class="container nav-inner">
-   <a class="logo" href="index.html">
-  <img src="logonahoruvlevo.png" alt="ShowSpace logo">
-</a>
+  
+    <a class="logo" href="index.html">
+      <img src="logonahoruvlevo.png" alt="ShowSpace logo">
+    </a>
 
     <div class="menu">
       <a href="index.html">Domů</a>
@@ -23,6 +24,7 @@
       <a href="galerie.html">Galerie</a>
       <a href="#kontakt">Kontakt</a>
     </div>
+
     <div class="nav-right">
       <div class="nav-social">
         <a href="https://facebook.com/showspace" target="_blank" aria-label="Facebook">
@@ -39,7 +41,14 @@
 
 <!-- HERO -->
 <header class="hero">
-  <div class="hero-media" id="scene"></div> <!-- místo pro 3D -->
+  <!-- Titulní fotka + gradient overlay (bez nutnosti měnit CSS) -->
+  <div
+    class="hero-media"
+    style="background:
+      linear-gradient(0deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0) 100%),
+      url('titulweb1.png') center/cover no-repeat;">
+  </div>
+
   <div class="container">
     <div class="hero-card">
       <span class="badge">
@@ -131,7 +140,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="container" style="padding:16px 0;opacity:.75;font-size:.9rem">
-    © ShowSpace <span id="y"></span> • <a href="#">Zásady ochrany osobních údajů</a>
+    © ShowSpace <span id="y"></span> • <a href="gdpr.html">Zásady ochrany osobních údajů</a>
   </div>
   <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
 </footer>
