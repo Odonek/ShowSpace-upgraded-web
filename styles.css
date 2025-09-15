@@ -176,6 +176,11 @@ nav.scrolled {
 }
 
 /* SECTIONS */
+/* Posunout první header pod navbar */
+header.section {
+  padding-top: 140px; /* uprav podle výšky tvého navbaru */
+}
+
 .section{padding:56px 0;background:#fff}
 .section h2{font-size:clamp(22px,2.6vw,34px);margin:0 0 12px;color:var(--slate)}
 .section p.lead{color:var(--muted);margin:0 0 20px}
