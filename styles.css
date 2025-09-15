@@ -74,7 +74,7 @@ nav {
 
 
 .logo img {
-  height: 40px;       /* výška loga */
+  height: 80px;       /* výška loga */
   width: auto;        /* zachová poměr stran */
   display: block;
 }
