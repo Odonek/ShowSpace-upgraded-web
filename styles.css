@@ -46,9 +46,21 @@ nav.scrolled {
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem}
 .logo-dot{width:14px;height:14px;border-radius:50%;background:var(--accent)}
-.menu{display:flex;gap:28px;align-items:center}
-.menu a{font-weight:500;opacity:.9}
-.menu a:hover{opacity:1;color:var(--slate)}
+.menu{display:flex;gap:18px;align-items:center}
+.menu a{
+  font-weight:600;
+  color:var(--slate);
+  padding:6px 14px;
+  background:rgba(255,255,255,0.9);
+  border-radius:999px;
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+  opacity:1;
+  transition:.2s;
+}
+.menu a:hover{
+  background:var(--accent);
+  color:#111;
+}
 .nav-right{display:flex;gap:16px;align-items:center}
 .nav-social{display:flex;gap:12px}
 .nav-social a svg{width:20px;height:20px;fill:var(--slate);transition:.2s}
@@ -78,14 +90,12 @@ nav.scrolled {
 }
 .btn--outline:hover{background:rgba(65,90,119,.08)}
 
-
-
+/* LOGO */
 .logo img {
-  height: 80px;       /* výška loga */
-  width: auto;        /* zachová poměr stran */
+  height: 80px;
+  width: auto;
   display: block;
 }
-
 
 /* HERO */
 .hero{position:relative;background:#fff}
@@ -97,14 +107,12 @@ nav.scrolled {
   border-radius: 0 0 24px 24px;
   overflow: hidden;
 }
-
 .hero-media::after {
   content: "";
   position: absolute;
   inset: 0;
   background: rgba(0,0,0,.35); /* overlay pro čitelnost textu */
 }
-
 .hero .container{position:relative;margin-top:-120px}
 .hero-card{
   background:#fff;
@@ -180,7 +188,7 @@ small.help{color:#999}
 /* FOOTER */
 footer{
   margin-top:40px;
-  background:#fff;      /* světlý footer */
+  background:#fff;
   color:#666;
   border-top:1px solid #eee;
 }
