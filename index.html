@@ -10,6 +10,7 @@
 </head>
 <body>
 
+<!-- NAVBAR -->
 <nav>
   <div class="container nav-inner">
     <a class="logo" href="index.html"><span class="logo-dot"></span>ShowSpace</a>
@@ -28,100 +29,95 @@
           <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg>
         </a>
       </div>
-      <a href="#kontakt" class="btn">Poptávka</a>
+      <a href="#kontakt" class="btn btn--accent">Poptávka</a>
     </div>
   </div>
 </nav>
 
+<!-- HERO -->
 <header class="hero">
-  <div class="hero-media" style="background-image:url('assets/hero.jpg')"></div>
+  <div class="hero-media" id="scene"></div> <!-- místo pro 3D -->
   <div class="container">
     <div class="hero-card">
-      <span class="badge" style="display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border-radius:999px;background:#000;color:#fff;font-size:.85rem">
-        <span class="logo-dot" style="background:#EAE151"></span> Nejlepší virtuální prohlídka
+      <span class="badge">
+        <span class="logo-dot"></span> Virtuální prohlídky & Google Maps
       </span>
       <h1>Prodávejte dřív, než klient vstoupí</h1>
-      <p>Vytvoříme virtuální prohlídku a díky promyšlenému marketingu ji ukážeme těm správným lidem.</p>
-      <a href="#kontakt" class="btn">Spočítat orientační cenu</a>
+      <p>Virtuální prohlídky a weby, které zaujmou a přivedou zákazníky.</p>
+      <a href="#kontakt" class="btn btn--accent">Spočítat cenu</a>
       <a href="sluzby.html" class="btn btn--outline">Co umíme</a>
     </div>
   </div>
 </header>
 
-<section class="section section--alt">
-  <div class="container">
-    <div class="grid grid-3">
-      <div class="card">
-        <span class="icon"></span>
-        <h3>Více zobrazení ve Vyhledávání</h3>
-        <p>Virtuální prohlídka zvyšuje atraktivitu firemního profilu a CTR.</p>
-      </div>
-      <div class="card">
-        <span class="icon"></span>
-        <h3>Větší důvěra a rychlejší rozhodnutí</h3>
-        <p>Klienti si prostor projdou předem – méně dotazů, více rezervací.</p>
-      </div>
-      <div class="card">
-        <span class="icon"></span>
-        <h3>Obsah pro web & sítě</h3>
-        <p>Embed na web, do příspěvků i kampaní – jedním výstupem pokryješ vše.</p>
-      </div>
+<!-- BENEFITY -->
+<section class="section">
+  <div class="container grid grid-3">
+    <div class="card">
+      <span class="icon"></span>
+      <h3>Více zobrazení ve Vyhledávání</h3>
+      <p>Virtuální prohlídka zvyšuje atraktivitu firemního profilu a CTR.</p>
+    </div>
+    <div class="card">
+      <span class="icon"></span>
+      <h3>Větší důvěra a rychlejší rozhodnutí</h3>
+      <p>Klienti si prostor projdou předem – méně dotazů, více rezervací.</p>
+    </div>
+    <div class="card">
+      <span class="icon"></span>
+      <h3>Obsah pro web & sítě</h3>
+      <p>Embed na web, do příspěvků i kampaní – jedním výstupem pokryješ vše.</p>
     </div>
   </div>
 </section>
 
-<section class="section tour">
+<!-- PROHLÍDKA -->
+<section class="section">
   <div class="container">
     <h2>Vyzkoušejte si virtuální prohlídku</h2>
     <p class="lead">Ukázka reálného projektu.</p>
-   
-  </div>
-</section>
-
-<section class="section section--alt">
-  <div class="container">
-    <div class="grid grid-2 about">
-      
-      <div class="text">
-        <h2>O nás</h2>
-        <p class="lead">něco o nás</p>
-        <div class="kpis">
-          <div class="kpi"></div>
-          <div class="kpi"></div>
-          <div class="kpi"></div>
-        </div>
-      </div>
+    <div class="tour">
+      <iframe src="https://my.matterport.com/show/?m=XXXXXXXX" allowfullscreen></iframe>
     </div>
   </div>
 </section>
 
-<section id="kontakt" class="section section--alt">
+<!-- O NÁS -->
+<section class="section">
+  <div class="container grid grid-2 about">
+    <div class="text">
+      <h2>O nás</h2>
+      <p class="lead">Krátký text o firmě – proč děláme virtuální prohlídky, naše hodnoty a zkušenosti.</p>
+      <div class="kpis">
+        <div class="kpi">200+ projektů</div>
+        <div class="kpi">4.9 ★ hodnocení</div>
+        <div class="kpi">48 h nástřel</div>
+      </div>
+    </div>
+    <div>
+      <img src="assets/o-nas.jpg" alt="Náš tým">
+    </div>
+  </div>
+</section>
+
+<!-- KONTAKT -->
+<section id="kontakt" class="section">
   <div class="container grid grid-2">
-    <!-- Levá část: text a údaje -->
     <div>
       <h2>Kontaktujte nás</h2>
       <p class="lead">Ozveme se ještě dnes s orientační cenou a termínem.</p>
       <p><strong>ShowSpace</strong><br>
         Tel: <a href="tel:+420123456789">+420 123 456 789</a><br>
         E-mail: <a href="mailto:info@showspace.cz">info@showspace.cz</a></p>
-      <p>IČO: 23631741<br>
-         DIČ: CZ23631741<br>
-         Sídlo: Petrusova 2213/15, Předměstí, 56802 Svitavy<br>
-         Spisová značka: C 55194 vedená u Krajského soudu v Hradci Králové</p>
-      <div class="kpis">
-        <div class="kpi"></div>
-        <div class="kpi"></div>
-        <div class="kpi"></div>
-      </div>
+      <p>IČO: 23631741<br>DIČ: CZ23631741<br>Sídlo: Petrusova 2213/15, 56802 Svitavy<br>
+         Spisová značka: C 55194, KS Hradec Králové</p>
     </div>
-
-    <!-- Pravá část: formulář -->
     <div>
       <form class="form" action="https://formspree.io/f/yourendpoint" method="POST">
         <input name="jmeno" placeholder="Jméno a příjmení" required>
         <input name="email" type="email" placeholder="E-mail" required>
         <input name="telefon" placeholder="Telefon">
-        <textarea name="zprava" rows="4" placeholder="Stručně popište projekt (m², typ prostoru, lokalita)"></textarea>
+        <textarea name="zprava" rows="4" placeholder="Stručně popište projekt"></textarea>
         <button class="btn btn--accent" type="submit">Odeslat poptávku</button>
         <small class="help">Odesláním souhlasíte se zpracováním údajů pro vyřízení poptávky.</small>
       </form>
@@ -129,9 +125,8 @@
   </div>
 </section>
 
-  
+<!-- FOOTER -->
 <footer>
- 
   <div class="container" style="padding:16px 0;opacity:.75;font-size:.9rem">
     © ShowSpace <span id="y"></span> • <a href="#">Zásady ochrany osobních údajů</a>
   </div>
@@ -140,4 +135,3 @@
 
 </body>
 </html>
-
