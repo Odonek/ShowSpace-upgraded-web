@@ -172,11 +172,11 @@ header.section { padding-top: 140px; } /* posun 1. headeru na podstránkách */
 }
 .tc-track {
   display: flex;
-  transition: transform .45s ease;
+  transition: transform .55s cubic-bezier(.22,.61,.36,1);
   will-change: transform;
 }
 
-/* FULL-WIDTH: 1 slide = 100 % */
+/* FULL-WIDTH režim (bez .tour-peek): 1 slide = 100 % */
 .tc-slide {
   position: relative;
   min-width: 100%;
@@ -191,20 +191,22 @@ header.section { padding-top: 140px; } /* posun 1. headeru na podstránkách */
   background: #000;
   border-radius: 18px;
   overflow: hidden;
+  box-shadow: 0 18px 46px rgba(0,0,0,.22);
 }
 .tc-frame iframe {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
-  border: 0; border-radius: 18px;
+  border: 0;
 }
 .tc-caption {
   position: absolute; left: 8px; bottom: 8px;
   display: inline-flex; gap: 10px; align-items: center;
   padding: 8px 12px; background: rgba(0,0,0,.55); color: #fff;
-  border-radius: 12px; backdrop-filter: blur(2px); font-weight: 500;
+  border-radius: 12px; backdrop-filter: blur(2px); font-weight: 600;
 }
 .tc-caption strong { font-weight: 800; }
 
+/* Šipky + tečky */
 .tc-arrow {
   position: absolute; top: 50%; transform: translateY(-50%);
   z-index: 5;
@@ -225,6 +227,7 @@ header.section { padding-top: 140px; } /* posun 1. headeru na podstránkách */
 .tc-dots button.active,
 .tc-dots button[aria-selected="true"] { background: var(--slate); }
 
+/* ----------------- Responsivní výška rámu ve full režimu ----------------- */
 @media (max-width: 900px) {
   .tc-frame { height: 56vh; }
   .tc-arrow { width: 44px; height: 44px; font-size: 22px; }
@@ -233,33 +236,32 @@ header.section { padding-top: 140px; } /* posun 1. headeru na podstránkách */
 }
 
 /* ============ PROHLÍDKA – PEEK/CENTER (sousedi vykukují, rozmazaní) ============ */
-/* POUZE pro .tour-carousel.tour-peek */
+/* Aktivuje se jen pro .tour-carousel.tour-peek */
 .tour-carousel.tour-peek .tc-viewport{
-  overflow: visible;                    /* ať jsou vidět sousedi */
+  overflow: visible;                            /* ať jsou vidět sousedi */
   max-width: 1400px;
   margin: 0 auto;
-  padding-inline: clamp(48px, 10vw, 160px); /* „gutter“ – odsun od okrajů stránky */
+  padding-inline: clamp(64px, 10vw, 160px);     /* „gutter“ – odlepení od okrajů stránky */
 }
 .tour-carousel.tour-peek .tc-track{
   display: flex;
-  gap: clamp(20px, 2.4vw, 32px);        /* mezera mezi snímky */
+  gap: clamp(20px, 2.6vw, 36px);                /* mezera mezi snímky */
   transition: transform .55s cubic-bezier(.22,.61,.36,1);
   will-change: transform;
 }
 
-/* ~64 % šířky → viditelná cca 1/3 sousedů */
+/* ~62 % šířky ⇒ sousedi jsou vidět zhruba z 1/3 */
 .tour-carousel.tour-peek .tc-slide{
-  flex: 0 0 64%;
+  flex: 0 0 62%;
   min-width: 0;
   position: relative;
   transform-origin: center;
   transform: scale(.94);
-  opacity: .75;
-  z-index: 1;                           /* schovat „za“ střed */
+  opacity: .78;
+  z-index: 1;                                   /* ať jsou „za“ středem */
   transition: transform .45s, opacity .45s, filter .45s, z-index .2s;
 }
 
-/* pevný rám a stín */
 .tour-carousel.tour-peek .tc-frame{
   width: 100%;
   aspect-ratio: 16/9;
@@ -272,7 +274,7 @@ header.section { padding-top: 140px; } /* posun 1. headeru na podstránkách */
   position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
 }
 
-/* aktivní = ostrý a navrchu */
+/* Aktivní = větší, ostrý, navrchu */
 .tour-carousel.tour-peek .tc-slide.is-active{
   transform: scale(1);
   opacity: 1;
@@ -280,7 +282,7 @@ header.section { padding-top: 140px; } /* posun 1. headeru na podstránkách */
   z-index: 3;
 }
 
-/* nejbližší sousedi – rozmazat a ztmavit, ale ať lehce „svítí“ */
+/* Nejbližší sousedi – lehce rozmazat a stáhnout kontrast */
 .tour-carousel.tour-peek .tc-slide.is-prev .tc-frame,
 .tour-carousel.tour-peek .tc-slide.is-next .tc-frame{
   filter: blur(4px) brightness(.94) saturate(.92);
@@ -289,41 +291,41 @@ header.section { padding-top: 140px; } /* posun 1. headeru na podstránkách */
 .tour-carousel.tour-peek .tc-slide.is-next{
   z-index: 2;
   transform: scale(.94);
-  opacity: .85;
+  opacity: .86;
 }
 
-/* vzdálenější (pokud bude víc než 3 slidy) – míň výrazné */
+/* Vzdálenější (kdyby bylo víc než 3 slidy) – méně výrazné */
 .tour-carousel.tour-peek .tc-slide:not(.is-active):not(.is-prev):not(.is-next){
   opacity: .55;
   filter: blur(4px) brightness(.9);
 }
 
-/* sousedům vypneme interakce s iframe (drag funguje na tracku) */
-.tour-carousel.tour-peek .tc-slide:not(.is-active) iframe{
-  pointer-events: none;
-}
+/* Sousedi: vypnout interakci s iframe (drag jede přes track) */
+.tour-carousel.tour-peek .tc-slide:not(.is-active) iframe{ pointer-events: none; }
 
-/* šipky lehce dovnitř, aby nekolidovaly se sousedy */
-.tour-carousel.tour-peek .tc-prev{ left: 12px; }
-.tour-carousel.tour-peek .tc-next{ right: 12px; }
+/* Šipky víc dovnitř, aby nekolidovaly s „vykukujícími“ sousedy */
+.tour-carousel.tour-peek .tc-prev{ left: 8px; }
+.tour-carousel.tour-peek .tc-next{ right: 8px; }
 
-/* caption – drobná úprava pozice */
+/* Caption – drobná úprava pozice */
 .tour-carousel.tour-peek .tc-caption{
-  left: 10px; bottom: 10px;
-  padding: 8px 12px;
+  left: 10px; bottom: 10px; padding: 8px 12px;
 }
 
-@media (max-width: 1100px){
-  .tour-carousel.tour-peek .tc-slide{ flex-basis: 76%; }
+/* ----------------- Responzivní úpravy peek režimu ----------------- */
+@media (max-width: 1200px){
+  .tour-carousel.tour-peek .tc-slide{ flex-basis: 70%; }
 }
-@media (max-width: 880px){
-  .tour-carousel.tour-peek .tc-viewport{ padding-inline: clamp(32px, 7vw, 80px); }
-  .tour-carousel.tour-peek .tc-slide{ flex-basis: 86%; }
+@media (max-width: 900px){
+  .tour-carousel.tour-peek .tc-slide{ flex-basis: 82%; }
+  .tour-carousel.tour-peek .tc-viewport{ padding-inline: clamp(36px, 7vw, 84px); }
+  .tc-prev{ left:10px; } .tc-next{ right:10px; }
 }
-@media (max-width: 640px){
-  .tour-carousel.tour-peek .tc-viewport{ padding-inline: clamp(20px, 5vw, 40px); }
-  .tour-carousel.tour-peek .tc-slide{ flex-basis: 92%; }
+@media (max-width: 700px){
+  .tour-carousel.tour-peek .tc-slide{ flex-basis: 90%; }
+  .tour-carousel.tour-peek .tc-viewport{ padding-inline: clamp(24px, 6vw, 60px); }
 }
+
 
 /* ============ BENEFITY ============ */
 .benefits-center {
