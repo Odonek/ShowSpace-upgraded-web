@@ -336,214 +336,204 @@
 </script>
 
 <script>
-/* ===================== KARUSEL – KLASICKÝ FULL-WIDTH ===================== */
-/* Platí pro .tour-carousel, které NEMAJÍ třídu .tour-peek */
+/* ===================== KARUSELY – FULL-WIDTH i PEEK ===================== */
+/* Podporuje více .tour-carousel na stránce.
+   – .tour-carousel           -> klasický full-width (1 slide = 100%)
+   – .tour-carousel.tour-peek -> centrovaný slide + "vykukující" sousedi
+*/
 (() => {
-  const root = document.querySelector('.tour-carousel:not(.tour-peek)');
-  if (!root) return;
+  const carousels = Array.from(document.querySelectorAll('.tour-carousel'));
+  if (!carousels.length) return;
 
-  const track    = root.querySelector('.tc-track');
-  const slides   = Array.from(root.querySelectorAll('.tc-slide'));
-  const prevBtn  = root.querySelector('.tc-prev');
-  const nextBtn  = root.querySelector('.tc-next');
-  const dotsWrap = root.querySelector('.tc-dots');
+  // Pomůcky
+  const clampIndex = (i, len) => (i + len) % len;
 
-  let index = 0;
-  let startX = 0, currentX = 0, dragging = false;
-
-  const clamp = i => (i + slides.length) % slides.length;
-
-  function ensureIframeLoaded(i) {
-    const iframe = slides[i]?.querySelector('iframe');
+  const ensureIframeLoaded = (slides, i) => {
+    const s = slides[i];
+    if (!s) return;
+    const iframe = s.querySelector('iframe');
     if (!iframe) return;
     const ds = iframe.getAttribute('data-src');
     if (ds && !iframe.src) iframe.src = ds;
-  }
-
-  function buildDots() {
-    dotsWrap.innerHTML = '';
-    slides.forEach((_, i) => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.setAttribute('role', 'tab');
-      b.setAttribute('aria-label', `Slide ${i + 1}`);
-      b.addEventListener('click', () => goTo(i));
-      dotsWrap.appendChild(b);
-    });
-  }
-
-  function updateUI() {
-    track.style.transform = `translateX(-${index * 100}%)`;
-    slides.forEach((s, i) => s.classList.toggle('is-active', i === index));
-    Array.from(dotsWrap.children).forEach((b, i) => {
-      b.classList.toggle('active', i === index);
-      b.setAttribute('aria-selected', i === index ? 'true' : 'false');
-    });
-    ensureIframeLoaded(index);
-    ensureIframeLoaded(clamp(index + 1));
-    ensureIframeLoaded(clamp(index - 1));
-  }
-
-  function goTo(i) {
-    index = clamp(i);
-    updateUI();
-  }
-
-  // Init
-  buildDots();
-  ensureIframeLoaded(0);
-  updateUI();
-
-  // Arrows
-  prevBtn?.addEventListener('click', () => goTo(index - 1));
-  nextBtn?.addEventListener('click', () => goTo(index + 1));
-
-  // Swipe/drag
-  track.addEventListener('pointerdown', (e) => {
-    dragging = true;
-    startX = currentX = e.clientX;
-    track.setPointerCapture(e.pointerId);
-  });
-  track.addEventListener('pointermove', (e) => {
-    if (!dragging) return;
-    currentX = e.clientX;
-  });
-  const endDrag = () => {
-    if (!dragging) return;
-    dragging = false;
-    const delta = currentX - startX;
-    if (delta > 50) goTo(index - 1);
-    else if (delta < -50) goTo(index + 1);
   };
-  track.addEventListener('pointerup', endDrag);
-  track.addEventListener('pointercancel', endDrag);
-  track.addEventListener('lostpointercapture', endDrag);
 
-  // Keyboard
-  root.tabIndex = 0;
-  root.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(index - 1); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(index + 1); }
-  });
-})();
-</script>
-
-<script>
-/* ===================== KARUSEL – PEEK/CENTER ===================== */
-/* Aktivuje se pro .tour-carousel.tour-peek (střed + „vykukující“ sousedi) */
-(() => {
-  const root = document.querySelector('.tour-carousel.tour-peek');
-  if (!root) return;
-
-  const viewport = root.querySelector('.tc-viewport');
-  const track    = root.querySelector('.tc-track');
-  const slides   = Array.from(root.querySelectorAll('.tc-slide'));
-  const prevBtn  = root.querySelector('.tc-prev');
-  const nextBtn  = root.querySelector('.tc-next');
-  const dotsWrap = root.querySelector('.tc-dots');
-
-  let index = 0;
-
-  function buildDots(){
-    dotsWrap.innerHTML = '';
-    slides.forEach((_, i) => {
+  const buildDots = (wrap, count, onClick) => {
+    wrap.innerHTML = '';
+    for (let i = 0; i < count; i++) {
       const b = document.createElement('button');
       b.type = 'button';
       b.setAttribute('role','tab');
       b.setAttribute('aria-label', `Slide ${i+1}`);
-      b.addEventListener('click', () => goTo(i));
-      dotsWrap.appendChild(b);
-    });
-  }
+      b.addEventListener('click', () => onClick(i));
+      wrap.appendChild(b);
+    }
+  };
 
-  function ensureIframeLoaded(i){
-    const iframe = slides[i]?.querySelector('iframe');
-    if (!iframe) return;
-    const ds = iframe.getAttribute('data-src');
-    if (ds && !iframe.src) iframe.src = ds;
-  }
+  // Klasický full-width karusel
+  const initClassic = (root) => {
+    const track    = root.querySelector('.tc-track');
+    const slides   = Array.from(root.querySelectorAll('.tc-slide'));
+    const prevBtn  = root.querySelector('.tc-prev');
+    const nextBtn  = root.querySelector('.tc-next');
+    const dotsWrap = root.querySelector('.tc-dots');
 
-  // Spočítá posun tak, aby byl vybraný slide uprostřed viewportu
-  function centerOffsetFor(i){
-    const slide   = slides[i];
-    const vpRect  = viewport.getBoundingClientRect();
-    const sRect   = slide.getBoundingClientRect();
-    const trackRect = track.getBoundingClientRect();
+    let index = 0;
+    let startX = 0, currentX = 0, dragging = false;
 
-    const slideCenterInTrack = (sRect.left - trackRect.left) + (sRect.width / 2);
-    const viewportCenter     = vpRect.width / 2;
+    buildDots(dotsWrap, slides.length, (i)=>goTo(i));
 
-    const shift = slideCenterInTrack - viewportCenter;
-    return -shift; // translateX v pixelech
-  }
+    const updateUI = () => {
+      track.style.transform = `translateX(-${index * 100}%)`;
+      slides.forEach((s, i) => s.classList.toggle('is-active', i === index));
+      Array.from(dotsWrap.children).forEach((b, i) => {
+        b.classList.toggle('active', i === index);
+        b.setAttribute('aria-selected', i === index ? 'true' : 'false');
+      });
+      ensureIframeLoaded(slides, index);
+      ensureIframeLoaded(slides, clampIndex(index+1, slides.length));
+      ensureIframeLoaded(slides, clampIndex(index-1, slides.length));
+    };
 
-  function updateUI(){
-    slides.forEach((s, i) => s.classList.toggle('is-active', i === index));
-    const x = centerOffsetFor(index);
-    track.style.transform = `translateX(${x}px)`;
+    const goTo = (i) => { index = clampIndex(i, slides.length); updateUI(); };
 
-    Array.from(dotsWrap.children).forEach((b, i) => {
-      b.setAttribute('aria-selected', i === index ? 'true' : 'false');
-      b.classList.toggle('active', i === index);
-    });
-
-    ensureIframeLoaded(index);
-    if (index + 1 < slides.length) ensureIframeLoaded(index + 1);
-    if (index - 1 >= 0)           ensureIframeLoaded(index - 1);
-  }
-
-  function goTo(i){
-    index = (i + slides.length) % slides.length; // cyklicky
+    // Start
+    ensureIframeLoaded(slides, 0);
     updateUI();
-  }
 
-  // Init
-  buildDots();
-  ensureIframeLoaded(0);
-  updateUI();
+    // Šipky
+    prevBtn?.addEventListener('click', () => goTo(index - 1));
+    nextBtn?.addEventListener('click', () => goTo(index + 1));
 
-  // Arrows
-  prevBtn?.addEventListener('click', () => goTo(index - 1));
-  nextBtn?.addEventListener('click', () => goTo(index + 1));
+    // Gesta
+    track.addEventListener('pointerdown', (e) => {
+      dragging = true; startX = currentX = e.clientX;
+      track.setPointerCapture?.(e.pointerId);
+    }, { passive: true });
 
-  // Swipe/drag
-  let dragging = false, startX = 0, currentX = 0;
-  track.addEventListener('pointerdown', (e) => {
-    dragging = true; startX = currentX = e.clientX;
-    track.setPointerCapture(e.pointerId);
-  });
-  track.addEventListener('pointermove', (e) => {
-    if (!dragging) return;
-    currentX = e.clientX;
-  });
-  const endDrag = () => {
-    if (!dragging) return;
-    dragging = false;
-    const delta = currentX - startX;
-    if (delta > 50) goTo(index - 1);
-    else if (delta < -50) goTo(index + 1);
+    track.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      currentX = e.clientX;
+    }, { passive: true });
+
+    const endDrag = () => {
+      if (!dragging) return;
+      dragging = false;
+      const delta = currentX - startX;
+      if (delta > 50) goTo(index - 1);
+      else if (delta < -50) goTo(index + 1);
+    };
+    track.addEventListener('pointerup', endDrag);
+    track.addEventListener('pointercancel', endDrag);
+    track.addEventListener('lostpointercapture', endDrag);
+
+    // Klávesnice
+    root.tabIndex = 0;
+    root.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(index - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); goTo(index + 1); }
+    });
+
+    // Reflow (u classic stačí „překreslit“)
+    window.addEventListener('resize', updateUI);
   };
-  track.addEventListener('pointerup', endDrag);
-  track.addEventListener('pointercancel', endDrag);
-  track.addEventListener('lostpointercapture', endDrag);
 
-  // Keyboard
-  root.tabIndex = 0;
-  root.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(index - 1); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(index + 1); }
-  });
+  // Peek/center karusel (střed + sousedi vidět)
+  const initPeek = (root) => {
+    const viewport = root.querySelector('.tc-viewport');
+    const track    = root.querySelector('.tc-track');
+    const slides   = Array.from(root.querySelectorAll('.tc-slide'));
+    const prevBtn  = root.querySelector('.tc-prev');
+    const nextBtn  = root.querySelector('.tc-next');
+    const dotsWrap = root.querySelector('.tc-dots');
 
-  // Re-centrovat při změně rozměrů/obsahu
-  let rafId = null;
-  const requestUpdate = () => {
-    if (rafId) cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(() => { updateUI(); rafId = null; });
+    let index = 0;
+
+    buildDots(dotsWrap, slides.length, (i)=>goTo(i));
+
+    // Spočítá posun tak, aby byl vybraný slide uprostřed viewportu
+    const centerOffsetFor = (i) => {
+      const slide = slides[i];
+      if (!slide) return 0;
+
+      const vpRect    = viewport.getBoundingClientRect();
+      const sRect     = slide.getBoundingClientRect();
+      const trackRect = track.getBoundingClientRect();
+
+      const slideCenterInTrack = (sRect.left - trackRect.left) + (sRect.width / 2);
+      const viewportCenter     = vpRect.width / 2;
+
+      const shift = slideCenterInTrack - viewportCenter;
+      return -shift; // translateX v pixelech
+    };
+
+    const updateUI = () => {
+      slides.forEach((s, i) => s.classList.toggle('is-active', i === index));
+      const x = centerOffsetFor(index);
+      track.style.transform = `translateX(${x}px)`;
+
+      Array.from(dotsWrap.children).forEach((b, i) => {
+        b.setAttribute('aria-selected', i === index ? 'true' : 'false');
+        b.classList.toggle('active', i === index);
+      });
+
+      ensureIframeLoaded(slides, index);
+      if (index + 1 < slides.length) ensureIframeLoaded(slides, index + 1);
+      if (index - 1 >= 0)            ensureIframeLoaded(slides, index - 1);
+    };
+
+    const goTo = (i) => { index = clampIndex(i, slides.length); updateUI(); };
+
+    // Start
+    ensureIframeLoaded(slides, 0);
+    updateUI();
+
+    // Šipky
+    prevBtn?.addEventListener('click', () => goTo(index - 1));
+    nextBtn?.addEventListener('click', () => goTo(index + 1));
+
+    // Gesta
+    let dragging = false, startX = 0, currentX = 0;
+    track.addEventListener('pointerdown', (e) => {
+      dragging = true; startX = currentX = e.clientX;
+      track.setPointerCapture?.(e.pointerId);
+    }, { passive: true });
+    track.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      currentX = e.clientX;
+    }, { passive: true });
+    const endDrag = () => {
+      if (!dragging) return;
+      dragging = false;
+      const delta = currentX - startX;
+      if (delta > 50) goTo(index - 1);
+      else if (delta < -50) goTo(index + 1);
+    };
+    track.addEventListener('pointerup', endDrag);
+    track.addEventListener('pointercancel', endDrag);
+    track.addEventListener('lostpointercapture', endDrag);
+
+    // Klávesnice
+    root.tabIndex = 0;
+    root.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(index - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); goTo(index + 1); }
+    });
+
+    // Re-centrování při resize / po načtení fontů
+    let rafId = null;
+    const requestUpdate = () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => { updateUI(); rafId = null; });
+    };
+    window.addEventListener('resize', requestUpdate);
+    document.fonts?.ready?.then?.(requestUpdate);
   };
-  window.addEventListener('resize', requestUpdate);
 
-  // Když se fonty/video/iframe dopočítají, jemně přecentruj
-  document.fonts?.ready?.then?.(requestUpdate);
+  // Inicializace všech karuselů na stránce
+  carousels.forEach(root => {
+    if (root.classList.contains('tour-peek')) initPeek(root);
+    else initClassic(root);
+  });
 })();
 </script>
 
