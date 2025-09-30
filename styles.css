@@ -445,3 +445,19 @@ footer a{color:var(--slate)}
   color:#fff;
   font-size:.85rem;
 }
+
+
+/* === HERO full-bleed (žádné zaoblení) === */
+.hero {
+  border-radius: 0 !important;
+}
+
+.hero-media,
+.hero-overlay {
+  border-radius: 0 !important;
+}
+
+/* volitelné: ať hero opravdu lepí na okraje i při zvláštním okolním layoutu */
+.hero {
+  width: 100%;
+}
