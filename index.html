@@ -96,10 +96,13 @@
 
 
 <!-- PROHLÍDKY – SLIDESHOW -->
-<section id="prohlidka" class="section">
+<section id="reference" class="section">
   <div class="container">
-    <h2>Ukázky virtuálních prohlídek</h2>
-    <p class="lead">Posouvejte šipkami, tečkami nebo tahem prstem.</p>
+    <h2>Naše odvedená práce</h2>
+    <p class="lead">
+      Vybrané ukázky realizovaných virtuálních prohlídek a projekty pro naše klienty.
+      <br><span>Každá prohlídka vznikla na míru konkrétnímu prostoru i potřebám zákazníka.</span>
+    </p>
 
     <div class="tour-carousel tour-peek" aria-roledescription="carousel">
       <button class="tc-arrow tc-prev" aria-label="Předchozí">‹</button>
@@ -107,77 +110,44 @@
 
       <div class="tc-viewport">
         <div class="tc-track">
-
-          <!-- 1 -->
+          <!-- Slide 1 -->
           <div class="tc-slide is-active">
             <div class="tc-frame">
               <iframe
                 src=""
-                data-src="https://tour.giraffe360.com/daf4443b73aa4acaa0b4de3a5d12fd7b/"
-                title="Byt 2+kk – Svitavy"
-                loading="lazy"
-                allow="fullscreen; accelerometer; gyroscope; magnetometer; xr-spatial-tracking"
+                data-src="https://tour.giraffe360.com/daf4443b73aa4acaa0b4de3a5d12fd7b"
+                title="Houseboat – virtuální prohlídka"
+                loading="lazy" allowfullscreen
                 referrerpolicy="no-referrer-when-downgrade"></iframe>
-              <div class="tc-caption"><strong>Byt 2+kk</strong><span>Svitavy</span></div>
+              <div class="tc-caption"><strong>Houseboat</strong><span>Praha</span></div>
             </div>
           </div>
 
-          <!-- 2 -->
+          <!-- Slide 2 -->
           <div class="tc-slide">
             <div class="tc-frame">
               <iframe
                 src=""
-                data-src="https://tour.giraffe360.com/daf4443b73aa4acaa0b4de3a5d12fd7b/"
-                title="Komerční prostor – Praha"
-                loading="lazy"
-                allow="fullscreen; accelerometer; gyroscope; magnetometer; xr-spatial-tracking"
+                data-src="https://tour.giraffe360.com/daf4443b73aa4acaa0b4de3a5d12fd7b"
+                title="Houseboat – virtuální prohlídka"
+                loading="lazy" allowfullscreen
                 referrerpolicy="no-referrer-when-downgrade"></iframe>
-              <div class="tc-caption"><strong>Komerční prostor</strong><span>Praha</span></div>
+              <div class="tc-caption"><strong>Houseboat</strong><span>Praha</span></div>
             </div>
           </div>
 
-          <!-- 3 -->
+          <!-- Slide 3 -->
           <div class="tc-slide">
             <div class="tc-frame">
               <iframe
                 src=""
-                data-src="https://tour.giraffe360.com/daf4443b73aa4acaa0b4de3a5d12fd7b/"
-                title="Byt 3+1 – Brno"
-                loading="lazy"
-                allow="fullscreen; accelerometer; gyroscope; magnetometer; xr-spatial-tracking"
+                data-src="https://tour.giraffe360.com/daf4443b73aa4acaa0b4de3a5d12fd7b"
+                title="Houseboat – virtuální prohlídka"
+                loading="lazy" allowfullscreen
                 referrerpolicy="no-referrer-when-downgrade"></iframe>
-              <div class="tc-caption"><strong>Byt 3+1</strong><span>Brno</span></div>
+              <div class="tc-caption"><strong>Houseboat</strong><span>Praha</span></div>
             </div>
           </div>
-
-          <!-- 4 -->
-          <div class="tc-slide">
-            <div class="tc-frame">
-              <iframe
-                src=""
-                data-src="https://tour.giraffe360.com/daf4443b73aa4acaa0b4de3a5d12fd7b/"
-                title="Showroom – Ostrava"
-                loading="lazy"
-                allow="fullscreen; accelerometer; gyroscope; magnetometer; xr-spatial-tracking"
-                referrerpolicy="no-referrer-when-downgrade"></iframe>
-              <div class="tc-caption"><strong>Showroom</strong><span>Ostrava</span></div>
-            </div>
-          </div>
-
-          <!-- 5 -->
-          <div class="tc-slide">
-            <div class="tc-frame">
-              <iframe
-                src=""
-                data-src="https://tour.giraffe360.com/daf4443b73aa4acaa0b4de3a5d12fd7b/"
-                title="Apartmán – Krumlov"
-                loading="lazy"
-                allow="fullscreen; accelerometer; gyroscope; magnetometer; xr-spatial-tracking"
-                referrerpolicy="no-referrer-when-downgrade"></iframe>
-              <div class="tc-caption"><strong>Apartmán</strong><span>Český Krumlov</span></div>
-            </div>
-          </div>
-
         </div>
       </div>
 
@@ -185,6 +155,7 @@
     </div>
   </div>
 </section>
+
 
 
 
@@ -337,21 +308,20 @@
 
 <script>
 /* ===================== KARUSELY – FULL-WIDTH i PEEK ===================== */
-/* Podporuje více .tour-carousel na stránce.
-   – .tour-carousel           -> klasický full-width (1 slide = 100%)
-   – .tour-carousel.tour-peek -> centrovaný slide + "vykukující" sousedi
+/*
+  .tour-carousel           -> klasický full-width (1 slide = 100%)
+  .tour-carousel.tour-peek -> centrovaný slide + „vykukující“ sousedi
 */
 (() => {
-  const carousels = Array.from(document.querySelectorAll('.tour-carousel'));
+  const carousels = document.querySelectorAll('.tour-carousel');
   if (!carousels.length) return;
 
-  // Pomůcky
-  const clampIndex = (i, len) => (i + len) % len;
+  const clamp = (i, len) => (i + len) % len;
 
   const ensureIframeLoaded = (slides, i) => {
-    const s = slides[i];
-    if (!s) return;
-    const iframe = s.querySelector('iframe');
+    const slide = slides[i];
+    if (!slide) return;
+    const iframe = slide.querySelector('iframe');
     if (!iframe) return;
     const ds = iframe.getAttribute('data-src');
     if (ds && !iframe.src) iframe.src = ds;
@@ -362,59 +332,52 @@
     for (let i = 0; i < count; i++) {
       const b = document.createElement('button');
       b.type = 'button';
-      b.setAttribute('role','tab');
-      b.setAttribute('aria-label', `Slide ${i+1}`);
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-label', `Slide ${i + 1}`);
       b.addEventListener('click', () => onClick(i));
       wrap.appendChild(b);
     }
   };
 
-  // Klasický full-width karusel
+  /* ---------- FULL-WIDTH ---------- */
   const initClassic = (root) => {
     const track    = root.querySelector('.tc-track');
-    const slides   = Array.from(root.querySelectorAll('.tc-slide'));
+    const slides   = [...root.querySelectorAll('.tc-slide')];
     const prevBtn  = root.querySelector('.tc-prev');
     const nextBtn  = root.querySelector('.tc-next');
     const dotsWrap = root.querySelector('.tc-dots');
 
-    let index = 0;
-    let startX = 0, currentX = 0, dragging = false;
+    let index = 0, startX = 0, currentX = 0, dragging = false;
 
-    buildDots(dotsWrap, slides.length, (i)=>goTo(i));
+    buildDots(dotsWrap, slides.length, (i) => goTo(i));
 
     const updateUI = () => {
       track.style.transform = `translateX(-${index * 100}%)`;
       slides.forEach((s, i) => s.classList.toggle('is-active', i === index));
-      Array.from(dotsWrap.children).forEach((b, i) => {
+      [...dotsWrap.children].forEach((b, i) => {
         b.classList.toggle('active', i === index);
         b.setAttribute('aria-selected', i === index ? 'true' : 'false');
       });
       ensureIframeLoaded(slides, index);
-      ensureIframeLoaded(slides, clampIndex(index+1, slides.length));
-      ensureIframeLoaded(slides, clampIndex(index-1, slides.length));
+      ensureIframeLoaded(slides, clamp(index + 1, slides.length));
+      ensureIframeLoaded(slides, clamp(index - 1, slides.length));
     };
 
-    const goTo = (i) => { index = clampIndex(i, slides.length); updateUI(); };
+    const goTo = (i) => { index = clamp(i, slides.length); updateUI(); };
 
-    // Start
     ensureIframeLoaded(slides, 0);
     updateUI();
 
-    // Šipky
     prevBtn?.addEventListener('click', () => goTo(index - 1));
     nextBtn?.addEventListener('click', () => goTo(index + 1));
 
-    // Gesta
     track.addEventListener('pointerdown', (e) => {
       dragging = true; startX = currentX = e.clientX;
       track.setPointerCapture?.(e.pointerId);
-    }, { passive: true });
-
+    });
     track.addEventListener('pointermove', (e) => {
-      if (!dragging) return;
-      currentX = e.clientX;
-    }, { passive: true });
-
+      if (dragging) currentX = e.clientX;
+    });
     const endDrag = () => {
       if (!dragging) return;
       dragging = false;
@@ -426,81 +389,64 @@
     track.addEventListener('pointercancel', endDrag);
     track.addEventListener('lostpointercapture', endDrag);
 
-    // Klávesnice
     root.tabIndex = 0;
     root.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(index - 1); }
       if (e.key === 'ArrowRight') { e.preventDefault(); goTo(index + 1); }
     });
 
-    // Reflow (u classic stačí „překreslit“)
     window.addEventListener('resize', updateUI);
   };
 
-  // Peek/center karusel (střed + sousedi vidět)
+  /* ---------- PEEK/CENTER ---------- */
   const initPeek = (root) => {
     const viewport = root.querySelector('.tc-viewport');
     const track    = root.querySelector('.tc-track');
-    const slides   = Array.from(root.querySelectorAll('.tc-slide'));
+    const slides   = [...root.querySelectorAll('.tc-slide')];
     const prevBtn  = root.querySelector('.tc-prev');
     const nextBtn  = root.querySelector('.tc-next');
     const dotsWrap = root.querySelector('.tc-dots');
 
     let index = 0;
 
-    buildDots(dotsWrap, slides.length, (i)=>goTo(i));
+    buildDots(dotsWrap, slides.length, (i) => goTo(i));
 
-    // Spočítá posun tak, aby byl vybraný slide uprostřed viewportu
     const centerOffsetFor = (i) => {
-      const slide = slides[i];
+      const slide   = slides[i];
       if (!slide) return 0;
-
-      const vpRect    = viewport.getBoundingClientRect();
-      const sRect     = slide.getBoundingClientRect();
+      const vpRect  = viewport.getBoundingClientRect();
+      const sRect   = slide.getBoundingClientRect();
       const trackRect = track.getBoundingClientRect();
-
-      const slideCenterInTrack = (sRect.left - trackRect.left) + (sRect.width / 2);
-      const viewportCenter     = vpRect.width / 2;
-
-      const shift = slideCenterInTrack - viewportCenter;
-      return -shift; // translateX v pixelech
+      const slideCenter = (sRect.left - trackRect.left) + (sRect.width / 2);
+      return -(slideCenter - vpRect.width / 2);
     };
 
     const updateUI = () => {
       slides.forEach((s, i) => s.classList.toggle('is-active', i === index));
-      const x = centerOffsetFor(index);
-      track.style.transform = `translateX(${x}px)`;
-
-      Array.from(dotsWrap.children).forEach((b, i) => {
-        b.setAttribute('aria-selected', i === index ? 'true' : 'false');
+      track.style.transform = `translateX(${centerOffsetFor(index)}px)`;
+      [...dotsWrap.children].forEach((b, i) => {
         b.classList.toggle('active', i === index);
+        b.setAttribute('aria-selected', i === index ? 'true' : 'false');
       });
-
       ensureIframeLoaded(slides, index);
-      if (index + 1 < slides.length) ensureIframeLoaded(slides, index + 1);
-      if (index - 1 >= 0)            ensureIframeLoaded(slides, index - 1);
+      ensureIframeLoaded(slides, index + 1);
+      ensureIframeLoaded(slides, index - 1);
     };
 
-    const goTo = (i) => { index = clampIndex(i, slides.length); updateUI(); };
+    const goTo = (i) => { index = clamp(i, slides.length); updateUI(); };
 
-    // Start
     ensureIframeLoaded(slides, 0);
     updateUI();
 
-    // Šipky
     prevBtn?.addEventListener('click', () => goTo(index - 1));
     nextBtn?.addEventListener('click', () => goTo(index + 1));
 
-    // Gesta
     let dragging = false, startX = 0, currentX = 0;
     track.addEventListener('pointerdown', (e) => {
       dragging = true; startX = currentX = e.clientX;
       track.setPointerCapture?.(e.pointerId);
-    }, { passive: true });
-    track.addEventListener('pointermove', (e) => {
-      if (!dragging) return;
-      currentX = e.clientX;
-    }, { passive: true });
+    });
+    track.addEventListener('pointermove', (e) => { if (dragging) currentX = e.clientX; });
     const endDrag = () => {
       if (!dragging) return;
       dragging = false;
@@ -512,14 +458,12 @@
     track.addEventListener('pointercancel', endDrag);
     track.addEventListener('lostpointercapture', endDrag);
 
-    // Klávesnice
     root.tabIndex = 0;
     root.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(index - 1); }
       if (e.key === 'ArrowRight') { e.preventDefault(); goTo(index + 1); }
     });
 
-    // Re-centrování při resize / po načtení fontů
     let rafId = null;
     const requestUpdate = () => {
       if (rafId) cancelAnimationFrame(rafId);
@@ -529,13 +473,14 @@
     document.fonts?.ready?.then?.(requestUpdate);
   };
 
-  // Inicializace všech karuselů na stránce
+  /* ---------- INIT všech karuselů ---------- */
   carousels.forEach(root => {
     if (root.classList.contains('tour-peek')) initPeek(root);
     else initClassic(root);
   });
 })();
 </script>
+
 
 
   
