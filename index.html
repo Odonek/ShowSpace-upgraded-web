@@ -307,19 +307,62 @@
 </script>
 
 <script>
-/* ===================== KARUSELY – FULL-WIDTH i PEEK ===================== */
+/* ===================== KARUSELY – FULL-WIDTH i PEEK (sjednocené) ===================== */
 /*
-  .tour-carousel           -> klasický full-width (1 slide = 100 %)
-  .tour-carousel.tour-peek -> centrovaný slide + „vykukující“ sousedi
+  Použití:
+  - .tour-carousel                 → klasický full-width (slide = 100 % šířky)
+  - .tour-carousel.tour-peek       → centrovaný slide + „vykukující“ sousedi (rozmazaní v CSS)
+  HTML struktura:
+    .tour-carousel
+      .tc-viewport
+        .tc-track
+          .tc-slide (×N)
+            .tc-frame > <iframe data-src="..."></iframe>
+      .tc-prev / .tc-next
+      .tc-dots
 */
 (() => {
   const carousels = document.querySelectorAll(".tour-carousel");
   if (!carousels.length) return;
 
-  // Pomůcka
+  /* ---------- Pomůcky ---------- */
   const clamp = (i, len) => (i + len) % len;
 
+  // Lazy load iframů + auto doplnění https://, pokud chybí
+  const loadIframeAt = (slides, i) => {
+    const slide = slides[i];
+    if (!slide) return;
+    const iframe = slide.querySelector("iframe");
+    if (!iframe) return;
+
+    let url = iframe.getAttribute("data-src") || iframe.getAttribute("src") || "";
+    if (!url) return;
+
+    if (!/^https?:\/\//i.test(url)) {
+      url = "https://" + url.replace(/^\/+/, "");
+    }
+
+    if (!iframe.src) {
+      iframe.src = url;
+    }
+  };
+
+  // Přidá CSS „stavové“ třídy pro sousedy (kvůli rozmazání v CSS)
+  const markNeighbors = (slides, index) => {
+    const len = slides.length;
+    slides.forEach((s, i) => {
+      s.classList.toggle("is-active", i === index);
+      s.classList.remove("is-prev", "is-next");
+    });
+    const prevI = clamp(index - 1, len);
+    const nextI = clamp(index + 1, len);
+    slides[prevI]?.classList.add("is-prev");
+    slides[nextI]?.classList.add("is-next");
+  };
+
+  // Tečky
   const buildDots = (wrap, count, onClick) => {
+    if (!wrap) return;
     wrap.innerHTML = "";
     for (let i = 0; i < count; i++) {
       const b = document.createElement("button");
@@ -331,6 +374,14 @@
     }
   };
 
+  const updateDots = (wrap, index) => {
+    if (!wrap) return;
+    [...wrap.children].forEach((b, i) => {
+      b.classList.toggle("active", i === index);
+      b.setAttribute("aria-selected", i === index ? "true" : "false");
+    });
+  };
+
   /* ---------- FULL-WIDTH ---------- */
   const initClassic = (root) => {
     const track = root.querySelector(".tc-track");
@@ -338,39 +389,49 @@
     const prev = root.querySelector(".tc-prev");
     const next = root.querySelector(".tc-next");
     const dots = root.querySelector(".tc-dots");
+    if (!track || slides.length === 0) return;
 
     let index = 0;
-    buildDots(dots, slides.length, (i) => goTo(i));
-
-    const updateUI = () => {
-      track.style.transform = `translateX(-${index * 100}%)`;
-      slides.forEach((s, i) => s.classList.toggle("is-active", i === index));
-      [...dots.children].forEach((b, i) => {
-        b.classList.toggle("active", i === index);
-        b.setAttribute("aria-selected", i === index ? "true" : "false");
-      });
-    };
+    let dragging = false, sx = 0, cx = 0;
 
     const goTo = (i) => {
       index = clamp(i, slides.length);
-      updateUI();
+      update();
     };
 
-    // Start
-    updateUI();
+    const update = () => {
+      // posun
+      track.style.transform = `translateX(-${index * 100}%)`;
+      // stavové třídy
+      markNeighbors(slides, index);
+      // tečky
+      updateDots(dots, index);
+      // lazy-load aktivního + sousedů
+      loadIframeAt(slides, index);
+      loadIframeAt(slides, clamp(index + 1, slides.length));
+      loadIframeAt(slides, clamp(index - 1, slides.length));
+    };
 
-    // Ovládání
+    buildDots(dots, slides.length, (i) => goTo(i));
+
+    // Start
+    loadIframeAt(slides, 0);
+    update();
+
+    // Šipky
     prev?.addEventListener("click", () => goTo(index - 1));
     next?.addEventListener("click", () => goTo(index + 1));
 
     // Gesta
-    let dragging = false, sx = 0, cx = 0;
     track.addEventListener("pointerdown", (e) => {
-      dragging = true;
-      sx = cx = e.clientX;
+      dragging = true; sx = cx = e.clientX;
       track.setPointerCapture?.(e.pointerId);
-    });
-    track.addEventListener("pointermove", (e) => { if (dragging) cx = e.clientX; });
+    }, { passive: true });
+
+    track.addEventListener("pointermove", (e) => {
+      if (dragging) cx = e.clientX;
+    }, { passive: true });
+
     const endDrag = () => {
       if (!dragging) return;
       dragging = false;
@@ -385,12 +446,13 @@
     // Klávesnice
     root.tabIndex = 0;
     root.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowLeft") { e.preventDefault(); goTo(index - 1); }
+      if (e.key === "ArrowLeft")  { e.preventDefault(); goTo(index - 1); }
       if (e.key === "ArrowRight") { e.preventDefault(); goTo(index + 1); }
     });
 
     // Resize
-    window.addEventListener("resize", updateUI, { passive: true });
+    const onResize = () => update();
+    window.addEventListener("resize", onResize, { passive: true });
   };
 
   /* ---------- PEEK/CENTER ---------- */
@@ -401,9 +463,15 @@
     const prev = root.querySelector(".tc-prev");
     const next = root.querySelector(".tc-next");
     const dots = root.querySelector(".tc-dots");
+    if (!viewport || !track || slides.length === 0) return;
 
     let index = 0;
-    buildDots(dots, slides.length, (i) => goTo(i));
+    let dragging = false, sx = 0, cx = 0;
+
+    const goTo = (i) => {
+      index = clamp(i, slides.length);
+      update();
+    };
 
     const centerOffsetFor = (i) => {
       const slide = slides[i];
@@ -415,35 +483,39 @@
       return -(slideCenter - vp.width / 2);
     };
 
-    const updateUI = () => {
-      slides.forEach((s, i) => s.classList.toggle("is-active", i === index));
+    const update = () => {
+      // stavové třídy (pro rozmazání sousedů v CSS)
+      markNeighbors(slides, index);
+      // posun na střed
       track.style.transform = `translateX(${centerOffsetFor(index)}px)`;
-      [...dots.children].forEach((b, i) => {
-        b.classList.toggle("active", i === index);
-        b.setAttribute("aria-selected", i === index ? "true" : "false");
-      });
+      // tečky
+      updateDots(dots, index);
+      // lazy-load aktivního + sousedů
+      loadIframeAt(slides, index);
+      loadIframeAt(slides, clamp(index + 1, slides.length));
+      loadIframeAt(slides, clamp(index - 1, slides.length));
     };
 
-    const goTo = (i) => {
-      index = clamp(i, slides.length);
-      updateUI();
-    };
+    buildDots(dots, slides.length, (i) => goTo(i));
 
     // Start
-    updateUI();
+    loadIframeAt(slides, 0);
+    update();
 
-    // Ovládání
+    // Šipky
     prev?.addEventListener("click", () => goTo(index - 1));
     next?.addEventListener("click", () => goTo(index + 1));
 
     // Gesta
-    let dragging = false, sx = 0, cx = 0;
     track.addEventListener("pointerdown", (e) => {
-      dragging = true;
-      sx = cx = e.clientX;
+      dragging = true; sx = cx = e.clientX;
       track.setPointerCapture?.(e.pointerId);
-    });
-    track.addEventListener("pointermove", (e) => { if (dragging) cx = e.clientX; });
+    }, { passive: true });
+
+    track.addEventListener("pointermove", (e) => {
+      if (dragging) cx = e.clientX;
+    }, { passive: true });
+
     const endDrag = () => {
       if (!dragging) return;
       dragging = false;
@@ -458,21 +530,21 @@
     // Klávesnice
     root.tabIndex = 0;
     root.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowLeft") { e.preventDefault(); goTo(index - 1); }
+      if (e.key === "ArrowLeft")  { e.preventDefault(); goTo(index - 1); }
       if (e.key === "ArrowRight") { e.preventDefault(); goTo(index + 1); }
     });
 
-    // Resize
+    // Re-centrování při resize / po načtení fontů (debounce přes rAF)
     let raf = null;
-    const req = () => {
+    const requestUpdate = () => {
       if (raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => { updateUI(); raf = null; });
+      raf = requestAnimationFrame(() => { update(); raf = null; });
     };
-    window.addEventListener("resize", req, { passive: true });
-    document.fonts?.ready?.then?.(req);
+    window.addEventListener("resize", requestUpdate, { passive: true });
+    document.fonts?.ready?.then?.(requestUpdate);
   };
 
-  /* ---------- INIT ---------- */
+  /* ---------- INIT všech karuselů ---------- */
   carousels.forEach(root => {
     if (root.classList.contains("tour-peek")) initPeek(root);
     else initClassic(root);
