@@ -307,11 +307,11 @@
 </script>
 
 <script>
-/* ===================== KARUSELY – FULL-WIDTH i PEEK (sjednocené) ===================== */
+/* ===================== KARUSELY – FULL-WIDTH i PEEK (sjednocené, vylepšené) ===================== */
 /*
   Použití:
   - .tour-carousel                 → klasický full-width (slide = 100 % šířky)
-  - .tour-carousel.tour-peek       → centrovaný slide + „vykukující“ sousedi (rozmazaní v CSS)
+  - .tour-carousel.tour-peek       → centrovaný slide + „vykukující“ sousedi
   HTML struktura:
     .tour-carousel
       .tc-viewport
@@ -328,7 +328,7 @@
   /* ---------- Pomůcky ---------- */
   const clamp = (i, len) => (i + len) % len;
 
-  // Lazy load iframů + auto doplnění https://, pokud chybí
+  // Lazy-load iframe + auto doplnění https://, pokud chybí protokol
   const loadIframeAt = (slides, i) => {
     const slide = slides[i];
     if (!slide) return;
@@ -341,23 +341,18 @@
     if (!/^https?:\/\//i.test(url)) {
       url = "https://" + url.replace(/^\/+/, "");
     }
-
-    if (!iframe.src) {
-      iframe.src = url;
-    }
+    if (!iframe.src) iframe.src = url;
   };
 
-  // Přidá CSS „stavové“ třídy pro sousedy (kvůli rozmazání v CSS)
+  // Přidá/odebere stavové třídy pro aktivní a sousední slidy
   const markNeighbors = (slides, index) => {
     const len = slides.length;
     slides.forEach((s, i) => {
       s.classList.toggle("is-active", i === index);
       s.classList.remove("is-prev", "is-next");
     });
-    const prevI = clamp(index - 1, len);
-    const nextI = clamp(index + 1, len);
-    slides[prevI]?.classList.add("is-prev");
-    slides[nextI]?.classList.add("is-next");
+    slides[clamp(index - 1, len)]?.classList.add("is-prev");
+    slides[clamp(index + 1, len)]?.classList.add("is-next");
   };
 
   // Tečky
@@ -373,13 +368,19 @@
       wrap.appendChild(b);
     }
   };
-
   const updateDots = (wrap, index) => {
     if (!wrap) return;
     [...wrap.children].forEach((b, i) => {
       b.classList.toggle("active", i === index);
       b.setAttribute("aria-selected", i === index ? "true" : "false");
     });
+  };
+
+  // Zabrání výběru textu při dragu (na mobilech je to někdy otravné)
+  const preventTextSelect = (el, on) => {
+    if (!el) return;
+    el.style.userSelect = on ? "none" : "";
+    el.style.webkitUserSelect = on ? "none" : "";
   };
 
   /* ---------- FULL-WIDTH ---------- */
@@ -394,47 +395,34 @@
     let index = 0;
     let dragging = false, sx = 0, cx = 0;
 
-    const goTo = (i) => {
-      index = clamp(i, slides.length);
-      update();
-    };
+    const goTo = (i) => { index = clamp(i, slides.length); update(); };
 
     const update = () => {
-      // posun
       track.style.transform = `translateX(-${index * 100}%)`;
-      // stavové třídy
       markNeighbors(slides, index);
-      // tečky
       updateDots(dots, index);
-      // lazy-load aktivního + sousedů
       loadIframeAt(slides, index);
       loadIframeAt(slides, clamp(index + 1, slides.length));
       loadIframeAt(slides, clamp(index - 1, slides.length));
     };
 
     buildDots(dots, slides.length, (i) => goTo(i));
-
-    // Start
     loadIframeAt(slides, 0);
     update();
 
-    // Šipky
     prev?.addEventListener("click", () => goTo(index - 1));
     next?.addEventListener("click", () => goTo(index + 1));
 
-    // Gesta
     track.addEventListener("pointerdown", (e) => {
       dragging = true; sx = cx = e.clientX;
+      preventTextSelect(track, true);
       track.setPointerCapture?.(e.pointerId);
-    }, { passive: true });
-
-    track.addEventListener("pointermove", (e) => {
-      if (dragging) cx = e.clientX;
-    }, { passive: true });
-
+    });
+    track.addEventListener("pointermove", (e) => { if (dragging) cx = e.clientX; });
     const endDrag = () => {
       if (!dragging) return;
       dragging = false;
+      preventTextSelect(track, false);
       const d = cx - sx;
       if (d > 50) goTo(index - 1);
       else if (d < -50) goTo(index + 1);
@@ -443,14 +431,12 @@
     track.addEventListener("pointercancel", endDrag);
     track.addEventListener("lostpointercapture", endDrag);
 
-    // Klávesnice
     root.tabIndex = 0;
     root.addEventListener("keydown", (e) => {
       if (e.key === "ArrowLeft")  { e.preventDefault(); goTo(index - 1); }
       if (e.key === "ArrowRight") { e.preventDefault(); goTo(index + 1); }
     });
 
-    // Resize
     const onResize = () => update();
     window.addEventListener("resize", onResize, { passive: true });
   };
@@ -468,57 +454,44 @@
     let index = 0;
     let dragging = false, sx = 0, cx = 0;
 
-    const goTo = (i) => {
-      index = clamp(i, slides.length);
-      update();
-    };
+    const goTo = (i) => { index = clamp(i, slides.length); update(); };
 
     const centerOffsetFor = (i) => {
       const slide = slides[i];
       if (!slide) return 0;
       const vp = viewport.getBoundingClientRect();
-      const s = slide.getBoundingClientRect();
+      const s  = slide.getBoundingClientRect();
       const tr = track.getBoundingClientRect();
       const slideCenter = (s.left - tr.left) + (s.width / 2);
       return -(slideCenter - vp.width / 2);
     };
 
     const update = () => {
-      // stavové třídy (pro rozmazání sousedů v CSS)
-      markNeighbors(slides, index);
-      // posun na střed
+      markNeighbors(slides, index);                       // .is-active / .is-prev / .is-next
       track.style.transform = `translateX(${centerOffsetFor(index)}px)`;
-      // tečky
       updateDots(dots, index);
-      // lazy-load aktivního + sousedů
       loadIframeAt(slides, index);
       loadIframeAt(slides, clamp(index + 1, slides.length));
       loadIframeAt(slides, clamp(index - 1, slides.length));
     };
 
     buildDots(dots, slides.length, (i) => goTo(i));
-
-    // Start
     loadIframeAt(slides, 0);
     update();
 
-    // Šipky
     prev?.addEventListener("click", () => goTo(index - 1));
     next?.addEventListener("click", () => goTo(index + 1));
 
-    // Gesta
     track.addEventListener("pointerdown", (e) => {
       dragging = true; sx = cx = e.clientX;
+      preventTextSelect(track, true);
       track.setPointerCapture?.(e.pointerId);
-    }, { passive: true });
-
-    track.addEventListener("pointermove", (e) => {
-      if (dragging) cx = e.clientX;
-    }, { passive: true });
-
+    });
+    track.addEventListener("pointermove", (e) => { if (dragging) cx = e.clientX; });
     const endDrag = () => {
       if (!dragging) return;
       dragging = false;
+      preventTextSelect(track, false);
       const d = cx - sx;
       if (d > 50) goTo(index - 1);
       else if (d < -50) goTo(index + 1);
@@ -527,14 +500,13 @@
     track.addEventListener("pointercancel", endDrag);
     track.addEventListener("lostpointercapture", endDrag);
 
-    // Klávesnice
     root.tabIndex = 0;
     root.addEventListener("keydown", (e) => {
       if (e.key === "ArrowLeft")  { e.preventDefault(); goTo(index - 1); }
       if (e.key === "ArrowRight") { e.preventDefault(); goTo(index + 1); }
     });
 
-    // Re-centrování při resize / po načtení fontů (debounce přes rAF)
+    // rAF debounced re-center (resize / po načtení fontů)
     let raf = null;
     const requestUpdate = () => {
       if (raf) cancelAnimationFrame(raf);
@@ -542,6 +514,9 @@
     };
     window.addEventListener("resize", requestUpdate, { passive: true });
     document.fonts?.ready?.then?.(requestUpdate);
+
+    // (volitelné) Pokud máš víc carouselů, necháme tenhle znovu přesně dopočítat po onload
+    window.addEventListener("load", requestUpdate, { once: true });
   };
 
   /* ---------- INIT všech karuselů ---------- */
@@ -551,10 +526,6 @@
   });
 })();
 </script>
-
-
-
-
 
 
   
