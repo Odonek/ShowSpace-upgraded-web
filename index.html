@@ -96,6 +96,7 @@
 
 
 <!-- PROHLÍDKY – SLIDESHOW -->
+<!-- PROHLÍDKY – SLIDESHOW -->
 <section id="reference" class="section">
   <div class="container">
     <h2>Naše odvedená práce</h2>
@@ -115,9 +116,10 @@
             <div class="tc-frame">
               <iframe
                 src=""
-                data-src="tour.giraffe360.com/daf4443b73aa4acaa0b4de3a5d12fd7b"
+                data-src="https://tour.giraffe360.com/houseboat-prague-vltava/"
                 title="Houseboat – virtuální prohlídka"
-                loading="lazy" allowfullscreen
+                loading="lazy"
+                allowfullscreen
                 referrerpolicy="no-referrer-when-downgrade"></iframe>
               <div class="tc-caption"><strong>Houseboat</strong><span>Praha</span></div>
             </div>
@@ -128,9 +130,10 @@
             <div class="tc-frame">
               <iframe
                 src=""
-                data-src="tour.giraffe360.com/daf4443b73aa4acaa0b4de3a5d12fd7b"
+                data-src="https://tour.giraffe360.com/houseboat-prague-vltava/"
                 title="Houseboat – virtuální prohlídka"
-                loading="lazy" allowfullscreen
+                loading="lazy"
+                allowfullscreen
                 referrerpolicy="no-referrer-when-downgrade"></iframe>
               <div class="tc-caption"><strong>Houseboat</strong><span>Praha</span></div>
             </div>
@@ -141,9 +144,10 @@
             <div class="tc-frame">
               <iframe
                 src=""
-                data-src="tour.giraffe360.com/daf4443b73aa4acaa0b4de3a5d12fd7b"
+                data-src="https://tour.giraffe360.com/houseboat-prague-vltava/"
                 title="Houseboat – virtuální prohlídka"
-                loading="lazy" allowfullscreen
+                loading="lazy"
+                allowfullscreen
                 referrerpolicy="no-referrer-when-downgrade"></iframe>
               <div class="tc-caption"><strong>Houseboat</strong><span>Praha</span></div>
             </div>
@@ -155,7 +159,6 @@
     </div>
   </div>
 </section>
-
 
 
 
@@ -306,8 +309,8 @@
 })();
 </script>
 
-<script>
-/* ===================== KARUSELY – FULL-WIDTH i PEEK ===================== */
+  <script>
+/* ===================== KARUSELY – FULL-WIDTH i PEEK (vylepšené) ===================== */
 /*
   .tour-carousel           -> klasický full-width (1 slide = 100%)
   .tour-carousel.tour-peek -> centrovaný slide + „vykukující“ sousedi
@@ -316,15 +319,30 @@
   const carousels = document.querySelectorAll('.tour-carousel');
   if (!carousels.length) return;
 
+  // ---------- Pomůcky ----------
   const clamp = (i, len) => (i + len) % len;
 
+  // ✅ Lazy-load + automatické doplnění https:// při chybějícím protokolu
   const ensureIframeLoaded = (slides, i) => {
     const slide = slides[i];
     if (!slide) return;
+
     const iframe = slide.querySelector('iframe');
     if (!iframe) return;
-    const ds = iframe.getAttribute('data-src');
-    if (ds && !iframe.src) iframe.src = ds;
+
+    // Preferuj data-src (lazy), jinak vezmi už nastavené src
+    let url = iframe.getAttribute('data-src') || iframe.getAttribute('src') || '';
+    if (!url) return;
+
+    // Doplníme protokol, pokud chybí
+    if (!/^https?:\/\//i.test(url)) {
+      url = 'https://' + url.replace(/^\/+/, '');
+    }
+
+    // Když iframe ještě neběží, nastav src
+    if (!iframe.src) {
+      iframe.src = url;
+    }
   };
 
   const buildDots = (wrap, count, onClick) => {
@@ -339,7 +357,7 @@
     }
   };
 
-  /* ---------- FULL-WIDTH ---------- */
+  // ---------- FULL-WIDTH ----------
   const initClassic = (root) => {
     const track    = root.querySelector('.tc-track');
     const slides   = [...root.querySelectorAll('.tc-slide')];
@@ -347,30 +365,37 @@
     const nextBtn  = root.querySelector('.tc-next');
     const dotsWrap = root.querySelector('.tc-dots');
 
-    let index = 0, startX = 0, currentX = 0, dragging = false;
+    let index = 0;
+    let startX = 0, currentX = 0, dragging = false;
+
+    const goTo = (i) => { index = clamp(i, slides.length); updateUI(); };
 
     buildDots(dotsWrap, slides.length, (i) => goTo(i));
 
     const updateUI = () => {
       track.style.transform = `translateX(-${index * 100}%)`;
       slides.forEach((s, i) => s.classList.toggle('is-active', i === index));
+
       [...dotsWrap.children].forEach((b, i) => {
         b.classList.toggle('active', i === index);
         b.setAttribute('aria-selected', i === index ? 'true' : 'false');
       });
+
+      // Načti aktivní + sousedy
       ensureIframeLoaded(slides, index);
       ensureIframeLoaded(slides, clamp(index + 1, slides.length));
       ensureIframeLoaded(slides, clamp(index - 1, slides.length));
     };
 
-    const goTo = (i) => { index = clamp(i, slides.length); updateUI(); };
-
+    // Start
     ensureIframeLoaded(slides, 0);
     updateUI();
 
+    // Šipky
     prevBtn?.addEventListener('click', () => goTo(index - 1));
     nextBtn?.addEventListener('click', () => goTo(index + 1));
 
+    // Gesta
     track.addEventListener('pointerdown', (e) => {
       dragging = true; startX = currentX = e.clientX;
       track.setPointerCapture?.(e.pointerId);
@@ -389,16 +414,18 @@
     track.addEventListener('pointercancel', endDrag);
     track.addEventListener('lostpointercapture', endDrag);
 
+    // Klávesnice
     root.tabIndex = 0;
     root.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(index - 1); }
       if (e.key === 'ArrowRight') { e.preventDefault(); goTo(index + 1); }
     });
 
-    window.addEventListener('resize', updateUI);
+    // Reflow
+    window.addEventListener('resize', updateUI, { passive: true });
   };
 
-  /* ---------- PEEK/CENTER ---------- */
+  // ---------- PEEK/CENTER ----------
   const initPeek = (root) => {
     const viewport = root.querySelector('.tc-viewport');
     const track    = root.querySelector('.tc-track');
@@ -409,13 +436,16 @@
 
     let index = 0;
 
+    const goTo = (i) => { index = clamp(i, slides.length); updateUI(); };
+
     buildDots(dotsWrap, slides.length, (i) => goTo(i));
 
+    // Spočítá posun tak, aby byl vybraný slide uprostřed viewportu
     const centerOffsetFor = (i) => {
-      const slide   = slides[i];
+      const slide = slides[i];
       if (!slide) return 0;
-      const vpRect  = viewport.getBoundingClientRect();
-      const sRect   = slide.getBoundingClientRect();
+      const vpRect    = viewport.getBoundingClientRect();
+      const sRect     = slide.getBoundingClientRect();
       const trackRect = track.getBoundingClientRect();
       const slideCenter = (sRect.left - trackRect.left) + (sRect.width / 2);
       return -(slideCenter - vpRect.width / 2);
@@ -424,23 +454,27 @@
     const updateUI = () => {
       slides.forEach((s, i) => s.classList.toggle('is-active', i === index));
       track.style.transform = `translateX(${centerOffsetFor(index)}px)`;
+
       [...dotsWrap.children].forEach((b, i) => {
         b.classList.toggle('active', i === index);
         b.setAttribute('aria-selected', i === index ? 'true' : 'false');
       });
+
+      // Načti aktivní + sousedy
       ensureIframeLoaded(slides, index);
-      ensureIframeLoaded(slides, index + 1);
-      ensureIframeLoaded(slides, index - 1);
+      if (index + 1 < slides.length) ensureIframeLoaded(slides, index + 1);
+      if (index - 1 >= 0)            ensureIframeLoaded(slides, index - 1);
     };
 
-    const goTo = (i) => { index = clamp(i, slides.length); updateUI(); };
-
+    // Start
     ensureIframeLoaded(slides, 0);
     updateUI();
 
+    // Šipky
     prevBtn?.addEventListener('click', () => goTo(index - 1));
     nextBtn?.addEventListener('click', () => goTo(index + 1));
 
+    // Gesta
     let dragging = false, startX = 0, currentX = 0;
     track.addEventListener('pointerdown', (e) => {
       dragging = true; startX = currentX = e.clientX;
@@ -458,28 +492,32 @@
     track.addEventListener('pointercancel', endDrag);
     track.addEventListener('lostpointercapture', endDrag);
 
+    // Klávesnice
     root.tabIndex = 0;
     root.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(index - 1); }
       if (e.key === 'ArrowRight') { e.preventDefault(); goTo(index + 1); }
     });
 
+    // Re-centrování při resize / po načtení fontů
     let rafId = null;
     const requestUpdate = () => {
       if (rafId) cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => { updateUI(); rafId = null; });
     };
-    window.addEventListener('resize', requestUpdate);
+    window.addEventListener('resize', requestUpdate, { passive: true });
     document.fonts?.ready?.then?.(requestUpdate);
   };
 
-  /* ---------- INIT všech karuselů ---------- */
+  // ---------- INIT všech karuselů ----------
   carousels.forEach(root => {
     if (root.classList.contains('tour-peek')) initPeek(root);
     else initClassic(root);
   });
 })();
 </script>
+
+
 
 
 
