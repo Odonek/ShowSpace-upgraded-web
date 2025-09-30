@@ -307,44 +307,24 @@
 </script>
 
 <script>
-/* ===================== KARUSELY – FULL-WIDTH i PEEK (sjednocené, vylepšené) ===================== */
-/*
-  Použití:
-  - .tour-carousel                 → klasický full-width (slide = 100 % šířky)
-  - .tour-carousel.tour-peek       → centrovaný slide + „vykukující“ sousedi
-  HTML struktura:
-    .tour-carousel
-      .tc-viewport
-        .tc-track
-          .tc-slide (×N)
-            .tc-frame > <iframe data-src="..."></iframe>
-      .tc-prev / .tc-next
-      .tc-dots
-*/
+/* ===================== KARUSELY – FULL-WIDTH i PEEK (finální) ===================== */
 (() => {
   const carousels = document.querySelectorAll(".tour-carousel");
   if (!carousels.length) return;
 
-  /* ---------- Pomůcky ---------- */
   const clamp = (i, len) => (i + len) % len;
 
-  // Lazy-load iframe + auto doplnění https://, pokud chybí protokol
+  // Lazy-load iframu + doplnění https:// při chybějícím protokolu
   const loadIframeAt = (slides, i) => {
-    const slide = slides[i];
-    if (!slide) return;
-    const iframe = slide.querySelector("iframe");
-    if (!iframe) return;
-
+    const slide = slides[i]; if (!slide) return;
+    const iframe = slide.querySelector("iframe"); if (!iframe) return;
     let url = iframe.getAttribute("data-src") || iframe.getAttribute("src") || "";
     if (!url) return;
-
-    if (!/^https?:\/\//i.test(url)) {
-      url = "https://" + url.replace(/^\/+/, "");
-    }
+    if (!/^https?:\/\//i.test(url)) url = "https://" + url.replace(/^\/+/, "");
     if (!iframe.src) iframe.src = url;
   };
 
-  // Přidá/odebere stavové třídy pro aktivní a sousední slidy
+  // Stavové třídy pro rozmazání sousedů
   const markNeighbors = (slides, index) => {
     const len = slides.length;
     slides.forEach((s, i) => {
@@ -355,7 +335,6 @@
     slides[clamp(index + 1, len)]?.classList.add("is-next");
   };
 
-  // Tečky
   const buildDots = (wrap, count, onClick) => {
     if (!wrap) return;
     wrap.innerHTML = "";
@@ -376,7 +355,6 @@
     });
   };
 
-  // Zabrání výběru textu při dragu (na mobilech je to někdy otravné)
   const preventTextSelect = (el, on) => {
     if (!el) return;
     el.style.userSelect = on ? "none" : "";
@@ -421,8 +399,7 @@
     track.addEventListener("pointermove", (e) => { if (dragging) cx = e.clientX; });
     const endDrag = () => {
       if (!dragging) return;
-      dragging = false;
-      preventTextSelect(track, false);
+      dragging = false; preventTextSelect(track, false);
       const d = cx - sx;
       if (d > 50) goTo(index - 1);
       else if (d < -50) goTo(index + 1);
@@ -437,8 +414,7 @@
       if (e.key === "ArrowRight") { e.preventDefault(); goTo(index + 1); }
     });
 
-    const onResize = () => update();
-    window.addEventListener("resize", onResize, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
   };
 
   /* ---------- PEEK/CENTER ---------- */
@@ -457,8 +433,7 @@
     const goTo = (i) => { index = clamp(i, slides.length); update(); };
 
     const centerOffsetFor = (i) => {
-      const slide = slides[i];
-      if (!slide) return 0;
+      const slide = slides[i]; if (!slide) return 0;
       const vp = viewport.getBoundingClientRect();
       const s  = slide.getBoundingClientRect();
       const tr = track.getBoundingClientRect();
@@ -467,7 +442,7 @@
     };
 
     const update = () => {
-      markNeighbors(slides, index);                       // .is-active / .is-prev / .is-next
+      markNeighbors(slides, index);                           // .is-active/.is-prev/.is-next
       track.style.transform = `translateX(${centerOffsetFor(index)}px)`;
       updateDots(dots, index);
       loadIframeAt(slides, index);
@@ -490,8 +465,7 @@
     track.addEventListener("pointermove", (e) => { if (dragging) cx = e.clientX; });
     const endDrag = () => {
       if (!dragging) return;
-      dragging = false;
-      preventTextSelect(track, false);
+      dragging = false; preventTextSelect(track, false);
       const d = cx - sx;
       if (d > 50) goTo(index - 1);
       else if (d < -50) goTo(index + 1);
@@ -506,20 +480,18 @@
       if (e.key === "ArrowRight") { e.preventDefault(); goTo(index + 1); }
     });
 
-    // rAF debounced re-center (resize / po načtení fontů)
+    // Přesné dopočítání po resize/onload/font-ready
     let raf = null;
     const requestUpdate = () => {
       if (raf) cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => { update(); raf = null; });
     };
     window.addEventListener("resize", requestUpdate, { passive: true });
-    document.fonts?.ready?.then?.(requestUpdate);
-
-    // (volitelné) Pokud máš víc carouselů, necháme tenhle znovu přesně dopočítat po onload
     window.addEventListener("load", requestUpdate, { once: true });
+    document.fonts?.ready?.then?.(requestUpdate);
   };
 
-  /* ---------- INIT všech karuselů ---------- */
+  // INIT všech karuselů
   carousels.forEach(root => {
     if (root.classList.contains("tour-peek")) initPeek(root);
     else initClassic(root);
