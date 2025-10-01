@@ -7,14 +7,12 @@
   <meta name="description" content="Marketing, sociální sítě, focení a rychlé weby.">
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;500;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+
   <!-- Favicon -->
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="shortcut icon" type="image/png" href="favicon.png">
-
-<!-- (volitelné, ale doporučené) iOS/Android ikona a barva lišty -->
-<link rel="apple-touch-icon" href="favicon.png">
-<meta name="theme-color" content="#415A77">
-
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="shortcut icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <meta name="theme-color" content="#415A77">
 </head>
 <body>
 
@@ -74,6 +72,46 @@
     <div class="hero-overlay"></div>
   </div>
 
+  <!-- SPIRÁLY v HERO -->
+  <svg class="spiral spiral--left" viewBox="0 0 1200 1200" aria-hidden="true">
+    <defs>
+      <linearGradient id="grad-spiral-hero" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"  stop-color="var(--slate)"/>
+        <stop offset="60%" stop-color="var(--accent)"/>
+        <stop offset="100%" stop-color="var(--ivory)"/>
+      </linearGradient>
+    </defs>
+    <!-- svazek křivek -->
+    <g fill="none" stroke="url(#grad-spiral-hero)" stroke-linecap="round">
+      <path d="M60,1180 C300,940 650,520 1150,220" stroke-width="1.6" opacity=".38"/>
+      <path d="M80,1160 C320,920 640,520 1130,240" stroke-width="1.6" opacity=".32"/>
+      <path d="M110,1140 C350,900 640,540 1100,270" stroke-width="1.6" opacity=".26"/>
+      <path d="M150,1120 C390,880 650,560 1080,300" stroke-width="1.8" opacity=".34"/>
+      <path d="M180,1100 C420,860 650,580 1060,330" stroke-width="2.0" opacity=".45"/>
+      <path d="M220,1080 C460,840 660,600 1040,360" stroke-width="1.8" opacity=".34"/>
+      <path d="M260,1060 C500,820 680,610 1020,390" stroke-width="1.6" opacity=".28"/>
+      <path d="M300,1040 C540,800 700,620 1000,420" stroke-width="1.6" opacity=".24"/>
+      <path d="M340,1020 C580,780 720,630 980,450"  stroke-width="1.6" opacity=".20"/>
+    </g>
+  </svg>
+
+  <svg class="spiral spiral--right" viewBox="0 0 1200 1200" aria-hidden="true">
+    <defs>
+      <linearGradient id="grad-spiral-hero-r" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"  stop-color="var(--ivory)"/>
+        <stop offset="50%" stop-color="var(--accent)"/>
+        <stop offset="100%" stop-color="var(--slate)"/>
+      </linearGradient>
+    </defs>
+    <g fill="none" stroke="url(#grad-spiral-hero-r)" stroke-linecap="round">
+      <path d="M1140,60 C900,300 520,640 220,1140" stroke-width="1.6" opacity=".28"/>
+      <path d="M1120,80 C880,320 520,660 240,1120" stroke-width="1.6" opacity=".22"/>
+      <path d="M1100,110 C860,350 540,660 270,1100" stroke-width="1.8" opacity=".30"/>
+      <path d="M1080,150 C840,390 560,670 300,1080" stroke-width="2.0" opacity=".40"/>
+      <path d="M1060,180 C820,420 580,680 330,1060" stroke-width="1.8" opacity=".30"/>
+    </g>
+  </svg>
+
   <div class="container">
     <div class="hero-card">
       <h1>Prodávejte dřív, než klient vstoupí</h1>
@@ -112,6 +150,23 @@
   <div class="vt-overlay"></div>
 
   <div class="container vt-grid">
+    <!-- SPIRÁLY i ve VTOUR (za textem, nad overlay) -->
+    <svg class="spiral spiral--vt-left" viewBox="0 0 1200 1200" aria-hidden="true">
+      <defs>
+        <linearGradient id="grad-spiral-vl" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%"  stop-color="var(--slate)"/>
+          <stop offset="70%" stop-color="var(--accent)"/>
+          <stop offset="100%" stop-color="var(--ivory)"/>
+        </linearGradient>
+      </defs>
+      <g fill="none" stroke="url(#grad-spiral-vl)" stroke-linecap="round">
+        <path d="M40,1180 C320,900 660,520 1080,260" stroke-width="1.6" opacity=".30"/>
+        <path d="M80,1160 C360,880 680,540 1100,300" stroke-width="1.8" opacity=".36"/>
+        <path d="M120,1140 C400,860 700,560 1120,340" stroke-width="2.0" opacity=".44"/>
+        <path d="M160,1120 C440,840 720,580 1140,380" stroke-width="1.8" opacity=".36"/>
+      </g>
+    </svg>
+
     <div class="vt-copy" id="vt-copy">
       <span class="tag">Virtuální prohlídky</span>
       <h2 id="vt-title">Houseboat Praha</h2>
@@ -130,7 +185,7 @@
     <div class="vt-media">
       <div class="vt-viewport">
         <div class="vt-strip">
-          <!-- 8 karet (obsah stejný jako dřív) -->
+          <!-- 8 karet -->
           <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL001.jpg" data-title="Houseboat Praha"
              data-desc="Kompletní 3D tour – prohlédni si houseboat online."
              href="https://premium.giraffe360.com/bondoxboroughphillips/accd62f7fd354a0e8a952f3703a9f123/?_gl=1*1crnra7*_gcl_au*MjEzMzExOTcwNi4xNzU3NTE3Njk4" target="_blank" rel="noopener">
@@ -192,8 +247,7 @@
       <p>Snažíme se, aby celý proces, ať už jde o prodej či pronájem nemovitostí, nebo získávání nových zákazníků pro váš byznys, byl co nejjednodušší a zároveň co nejefektivnější.</p>
       <p>Víme, že čas je drahý, proto za vás kompletně zajistíme všechny služby, abyste se mohli soustředit na to, co umíte nejlépe.</p>
       <div class="kpis">
-        <div class="kpi">Virtuální prohlídky</div>
-        <div class="kpi">Marketing</div>
+        <div class="kpi">Marketing & weby</div>
         <div class="kpi">Brno/Svitavy & celá&nbsp;ČR</div>
       </div>
       <p style="margin-top:12px">
@@ -264,7 +318,7 @@
     <!-- FORM KARTA -->
     <div class="contact-card contact-form">
       <h2>Napište nám</h2>
-      <form action="https://formspree.io/f/mjkorjrk" method="POST">
+      <form action="https://formspree.io/f/yourendpoint" method="POST">
         <div class="form-grid">
           <input class="full" name="jmeno" placeholder="Jméno a příjmení" required>
           <input name="email" type="email" placeholder="E-mail" required>
@@ -312,7 +366,7 @@
 <!-- TO TOP -->
 <div id="toTop" title="Zpět nahoru">↑</div>
 
-<!-- Skripty (stejné jako dřív) -->
+<!-- Skripty -->
 <script>
 (() => {
   const toTop = document.getElementById("toTop");
@@ -382,7 +436,7 @@
 </script>
 
 <script>
-/* VTOUR – loop + bg + text (beze změn) */
+/* VTOUR – loop + bg + text */
 (() => {
   const root = document.getElementById('vtour');
   if (!root) return;
