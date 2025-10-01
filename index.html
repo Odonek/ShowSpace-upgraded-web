@@ -138,7 +138,7 @@
 </section>
 
   
-<!-- VIRTUÁLNÍ PROHLÍDKA (nová sekce) -->
+<!-- VIRTUÁLNÍ PROHLÍDKA -->
 <section id="vtour">
   <div class="container">
     <div class="vt-copy">
@@ -155,7 +155,7 @@
     </div>
 
     <div class="vt-media">
-      <div class="vt-frame">
+      <div class="vt-frame" aria-label="Živý náhled prohlídky">
         <iframe
           src="https://tour.giraffe360.com/houseboat-prague-vltava/"
           title="Houseboat – virtuální prohlídka"
@@ -164,29 +164,51 @@
           allowfullscreen></iframe>
       </div>
 
-      <!-- „Skleněné“ karty přes iframe (4×, všechny vedou na stejnou prohlídku) -->
+      <!-- karty + velký klikací overlay -->
       <div class="vt-cards">
         <button class="vt-arrow vt-prev" aria-label="Předchozí">‹</button>
+
         <div class="vt-viewport">
+          <!-- velká klikací vrstva (otevře tour) -->
+          <a class="vt-biglink" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">Otevřít prohlídku</a>
+
           <div class="vt-strip">
-            <a class="vt-card" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-              <img src="CAM05637G0-PR0005-STILL001.jpg" alt="Houseboat Praha – náhled">
+            <!-- 8 karet, všechny vedou na stejnou tour; data-bg mění pozadí sekce -->
+            <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL001.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+              <img src="CAM05637G0-PR0005-STILL001.jpg" alt="Houseboat – náhled 1">
               <div class="vt-meta"><strong>Houseboat Praha</strong><span>Virtuální prohlídka</span></div>
             </a>
-            <a class="vt-card" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-              <img src="CAM05637G0-PR0005-STILL002.jpg" alt="Houseboat – interiér">
-              <div class="vt-meta"><strong>Interiér</strong><span>Ukázka z tour</span></div>
+            <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL002.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+              <img src="CAM05637G0-PR0005-STILL002.jpg" alt="Houseboat – náhled 2">
+              <div class="vt-meta"><strong>Interiér 1</strong><span>Ukázka z tour</span></div>
             </a>
-            <a class="vt-card" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-              <img src="CAM05637G0-PR0005-STILL003.jpg" alt="Houseboat – detail">
+            <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL003.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+              <img src="CAM05637G0-PR0005-STILL003.jpg" alt="Houseboat – náhled 3">
+              <div class="vt-meta"><strong>Interiér 2</strong><span>Ukázka z tour</span></div>
+            </a>
+            <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL004.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+              <img src="CAM05637G0-PR0005-STILL004.jpg" alt="Houseboat – náhled 4">
               <div class="vt-meta"><strong>Detail</strong><span>Ukázka z tour</span></div>
             </a>
-            <a class="vt-card" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-              <img src="CAM05637G0-PR0005-STILL004.jpg" alt="Houseboat – exteriér">
+            <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL005.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+              <img src="CAM05637G0-PR0005-STILL005.jpg" alt="Houseboat – náhled 5">
               <div class="vt-meta"><strong>Exteriér</strong><span>Ukázka z tour</span></div>
+            </a>
+            <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL006.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+              <img src="CAM05637G0-PR0005-STILL006.jpg" alt="Houseboat – náhled 6">
+              <div class="vt-meta"><strong>Ložnice</strong><span>Ukázka z tour</span></div>
+            </a>
+            <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL007.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+              <img src="CAM05637G0-PR0005-STILL007.jpg" alt="Houseboat – náhled 7">
+              <div class="vt-meta"><strong>Salon</strong><span>Ukázka z tour</span></div>
+            </a>
+            <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL003.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+              <img src="CAM05637G0-PR0005-STILL003.jpg" alt="Houseboat – náhled 8">
+              <div class="vt-meta"><strong>Kuchyně</strong><span>Ukázka z tour</span></div>
             </a>
           </div>
         </div>
+
         <button class="vt-arrow vt-next" aria-label="Další">›</button>
       </div>
     </div>
