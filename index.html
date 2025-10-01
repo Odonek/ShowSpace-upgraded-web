@@ -20,6 +20,7 @@
     <div class="menu">
       <a href="index.html" aria-current="page">Domů</a>
 
+      <!-- „Služby“ – stejné rozměry jako ostatní -->
       <div class="menu-item--has-sub">
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="submenu-sluzby">
           Služby
@@ -98,7 +99,7 @@
   </div>
 </section>
 
-<!-- VIRTUÁLNÍ PROHLÍDKA – full-screen, 3 karty, loop, měnící se text -->
+<!-- VTOUR (full-screen, loop) -->
 <section id="vtour" aria-label="Virtuální prohlídky">
   <div class="vt-overlay"></div>
 
@@ -107,8 +108,8 @@
       <span class="tag">Virtuální prohlídky</span>
       <h2 id="vt-title">Houseboat Praha</h2>
       <p class="lead" id="vt-desc">
-        Vždy vidíš tři projekty. Další zobrazíš šipkami. Kliknutím na kartu se
-        otevře prohlídka v nové záložce. Pozadí se mění podle prostřední karty.
+        Vždy vidíš tři projekty. Další zobrazíš šipkami. Kliknutím na kartu se otevře prohlídka v nové záložce.
+        Pozadí se mění podle prostřední karty.
       </p>
       <p>
         <a class="btn btn--accent" id="vt-link"
@@ -121,82 +122,50 @@
     <div class="vt-media">
       <div class="vt-viewport">
         <div class="vt-strip">
-          <!-- 8 originálních karet (JS si z nich postaví nekonečný loop) -->
-          <a class="vt-card"
-             data-bg="CAM05637G0-PR0005-STILL001.jpg"
-             data-title="Houseboat Praha"
+          <!-- 8 karet (obsah stejný jako dřív) -->
+          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL001.jpg" data-title="Houseboat Praha"
              data-desc="Kompletní 3D tour – prohlédni si houseboat online."
              href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL001.jpg" alt="Houseboat Praha">
-            <div class="vt-meta"><strong>Houseboat Praha</strong><span>Virtuální prohlídka</span></div>
+            <img src="CAM05637G0-PR0005-STILL001.jpg" alt="Houseboat Praha"><div class="vt-meta"><strong>Houseboat Praha</strong><span>Virtuální prohlídka</span></div>
           </a>
-
-          <a class="vt-card"
-             data-bg="CAM05637G0-PR0005-STILL002.jpg"
-             data-title="Interiér – obývací část"
+          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL002.jpg" data-title="Interiér – obývací část"
              data-desc="Ukázka detailu interiéru – ozvučení a materiály."
              href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL002.jpg" alt="Interiér 1">
-            <div class="vt-meta"><strong>Interiér 1</strong><span>Ukázka z tour</span></div>
+            <img src="CAM05637G0-PR0005-STILL002.jpg" alt="Interiér 1"><div class="vt-meta"><strong>Interiér 1</strong><span>Ukázka z tour</span></div>
           </a>
-
-          <a class="vt-card"
-             data-bg="CAM05637G0-PR0005-STILL003.jpg"
-             data-title="Interiér – denní zóna"
+          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL003.jpg" data-title="Interiér – denní zóna"
              data-desc="Prostorná denní část houseboatu s výstupem na palubu."
              href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL003.jpg" alt="Interiér 2">
-            <div class="vt-meta"><strong>Interiér 2</strong><span>Ukázka z tour</span></div>
+            <img src="CAM05637G0-PR0005-STILL003.jpg" alt="Interiér 2"><div class="vt-meta"><strong>Interiér 2</strong><span>Ukázka z tour</span></div>
           </a>
-
-          <a class="vt-card"
-             data-bg="CAM05637G0-PR0005-STILL004.jpg"
-             data-title="Detail – materiály"
+          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL004.jpg" data-title="Detail – materiály"
              data-desc="Záběry na detaily a povrchy – kvalita na první pohled."
              href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL004.jpg" alt="Detail">
-            <div class="vt-meta"><strong>Detail</strong><span>Ukázka z tour</span></div>
+            <img src="CAM05637G0-PR0005-STILL004.jpg" alt="Detail"><div class="vt-meta"><strong>Detail</strong><span>Ukázka z tour</span></div>
           </a>
-
-          <a class="vt-card"
-             data-bg="CAM05637G0-PR0005-STILL005.jpg"
-             data-title="Exteriér – paluba"
+          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL005.jpg" data-title="Exteriér – paluba"
              data-desc="Výhled z paluby a napojení na okolí – atmosféra místa."
              href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL005.jpg" alt="Exteriér">
-            <div class="vt-meta"><strong>Exteriér</strong><span>Ukázka z tour</span></div>
+            <img src="CAM05637G0-PR0005-STILL005.jpg" alt="Exteriér"><div class="vt-meta"><strong>Exteriér</strong><span>Ukázka z tour</span></div>
           </a>
-
-          <a class="vt-card"
-             data-bg="CAM05637G0-PR0005-STILL006.jpg"
-             data-title="Ložnice"
+          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL006.jpg" data-title="Ložnice"
              data-desc="Noční zóna – světlo, úložné prostory a pohodlí."
              href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL006.jpg" alt="Ložnice">
-            <div class="vt-meta"><strong>Ložnice</strong><span>Ukázka z tour</span></div>
+            <img src="CAM05637G0-PR0005-STILL006.jpg" alt="Ložnice"><div class="vt-meta"><strong>Ložnice</strong><span>Ukázka z tour</span></div>
           </a>
-
-          <a class="vt-card"
-             data-bg="CAM05637G0-PR0005-STILL007.jpg"
-             data-title="Salon"
+          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL007.jpg" data-title="Salon"
              data-desc="Hlavní společenský prostor – propojení s exteriérem."
              href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL007.jpg" alt="Salon">
-            <div class="vt-meta"><strong>Salon</strong><span>Ukázka z tour</span></div>
+            <img src="CAM05637G0-PR0005-STILL007.jpg" alt="Salon"><div class="vt-meta"><strong>Salon</strong><span>Ukázka z tour</span></div>
           </a>
-
-          <a class="vt-card"
-             data-bg="CAM05637G0-PR0005-STILL003.jpg"
-             data-title="Kuchyně"
+          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL003.jpg" data-title="Kuchyně"
              data-desc="Plně vybavená kuchyň – praktičnost i design."
              href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL003.jpg" alt="Kuchyně">
-            <div class="vt-meta"><strong>Kuchyně</strong><span>Ukázka z tour</span></div>
+            <img src="CAM05637G0-PR0005-STILL003.jpg" alt="Kuchyně"><div class="vt-meta"><strong>Kuchyně</strong><span>Ukázka z tour</span></div>
           </a>
         </div>
       </div>
 
-      <!-- velké šipky pod karuselem -->
       <div class="vt-controls">
         <button class="vt-arrow vt-prev" aria-label="Předchozí">‹</button>
         <button class="vt-arrow vt-next" aria-label="Další">›</button>
@@ -211,23 +180,14 @@
     <div class="text">
       <span class="tag">O nás</span>
       <h2>Jsme ShowSpace</h2>
-
-      <p class="lead">
-        Jsme parta studentů Provozně ekonomické fakulty Mendelovy univerzity, kteří jsou zapálení do moderních technologií, marketingu a realitního trhu.
-        Pomáháme podnikům i majitelům nemovitostí najít ty správné zájemce.
-      </p>
-
-      <p>Snažíme se, aby celý proces, ať už jde o prodej či pronájem nemovitostí, nebo získávání nových zákazníků pro váš byznys,
-        byl co nejjednodušší a zároveň co nejefektivnější.</p>
-
+      <p class="lead">Jsme parta studentů Provozně ekonomické fakulty Mendelovy univerzity, kteří jsou zapálení do moderních technologií, marketingu a realitního trhu. Pomáháme podnikům i majitelům nemovitostí najít ty správné zájemce.</p>
+      <p>Snažíme se, aby celý proces, ať už jde o prodej či pronájem nemovitostí, nebo získávání nových zákazníků pro váš byznys, byl co nejjednodušší a zároveň co nejefektivnější.</p>
       <p>Víme, že čas je drahý, proto za vás kompletně zajistíme všechny služby, abyste se mohli soustředit na to, co umíte nejlépe.</p>
-
       <div class="kpis">
         <div class="kpi">PPC & kampaně</div>
         <div class="kpi">Marketing & weby</div>
         <div class="kpi">Brno & celá&nbsp;ČR</div>
       </div>
-
       <p style="margin-top:12px">
         <a href="galerie.html" class="btn btn--outline">Ukázky práce</a>
         <a href="#kontakt" class="btn btn--accent">Chci nezávaznou poptávku</a>
@@ -240,28 +200,77 @@
   </div>
 </section>
 
-<!-- KONTAKT -->
-<section id="kontakt" class="section">
-  <div class="container grid grid-2">
-    <div>
+<!-- KONTAKT – dvě karty -->
+<section id="kontakt" class="section contact">
+  <div class="container contact-grid">
+
+    <!-- INFO KARTA -->
+    <div class="contact-card contact-info">
       <h2>Kontaktujte nás</h2>
       <p class="lead">Ozveme se ještě dnes s orientační cenou a termínem.</p>
-      <p><strong>ShowSpace</strong><br>
-        Tel: <a href="tel:+420123456789">+420 123 456 789</a><br>
-        E-mail: <a href="mailto:info@showspace.cz">info@showspace.cz</a></p>
-      <p>IČO: 23631741<br>DIČ: CZ23631741<br>Sídlo: Petrusova 2213/15, 56802 Svitavy<br>
-         Spisová značka: C 55194, KS Hradec Králové</p>
+
+      <ul class="contact-list">
+        <li class="contact-item">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.3 1 .3 2 .5 3 .6.6.1 1 .6 1 1.2V20a2 2 0 0 1-2.2 2 18 18 0 0 1-16-16A2 2 0 0 1 4 3h3.1c.6 0 1.1.4 1.2 1 .1 1 .3 2 .6 3 .1.4 0 .8-.3 1.1l-2 2.2z"/></svg>
+          </div>
+          <div>
+            <strong>Telefon</strong><br>
+            <a href="tel:+420123456789">+420 123 456 789</a>
+          </div>
+        </li>
+
+        <li class="contact-item">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 3-8 5L4 7V6l8 5 8-5v1z"/></svg>
+          </div>
+          <div>
+            <strong>E-mail</strong><br>
+            <a href="mailto:info@showspace.cz">info@showspace.cz</a>
+          </div>
+        </li>
+
+        <li class="contact-item">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+          </div>
+          <div>
+            <strong>Sídlo</strong><br>
+            Petrusova 2213/15, 56802 Svitavy
+          </div>
+        </li>
+
+        <li class="contact-item">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></svg>
+          </div>
+          <div>
+            <strong>Fakturační údaje</strong><br>
+            IČO: 23631741 • DIČ: CZ23631741<br>
+            Spisová značka: C 55194, KS Hradec Králové
+          </div>
+        </li>
+      </ul>
     </div>
-    <div>
-      <form class="form" action="https://formspree.io/f/yourendpoint" method="POST">
-        <input name="jmeno" placeholder="Jméno a příjmení" required>
-        <input name="email" type="email" placeholder="E-mail" required>
-        <input name="telefon" placeholder="Telefon">
-        <textarea name="zprava" rows="4" placeholder="Stručně popište projekt"></textarea>
-        <button class="btn btn--accent" type="submit">Odeslat poptávku</button>
-        <small class="help">Odesláním souhlasíte se zpracováním údajů pro vyřízení poptávky.</small>
+
+    <!-- FORM KARTA -->
+    <div class="contact-card contact-form">
+      <h2>Napište nám</h2>
+      <form action="https://formspree.io/f/yourendpoint" method="POST">
+        <div class="form-grid">
+          <input class="full" name="jmeno" placeholder="Jméno a příjmení" required>
+          <input name="email" type="email" placeholder="E-mail" required>
+          <input name="telefon" placeholder="Telefon">
+          <textarea class="full" name="zprava" rows="5" placeholder="Stručně popište projekt"></textarea>
+        </div>
+
+        <div style="display:flex; gap:12px; align-items:center; margin-top:10px;">
+          <button class="btn btn--accent" type="submit">Odeslat poptávku</button>
+          <small class="help">Odesláním souhlasíte se zpracováním údajů pro vyřízení poptávky.</small>
+        </div>
       </form>
     </div>
+
   </div>
 </section>
 
@@ -295,7 +304,7 @@
 <!-- TO TOP -->
 <div id="toTop" title="Zpět nahoru">↑</div>
 
-<!-- Skripty -->
+<!-- Skripty (stejné jako dřív) -->
 <script>
 (() => {
   const toTop = document.getElementById("toTop");
@@ -327,7 +336,7 @@
 </script>
 
 <script>
-/* Animace čísel v #benefity */
+/* BENEFITY čísla */
 (() => {
   const section = document.getElementById('benefity');
   if (!section) return;
@@ -345,10 +354,8 @@
     }
     requestAnimationFrame(frame);
   }
-
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduceMotion) { counters.forEach(c => c.textContent = c.dataset.target || c.textContent); return; }
-
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
@@ -367,7 +374,7 @@
 </script>
 
 <script>
-/* VTOUR — nekonečný loop + měnící se pozadí + měnící se text + zvýraznění středu */
+/* VTOUR – loop + bg + text (beze změn) */
 (() => {
   const root = document.getElementById('vtour');
   if (!root) return;
@@ -377,37 +384,30 @@
   const nextBtn  = root.querySelector('.vt-next');
   const prevBtn  = root.querySelector('.vt-prev');
 
-  // copy box elements
   const copyBox  = document.getElementById('vt-copy');
   const titleEl  = document.getElementById('vt-title');
   const descEl   = document.getElementById('vt-desc');
   const linkEl   = document.getElementById('vt-link');
 
-  const originals = [...strip.querySelectorAll('.vt-card')]; // originální karty
-  let current = 0;     // index v rámci "cards" (včetně klonů)
-  let visible = 3;     // 3/2/1 dle viewportu
-  let cards = [];      // DOM včetně klonů
+  const originals = [...strip.querySelectorAll('.vt-card')];
+  let current = 0;
+  let visible = 3;
+  let cards = [];
 
-  function calcVisible() {
-    if (window.innerWidth <= 640) return 1;
-    if (window.innerWidth <= 980) return 2;
-    return 3;
-  }
+  const calcVisible = () => window.innerWidth <= 640 ? 1 : (window.innerWidth <= 980 ? 2 : 3);
 
   function rebuild() {
     visible = calcVisible();
     strip.innerHTML = '';
-    // klony pro nekonečný loop
     const head = originals.slice(0, visible).map(n => n.cloneNode(true));
     const tail = originals.slice(-visible).map(n => n.cloneNode(true));
     tail.forEach(n => strip.appendChild(n));
     originals.forEach(n => strip.appendChild(n.cloneNode(true)));
     head.forEach(n => strip.appendChild(n));
     cards = [...strip.children];
-
-    current = visible; // start na první "reálné" kartě
+    current = visible;
     centerOn(current, false);
-    updateUI(); // nastaví pozadí + text + třídy
+    updateUI();
   }
 
   function centerOn(idx, animate = true) {
@@ -417,75 +417,53 @@
     const offset     = -(cardCenter - vpCenter);
     strip.style.transition = animate ? 'transform .55s cubic-bezier(.22,.61,.36,1)' : 'none';
     strip.style.transform  = `translateX(${offset}px)`;
-
-    // okamžitě pro uživatele uprav text (s fade), ať to působí svižně
     if (animate) updateUI(true);
   }
 
   function normalize() {
     const total = originals.length;
-    if (current < visible) {
-      current += total;
-      centerOn(current, false);
-    }
-    if (current >= visible + total) {
-      current -= total;
-      centerOn(current, false);
-    }
-    updateUI(); // finální potvrzení po doskrolování
+    if (current < visible) { current += total; centerOn(current, false); }
+    if (current >= visible + total) { current -= total; centerOn(current, false); }
+    updateUI();
   }
 
-  function go(delta) {
-    current += delta;
-    centerOn(current, true);
-  }
+  function go(delta){ current += delta; centerOn(current, true); }
 
-  function updateUI(fade = false) {
+  function updateUI(fade=false){
     const total = originals.length;
     const realIndex = (current - visible + total) % total;
     const realCard  = originals[realIndex];
     const liveCard  = cards[current];
 
-    // pozadí
-    const bg = realCard.dataset.bg || realCard.querySelector('img')?.getAttribute('src');
-    if (bg) root.style.setProperty('--vtbg', `url("${bg}")`);
-
-    // texty + odkaz (s jemným fade efektem)
-    const t = realCard.dataset.title || 'Virtuální prohlídka';
-    const d = realCard.dataset.desc  || 'Prohlídka v nové záložce.';
+    const bg   = realCard.dataset.bg || realCard.querySelector('img')?.getAttribute('src');
+    const t    = realCard.dataset.title || 'Virtuální prohlídka';
+    const d    = realCard.dataset.desc  || 'Prohlídka v nové záložce.';
     const href = realCard.getAttribute('href') || '#';
+
+    if (bg) root.style.setProperty('--vtbg', `url("${bg}")`);
 
     if (fade) copyBox.classList.add('swap-out');
     if (fade) {
       setTimeout(() => {
-        titleEl.textContent = t;
-        descEl.textContent  = d;
-        linkEl.href         = href;
+        titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
         copyBox.classList.remove('swap-out');
       }, 120);
     } else {
-      titleEl.textContent = t;
-      descEl.textContent  = d;
-      linkEl.href         = href;
+      titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
     }
 
-    // optické zvýraznění prostřední karty
     cards.forEach(c => c.classList.remove('is-center'));
     if (liveCard) liveCard.classList.add('is-center');
   }
 
-  // ovládání
   nextBtn.addEventListener('click', () => go(+1));
   prevBtn.addEventListener('click', () => go(-1));
   strip.addEventListener('transitionend', normalize);
   window.addEventListener('resize', () => {
-    const before = visible;
-    const now = calcVisible();
-    if (before !== now) rebuild();
-    else centerOn(current, false);
+    const before = visible, now = calcVisible();
+    if (before !== now) rebuild(); else centerOn(current, false);
   });
 
-  // init
   rebuild();
 })();
 </script>
