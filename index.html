@@ -262,13 +262,12 @@
 })();
 </script>
 
-<!-- KARUSEL (peek/center + rozmazaní sousedi) -->
+<!-- KARUSEL (peek/center + rozmazaní sousedi, lazy-load iframů) -->
 <script>
 (() => {
-  const carousels = document.querySelectorAll(".tour-carousel");
-  if (!carousels.length) return;
   const clamp = (i, len) => (i + len) % len;
 
+  // ---- Tečky (pager) ----
   const buildDots = (wrap, count, onClick) => {
     if (!wrap) return;
     wrap.innerHTML = "";
@@ -289,6 +288,7 @@
     });
   };
 
+  // ---- Třídy pro sousedy (kvůli rozmazání/vrstvení v CSS) ----
   const markNeighbors = (slides, index) => {
     const len = slides.length;
     slides.forEach((s, i) => {
@@ -299,6 +299,28 @@
     slides[clamp(index + 1, len)]?.classList.add("is-next");
   };
 
+  // ---- Lazy-load iframů + doplnění protokolu ----
+  const loadIframeAt = (slides, i) => {
+    const slide = slides[i]; if (!slide) return;
+    const iframe = slide.querySelector("iframe"); if (!iframe) return;
+
+    let url = iframe.getAttribute("data-src") || iframe.getAttribute("src") || "";
+    if (!url) return;
+
+    // doplníme https:// pokud chybí
+    if (!/^https?:\/\//i.test(url)) url = "https://" + url.replace(/^\/+/, "");
+
+    // načti pouze pokud ještě neběží
+    if (!iframe.src) iframe.src = url;
+  };
+
+  const preventSelect = (el, on) => {
+    if (!el) return;
+    el.style.userSelect = on ? "none" : "";
+    el.style.webkitUserSelect = on ? "none" : "";
+  };
+
+  // ---- Inicializace PEEK/center karuselu ----
   const initPeek = (root) => {
     const viewport = root.querySelector(".tc-viewport");
     const track    = root.querySelector(".tc-track");
@@ -308,11 +330,14 @@
     const dots     = root.querySelector(".tc-dots");
     if (!viewport || !track || slides.length === 0) return;
 
-    let index = 0;
+    // ✅ Začni prostředním slide (u 3 je to index 1) — sousedi budou hned vidět
+    let index = Math.floor(slides.length / 2);
+
     let dragging = false, sx = 0, cx = 0;
 
     const goTo = (i) => { index = clamp(i, slides.length); update(); };
 
+    // spočítá posun tak, aby byl vybraný slide přesně uprostřed viewportu
     const centerOffsetFor = (i) => {
       const slide = slides[i]; if (!slide) return 0;
       const vp = viewport.getBoundingClientRect();
@@ -326,21 +351,34 @@
       markNeighbors(slides, index);
       track.style.transform = `translateX(${centerOffsetFor(index)}px)`;
       updateDots(dots, index);
+
+      // lazy-load: aktivní + sousedi
+      loadIframeAt(slides, index);
+      loadIframeAt(slides, clamp(index + 1, slides.length));
+      loadIframeAt(slides, clamp(index - 1, slides.length));
     };
 
+    // start
     buildDots(dots, slides.length, (i) => goTo(i));
+    loadIframeAt(slides, index);
     update();
 
+    // šipky
     prev?.addEventListener("click", () => goTo(index - 1));
     next?.addEventListener("click", () => goTo(index + 1));
 
+    // gesta
     track.addEventListener("pointerdown", (e) => {
-      dragging = true; sx = cx = e.clientX; track.setPointerCapture?.(e.pointerId);
-    });
-    track.addEventListener("pointermove", (e) => { if (dragging) cx = e.clientX; });
+      dragging = true; sx = cx = e.clientX;
+      preventSelect(track, true);
+      track.setPointerCapture?.(e.pointerId);
+    }, { passive: true });
+    track.addEventListener("pointermove", (e) => {
+      if (dragging) cx = e.clientX;
+    }, { passive: true });
     const endDrag = () => {
       if (!dragging) return;
-      dragging = false;
+      dragging = false; preventSelect(track, false);
       const d = cx - sx;
       if (d > 50) goTo(index - 1);
       else if (d < -50) goTo(index + 1);
@@ -349,12 +387,14 @@
     track.addEventListener("pointercancel", endDrag);
     track.addEventListener("lostpointercapture", endDrag);
 
+    // klávesnice
     root.tabIndex = 0;
     root.addEventListener("keydown", (e) => {
       if (e.key === "ArrowLeft")  { e.preventDefault(); goTo(index - 1); }
       if (e.key === "ArrowRight") { e.preventDefault(); goTo(index + 1); }
     });
 
+    // přesné dopočítání po resize/font-ready/load
     let raf = null;
     const requestUpdate = () => {
       if (raf) cancelAnimationFrame(raf);
@@ -365,10 +405,11 @@
     window.addEventListener("load", requestUpdate, { once: true });
   };
 
-  // Máš jen peek verzi – inicializuj ji
+  // Spusť pro všechny peek karusely
   document.querySelectorAll(".tour-carousel.tour-peek").forEach(initPeek);
 })();
 </script>
+
 
 </body>
 </html>
