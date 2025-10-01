@@ -7,60 +7,74 @@
   <meta name="description" content="Virtuální prohlídky, marketing, správa sociálních sítí a tvorba webu. Transparentně, rychle, s měřitelným výsledkem." />
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;500;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  
-<style>
-  /* === Rozšířené sekce služeb (full-screen-ish) – nenarušuje stávající styly === */
-  .service-section{min-height:100vh; display:block}
-  .service-wrap{display:grid; grid-template-columns: 1.05fr .95fr; gap: 28px; align-items:start}
-  .service-section.reverse .service-wrap{grid-template-columns: .95fr 1.05fr}
-  .service-section.reverse .service-text{order:2}
-  .service-section.reverse .service-media{order:1}
-  .service-section.center .service-wrap{max-width:900px; margin:0 auto; grid-template-columns:1fr}
-  .service-section.center .service-text{ text-align:center }
 
-  .service-text h2{margin:6px 0 10px}
-  .kvp-list{padding-left:18px}
-  .kvp-list li{margin:6px 0}
-  .steps{padding-left:18px}
-  .steps li{margin:6px 0}
-  .cta-row{display:flex; gap:12px; margin-top:10px; flex-wrap:wrap; justify-content:flex-start}
-  .service-section.center .cta-row{justify-content:center}
+  <style>
+    /* ===== Rozšířené sekce služeb + střídání (doplněk k styles.css) ===== */
+    .service-section{min-height:100vh; display:block}
+    .service-wrap{display:grid; grid-template-columns: 1.05fr .95fr; gap: 28px; align-items:start}
+    .service-text h2{margin:6px 0 10px}
+    .kvp-list{padding-left:18px}
+    .kvp-list li{margin:6px 0}
+    .steps{padding-left:18px}
+    .steps li{margin:6px 0}
+    .cta-row{display:flex; gap:12px; margin-top:10px; flex-wrap:wrap}
 
-  .service-media{display:grid; gap:14px}
-  .media-slot{position:relative; width:100%; aspect-ratio:16/9; border-radius:18px; background:#fff; border:2px dashed #e4e6ea; box-shadow: var(--shadow); overflow:hidden}
-  .media-slot iframe, .media-slot img, .media-slot video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border:0; display:block; border-radius:inherit}
-  .media-grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:10px}
-  .media-grid img{width:100%; display:block; border-radius:12px; box-shadow:var(--shadow); object-fit:cover; aspect-ratio:4/3}
-  .eyebrow{display:inline-block; margin-bottom:4px}
+    .service-media{display:grid; gap:14px}
+    .media-slot{position:relative; width:100%; aspect-ratio:16/9; border-radius:18px; background:#fff; border:2px dashed #e4e6ea; box-shadow: var(--shadow); overflow:hidden}
+    .media-slot iframe, .media-slot img, .media-slot video{
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; border:0; display:block; border-radius:inherit
+    }
+    .media-grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:10px}
+    .media-grid img{width:100%; display:block; border-radius:12px; box-shadow:var(--shadow); object-fit:cover; aspect-ratio:4/3}
 
-  /* Subnav pro Služby pod horní lištou */
-  .services-subnav{position:sticky; top:88px; z-index:90; display:none; background:rgba(255,255,255,.96); border-top:1px solid #eee; border-bottom:1px solid #eee; box-shadow:0 8px 24px rgba(0,0,0,.06); backdrop-filter:saturate(180%) blur(8px)}
-  .services-subnav.show{display:block}
-  .services-subnav-inner{display:flex; gap:16px; padding:10px 20px}
-  .services-subnav a{padding:8px 12px; background:#fff; border-radius:999px; box-shadow:0 2px 6px rgba(0,0,0,.06); font-weight:600}
-  .services-subnav a:hover{background: var(--accent); color:#111}
+    /* střídání: reverse = média vlevo / text vpravo */
+    .service-section.reverse .service-wrap{grid-template-columns: .95fr 1.05fr}
+    .service-section.reverse .service-text{order:2}
+    .service-section.reverse .service-media{order:1}
 
-  @media (max-width: 900px){
-    .service-wrap{grid-template-columns: 1fr}
-    .services-subnav{top:72px}
-    .media-grid{grid-template-columns:1fr}
-    .service-section.reverse .service-text{order:initial}
-    .service-section.reverse .service-media{order:initial}
-  }
-</style>
+    /* weby uprostřed */
+    .service-section.center .service-wrap{max-width:900px; margin:0 auto; grid-template-columns:1fr}
+    .service-section.center .service-text{text-align:center}
+    .service-section.center .cta-row{justify-content:center}
+
+    /* submenu pod „Služby“ */
+    .services-subnav{
+      position:sticky; top:88px; z-index:90; display:none;
+      background:rgba(255,255,255,.96); border-top:1px solid #eee; border-bottom:1px solid #eee;
+      box-shadow:0 8px 24px rgba(0,0,0,.06); backdrop-filter:saturate(180%) blur(8px)
+    }
+    .services-subnav.show{display:block}
+    .services-subnav-inner{display:flex; gap:16px; padding:10px 20px}
+    .services-subnav a{
+      padding:8px 12px; background:#fff; border-radius:999px; box-shadow:0 2px 6px rgba(0,0,0,.06); font-weight:600
+    }
+    .services-subnav a:hover{background: var(--accent); color:#111}
+
+    @media (max-width: 900px){
+      .service-wrap{grid-template-columns: 1fr}
+      .service-section.reverse .service-text{order:initial}
+      .service-section.reverse .service-media{order:initial}
+      .media-grid{grid-template-columns:1fr}
+      .services-subnav{top:72px}
+    }
+  </style>
 </head>
 <body>
 
+<!-- NAVBAR (ponechává tvůj vzhled) -->
 <nav>
   <div class="container nav-inner">
     <a class="logo" href="index.html">
       <img src="logonahoruvlevo1.png" alt="ShowSpace logo">
     </a>
+
     <div class="menu">
       <a href="index.html">Domů</a>
       <a href="sluzby.html" aria-current="page">Služby</a>
       <a href="galerie.html">Galerie</a>
     </div>
+
     <div class="nav-right">
       <div class="nav-social">
         <a href="https://facebook.com/showspace" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2v-3h2v-2c0-2 1.2-3 3-3 .9 0 1.8.1 1.8.1v2h-1c-1 0-1.3.6-1.3 1.2V12h2.5l-.4 3h-2.1v7A10 10 0 0 0 22 12"/></svg></a>
@@ -72,7 +86,7 @@
   </div>
 </nav>
 
-<!-- DROPDOWN POD "SLUŽBY" V HORNÍ LIŠTĚ -->
+<!-- SUBMENU POD „SLUŽBY“ -->
 <div class="services-subnav" aria-hidden="true">
   <div class="container services-subnav-inner">
     <a href="#sluzba-prohlidky">Virtuální prohlídky</a>
@@ -85,17 +99,16 @@
 <header class="section">
   <div class="container">
     <h1>Služby ShowSpace</h1>
-    <p class="lead">Detailní přehled: virtuální prohlídky, marketing & PPC, správa sociálních sítí a tvorba webu. Každá služba níže má vlastní sekci s postupem, výstupy a místem pro ukázky.</p>
+    <p class="lead">Detailní přehled: virtuální prohlídky, marketing & PPC, správa sociálních sítí a tvorba webu. Každá služba má vlastní sekci s postupem, výstupy a místem pro ukázky.</p>
   </div>
 </header>
 
-<!-- JEN 4 SLUŽBY -->
-<!-- SLUŽBA 1: VIRTUÁLNÍ PROHLÍDKY -->
-<section id="sluzba-prohlidky" class="section service-section">
+<!-- 1) VIRTUÁLNÍ PROHLÍDKY — MÉDIA VLEVO / TEXT VPRAVO -->
+<section id="sluzba-prohlidky" class="section service-section reverse">
   <div class="container service-wrap">
     <div class="service-text">
       <span class="eyebrow tag">Virtuální prohlídky</span>
-      <h2>Matterport / 360° prohlídky</h2>
+      <h2>360° / 3D prohlídky</h2>
       <p class="lead">Pro reality, showroomy, hotely nebo gastro. Zážitková prezentace prostoru, kterou si lidé projdou odkudkoli a kdykoli.</p>
 
       <h3>Co získáte</h3>
@@ -129,19 +142,19 @@
 
     <div class="service-media">
       <div class="media-slot">
-        <iframe src="https://tour.giraffe360.com/houseboat-prague-vltava/" loading="lazy" allowfullscreen title="Virtuální prohlídka – Houseboat Prague Vltava"></iframe>
+        <iframe src="https://tour.giraffe360.com/houseboat-prague-vltava/"
+                loading="lazy" allowfullscreen
+                title="Virtuální prohlídka – Houseboat Prague Vltava"></iframe>
       </div>
       <div class="media-slot">
         <img src="floorplan.jpg" alt="Půdorys – Houseboat Prague Vltava" />
       </div>
     </div>
-      <div class="media-slot" aria-label="Místo pro druhý obrázek/prohlídku"></div>
-    </div>
   </div>
 </section>
 
-<!-- SLUŽBA 2: MARKETING & PPC -->
-<section id="sluzba-marketing" class="section section--alt service-section reverse" class="section section--alt service-section">
+<!-- 2) MARKETING & PPC — TEXT VLEVO / MÉDIA VPRAVO -->
+<section id="sluzba-marketing" class="section section--alt service-section">
   <div class="container service-wrap">
     <div class="service-text">
       <span class="eyebrow tag">Marketing &amp; PPC</span>
@@ -181,15 +194,12 @@
       <div class="media-slot">
         <video src="tourvideo.mp4" controls playsinline preload="metadata"></video>
       </div>
-      <div class="media-slot"></div>
-    </div>
-      <div class="media-slot"></div>
     </div>
   </div>
 </section>
 
-<!-- SLUŽBA 3: SPRÁVA SOCIÁLNÍCH SÍTÍ -->
-<section id="sluzba-social" class="section service-section">
+<!-- 3) SOCIÁLNÍ SÍTĚ — MÉDIA VLEVO / TEXT VPRAVO -->
+<section id="sluzba-social" class="section service-section reverse">
   <div class="container service-wrap">
     <div class="service-text">
       <span class="eyebrow tag">Sociální sítě</span>
@@ -235,18 +245,16 @@
         <img src="CAM05637G0-PR0005-STILL007.jpg" alt="Ukázka 7" />
       </div>
     </div>
-      <div class="media-slot"></div>
-    </div>
   </div>
 </section>
 
-<!-- SLUŽBA 4: TVORBA WEBU -->
+<!-- 4) TVORBA WEBU — UPROSTŘED BEZ MÉDIÍ -->
 <section id="sluzba-web" class="section section--alt service-section center">
   <div class="container service-wrap">
     <div class="service-text">
       <span class="eyebrow tag">Tvorba webu</span>
       <h2>Jednostránkové i vícestránkové weby</h2>
-      <p class="lead">Rychlá načítání, čistý design a připraveno na měření i kampaně.</p>
+      <p class="lead">Rychlé načítání, čistý design a připraveno na měření i kampaně.</p>
 
       <h3>Co získáte</h3>
       <ul class="kvp-list">
@@ -279,6 +287,7 @@
   </div>
 </section>
 
+<!-- KONTAKT -->
 <section id="kontakt" class="section section--alt">
   <div class="container grid grid-2">
     <div>
@@ -306,6 +315,7 @@
   </div>
 </section>
 
+<!-- FOOTER (ponechává tvůj vzhled) -->
 <footer>
   <div class="container footer-wrap">
     <div class="footer-left">
@@ -333,18 +343,7 @@
 </script>
 
 <script>
-  // změna stylu topbaru při scrollu
-  (function(){
-    const el = document.querySelector('.topbar');
-    if(!el) return;
-    const onScroll = () => { if(window.scrollY > 10){ el.classList.add('scrolled'); } else { el.classList.remove('scrolled'); } };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-  })();
-</script>
-
-<script>
-  // Dropdown pro položku "Služby" – ukáže subnav když se hover/focusuje menu
+  // Submenu pro položku "Služby" – ukáže subnav při hoveru/focusu
   (function(){
     const menu = document.querySelector('.menu');
     const subnav = document.querySelector('.services-subnav');
@@ -354,7 +353,7 @@
     const hide = ()=>{ hoverTimer = setTimeout(()=> subnav.classList.remove('show'), 120); };
     menu.addEventListener('mouseover', (e)=>{
       const t = e.target;
-      if(t && t.matches('a[href$="sluzby.html"], a[aria-current="page"]')) show();
+      if(t && (t.matches('a[href$="sluzby.html"]') || t.getAttribute('aria-current') === 'page')) show();
     });
     menu.addEventListener('mouseout', hide);
     subnav.addEventListener('mouseover', show);
