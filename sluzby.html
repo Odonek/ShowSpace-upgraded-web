@@ -1,30 +1,47 @@
 <!doctype html>
 <html lang="cs">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <title>Služby – ShowSpace</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;500;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Virtuální prohlídky, marketing, správa sociálních sítí a tvorba webu. Transparentně, rychle, s měřitelným výsledkem." />
+  <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;500;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Doplňky k vašemu styles.css – můžete přesunout do styles.css */
+    .subtle { color: var(--muted); }
+    .grid-4 { display:grid;grid-template-columns:repeat(4,1fr);gap:22px }
+    @media (max-width:1100px){ .grid-4{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width:700px){ .grid-4{grid-template-columns:1fr} }
+
+    /* Styl inspirovaný visiblevision.cz: čisté lehké karty bez ceníků */
+    .service-card{background:#fff;border:1px solid #eef0f3;border-radius:18px;padding:22px 20px;box-shadow:0 6px 20px rgba(0,0,0,.06);transition:transform .18s ease, box-shadow .18s ease}
+    .service-card:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(0,0,0,.12)}
+    .service-card h3{font-size:1.25rem;margin:0 0 8px;color:var(--slate)}
+    .service-card .subtle{margin:0 0 12px}
+    .service-card .service-list{margin:0 0 16px;padding-left:18px}
+    .service-card .service-list li{margin:6px 0}
+    .service-card .btn{align-self:flex-start}
+  </style>
 </head>
 <body>
 
 <nav>
   <div class="container nav-inner">
-  <a class="logo" href="index.html">
-  <img src="logonahoruvlevo1.png" alt="ShowSpace logo">
-</a>
+    <a class="logo" href="index.html">
+      <img src="logonahoruvlevo1.png" alt="ShowSpace logo" />
+    </a>
 
     <div class="menu">
       <a href="index.html">Domů</a>
-      <a href="sluzby.html">Služby</a>
+      <a href="sluzby.html" aria-current="page">Služby</a>
       <a href="galerie.html">Galerie</a>
-     
     </div>
+
     <div class="nav-right">
-      <div class="nav-social">
-        <a href="https://facebook.com/showspace" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2v-3h2v-2c0-2 1.2-3 3-3 .9 0 1.8.1 1.8.1v2h-1c-1 0-1.3.6-1.3 1.2V12h2.5l-.4 3h-2.1v7A10 10 0 0 0 22 12"/></svg></a>
-        <a href="https://instagram.com/showspace" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg></a>
+      <div class="nav-social" aria-label="Sociální sítě">
+        <a href="https://facebook.com/showspace" target="_blank" aria-label="Facebook" rel="noopener"><svg viewBox="0 0 24 24" role="img" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2v-3h2v-2c0-2 1.2-3 3-3 .9 0 1.8.1 1.8.1v2h-1c-1 0-1.3.6-1.3 1.2V12h2.5l-.4 3h-2.1v7A10 10 0 0 0 22 12"/></svg></a>
+        <a href="https://instagram.com/showspace" target="_blank" aria-label="Instagram" rel="noopener"><svg viewBox="0 0 24 24" role="img" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg></a>
       </div>
       <a href="#kontakt" class="btn btn--accent">Kontakt</a>
     </div>
@@ -34,31 +51,62 @@
 <header class="section">
   <div class="container">
     <h1>Co pro vás uděláme</h1>
-    <p class="lead">Od zaměření a focení až po nasazení na web a Google. Transparentně, rychle, s měřitelným výsledkem.</p>
+    <p class="lead">Nabízíme přesně ty služby, které jste uvedl: virtuální prohlídky, marketing, správu sociálních sítí a tvorbu webu. Bez balíčků a ceníků.</p>
   </div>
 </header>
 
+<!-- JEN 4 SLUŽBY -->
 <section class="section section--alt">
-  <div class="container grid grid-3">
-    <div class="card">
-      <h3>Virtuální prohlídky (Matterport/360)</h3>
-      <p><strong>Vhodné pro:</strong> reality, showroomy, hotely, restaurace…</p>
-      <ul>
-        <li>Plánování a scénář trasy</li><li>Snímání + postprodukce</li>
-        <li>Hotspoty, tagy, měření</li><li>Publikace na web & Google Maps</li>
-      </ul>
-      <p><strong>Cena od:</strong> XY Kč / m², min. ABC Kč</p>
-    </div>
-    <div class="card">
-      <h3>Google Street View pro firmy</h3>
-      <p>Propojení interiéru s Mapami Google a firemním profilem.</p>
-      <ul><li>Validace a napojení GBP</li><li>360° snímky + propojení</li><li>Odevzdání a kontrola viditelnosti</li></ul>
-      <p><strong>Cena od:</strong> …</p>
-    </div>
-    <div class="card">
-      <h3>Focení & video (doplněk)</h3>
-      <p>Fotky exteriér/interiér, krátké reels, dron.</p>
-      <ul><li>Rychlý výběr a úpravy</li><li>Dodání do 48 h (expres po dohodě)</li></ul>
+  <div class="container">
+    <div class="grid-4">
+      <!-- Virtuální prohlídky -->
+      <article class="service-card">
+        <h3>Virtuální prohlídky (Matterport / 360)</h3>
+        <p class="subtle">Pro reality, showroomy, hotely a gastro.</p>
+        <ul class="service-list">
+          <li>Plánování a scénář trasy</li>
+          <li>Snímání a postprodukce</li>
+          <li>Hotspoty, tagy, měření</li>
+          <li>Publikace na web a Google Mapy</li>
+        </ul>
+        <a class="btn btn--primary" href="#kontakt">Nezávazně poptat</a>
+      </article>
+
+      <!-- Marketing & PPC -->
+      <article class="service-card">
+        <h3>Marketing &amp; PPC kampaně</h3>
+        <p class="subtle">Kampaně, které přivedou poptávky.</p>
+        <ul class="service-list">
+          <li>Google Ads a Meta Ads</li>
+          <li>Retargeting a měření konverzí</li>
+          <li>Pravidelné reporty</li>
+        </ul>
+        <a class="btn btn--primary" href="#kontakt">Chci nabídku</a>
+      </article>
+
+      <!-- Správa sociálních sítí -->
+      <article class="service-card">
+        <h3>Správa sociálních sítí</h3>
+        <p class="subtle">Obsah a komunita bez starostí.</p>
+        <ul class="service-list">
+          <li>Redakční plán, foto a krátká videa</li>
+          <li>Moderace komentářů a zpráv</li>
+          <li>Boosting příspěvků</li>
+        </ul>
+        <a class="btn btn--primary" href="#kontakt">Domluvit schůzku</a>
+      </article>
+
+      <!-- Tvorba webu -->
+      <article class="service-card">
+        <h3>Tvorba webu</h3>
+        <p class="subtle">Rychlé a hezké weby, které prodávají.</p>
+        <ul class="service-list">
+          <li>Jednostránkové i vícestránkové weby</li>
+          <li>SEO základy a měření (GA4, Meta, Ads)</li>
+          <li>Napojení na rezervační systémy</li>
+        </ul>
+        <a class="btn btn--primary" href="#kontakt">Probrat projekt</a>
+      </article>
     </div>
   </div>
 </section>
@@ -67,40 +115,33 @@
   <div class="container">
     <h2>Jak probíhá spolupráce</h2>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px">
-      <div class="card"><strong>1/ Konzultace</strong><br>Zadání, cíl, termín, rozpočet.</div>
-      <div class="card"><strong>2/ Snímání</strong><br>Na místě 1–3 h dle velikosti.</div>
-      <div class="card"><strong>3/ Postprodukce</strong><br>Editace, tagy, měření, publikace.</div>
-      <div class="card"><strong>4/ Nasazení & report</strong><br>Embed na web, podklady pro sítě, základní statistiky.</div>
+      <div class="card"><strong>1/ Konzultace</strong><br />Zadání, cíl, termín, rozpočet.</div>
+      <div class="card"><strong>2/ Snímání / příprava</strong><br />Na místě 1–3 h dle velikosti / struktura kampaní.</div>
+      <div class="card"><strong>3/ Postprodukce / spuštění</strong><br />Editace, tagy, měření, publikace / start kampaní.</div>
+      <div class="card"><strong>4/ Nasazení &amp; report</strong><br />Embed na web, podklady pro sítě, statistiky a doporučení.</div>
     </div>
   </div>
 </section>
 
 <section id="kontakt" class="section section--alt">
   <div class="container grid grid-2">
-    <!-- Levá část: text a údaje -->
     <div>
       <h2>Kontaktujte nás</h2>
-      <p class="lead">Ozveme se ještě dnes s orientační cenou a termínem.</p>
-      <p><strong>ShowSpace</strong><br>
-        Tel: <a href="tel:+420123456789">+420 123 456 789</a><br>
+      <p class="lead">Ozveme se ještě dnes.</p>
+      <p><strong>ShowSpace</strong><br />
+        Tel: <a href="tel:+420123456789">+420 123 456 789</a><br />
         E-mail: <a href="mailto:info@showspace.cz">info@showspace.cz</a></p>
-      <p>IČO: 23631741<br>
-         DIČ: CZ23631741<br>
-         Sídlo: Petrusova 2213/15, Předměstí, 56802 Svitavy<br>
+      <p>IČO: 23631741<br />
+         DIČ: CZ23631741<br />
+         Sídlo: Petrusova 2213/15, Předměstí, 56802 Svitavy<br />
          Spisová značka: C 55194 vedená u Krajského soudu v Hradci Králové</p>
-      <div class="kpis">
-        <div class="kpi"></div>
-        <div class="kpi"></div>
-        <div class="kpi"></div>
-      </div>
     </div>
 
-    <!-- Pravá část: formulář -->
     <div>
       <form class="form" action="https://formspree.io/f/yourendpoint" method="POST">
-        <input name="jmeno" placeholder="Jméno a příjmení" required>
-        <input name="email" type="email" placeholder="E-mail" required>
-        <input name="telefon" placeholder="Telefon">
+        <input name="jmeno" placeholder="Jméno a příjmení" required />
+        <input name="email" type="email" placeholder="E-mail" required />
+        <input name="telefon" placeholder="Telefon" />
         <textarea name="zprava" rows="4" placeholder="Stručně popište projekt (m², typ prostoru, lokalita)"></textarea>
         <button class="btn btn--accent" type="submit">Odeslat poptávku</button>
         <small class="help">Odesláním souhlasíte se zpracováním údajů pro vyřízení poptávky.</small>
@@ -109,34 +150,20 @@
   </div>
 </section>
 
-  
-
-<!-- Globální footer s formulářem -->
 <footer>
-  
   <div class="container" style="padding:16px 0;opacity:.75;font-size:.9rem">© ShowSpace <span id="y"></span></div>
   <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
 </footer>
 
 <!-- Tlačítko nahoru -->
 <div id="toTop" title="Zpět nahoru">↑</div>
-
 <script>
-  // zobrazí tlačítko po scrollu
   const toTop = document.getElementById("toTop");
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 200) {
-      toTop.classList.add("show");
-    } else {
-      toTop.classList.remove("show");
-    }
+    if (window.scrollY > 200) { toTop.classList.add("show"); } else { toTop.classList.remove("show"); }
   });
-
-  // posun nahoru po kliknutí
-  toTop.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
+  toTop.addEventListener("click", () => { window.scrollTo({ top: 0, behavior: "smooth" }); });
 </script>
-  
+
 </body>
 </html>
