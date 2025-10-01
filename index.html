@@ -130,7 +130,7 @@
   </div>
 </section>
 
-<!-- VIRTUÁLNÍ PROHLÍDKA – fullscreen, vždy 3 karty, background se mění -->
+<!-- VIRTUÁLNÍ PROHLÍDKA – fullscreen loop, vždy 3 karty, background se mění -->
 <section id="vtour">
   <div class="container">
     <div class="vt-copy">
@@ -328,65 +328,104 @@
 </script>
 
 <script>
-/* VTOUR – přesně 3 karty viditelné, posun šipkami, background podle karty */
+/* VTOUR – loop, přesně 3 karty viditelné, pozadí podle první viditelné */
 (() => {
   const root    = document.getElementById('vtour'); if (!root) return;
   const vp      = root.querySelector('.vt-viewport');
   const strip   = root.querySelector('.vt-strip');
   const prevBtn = root.querySelector('.vt-prev');
   const nextBtn = root.querySelector('.vt-next');
-  const cards   = [...root.querySelectorAll('.vt-card')];
 
-  let i = 0; // index prvního viditelného
+  // uložíme originální karty (bez klonů)
+  const original = [...strip.children];
+  let cards = [];         // sem budeme držet aktuální (včetně klonů)
+  let i = 0;              // index "první viditelné" v rámci stripu (včetně klonů)
+  let vis = 3;            // aktuální počet viditelných
+
+  const cssVar = v => parseInt(getComputedStyle(root).getPropertyValue(v),10);
   const gap = () => parseFloat(getComputedStyle(root).getPropertyValue('--gap')) || 16;
-  const visible = () => parseInt(getComputedStyle(root).getPropertyValue('--visible'), 10) || 3;
 
   function stepWidth() {
-    // šířka jedné karty + mezera (kromě poslední) = krok posunu
-    const c0 = cards[0];
-    if (!c0) return 0;
+    const c0 = cards[0]; if (!c0) return 0;
     const w = c0.getBoundingClientRect().width;
     return w + gap();
   }
 
-  function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
-
-  function setBg(fromCardIndex){
-    const c = cards[fromCardIndex];
+  function setBgByIndex(idx){
+    const c = cards[idx];
     const bg = c?.dataset?.bg;
     if (bg) root.style.setProperty('--vtbg', `url("${bg}")`);
   }
 
-  function update(disableAnim=false){
-    const maxI = Math.max(0, cards.length - visible());
-    i = clamp(i, 0, maxI);
+  function rebuildClones() {
+    // vyčisti a vlož originály
+    strip.innerHTML = '';
+    original.forEach(el => strip.appendChild(el));
+    cards = [...strip.children];
 
+    vis = cssVar('--visible') || 3;
+
+    // vytvoř klony -> posledních 'vis' na začátek + prvních 'vis' na konec
+    const headClones = cards.slice(0, vis).map(n => n.cloneNode(true));
+    const tailClones = cards.slice(-vis).map(n => n.cloneNode(true));
+
+    // prepend tail, append head
+    tailClones.forEach(n => strip.insertBefore(n, strip.firstChild));
+    headClones.forEach(n => strip.appendChild(n));
+
+    cards = [...strip.children];
+
+    // start u první reálné karty (po klonech na začátku)
+    i = vis;
+
+    // přesun bez animace
+    update(true);
+
+    // po přestavbě nastav první background
+    setBgByIndex(i);
+  }
+
+  function update(disableAnim=false){
     if (disableAnim) strip.style.transition = 'none';
     const x = -(i * stepWidth());
     strip.style.transform = `translateX(${x}px)`;
     if (disableAnim) requestAnimationFrame(()=> strip.style.transition = '');
-
-    // background podle první viditelné karty
-    setBg(i);
-
-    // stav šipek
-    prevBtn.disabled = (i === 0);
-    nextBtn.disabled = (i >= maxI);
   }
+
+  // po animaci: pokud jsme se posunuli do klonů, "přeskoč" bez animace
+  strip.addEventListener('transitionend', () => {
+    const realCount = original.length;
+    // rozsah reálných indexů = [vis, vis + realCount - 1]
+    if (i >= vis + realCount) {
+      i = vis;            // přeskoč na začátek reálných
+      update(true);
+    } else if (i < vis) {
+      i = vis + realCount - 1; // přeskoč na konec reálných
+      update(true);
+    }
+    setBgByIndex(i);
+  });
 
   prevBtn.addEventListener('click', () => { i--; update(); });
   nextBtn.addEventListener('click', () => { i++; update(); });
 
-  // Reakce na resize / změnu počtu viditelných
-  let rAf; 
+  // klávesnice
+  root.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); i--; update(); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); i++; update(); }
+  });
+  root.tabIndex = 0;
+
+  // rebuild při změně velikosti / kolik je vidět
+  let rAf;
   const onResize = () => {
     if (rAf) cancelAnimationFrame(rAf);
-    rAf = requestAnimationFrame(() => update(true));
+    rAf = requestAnimationFrame(() => rebuildClones());
   };
   window.addEventListener('resize', onResize, { passive: true });
 
-  // Init
-  update(true);
+  // init
+  rebuildClones();
 })();
 </script>
 
