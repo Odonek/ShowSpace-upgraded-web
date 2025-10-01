@@ -28,7 +28,7 @@ h2, h3, h4, h5, h6, .menu a, .btn, .badge { font-weight: 500; }
 
 .container { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
 
-/* NAVBAR */
+/* NAVBAR (stejně jako dřív) */
 nav {
   position: absolute; inset-inline: 0; top: 0; z-index: 100;
   background: transparent; border-bottom: none; transition: background .3s, box-shadow .3s;
@@ -136,16 +136,6 @@ nav {
 .hero h1 { font-size: clamp(32px,4.2vw,56px); margin: 0 0 12px; color: #fff; }
 .hero p  { color: #f1f1f1; margin: 0 0 22px; font-size: clamp(16px,1.6vw,18px); }
 .badge { display: inline-flex; gap: 8px; align-items: center; padding: 6px 12px; border-radius: 999px; background: var(--accent); color: #111; font-size: .85rem; font-weight: 600; margin-bottom: 12px; }
-.hero-card .btn { margin: 6px 6px 0 6px; }
-
-@media (max-width: 780px) {
-  .logo img { height: 56px; }
-  .nav-inner { padding: 0 16px; }
-  .menu { gap: 10px; }
-  .menu a { padding: 6px 10px; }
-  .hero { min-height: 86vh; }
-  .hero-card { padding: 24px; }
-}
 
 /* SECTIONS */
 header.section { padding-top: 140px; }
@@ -171,7 +161,6 @@ header.section { padding-top: 140px; }
 .benefits-center .benefit-number { font-size: 44px; font-weight: 800; color: var(--slate); margin-bottom: 10px; }
 .benefits-center .card h3 { font-size: 20px; font-weight: 600; margin: 0 0 8px; color: var(--slate); }
 .benefits-center .card p  { font-size: 15px; color: var(--muted); margin: 0; }
-@media (max-width: 900px) { .benefits-center { grid-template-columns: 1fr; } }
 
 .about { align-items: center; }
 .about .text { padding: 10px 0; }
@@ -183,10 +172,10 @@ input, textarea { width: 100%; padding: 12px 14px; border: 1px solid #e4e6ea; bo
 input:focus, textarea:focus { outline: 2px solid var(--accent); }
 small.help { color: #999; }
 
-/* === VTOUR — full-screen, 3 karty, velké šipky dole === */
+/* === VTOUR — full-screen, větší karty, zvýraznění středu, šipky dole === */
 #vtour{
   --vtbg: url("CAM05637G0-PR0005-STILL001.jpg");
-  --gap: 18px;
+  --gap: 20px;
   position: relative;
   min-height: 100vh;
   display: grid;
@@ -220,11 +209,15 @@ small.help { color: #999; }
 
 #vtour h2{ color:#fff; font-size: clamp(28px,3.4vw,44px); margin: 0 0 10px; }
 #vtour p.lead{ color:#dfe5ee; max-width: 58ch; }
+
+#vt-copy #vt-title, #vt-copy #vt-desc { transition: opacity .22s ease; }
+#vt-copy.swap-out #vt-title, #vt-copy.swap-out #vt-desc { opacity: 0; }
+
 .tag { padding: 6px 10px; background: var(--slate); border-radius: 999px; color: #fff; font-size: .85rem; }
 
 .vt-media { display:flex; flex-direction:column; align-items:center; gap: 18px; }
 .vt-viewport{
-  width: min(100%, 1120px);
+  width: min(100%, 1200px);
   margin: 0 auto;
   overflow: hidden;
   border-radius: 18px;
@@ -234,18 +227,23 @@ small.help { color: #999; }
   display:flex; gap: var(--gap);
   will-change: transform;
   transition: transform .55s cubic-bezier(.22,.61,.36,1);
-  padding: 6px; /* micro padding, ať se stíny neuseknou */
+  padding: 8px; /* ať se stíny neuseknou */
 }
 .vt-card{
   position: relative; display:block;
-  flex: 0 0 calc((100% - (var(--gap) * (3 - 1))) / 3); /* vždy 3 karty ve viewportu; JS řeší 2/1 na menších zařízeních */
-  height: clamp(320px, 42vh, 420px);
+  flex: 0 0 calc((100% - (var(--gap) * (3 - 1))) / 3); /* šířka pro 3 viditelné karty (JS na menších změní) */
+  height: clamp(380px, 56vh, 560px);                /* větší karty */
   border-radius: 16px; overflow: hidden;
   background: rgba(255,255,255,.06);
   border: 1px solid rgba(255,255,255,.18);
   box-shadow: 0 18px 46px rgba(0,0,0,.35);
   color:#fff;
-  transform: translateZ(0);
+  transform: translateZ(0) scale(.92);
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+.vt-card.is-center{
+  transform: scale(1);
+  box-shadow: 0 28px 76px rgba(0,0,0,.50);
 }
 @media (max-width: 980px){
   .vt-card{ flex: 0 0 calc((100% - (var(--gap) * (2 - 1))) / 2); }
@@ -265,11 +263,11 @@ small.help { color: #999; }
 .vt-meta span{ font-size:.9rem; opacity:.9; }
 
 .vt-controls{
-  display:flex; align-items:center; justify-content:center; gap: 16px;
+  display:flex; align-items:center; justify-content:center; gap: 18px;
 }
 .vt-arrow{
-  width: 56px; height: 56px; border-radius:50%;
-  border:0; cursor:pointer; font-size:28px; line-height:1;
+  width: 64px; height: 64px; border-radius:50%;
+  border:0; cursor:pointer; font-size:32px; line-height:1;
   background: rgba(255,255,255,.96); color:#111;
   box-shadow: 0 10px 28px rgba(0,0,0,.35);
 }
