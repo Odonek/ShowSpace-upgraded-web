@@ -7,6 +7,41 @@
   <meta name="description" content="Virtuální prohlídky, Google Street View, focení a rychlé weby.">
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;500;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* ===== Dropdown pod položkou „Služby“ (doplněk k styles.css) ===== */
+    .menu { position: relative; }
+    .menu-item--has-sub { position: relative; }
+    .menu .menu-toggle {
+      display:inline-flex; align-items:center; gap:8px;
+      font-weight:600; color: var(--slate);
+      padding: 6px 14px; background: rgba(255,255,255,0.9);
+      border:0; border-radius: 999px; box-shadow: 0 2px 6px rgba(0,0,0,.08);
+      cursor:pointer; font-family: var(--font);
+    }
+    .menu .menu-toggle:hover { background: var(--accent); color:#111; }
+    .menu .menu-caret { width: 14px; height: 14px; transition: transform .2s ease; }
+    .menu .menu-toggle[aria-expanded="true"] .menu-caret { transform: rotate(180deg); }
+
+    .submenu {
+      position: absolute; top: calc(100% + 8px); left: 0;
+      display:none; min-width: 240px; padding:10px;
+      background:#fff; border:1px solid #eee; border-radius: 14px;
+      box-shadow: 0 14px 36px rgba(0,0,0,.12); z-index: 200;
+    }
+    .submenu.show { display:block; }
+    .submenu a {
+      display:flex; flex-direction:column; gap:4px;
+      padding:10px 12px; border-radius:10px; font-weight:600; color:var(--ink);
+      background:#fff;
+    }
+    .submenu a:hover { background: #f6f8fb; color: var(--slate); }
+    .submenu .subdesc { font-weight:300; font-size:.9rem; color:var(--muted); }
+
+    @media (max-width: 700px){
+      .submenu { min-width: 200px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -18,9 +53,37 @@
     </a>
 
     <div class="menu">
-      <a href="index.html">Domů</a>
-      <a href="sluzby.html">Služby</a>
-      <a href="galerie.html">Galerie</a>     
+      <a href="index.html" aria-current="page">Domů</a>
+
+      <!-- POLOŽKA S ROZBALOVACÍM MENU „SLUŽBY“ -->
+      <div class="menu-item--has-sub">
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="submenu-sluzby">
+          Služby
+          <svg class="menu-caret" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 10l5 5 5-5z"></path>
+          </svg>
+        </button>
+        <div id="submenu-sluzby" class="submenu" role="menu" aria-label="Podnabídka Služby">
+          <a href="sluzby.html#sluzba-prohlidky" role="menuitem">
+            Virtuální prohlídky
+           
+          </a>
+          <a href="sluzby.html#sluzba-marketing" role="menuitem">
+            Marketing &amp; PPC
+            
+          </a>
+          <a href="sluzby.html#sluzba-social" role="menuitem">
+            Sociální sítě
+            
+          </a>
+          <a href="sluzby.html#sluzba-web" role="menuitem">
+            Tvorba webu
+           
+          </a>
+        </div>
+      </div>
+
+      <a href="galerie.html">Galerie</a>
     </div>
 
     <div class="nav-right">
@@ -233,31 +296,37 @@
 </script>
 
 <script>
+/* Dropdown „Služby“ — toggle na klik, zavření klikem mimo i Escape */
 (() => {
-  const section = document.querySelector('#benefity');
-  if (!section) return;
-  const counters = section.querySelectorAll('.counter');
-  let played = false;
-  function animateCounter(el, target, duration = 1200) {
-    const start = 0; const t0 = performance.now();
-    const tick = (t) => {
-      const p = Math.min((t - t0) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(start + (target - start) * eased);
-      if (p < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }
-  function runCounters() {
-    counters.forEach(el => animateCounter(el, parseInt(el.dataset.target || '0', 10)));
-  }
-  if (!('IntersectionObserver' in window)) { runCounters(); return; }
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting && !played) { played = true; runCounters(); io.disconnect(); }
-    });
-  }, { threshold: 0.25 });
-  io.observe(section);
+  const toggle = document.querySelector('.menu-toggle');
+  const menu = document.getElementById('submenu-sluzby');
+  if(!toggle || !menu) return;
+
+  const open = () => { toggle.setAttribute('aria-expanded','true'); menu.classList.add('show'); };
+  const close = () => { toggle.setAttribute('aria-expanded','false'); menu.classList.remove('show'); };
+  const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+
+  toggle.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    isOpen() ? close() : open();
+  });
+
+  // Zavřít při kliku mimo
+  document.addEventListener('click', (e)=>{
+    if(!isOpen()) return;
+    const within = toggle.contains(e.target) || menu.contains(e.target);
+    if(!within) close();
+  });
+
+  // Zavřít ESC
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape' && isOpen()) { close(); toggle.focus(); }
+  });
+
+  // Klik na položku v dropdownu -> zavřít
+  menu.querySelectorAll('a').forEach(a=>{
+    a.addEventListener('click', ()=> close());
+  });
 })();
 </script>
 
@@ -287,29 +356,24 @@
     });
   };
 
-  // ---- Třídy pro sousedy (kvůli rozmazání/vrstvení v CSS) ----
+  // ---- Třídy pro sousedy ----
   const markNeighbors = (slides, index) => {
     const len = slides.length;
     slides.forEach((s, i) => {
       s.classList.toggle("is-active", i === index);
       s.classList.remove("is-prev","is-next");
     });
-    slides[clamp(index - 1, len)]?.classList.add("is-prev");
-    slides[clamp(index + 1, len)]?.classList.add("is-next");
+    slides[(index - 1 + len) % len]?.classList.add("is-prev");
+    slides[(index + 1) % len]?.classList.add("is-next");
   };
 
   // ---- Lazy-load iframů + doplnění protokolu ----
   const loadIframeAt = (slides, i) => {
     const slide = slides[i]; if (!slide) return;
     const iframe = slide.querySelector("iframe"); if (!iframe) return;
-
     let url = iframe.getAttribute("data-src") || iframe.getAttribute("src") || "";
     if (!url) return;
-
-    // doplníme https:// pokud chybí
     if (!/^https?:\/\//i.test(url)) url = "https://" + url.replace(/^\/+/, "");
-
-    // načti pouze pokud ještě neběží
     if (!iframe.src) iframe.src = url;
   };
 
@@ -329,14 +393,11 @@
     const dots     = root.querySelector(".tc-dots");
     if (!viewport || !track || slides.length === 0) return;
 
-    // ✅ Začni prostředním slide (u 3 je to index 1) — sousedi budou hned vidět
     let index = Math.floor(slides.length / 2);
-
     let dragging = false, sx = 0, cx = 0;
 
-    const goTo = (i) => { index = clamp(i, slides.length); update(); };
+    const goTo = (i) => { index = (i + slides.length) % slides.length; update(); };
 
-    // spočítá posun tak, aby byl vybraný slide přesně uprostřed viewportu
     const centerOffsetFor = (i) => {
       const slide = slides[i]; if (!slide) return 0;
       const vp = viewport.getBoundingClientRect();
@@ -350,31 +411,24 @@
       markNeighbors(slides, index);
       track.style.transform = `translateX(${centerOffsetFor(index)}px)`;
       updateDots(dots, index);
-
-      // lazy-load: aktivní + sousedi
       loadIframeAt(slides, index);
-      loadIframeAt(slides, clamp(index + 1, slides.length));
-      loadIframeAt(slides, clamp(index - 1, slides.length));
+      loadIframeAt(slides, (index + 1) % slides.length);
+      loadIframeAt(slides, (index - 1 + slides.length) % slides.length);
     };
 
-    // start
     buildDots(dots, slides.length, (i) => goTo(i));
     loadIframeAt(slides, index);
     update();
 
-    // šipky
     prev?.addEventListener("click", () => goTo(index - 1));
     next?.addEventListener("click", () => goTo(index + 1));
 
-    // gesta
     track.addEventListener("pointerdown", (e) => {
       dragging = true; sx = cx = e.clientX;
       preventSelect(track, true);
       track.setPointerCapture?.(e.pointerId);
     }, { passive: true });
-    track.addEventListener("pointermove", (e) => {
-      if (dragging) cx = e.clientX;
-    }, { passive: true });
+    track.addEventListener("pointermove", (e) => { if (dragging) cx = e.clientX; }, { passive: true });
     const endDrag = () => {
       if (!dragging) return;
       dragging = false; preventSelect(track, false);
@@ -386,14 +440,12 @@
     track.addEventListener("pointercancel", endDrag);
     track.addEventListener("lostpointercapture", endDrag);
 
-    // klávesnice
     root.tabIndex = 0;
     root.addEventListener("keydown", (e) => {
       if (e.key === "ArrowLeft")  { e.preventDefault(); goTo(index - 1); }
       if (e.key === "ArrowRight") { e.preventDefault(); goTo(index + 1); }
     });
 
-    // přesné dopočítání po resize/font-ready/load
     let raf = null;
     const requestUpdate = () => {
       if (raf) cancelAnimationFrame(raf);
@@ -404,11 +456,9 @@
     window.addEventListener("load", requestUpdate, { once: true });
   };
 
-  // Spusť pro všechny peek karusely
   document.querySelectorAll(".tour-carousel.tour-peek").forEach(initPeek);
 })();
 </script>
-
 
 </body>
 </html>
