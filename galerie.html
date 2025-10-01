@@ -9,24 +9,48 @@
 </head>
 <body>
 
+<!-- NAVBAR -->
 <nav>
   <div class="container nav-inner">
     <a class="logo" href="index.html">
-  <img src="logonahoruvlevo1.png" alt="ShowSpace logo">
-</a>
+      <img src="logonahoruvlevo1.png" alt="ShowSpace logo">
+    </a>
 
     <div class="menu">
-      <a href="index.html">Domů</a>
-      <a href="sluzby.html">Služby</a>
+      <a href="index.html" aria-current="page">Domů</a>
+
+      <!-- „Služby“ – stejné rozměry jako ostatní -->
+      <div class="menu-item--has-sub">
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="submenu-sluzby">
+          Služby
+          <svg class="menu-caret" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5z"></path></svg>
+        </button>
+        <div id="submenu-sluzby" class="submenu" role="menu" aria-label="Podnabídka Služby">
+          <a href="sluzby.html#sluzba-prohlidky" role="menuitem">Virtuální prohlídky</a>
+          <a href="sluzby.html#sluzba-marketing" role="menuitem">Marketing &amp; PPC</a>
+          <a href="sluzby.html#sluzba-social" role="menuitem">Sociální sítě</a>
+          <a href="sluzby.html#sluzba-web" role="menuitem">Tvorba webu</a>
+        </div>
+      </div>
+
       <a href="galerie.html">Galerie</a>
-      
     </div>
+
     <div class="nav-right">
       <div class="nav-social">
-        <a href="https://facebook.com/showspace" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2v-3h2v-2c0-2 1.2-3 3-3 .9 0 1.8.1 1.8.1v2h-1c-1 0-1.3.6-1.3 1.2V12h2.5l-.4 3h-2.1v7A10 10 0 0 0 22 12"/></svg></a>
-        <a href="https://instagram.com/showspace" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg></a>
-        </div>
-     <a href="#kontakt" class="btn btn--accent">Kontakt</a>
+        <a href="https://facebook.com/showspace" target="_blank" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2v-3h2v-2c0-2 1.2-3 3-3 .9 0 1.8.1 1.8.1v2h-1c-1 0-1.3.6-1.3 1.2V12h2.5l-.4 3h-2.1v7A10 10 0 0 0 22 12"/></svg>
+        </a>
+        <a href="https://www.instagram.com/showspace.cz/" target="_blank" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@show.space360" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+            <path d="M21 8.5a7.5 7.5 0 0 1-4.6-1.6v7.6a5.5 5.5 0 1 1-5.5-5.5c.2 0 .4 0 .6.1v2.6a2.9 2.9 0 1 0 2.9 2.9V2h2.2c.3 1.2 1 2.3 1.9 3.1A5.3 5.3 0 0 0 21 6.5v2z"/>
+          </svg>
+        </a>
+      </div>
+      <a href="#kontakt" class="btn btn--accent">Kontakt</a>
     </div>
   </div>
 </nav>
@@ -66,46 +90,106 @@
   </div>
 </section>
 
-<section id="kontakt" class="section section--alt">
-  <div class="container grid grid-2">
-    <!-- Levá část: text a údaje -->
-    <div>
+<!-- KONTAKT – dvě karty -->
+<section id="kontakt" class="section contact">
+  <div class="container contact-grid">
+
+    <!-- INFO KARTA -->
+    <div class="contact-card contact-info">
       <h2>Kontaktujte nás</h2>
       <p class="lead">Ozveme se ještě dnes s orientační cenou a termínem.</p>
-      <p><strong>ShowSpace</strong><br>
-        Tel: <a href="tel:+420123456789">+420 123 456 789</a><br>
-        E-mail: <a href="mailto:info@showspace.cz">info@showspace.cz</a></p>
-      <p>IČO: 23631741<br>
-         DIČ: CZ23631741<br>
-         Sídlo: Petrusova 2213/15, Předměstí, 56802 Svitavy<br>
-         Spisová značka: C 55194 vedená u Krajského soudu v Hradci Králové</p>
-      <div class="kpis">
-        <div class="kpi"></div>
-        <div class="kpi"></div>
-        <div class="kpi"></div>
-      </div>
+
+      <ul class="contact-list">
+        <li class="contact-item">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.3 1 .3 2 .5 3 .6.6.1 1 .6 1 1.2V20a2 2 0 0 1-2.2 2 18 18 0 0 1-16-16A2 2 0 0 1 4 3h3.1c.6 0 1.1.4 1.2 1 .1 1 .3 2 .6 3 .1.4 0 .8-.3 1.1l-2 2.2z"/></svg>
+          </div>
+          <div>
+            <strong>Telefon</strong>
+            <a href="tel:+420123456789">+420 123 456 789</a>
+          </div>
+        </li>
+
+        <li class="contact-item">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 3-8 5L4 7V6l8 5 8-5v1z"/></svg>
+          </div>
+          <div>
+            <strong>E-mail</strong>
+            <a href="mailto:info@showspace.cz">info@showspace.cz</a>
+          </div>
+        </li>
+
+        <li class="contact-item">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+          </div>
+          <div>
+            <strong>Sídlo</strong>
+            Petrusova 2213/15, 56802 Svitavy
+          </div>
+        </li>
+
+        <li class="contact-item">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></svg>
+          </div>
+          <div>
+            <strong>Fakturační údaje</strong>
+            IČO: 23631741 • DIČ: CZ23631741<br>
+            Spisová značka: C 55194, KS Hradec Králové
+          </div>
+        </li>
+      </ul>
     </div>
 
-    <!-- Pravá část: formulář -->
-    <div>
-      <form class="form" action="https://formspree.io/f/yourendpoint" method="POST">
-        <input name="jmeno" placeholder="Jméno a příjmení" required>
-        <input name="email" type="email" placeholder="E-mail" required>
-        <input name="telefon" placeholder="Telefon">
-        <textarea name="zprava" rows="4" placeholder="Stručně popište projekt (m², typ prostoru, lokalita)"></textarea>
-        <button class="btn btn--accent" type="submit">Odeslat poptávku</button>
-        <small class="help">Odesláním souhlasíte se zpracováním údajů pro vyřízení poptávky.</small>
+    <!-- FORM KARTA -->
+    <div class="contact-card contact-form">
+      <h2>Napište nám</h2>
+      <form action="https://formspree.io/f/yourendpoint" method="POST">
+        <div class="form-grid">
+          <input class="full" name="jmeno" placeholder="Jméno a příjmení" required>
+          <input name="email" type="email" placeholder="E-mail" required>
+          <input name="telefon" placeholder="Telefon">
+          <textarea class="full" name="zprava" rows="5" placeholder="Stručně popište projekt"></textarea>
+        </div>
+
+        <div style="display:flex; gap:12px; align-items:center; margin-top:10px;">
+          <button class="btn btn--accent" type="submit">Odeslat poptávku</button>
+          <small class="help">Odesláním souhlasíte se zpracováním údajů pro vyřízení poptávky.</small>
+        </div>
       </form>
     </div>
+
   </div>
 </section>
-  
-<footer>
-  
-  <div class="container" style="padding:16px 0;opacity:.75;font-size:.9rem">© ShowSpace <span id="y"></span></div>
-  <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
-</footer>
 
+<!-- FOOTER -->
+<footer>
+  <div class="container footer-wrap">
+    <div class="footer-left">
+      © ShowSpace <span id="y"></span> • <a href="gdpr.html">Zásady ochrany osobních údajů</a>
+    </div>
+    <div class="footer-social" aria-label="Sociální sítě">
+      <a href="https://facebook.com/showspace" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+          <path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2v-3h2v-2c0-2 1.2-3 3-3 .9 0 1.8.1 1.8.1v2h-1c-1 0-1.3.6-1.3 1.2V12h2.5l-.4 3h-2.1v7A10 10 0 0 0 22 12"/>
+        </svg>
+      </a>
+      <a href="https://www.instagram.com/showspace.cz/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+          <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/>
+        </svg>
+      </a>
+      <a href="https://www.tiktok.com/@show.space360" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+          <path d="M21 8.5a7.5 7.5 0 0 1-4.6-1.6v7.6a5.5 5.5 0 1 1-5.5-5.5c.2 0 .4 0 .6.1v2.6a2.9 2.9 0 1 0 2.9 2.9V2h2.2c.3 1.2 1 2.3 1.9 3.1A5.3 5.3 0 0 0 21 6.5v2z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+</footer>
 <!-- Tlačítko nahoru -->
 <div id="toTop" title="Zpět nahoru">↑</div>
 
