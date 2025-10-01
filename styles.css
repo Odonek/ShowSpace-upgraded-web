@@ -111,7 +111,6 @@ nav {
 .hero h1 { font-size: clamp(32px,4.2vw,56px); margin: 0 0 12px; color: #fff; }
 .hero p  { color: #f1f1f1; margin: 0 0 22px; font-size: clamp(16px,1.6vw,18px); }
 .badge { display: inline-flex; gap: 8px; align-items: center; padding: 6px 12px; border-radius: 999px; background: var(--accent); color: #111; font-size: .85rem; font-weight: 600; margin-bottom: 12px; }
-.hero-card .btn { margin: 6px 6px 0 6px; }
 
 @media (max-width: 780px) {
   .logo img { height: 56px; }
@@ -158,13 +157,16 @@ input, textarea { width: 100%; padding: 12px 14px; border: 1px solid #e4e6ea; bo
 input:focus, textarea:focus { outline: 2px solid var(--accent); }
 small.help { color: #999; }
 
-/* ====== VIRTUÁLNÍ PROHLÍDKY – 3 viditelné karty, posun o 1, měnící pozadí ====== */
+/* ====== VIRTUÁLNÍ PROHLÍDKY – fullscreen, 3 viditelné karty ====== */
 #vtour{
-  --vtbg: url("CAM05637G0-PR0005-STILL001.jpg"); /* výchozí pozadí */
+  --vtbg: url("CAM05637G0-PR0005-STILL001.jpg");   /* výchozí pozadí */
   --gap: 16px;
-  --visible: 3; /* desktop 3, níž přepíšeme */
+  --visible: 3;                                    /* desktop 3, níž přepíšeme */
+  --vp-max: 980px;                                 /* max šířka viewportu pro karty */
   position: relative;
-  padding: clamp(50px, 9vw, 90px) 0;
+  min-height: 100vh;                               /* celá obrazovka */
+  display: grid; place-items: center;              /* vertikální centrování obsahu */
+  padding: clamp(28px, 4vw, 40px) 0;
   color: #fff;
   background: #0f1115;
   overflow: hidden;
@@ -207,9 +209,11 @@ small.help { color: #999; }
 
 .vt-viewport{
   width: 100%;
-  overflow: hidden;
+  max-width: var(--vp-max);                       /* aby se nevešlo víc než 3 karty */
+  overflow: hidden;                               /* schová mimo záběr */
   position: relative;
   border-radius: 18px;
+  margin-inline: auto;
 }
 .vt-strip{
   display:flex; gap: var(--gap);
@@ -259,11 +263,11 @@ small.help { color: #999; }
 
 @media (max-width: 980px){
   #vtour .container { grid-template-columns: 1fr; }
-  #vtour{ --visible: 2; }
+  #vtour{ --visible: 2; --vp-max: 680px; }
   .vt-play{ width:64px; height:64px; font-size:24px; }
 }
 @media (max-width: 640px){
-  #vtour{ --visible: 1; }
+  #vtour{ --visible: 1; --vp-max: 420px; }
 }
 
 /* ============ FOOTER ============ */
