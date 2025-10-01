@@ -7,37 +7,6 @@
   <meta name="description" content="Marketing, sociální sítě, focení a rychlé weby.">
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;500;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-
-  <style>
-    /* drobný doplněk pro dropdown v navigaci */
-    .menu { position: relative; }
-    .menu-item--has-sub { position: relative; }
-    .menu .menu-toggle {
-      display:inline-flex; align-items:center; gap:8px;
-      font-weight:600; color: var(--slate);
-      padding: 6px 14px; background: rgba(255,255,255,0.9);
-      border:0; border-radius: 999px; box-shadow: 0 2px 6px rgba(0,0,0,.08);
-      cursor:pointer; font-family: var(--font);
-    }
-    .menu .menu-toggle:hover { background: var(--accent); color:#111; }
-    .menu .menu-caret { width: 14px; height: 14px; transition: transform .2s ease; }
-    .menu .menu-toggle[aria-expanded="true"] .menu-caret { transform: rotate(180deg); }
-
-    .submenu {
-      position: absolute; top: calc(100% + 8px); left: 0;
-      display:none; min-width: 240px; padding:10px;
-      background:#fff; border:1px solid #eee; border-radius: 14px;
-      box-shadow: 0 14px 36px rgba(0,0,0,.12); z-index: 200;
-    }
-    .submenu.show { display:block; }
-    .submenu a {
-      display:flex; flex-direction:column; gap:4px;
-      padding:10px 12px; border-radius:10px; font-weight:600; color:var(--ink);
-      background:#fff;
-    }
-    .submenu a:hover { background: #f6f8fb; color: var(--slate); }
-    @media (max-width: 700px){ .submenu { min-width: 200px; } }
-  </style>
 </head>
 <body>
 
@@ -54,11 +23,10 @@
       <div class="menu-item--has-sub">
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="submenu-sluzby">
           Služby
-          <svg class="menu-caret" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M7 10l5 5 5-5z"></path>
-          </svg>
+          <svg class="menu-caret" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5z"></path></svg>
         </button>
         <div id="submenu-sluzby" class="submenu" role="menu" aria-label="Podnabídka Služby">
+          <a href="sluzby.html#sluzba-prohlidky" role="menuitem">Virtuální prohlídky</a>
           <a href="sluzby.html#sluzba-marketing" role="menuitem">Marketing &amp; PPC</a>
           <a href="sluzby.html#sluzba-social" role="menuitem">Sociální sítě</a>
           <a href="sluzby.html#sluzba-web" role="menuitem">Tvorba webu</a>
@@ -130,9 +98,11 @@
   </div>
 </section>
 
-<!-- VIRTUÁLNÍ PROHLÍDKY: fullscreen, 3 viditelné karty, nekonečná smyčka -->
-<section id="vtour" aria-roledescription="carousel">
-  <div class="container vt-inner">
+<!-- VIRTUÁLNÍ PROHLÍDKA – full-screen, 3 karty, nekonečný loop -->
+<section id="vtour" aria-label="Virtuální prohlídky">
+  <div class="vt-overlay"></div>
+
+  <div class="container vt-grid">
     <div class="vt-copy">
       <span class="tag">Virtuální prohlídky</span>
       <h2>Houseboat Praha</h2>
@@ -141,69 +111,55 @@
         otevře prohlídka v nové záložce. Pozadí se mění podle prostřední karty.
       </p>
       <p>
-        <a class="btn btn--accent" target="_blank" rel="noopener"
-           href="https://tour.giraffe360.com/houseboat-prague-vltava/">Otevřít ukázkovou prohlídku</a>
-        &nbsp; <a class="btn btn--outline" href="#kontakt">Chci nabídku</a>
+        <a class="btn btn--accent" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">Otevřít ukázkovou prohlídku</a>
+        <a class="btn btn--outline" href="#kontakt">Chci nabídku</a>
       </p>
     </div>
 
     <div class="vt-media">
-      <button class="vt-arrow vt-prev" aria-label="Předchozí">‹</button>
-
-      <div class="vt-viewport" aria-live="polite">
+      <div class="vt-viewport">
         <div class="vt-strip">
-          <!-- 8 karet (všechny s tvým odkazem) -->
-          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL001.jpg"
-             href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+          <!-- 8 originálních karet (JS si z nich postaví nekonečný loop) -->
+          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL001.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
             <img src="CAM05637G0-PR0005-STILL001.jpg" alt="Ukázka 1">
             <div class="vt-meta"><strong>Houseboat Praha</strong><span>Virtuální prohlídka</span></div>
           </a>
-
-          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL002.jpg"
-             href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL002.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
             <img src="CAM05637G0-PR0005-STILL002.jpg" alt="Ukázka 2">
-            <div class="vt-meta"><strong>Interiér</strong><span>Ukázka z tour</span></div>
+            <div class="vt-meta"><strong>Interiér 1</strong><span>Ukázka z tour</span></div>
           </a>
-
-          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL003.jpg"
-             href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL003.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
             <img src="CAM05637G0-PR0005-STILL003.jpg" alt="Ukázka 3">
+            <div class="vt-meta"><strong>Interiér 2</strong><span>Ukázka z tour</span></div>
+          </a>
+          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL004.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+            <img src="CAM05637G0-PR0005-STILL004.jpg" alt="Ukázka 4">
             <div class="vt-meta"><strong>Detail</strong><span>Ukázka z tour</span></div>
           </a>
-
-          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL004.jpg"
-             href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL004.jpg" alt="Ukázka 4">
-            <div class="vt-meta"><strong>Kuchyně</strong><span>Ukázka z tour</span></div>
-          </a>
-
-          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL005.jpg"
-             href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL005.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
             <img src="CAM05637G0-PR0005-STILL005.jpg" alt="Ukázka 5">
             <div class="vt-meta"><strong>Exteriér</strong><span>Ukázka z tour</span></div>
           </a>
-
-          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL006.jpg"
-             href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL006.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
             <img src="CAM05637G0-PR0005-STILL006.jpg" alt="Ukázka 6">
             <div class="vt-meta"><strong>Ložnice</strong><span>Ukázka z tour</span></div>
           </a>
-
-          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL007.jpg"
-             href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL007.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
             <img src="CAM05637G0-PR0005-STILL007.jpg" alt="Ukázka 7">
             <div class="vt-meta"><strong>Salon</strong><span>Ukázka z tour</span></div>
           </a>
-
-          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL003.jpg"
-             href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL003.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
             <img src="CAM05637G0-PR0005-STILL003.jpg" alt="Ukázka 8">
-            <div class="vt-meta"><strong>Terasa</strong><span>Ukázka z tour</span></div>
+            <div class="vt-meta"><strong>Kuchyně</strong><span>Ukázka z tour</span></div>
           </a>
         </div>
       </div>
 
-      <button class="vt-arrow vt-next" aria-label="Další">›</button>
+      <!-- velké šipky pod karuselem -->
+      <div class="vt-controls">
+        <button class="vt-arrow vt-prev" aria-label="Předchozí">‹</button>
+        <button class="vt-arrow vt-next" aria-label="Další">›</button>
+      </div>
     </div>
   </div>
 </section>
@@ -219,8 +175,11 @@
         Jsme parta studentů Provozně ekonomické fakulty Mendelovy univerzity, kteří jsou zapálení do moderních technologií, marketingu a realitního trhu.
         Pomáháme podnikům i majitelům nemovitostí najít ty správné zájemce.
       </p>
-      <p>Snažíme se, aby celý proces byl co nejjednodušší a zároveň co nejefektivnější.</p>
-      <p>Víme, že čas je drahý, proto za vás kompletně zajistíme všechny služby.</p>
+
+      <p>Snažíme se, aby celý proces, ať už jde o prodej či pronájem nemovitostí, nebo získávání nových zákazníků pro váš byznys,
+        byl co nejjednodušší a zároveň co nejefektivnější.</p>
+
+      <p>Víme, že čas je drahý, proto za vás kompletně zajistíme všechny služby, abyste se mohli soustředit na to, co umíte nejlépe.</p>
 
       <div class="kpis">
         <div class="kpi">PPC & kampaně</div>
@@ -309,7 +268,7 @@
 </script>
 
 <script>
-/* Dropdown menu */
+/* Dropdown „Služby“ */
 (() => {
   const toggle = document.querySelector('.menu-toggle');
   const menu = document.getElementById('submenu-sluzby');
@@ -327,136 +286,142 @@
 </script>
 
 <script>
-/* Animace čísel v sekci #benefity */
+/* Animace čísel v #benefity */
 (() => {
   const section = document.getElementById('benefity');
   if (!section) return;
   const counters = section.querySelectorAll('.counter');
   if (!counters.length) return;
-  let played = false;
 
+  let played = false;
   function animateCounter(el, target, duration = 1200) {
-    const start = 0, t0 = performance.now();
+    const t0 = performance.now();
     function frame(now) {
       const p = Math.min((now - t0) / duration, 1);
       const eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(start + (target - start) * eased);
+      el.textContent = Math.round(target * eased);
       if (p < 1) requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
   }
-  function run(){ counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0',10) || 0)); }
+
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduceMotion) { counters.forEach(c => c.textContent = c.dataset.target || c.textContent); return; }
+
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting && !played) { played = true; run(); io.disconnect(); }});
+      entries.forEach(e => {
+        if (e.isIntersecting && !played) {
+          played = true;
+          counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0', 10) || 0));
+          io.disconnect();
+        }
+      });
     }, { threshold: 0.25 });
     io.observe(section);
-  } else { run(); }
+  } else {
+    counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0', 10) || 0));
+  }
 })();
 </script>
 
 <script>
-/* VTOUR – 3 viditelné, fullscreen, nekonečná smyčka + měnící se pozadí */
+/* VTOUR — nekonečná karuselová logika + měnící se pozadí */
 (() => {
-  const root   = document.getElementById('vtour');
-  const strip  = root.querySelector('.vt-strip');
-  const view   = root.querySelector('.vt-viewport');
-  const prev   = root.querySelector('.vt-prev');
-  const next   = root.querySelector('.vt-next');
+  const root = document.getElementById('vtour');
+  if (!root) return;
 
-  // Počet karet viditelných naráz (stejný jako v CSS)
-  let visible = 3;
+  const viewport = root.querySelector('.vt-viewport');
+  const strip    = root.querySelector('.vt-strip');
+  const nextBtn  = root.querySelector('.vt-next');
+  const prevBtn  = root.querySelector('.vt-prev');
 
-  const getGap = () => parseFloat(getComputedStyle(strip).gap) || 0;
+  // uložíme si originální karty (bez klonů)
+  const originals = [...strip.querySelectorAll('.vt-card')];
+  let current = 0;          // index prostřední karty v rámci "reálného" pole
+  let visible = 3;          // 3 / 2 / 1 podle šířky
+  let cards = [];           // aktuální DOM karty včetně klonů
 
-  // Původní karty
-  let items = Array.from(strip.children);
-  const originalCount = items.length;
-
-  // Klony pro loop
-  function buildClones() {
-    // znovu sestavit, když se volá po resize
-    strip.innerHTML = '';
-    items = items.map(n => n.cloneNode(true)); // čistí eventy
-    const firstClones = items.slice(0, visible).map(n => n.cloneNode(true));
-    const lastClones  = items.slice(-visible).map(n => n.cloneNode(true));
-    // pořadí: lastClones | items | firstClones
-    lastClones.forEach(n => strip.appendChild(n));
-    items.forEach(n => strip.appendChild(n));
-    firstClones.forEach(n => strip.appendChild(n));
+  function calcVisible() {
+    if (window.innerWidth <= 640) return 1;
+    if (window.innerWidth <= 980) return 2;
+    return 3;
   }
 
-  // Rozvržení a výpočty
-  let index = 0; // budeme startovat na prvním reálném (po lastClones)
-  let cardW = 0, step = 0;
+  function rebuild() {
+    visible = calcVisible();
+    // strip -> smazat a znovu postavit: [tail klony] + originals + [head klony]
+    strip.innerHTML = '';
+    const head = originals.slice(0, visible).map(n => n.cloneNode(true));
+    const tail = originals.slice(-visible).map(n => n.cloneNode(true));
+    tail.forEach(n => strip.appendChild(n));
+    originals.forEach(n => strip.appendChild(n.cloneNode(true)));
+    head.forEach(n => strip.appendChild(n));
+    cards = [...strip.children];
 
-  function layout() {
-    // přepočet "visible" pro malé obrazovky (volitelné)
-    if (window.innerWidth <= 700) visible = 1;
-    else if (window.innerWidth <= 980) visible = 2;
-    else visible = 3;
-
-    buildClones();
-
-    const card = strip.children[0];
-    cardW = card.getBoundingClientRect().width; // už má šířku z CSS
-    step = cardW + getGap();
-
-    index = visible; // posun na první reálný
-    setTransition(false);
-    translateTo(index * step * -1);
-    setTransition(true);
-
+    // nastavíme current tak, aby ukazoval na první "reálnou" položku
+    current = visible; // offset kvůli tail klonům
+    // okamžitě vystředíme bez animace
+    centerOn(current, false);
     updateBackground();
   }
 
-  function setTransition(on) {
-    strip.style.transition = on ? 'transform .5s cubic-bezier(.22,.61,.36,1)' : 'none';
-  }
-  function translateTo(x) {
-    strip.style.transform = `translateX(${x}px)`;
+  function stepWidth() {
+    if (cards.length < 2) return 0;
+    return cards[1].offsetLeft - cards[0].offsetLeft;
   }
 
-  function go(dir) {
-    index += dir;
-    translateTo(index * step * -1);
+  function centerOn(idx, animate = true) {
+    const card = cards[idx];
+    if (!card) return;
+    const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+    const vpCenter   = viewport.clientWidth / 2;
+    const offset     = -(cardCenter - vpCenter);
+    strip.style.transition = animate ? 'transform .55s cubic-bezier(.22,.61,.36,1)' : 'none';
+    strip.style.transform  = `translateX(${offset}px)`;
   }
 
   function normalize() {
-    // po dojetí na klony "přeskočíme" bez animace na reálné místo
-    if (index >= originalCount + visible) {
-      index -= originalCount;
-      setTransition(false);
-      translateTo(index * step * -1);
-      requestAnimationFrame(() => setTransition(true));
+    const total = originals.length;
+    // byl posun do klonů vlevo?
+    if (current < visible) {
+      current += total;
+      centerOn(current, false);
     }
-    if (index < visible) {
-      index += originalCount;
-      setTransition(false);
-      translateTo(index * step * -1);
-      requestAnimationFrame(() => setTransition(true));
+    // nebo do klonů vpravo?
+    if (current >= visible + total) {
+      current -= total;
+      centerOn(current, false);
     }
     updateBackground();
   }
 
+  function go(delta) {
+    current += delta;
+    centerOn(current, true);
+  }
+
   function updateBackground() {
-    // prostřední viditelná karta
-    const center = index + Math.floor(visible/2);
-    const node = strip.children[center];
-    const bg = node?.getAttribute('data-bg') || node?.querySelector('img')?.getAttribute('src');
+    const total = originals.length;
+    // mapování na reálný index v originálech
+    const realIndex = (current - visible + total) % total;
+    const bg = originals[realIndex].getAttribute('data-bg') || originals[realIndex].querySelector('img')?.getAttribute('src');
     if (bg) root.style.setProperty('--vtbg', `url("${bg}")`);
   }
 
-  // Ovládání
-  next.addEventListener('click', () => go(+1));
-  prev.addEventListener('click', () => go(-1));
+  // ovládání
+  nextBtn.addEventListener('click', () => go(+1));
+  prevBtn.addEventListener('click', () => go(-1));
   strip.addEventListener('transitionend', normalize);
-  window.addEventListener('resize', () => layout());
+  window.addEventListener('resize', () => {
+    const was = visible;
+    const now = calcVisible();
+    if (was !== now) rebuild();
+    else centerOn(current, false);
+  });
 
-  // Start
-  layout();
+  // init
+  rebuild();
 })();
 </script>
 
