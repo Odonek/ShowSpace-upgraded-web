@@ -158,6 +158,98 @@ input, textarea { width: 100%; padding: 12px 14px; border: 1px solid #e4e6ea; bo
 input:focus, textarea:focus { outline: 2px solid var(--accent); }
 small.help { color: #999; }
 
+/* ====== NOVÁ SEKCE: VIRTUÁLNÍ PROHLÍDKA ====== */
+#vtour {
+  position: relative;
+  padding: clamp(50px, 10vw, 90px) 0;
+  color: #fff;
+  background: #0f1115;
+  overflow: hidden;
+}
+#vtour::before {
+  content:"";
+  position:absolute; inset:0;
+  background:
+    linear-gradient(90deg, rgba(15,17,21,.86) 0%, rgba(15,17,21,.66) 45%, rgba(15,17,21,.35) 100%),
+    url("CAM05637G0-PR0005-STILL001.jpg") center/cover no-repeat;
+  filter: saturate(.95) brightness(.9);
+  z-index:0;
+}
+#vtour .container {
+  position: relative; z-index: 1;
+  display: grid; gap: clamp(24px,3vw,36px);
+  grid-template-columns: 1.05fr 1.25fr;
+  align-items: center;
+}
+#vtour h2 { color:#fff; font-size: clamp(28px,3.4vw,44px); margin: 0 0 10px; }
+#vtour p.lead { color:#dfe5ee; max-width: 56ch; }
+#vtour .btn-ghost {
+  display:inline-block; padding:12px 18px; border-radius:999px;
+  border:2px solid rgba(255,255,255,.65); color:#fff;
+  background: transparent; font-weight:700;
+}
+#vtour .btn-ghost:hover { background: rgba(255,255,255,.08); }
+
+/* pravý blok */
+.vt-media { position: relative; }
+.vt-frame {
+  width: 100%; aspect-ratio: 16/9; background:#000;
+  border-radius: 18px; overflow: hidden;
+  box-shadow: 0 18px 46px rgba(0,0,0,.35);
+}
+.vt-frame iframe { width:100%; height:100%; border:0; }
+
+/* karty přes iframe */
+.vt-cards {
+  position:absolute; right: -8px; bottom: -22px;
+  display:flex; align-items:center; gap:10px;
+  padding: 8px;
+}
+.vt-arrow{
+  width: 40px; height: 40px; border-radius:50%;
+  border:0; cursor:pointer; font-size:22px; line-height:1;
+  background: rgba(255,255,255,.92); color:#111;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+}
+.vt-arrow:hover{ background: var(--accent); color:#111; }
+.vt-viewport{
+  width: clamp(260px, 42vw, 520px);
+  overflow: hidden;
+}
+.vt-strip{
+  display:flex; gap:14px;
+  will-change: transform;
+  transition: transform .45s cubic-bezier(.22,.61,.36,1);
+}
+.vt-card{
+  position: relative; display:block;
+  width: clamp(220px, 30vw, 300px);
+  border-radius: 16px; overflow: hidden;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 16px 36px rgba(0,0,0,.38);
+  color:#fff;
+  transform: translateZ(0); /* pro hladší hover */
+}
+.vt-card img{
+  width:100%; height:180px; object-fit:cover; display:block;
+  border-bottom-left-radius: 0; border-bottom-right-radius: 0;
+}
+.vt-meta{
+  position:absolute; left:0; right:0; bottom:0;
+  padding: 12px 14px;
+  background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.55) 80%);
+}
+.vt-meta strong{ display:block; font-size:1.05rem; }
+.vt-meta span{ font-size:.9rem; opacity:.9; }
+.vt-card:hover{ transform: translateY(-3px); }
+
+/* responzivita sekce */
+@media (max-width: 980px){
+  #vtour .container { grid-template-columns: 1fr; }
+  .vt-cards{ position: static; margin-top: 14px; justify-content: center; }
+}
+
 /* ============ FOOTER ============ */
 footer { margin-top: 40px; background: #fff; color: #666; border-top: 1px solid #eee; font-size: .9rem; }
 .footer-wrap { padding: 16px 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
