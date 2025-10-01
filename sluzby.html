@@ -8,6 +8,32 @@
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;500;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   
+<style>
+  /* === Rozšířené sekce služeb (full-screen-ish) – nenarušuje stávající styly === */
+  .service-section{min-height:100vh; display:block}
+  .service-wrap{display:grid; grid-template-columns: 1.05fr .95fr; gap: 28px; align-items:start}
+  .service-text h2{margin:6px 0 10px}
+  .kvp-list{padding-left:18px}
+  .kvp-list li{margin:6px 0}
+  .steps{padding-left:18px}
+  .steps li{margin:6px 0}
+  .cta-row{display:flex; gap:12px; margin-top:10px; flex-wrap:wrap}
+  .service-media{display:grid; gap:14px}
+  .media-slot{width:100%; aspect-ratio:16/9; border-radius:18px; background: #fff; border:2px dashed #e4e6ea; box-shadow: var(--shadow)}
+  .eyebrow{display:inline-block; margin-bottom:4px}
+
+  /* Subnav pro Služby pod horní lištou */
+  .services-subnav{position:sticky; top:88px; z-index:90; display:none; background:rgba(255,255,255,.96); border-top:1px solid #eee; border-bottom:1px solid #eee; box-shadow:0 8px 24px rgba(0,0,0,.06); backdrop-filter:saturate(180%) blur(8px)}
+  .services-subnav.show{display:block}
+  .services-subnav-inner{display:flex; gap:16px; padding:10px 20px}
+  .services-subnav a{padding:8px 12px; background:#fff; border-radius:999px; box-shadow:0 2px 6px rgba(0,0,0,.06); font-weight:600}
+  .services-subnav a:hover{background: var(--accent); color:#111}
+
+  @media (max-width: 900px){
+    .service-wrap{grid-template-columns: 1fr}
+    .services-subnav{top:72px}
+  }
+</style>
 </head>
 <body>
 
@@ -32,58 +58,195 @@
   </div>
 </nav>
 
+<!-- DROPDOWN POD "SLUŽBY" V HORNÍ LIŠTĚ -->
+<div class="services-subnav" aria-hidden="true">
+  <div class="container services-subnav-inner">
+    <a href="#sluzba-prohlidky">Virtuální prohlídky</a>
+    <a href="#sluzba-marketing">Marketing &amp; PPC</a>
+    <a href="#sluzba-social">Sociální sítě</a>
+    <a href="#sluzba-web">Tvorba webu</a>
+  </div>
+</div>
+
 <header class="section">
   <div class="container">
-    <h1>Co pro vás uděláme</h1>
-    <p class="lead">Virtuální prohlídky, marketing, správa sociálních sítí a tvorba webu. Přehledně a bez ceníků.</p>
+    <h1>Služby ShowSpace</h1>
+    <p class="lead">Detailní přehled: virtuální prohlídky, marketing & PPC, správa sociálních sítí a tvorba webu. Každá služba níže má vlastní sekci s postupem, výstupy a místem pro ukázky.</p>
   </div>
 </header>
 
 <!-- JEN 4 SLUŽBY -->
-<section class="section section--alt">
-  <div class="container">
-    <div class="grid grid-3">
-      <div class="card">
-        <h3>Virtuální prohlídky (Matterport / 360)</h3>
-        <p><strong>Vhodné pro:</strong> reality, showroomy, hotely, gastronomie</p>
-        <ul>
-          <li>Plánování a scénář trasy</li>
-          <li>Snímání a postprodukce</li>
-          <li>Hotspoty, tagy, měření</li>
-          <li>Publikace na web & Google Mapy</li>
-        </ul>
-        <a class="btn btn--primary" href="#kontakt">Nezávazně poptat</a>
+<!-- SLUŽBA 1: VIRTUÁLNÍ PROHLÍDKY -->
+<section id="sluzba-prohlidky" class="section service-section">
+  <div class="container service-wrap">
+    <div class="service-text">
+      <span class="eyebrow tag">Virtuální prohlídky</span>
+      <h2>Matterport / 360° prohlídky</h2>
+      <p class="lead">Pro reality, showroomy, hotely nebo gastro. Zážitková prezentace prostoru, kterou si lidé projdou odkudkoli a kdykoli.</p>
+
+      <h3>Co získáte</h3>
+      <ul class="kvp-list">
+        <li><strong>Interaktivní 3D/360 prohlídku</strong> připravenou pro web i sdílení na sociálních sítích.</li>
+        <li><strong>Hotspoty, tagy a měření</strong> (rozměry, anotace, odkazy na produkty).</li>
+        <li><strong>Publikaci na web &amp; Google Mapy</strong> (propojení s firemním profilem).</li>
+        <li><strong>Embed kód + návod</strong> pro snadné vložení na váš web.</li>
+      </ul>
+
+      <h3>Jak postupujeme</h3>
+      <ol class="steps">
+        <li>Konzultace cílů, scénáře a přístupů na místo.</li>
+        <li>Snímání na místě (obvykle 1–3 hod dle velikosti).</li>
+        <li>Postprodukce: čištění, tagy, měření, exporty.</li>
+        <li>Publikace + předání odkazů a podkladů pro sítě.</li>
+      </ol>
+
+      <h3>Volitelné doplňky</h3>
+      <ul class="kvp-list">
+        <li>Mini web/landing k prohlídce</li>
+        <li>Google Street View napojení</li>
+        <li>Fotografie (interiér/exteriér, dron)</li>
+      </ul>
+
+      <div class="cta-row">
+        <a class="btn btn--accent" href="#kontakt">Nezávazně poptat</a>
+        <a class="btn btn--outline" href="#sluzba-marketing">Navazující marketing →</a>
       </div>
-      <div class="card">
-        <h3>Marketing & PPC kampaně</h3>
-        <p>Výkonnostní kampaně, které přivedou poptávky.</p>
-        <ul>
-          <li>Google Ads a Meta Ads</li>
-          <li>Retargeting a měření konverzí</li>
-          <li>Pravidelné reporty</li>
-        </ul>
-        <a class="btn btn--primary" href="#kontakt">Chci nabídku</a>
+    </div>
+
+    <div class="service-media">
+      <div class="media-slot" aria-label="Místo pro budoucí obrázek/prohlídku"></div>
+      <div class="media-slot" aria-label="Místo pro druhý obrázek/prohlídku"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLUŽBA 2: MARKETING & PPC -->
+<section id="sluzba-marketing" class="section section--alt service-section">
+  <div class="container service-wrap">
+    <div class="service-text">
+      <span class="eyebrow tag">Marketing &amp; PPC</span>
+      <h2>Výkonnostní kampaně (Google Ads, Meta Ads)</h2>
+      <p class="lead">Aby se vaše prohlídky a nabídky dostaly k lidem, kteří právě hledají. Měřitelně a škálovatelně.</p>
+
+      <h3>Co získáte</h3>
+      <ul class="kvp-list">
+        <li><strong>Strategii a strukturu kampaní</strong> podle cílů (poptávky, rezervace, návštěvnost webu).</li>
+        <li><strong>Nastavení měření konverzí</strong> (GA4, Meta Pixel, konverzní akce v Ads).</li>
+        <li><strong>Průběžnou optimalizaci</strong> (klíčová slova, publika, kreativy, bidding).</li>
+        <li><strong>Srozumitelný měsíční report</strong> s doporučeními pro růst.</li>
+      </ul>
+
+      <h3>Jak postupujeme</h3>
+      <ol class="steps">
+        <li>Audit stávajícího stavu a cílů.</li>
+        <li>Nastavení účtů, měření a základních kampaní.</li>
+        <li>Testování variant a rozšíření (retargeting, lookalike).</li>
+        <li>Pravidelný reporting, iterace a škálování.</li>
+      </ol>
+
+      <h3>Volitelné doplňky</h3>
+      <ul class="kvp-list">
+        <li>Landing page pro kampaně</li>
+        <li>Reels/krátká videa pro Meta/IG</li>
+        <li>CRM/lead management propojení</li>
+      </ul>
+
+      <div class="cta-row">
+        <a class="btn btn--accent" href="#kontakt">Chci návrh kampaní</a>
+        <a class="btn btn--outline" href="#sluzba-social">Sítě →</a>
       </div>
-      <div class="card">
-        <h3>Správa sociálních sítí</h3>
-        <p>Obsah a komunita bez starostí.</p>
-        <ul>
-          <li>Redakční plán, foto a krátká videa</li>
-          <li>Moderace komentářů a zpráv</li>
-          <li>Boosting příspěvků</li>
-        </ul>
-        <a class="btn btn--primary" href="#kontakt">Domluvit schůzku</a>
+    </div>
+
+    <div class="service-media">
+      <div class="media-slot"></div>
+      <div class="media-slot"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLUŽBA 3: SPRÁVA SOCIÁLNÍCH SÍTÍ -->
+<section id="sluzba-social" class="section service-section">
+  <div class="container service-wrap">
+    <div class="service-text">
+      <span class="eyebrow tag">Sociální sítě</span>
+      <h2>Správa sociálních sítí (IG, FB, TikTok)</h2>
+      <p class="lead">Konzistentní obsah, který buduje komunitu a přivádí návštěvy na web i prohlídky.</p>
+
+      <h3>Co získáte</h3>
+      <ul class="kvp-list">
+        <li><strong>Redakční plán</strong> a tvorbu obsahu (foto, Reels, krátká videa).</li>
+        <li><strong>Publikace a moderaci</strong> komentářů a zpráv.</li>
+        <li><strong>Boosting vybraných příspěvků</strong> + jednoduchý report.</li>
+      </ul>
+
+      <h3>Jak postupujeme</h3>
+      <ol class="steps">
+        <li>Workshop nad tématy, tónem a cíli.</li>
+        <li>Příprava plánu a schválení vizuálů.</li>
+        <li>Publikace, interakce s komunitou.</li>
+        <li>Vyhodnocení a doporučení pro růst.</li>
+      </ol>
+
+      <h3>Volitelné doplňky</h3>
+      <ul class="kvp-list">
+        <li>Influencer spolupráce</li>
+        <li>Šablony v Canvě/Figma</li>
+        <li>Kreativy na míru pro kampaně</li>
+      </ul>
+
+      <div class="cta-row">
+        <a class="btn btn--accent" href="#kontakt">Domluvit správu</a>
+        <a class="btn btn--outline" href="#sluzba-web">Web →</a>
       </div>
-      <div class="card">
-        <h3>Tvorba webu</h3>
-        <p>Rychlé a hezké weby, které prodávají.</p>
-        <ul>
-          <li>Jednostránkové i vícestránkové weby</li>
-          <li>SEO základy a měření (GA4, Meta, Ads)</li>
-          <li>Napojení na rezervační systémy</li>
-        </ul>
-        <a class="btn btn--primary" href="#kontakt">Probrat projekt</a>
+    </div>
+
+    <div class="service-media">
+      <div class="media-slot"></div>
+      <div class="media-slot"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLUŽBA 4: TVORBA WEBU -->
+<section id="sluzba-web" class="section section--alt service-section">
+  <div class="container service-wrap">
+    <div class="service-text">
+      <span class="eyebrow tag">Tvorba webu</span>
+      <h2>Jednostránkové i vícestránkové weby</h2>
+      <p class="lead">Rychlá načítání, čistý design a připraveno na měření i kampaně.</p>
+
+      <h3>Co získáte</h3>
+      <ul class="kvp-list">
+        <li><strong>UX/UI návrh</strong> a copywriting základních sekcí.</li>
+        <li><strong>Implementaci</strong> (statický web / CMS dle potřeby).</li>
+        <li><strong>SEO základy a měření</strong> (GA4, Meta, Ads).</li>
+        <li><strong>Embed pro 3D prohlídky</strong> a napojení na rezervační systémy.</li>
+      </ul>
+
+      <h3>Jak postupujeme</h3>
+      <ol class="steps">
+        <li>Kickoff + wireframy.</li>
+        <li>Design a obsah.</li>
+        <li>Vývoj + měření.</li>
+        <li>Nasazení a předání.</li>
+      </ol>
+
+      <h3>Volitelné doplňky</h3>
+      <ul class="kvp-list">
+        <li>Blog/články, vícejazyčnost</li>
+        <li>Rezervační nebo poptávkové formuláře</li>
+        <li>Rychlostní optimalizace a Core Web Vitals</li>
+      </ul>
+
+      <div class="cta-row">
+        <a class="btn btn--accent" href="#kontakt">Probrat projekt</a>
+        <a class="btn btn--outline" href="#kontakt">Zeptat se na možnosti</a>
       </div>
+    </div>
+
+    <div class="service-media">
+      <div class="media-slot"></div>
+      <div class="media-slot"></div>
     </div>
   </div>
 </section>
@@ -164,5 +327,25 @@
   })();
 </script>
 
+<script>
+  // Dropdown pro položku "Služby" – ukáže subnav když se hover/focusuje menu
+  (function(){
+    const menu = document.querySelector('.menu');
+    const subnav = document.querySelector('.services-subnav');
+    if(!menu || !subnav) return;
+    let hoverTimer;
+    const show = ()=>{ clearTimeout(hoverTimer); subnav.classList.add('show'); };
+    const hide = ()=>{ hoverTimer = setTimeout(()=> subnav.classList.remove('show'), 120); };
+    menu.addEventListener('mouseover', (e)=>{
+      const t = e.target;
+      if(t && t.matches('a[href$="sluzby.html"], a[aria-current="page"]')) show();
+    });
+    menu.addEventListener('mouseout', hide);
+    subnav.addEventListener('mouseover', show);
+    subnav.addEventListener('mouseout', hide);
+  })();
+</script>
+
 </body>
 </html>
+
