@@ -182,32 +182,39 @@ header.section { padding-top: 140px; }
 .tour-carousel.tour-peek .tc-viewport{
   overflow: visible;
   max-width: 1400px; margin: 0 auto;
-  padding-inline: clamp(64px, 10vw, 160px);
+  padding-inline: clamp(64px, 10vw, 160px); /* odsazení od okrajů stránky */
 }
 .tour-carousel.tour-peek .tc-track{
   display: flex; gap: clamp(20px, 2.6vw, 36px);
   transition: transform .55s cubic-bezier(.22,.61,.36,1);
   will-change: transform;
 }
+
+/* ~62–66% šířky → sousedi vykouknou cca z 1/3 */
 .tour-carousel.tour-peek .tc-slide{
   flex: 0 0 64%;
   min-width: 0; position: relative;
   transform-origin: center;
   transform: scale(.94);
   opacity: .78;
-  z-index: 1;
+  z-index: 1; /* ZA středem */
   transition: transform .45s, opacity .45s, filter .45s, z-index .2s;
 }
+
 .tour-carousel.tour-peek .tc-frame{
   width: 100%; aspect-ratio: 16/9;
   background: #000; border-radius: 18px; overflow: hidden;
   box-shadow: 0 18px 46px rgba(0,0,0,.22);
 }
 .tour-carousel.tour-peek .tc-frame iframe{ position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* aktivní – ostrý a navrchu */
 .tour-carousel.tour-peek .tc-slide.is-active{
   transform: scale(1);
   opacity: 1; filter: none; z-index: 3;
 }
+
+/* nejbližší sousedi – blur a lehké ztmavení, ale zůstanou čitelní */
 .tour-carousel.tour-peek .tc-slide.is-prev .tc-frame,
 .tour-carousel.tour-peek .tc-slide.is-next .tc-frame{
   filter: blur(4px) brightness(.94) saturate(.92);
@@ -216,14 +223,23 @@ header.section { padding-top: 140px; }
 .tour-carousel.tour-peek .tc-slide.is-next{
   z-index: 2; transform: scale(.94); opacity: .86;
 }
+
+/* vzdálenější (kdyby bylo víc než 3) */
 .tour-carousel.tour-peek .tc-slide:not(.is-active):not(.is-prev):not(.is-next){
   opacity: .55; filter: blur(4px) brightness(.9);
 }
+
+/* sousedé nejsou interaktivní (drag jede přes track) */
 .tour-carousel.tour-peek .tc-slide:not(.is-active) iframe{ pointer-events: none; }
+
+/* šipky blíž dovnitř */
 .tour-carousel.tour-peek .tc-prev{ left: 8px; }
 .tour-carousel.tour-peek .tc-next{ right: 8px; }
+
+/* caption jemně */
 .tour-carousel.tour-peek .tc-caption{ left: 10px; bottom: 10px; padding: 8px 12px; }
 
+/* Responzivita peek */
 @media (max-width: 1200px){ .tour-carousel.tour-peek .tc-slide{ flex-basis: 70%; } }
 @media (max-width: 900px){
   .tour-carousel.tour-peek .tc-slide{ flex-basis: 82%; }
@@ -270,55 +286,4 @@ footer { margin-top: 40px; background: #fff; color: #666; border-top: 1px solid 
 .footer-social a { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; background: #f6f6f6; color: var(--slate); transition: .25s; }
 .footer-social a:hover { background: var(--accent); color: #111; transform: translateY(-2px); }
 @media (max-width: 700px) { .footer-wrap { flex-direction: column; text-align: center; } }
-.tag { padding: 6px 10px; background: var(--slate); border-radius: 999px; color: #fff; font-size: .85rem; }
-
-/* ============ KOTVY & ODKAZY – DOPLNĚNO ============ */
-
-/* Plynulý scroll na #kotvy (v rámci celého webu) */
-html { scroll-behavior: smooth; }
-
-/* Zvýraznění odkazů při interakci + přístupný focus */
-a {
-  position: relative;
-  transition: color .2s ease, transform .15s ease;
-}
-a:hover,
-a:focus-visible { color: var(--slate); }
-a:active { transform: translateY(1px); }
-
-/* Viditelný focus kroužkem – neaplikuje se na .btn (ty mají svůj hover/focus) */
-a:focus-visible:not(.btn) {
-  outline: 3px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 8px;
-}
-
-/* Volitelné podtržení – použij class="link-underline" tam, kde chceš */
-.link-underline {
-  background-image: linear-gradient(currentColor, currentColor);
-  background-size: 0% 2px;
-  background-repeat: no-repeat;
-  background-position: 0 100%;
-  transition: background-size .25s ease, color .2s ease;
-}
-.link-underline:hover,
-.link-underline:focus-visible {
-  background-size: 100% 2px;
-}
-
-/* Cílové sekce po skoku (#id) – jemné zvýraznění a odsazení pod fixed navbar */
-[id]:target, section:target {
-  scroll-margin-top: 120px; /* aby vršek nesjel pod kulatý navbar */
-  animation: targetGlow .8s ease;
-  box-shadow: 0 0 0 4px rgba(234,225,81,.28) inset;
-  border-radius: 12px;
-}
-@keyframes targetGlow {
-  0%   { box-shadow: 0 0 0 12px rgba(234,225,81,0) inset; }
-  40%  { box-shadow: 0 0 0 4px  rgba(234,225,81,.38) inset; }
-  100% { box-shadow: 0 0 0 4px  rgba(234,225,81,0)  inset; }
-}
-
-/* Submenu odkazy – trochu “živější” hover (pokud submenu používáš) */
-.submenu a { transition: background-color .2s ease, transform .15s ease; }
-.submenu a:hover { background: #f6f8fb; color: var(--slate); transform: translateX(2px); }
+.tag { padding: 6px 10px; background: var(--slate); border-radius: 999px; color: #fff; font-size: .85rem; } 
