@@ -9,6 +9,40 @@
   <link rel="stylesheet" href="styles.css" />
 
   <style>
+    /* ===== Dropdown pod položkou „Služby“ ===== */
+    .menu { position: relative; }
+    .menu-item--has-sub { position: relative; }
+    .menu .menu-toggle {
+      display:inline-flex; align-items:center; gap:8px;
+      font-weight:600; color: var(--slate);
+      padding: 6px 14px; background: rgba(255,255,255,0.9);
+      border:0; border-radius: 999px; box-shadow: 0 2px 6px rgba(0,0,0,.08);
+      cursor:pointer; font-family: var(--font);
+    }
+    .menu .menu-toggle:hover { background: var(--accent); color:#111; }
+    .menu .menu-caret { width: 14px; height: 14px; transition: transform .2s ease; }
+    .menu .menu-toggle[aria-expanded="true"] .menu-caret { transform: rotate(180deg); }
+
+    .submenu {
+      position: absolute; top: calc(100% + 8px); left: 0;
+      display:none; min-width: 240px; padding:10px;
+      background:#fff; border:1px solid #eee; border-radius: 14px;
+      box-shadow: 0 14px 36px rgba(0,0,0,.12); z-index: 200;
+    }
+    .submenu.show { display:block; }
+    .submenu a {
+      display:flex; align-items:center; gap:10px;
+      padding:10px 12px; border-radius:10px; font-weight:600; color:var(--ink);
+      background:#fff;
+    }
+    .submenu a:hover { background: #f6f8fb; color: var(--slate); }
+    .submenu .subdesc { font-weight:300; font-size:.9rem; color:var(--muted); }
+
+    /* Na užší obrazovce nevadí fixní zarovnání vlevo – drží se u položky Služby */
+    @media (max-width: 700px){
+      .submenu { min-width: 200px; }
+    }
+
     /* ===== Rozšířené sekce služeb + střídání (doplněk k styles.css) ===== */
     .service-section{min-height:100vh; display:block}
     .service-wrap{display:grid; grid-template-columns: 1.05fr .95fr; gap: 28px; align-items:start}
@@ -38,31 +72,17 @@
     .service-section.center .service-text{text-align:center}
     .service-section.center .cta-row{justify-content:center}
 
-    /* submenu pod „Služby“ */
-    .services-subnav{
-      position:sticky; top:88px; z-index:90; display:none;
-      background:rgba(255,255,255,.96); border-top:1px solid #eee; border-bottom:1px solid #eee;
-      box-shadow:0 8px 24px rgba(0,0,0,.06); backdrop-filter:saturate(180%) blur(8px)
-    }
-    .services-subnav.show{display:block}
-    .services-subnav-inner{display:flex; gap:16px; padding:10px 20px}
-    .services-subnav a{
-      padding:8px 12px; background:#fff; border-radius:999px; box-shadow:0 2px 6px rgba(0,0,0,.06); font-weight:600
-    }
-    .services-subnav a:hover{background: var(--accent); color:#111}
-
     @media (max-width: 900px){
       .service-wrap{grid-template-columns: 1fr}
       .service-section.reverse .service-text{order:initial}
       .service-section.reverse .service-media{order:initial}
       .media-grid{grid-template-columns:1fr}
-      .services-subnav{top:72px}
     }
   </style>
 </head>
 <body>
 
-<!-- NAVBAR (ponechává tvůj vzhled) -->
+<!-- NAVBAR -->
 <nav>
   <div class="container nav-inner">
     <a class="logo" href="index.html">
@@ -71,7 +91,35 @@
 
     <div class="menu">
       <a href="index.html">Domů</a>
-      <a href="sluzby.html" aria-current="page">Služby</a>
+
+      <!-- POLOŽKA S ROZBALOVACÍM MENU -->
+      <div class="menu-item--has-sub">
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="submenu-sluzby">
+          Služby
+          <svg class="menu-caret" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 10l5 5 5-5z"></path>
+          </svg>
+        </button>
+        <div id="submenu-sluzby" class="submenu" role="menu" aria-label="Podnabídka Služby">
+          <a href="#sluzba-prohlidky" role="menuitem">
+            Virtuální prohlídky
+            <span class="subdesc">360°/3D pro reality a prostory</span>
+          </a>
+          <a href="#sluzba-marketing" role="menuitem">
+            Marketing &amp; PPC
+            <span class="subdesc">Google Ads, Meta Ads, měření</span>
+          </a>
+          <a href="#sluzba-social" role="menuitem">
+            Sociální sítě
+            <span class="subdesc">Obsah, moderace, boosting</span>
+          </a>
+          <a href="#sluzba-web" role="menuitem">
+            Tvorba webu
+            <span class="subdesc">Rychlé weby připravené na výkon</span>
+          </a>
+        </div>
+      </div>
+
       <a href="galerie.html">Galerie</a>
     </div>
 
@@ -85,16 +133,6 @@
     </div>
   </div>
 </nav>
-
-<!-- SUBMENU POD „SLUŽBY“ -->
-<div class="services-subnav" aria-hidden="true">
-  <div class="container services-subnav-inner">
-    <a href="#sluzba-prohlidky">Virtuální prohlídky</a>
-    <a href="#sluzba-marketing">Marketing &amp; PPC</a>
-    <a href="#sluzba-social">Sociální sítě</a>
-    <a href="#sluzba-web">Tvorba webu</a>
-  </div>
-</div>
 
 <header class="section">
   <div class="container">
@@ -315,21 +353,31 @@
   </div>
 </section>
 
-<!-- FOOTER (ponechává tvůj vzhled) -->
+<!-- FOOTER -->
 <footer>
   <div class="container footer-wrap">
     <div class="footer-left">
-      © ShowSpace <span id="y"></span>
-      <span aria-hidden="true"> • </span>
-      <a href="/zasady.html">Zásady ochrany osobních údajů</a>
+      © ShowSpace <span id="y"></span> • <a href="gdpr.html">Zásady ochrany osobních údajů</a>
     </div>
-    <div class="footer-social">
-      <a href="https://facebook.com/showspace" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2v-3h2v-2c0-2 1.2-3 3-3 .9 0 1.8.1 1.8.1v2h-1c-1 0-1.3.6-1.3 1.2V12h2.5l-.4 3h-2.1v7A10 10 0 0 0 22 12"/></svg></a>
-      <a href="https://instagram.com/showspace" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg></a>
-      <a href="https://www.tiktok.com/@showspace" target="_blank" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M12.5 3c.6 2.1 2.2 3.8 4.2 4.4.5.2 1 .2 1.5.2V11c-1.3 0-2.6-.4-3.7-1.1v4.6c0 3-2.4 5.5-5.5 5.5S3.5 17.5 3.5 14.5 5.9 9 9 9c.6 0 1.1.1 1.6.3v3.1c-.5-.3-1-.4-1.6-.4-1.8 0-3.2 1.5-3.2 3.3s1.4 3.2 3.2 3.2 3.2-1.4 3.2-3.2V3h1.3z"/></svg></a>
+    <div class="footer-social" aria-label="Sociální sítě">
+      <a href="https://facebook.com/showspace" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+          <path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2v-3h2v-2c0-2 1.2-3 3-3 .9 0 1.8.1 1.8.1v2h-1c-1 0-1.3.6-1.3 1.2V12h2.5l-.4 3h-2.1v7A10 10 0 0 0 22 12"/>
+        </svg>
+      </a>
+      <a href="https://www.instagram.com/showspace.cz/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+          <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/>
+        </svg>
+      </a>
+      <a href="https://www.tiktok.com/@show.space360" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+          <path d="M21 8.5a7.5 7.5 0 0 1-4.6-1.6v7.6a5.5 5.5 0 1 1-5.5-5.5c.2 0 .4 0 .6.1v2.6a2.9 2.9 0 1 0 2.9 2.9V2h2.2c.3 1.2 1 2.3 1.9 3.1A5.3 5.3 0 0 0 21 6.5v2z"/>
+        </svg>
+      </a>
     </div>
   </div>
-  <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
 </footer>
 
 <!-- Tlačítko nahoru -->
@@ -343,21 +391,38 @@
 </script>
 
 <script>
-  // Submenu pro položku "Služby" – ukáže subnav při hoveru/focusu
+  // Dropdown „Služby“ — toggle na klik, zavření klikem mimo i klávesou Escape
   (function(){
-    const menu = document.querySelector('.menu');
-    const subnav = document.querySelector('.services-subnav');
-    if(!menu || !subnav) return;
-    let hoverTimer;
-    const show = ()=>{ clearTimeout(hoverTimer); subnav.classList.add('show'); };
-    const hide = ()=>{ hoverTimer = setTimeout(()=> subnav.classList.remove('show'), 120); };
-    menu.addEventListener('mouseover', (e)=>{
-      const t = e.target;
-      if(t && (t.matches('a[href$="sluzby.html"]') || t.getAttribute('aria-current') === 'page')) show();
+    const toggle = document.querySelector('.menu-toggle');
+    const menu = document.getElementById('submenu-sluzby');
+
+    if(!toggle || !menu) return;
+
+    const open = () => { toggle.setAttribute('aria-expanded','true'); menu.classList.add('show'); };
+    const close = () => { toggle.setAttribute('aria-expanded','false'); menu.classList.remove('show'); };
+    const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+
+    toggle.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      isOpen() ? close() : open();
     });
-    menu.addEventListener('mouseout', hide);
-    subnav.addEventListener('mouseover', show);
-    subnav.addEventListener('mouseout', hide);
+
+    // Zavřít při kliku mimo
+    document.addEventListener('click', (e)=>{
+      if(!isOpen()) return;
+      const within = toggle.contains(e.target) || menu.contains(e.target);
+      if(!within) close();
+    });
+
+    // Zavřít ESC
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape' && isOpen()) { close(); toggle.focus(); }
+    });
+
+    // Klik na položku v dropdownu -> zavřít
+    menu.querySelectorAll('a').forEach(a=>{
+      a.addEventListener('click', ()=> close());
+    });
   })();
 </script>
 
