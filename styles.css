@@ -148,26 +148,7 @@ a[href^="#"]:not(.btn):hover{
 .hero p  { color: #f1f1f1; margin: 0 0 22px; font-size: clamp(16px,1.6vw,18px); }
 .badge { display: inline-flex; gap: 8px; align-items: center; padding: 6px 12px; border-radius: 999px; background: var(--accent); color: #111; font-size: .85rem; font-weight: 600; margin-bottom: 12px; }
 
-/* SPIRÁLY (dekor) */
-.spiral{
-  position:absolute;
-  width:min(60vw, 720px);
-  height:auto;
-  opacity:.26;
-  pointer-events:none;
-  transform-origin: 50% 50%;
-  animation: spin-slow 42s linear infinite;
-  filter: drop-shadow(0 12px 24px rgba(0,0,0,.18));
-  z-index:1;
-}
-.spiral--left  { left:-8%; bottom:-14%; }
-.spiral--right { right:-10%; top:-12%; animation-direction: reverse; }
-.spiral--vt-left { left:-12%; bottom:-16%; opacity:.20; }
 
-@keyframes spin-slow { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
-@media (prefers-reduced-motion: reduce){
-  .spiral{ animation:none; }
-}
 
 /* SECTIONS */
 header.section { padding-top: 140px; }
