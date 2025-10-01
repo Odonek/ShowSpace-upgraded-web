@@ -122,7 +122,6 @@ header.section { padding-top: 140px; }
 .benefits-center .benefit-number { font-size: 44px; font-weight: 800; color: var(--slate); margin-bottom: 10px; }
 .benefits-center .card h3 { font-size: 20px; font-weight: 600; margin: 0 0 8px; color: var(--slate); }
 .benefits-center .card p  { font-size: 15px; color: var(--muted); margin: 0; }
-@media (max-width: 900px) { .benefits-center { grid-template-columns: 1fr; } }
 
 /* ============ O NÁS / FORM / FOOTER ============ */
 .about { align-items: center; }
@@ -143,11 +142,11 @@ footer { margin-top: 40px; background: #fff; color: #666; border-top: 1px solid 
 @media (max-width: 700px) { .footer-wrap { flex-direction: column; text-align: center; } }
 .tag { padding: 6px 10px; background: var(--slate); border-radius: 999px; color: #fff; font-size: .85rem; }
 
-/* ====== VIRTUÁLNÍ PROHLÍDKA – FULLSCREEN, vždy 3 karty ====== */
+/* ====== VIRTUÁLNÍ PROHLÍDKA – FULLSCREEN LOOP, vždy 3 karty ====== */
 #vtour{
   --vtbg: url("CAM05637G0-PR0005-STILL001.jpg");
   --gap: 16px;
-  --visible: 3; /* desktop = 3; níže měníme pro tablet/mobil */
+  --visible: 3;  /* desktop = 3; níže měníme pro tablet/mobil */
   position: relative;
   height: 100vh;            /* fullscreen */
   min-height: 640px;
@@ -188,17 +187,23 @@ footer { margin-top: 40px; background: #fff; color: #666; border-top: 1px solid 
   display:grid;
   grid-template-columns: auto 1fr auto; /* šipka – viewport – šipka */
   align-items:center;
-  gap: 14px;
+  gap: 18px;
 }
+
+/* VĚTŠÍ ŠIPKY */
 .vt-arrow{
-  width: 64px; height: 64px; border-radius:50%;
-  border:0; cursor:pointer; font-size:28px; line-height:1;
+  width: 88px; height: 88px;            /* zvětšeno */
+  border-radius:50%;
+  border:0; cursor:pointer;
+  font-size: 40px;                       /* zvětšeno */
+  line-height:1;
   background: rgba(255,255,255,.95); color:#111;
-  box-shadow: 0 10px 28px rgba(0,0,0,.35);
+  box-shadow: 0 16px 36px rgba(0,0,0,.38);
   display:grid; place-items:center;
+  transition: transform .2s ease, background .2s ease;
 }
-.vt-arrow:hover{ background: var(--accent); color:#111; }
-.vt-arrow[disabled]{ opacity:.45; cursor:not-allowed; }
+.vt-arrow:hover{ background: var(--accent); color:#111; transform: translateY(-2px) scale(1.03); }
+.vt-arrow:active{ transform: translateY(0) scale(.98); }
 
 .vt-viewport{
   width: 100%;
