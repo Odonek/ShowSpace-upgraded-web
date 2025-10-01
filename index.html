@@ -98,20 +98,22 @@
   </div>
 </section>
 
-<!-- VIRTUÁLNÍ PROHLÍDKA – full-screen, 3 karty, nekonečný loop -->
+<!-- VIRTUÁLNÍ PROHLÍDKA – full-screen, 3 karty, loop, měnící se text -->
 <section id="vtour" aria-label="Virtuální prohlídky">
   <div class="vt-overlay"></div>
 
   <div class="container vt-grid">
-    <div class="vt-copy">
+    <div class="vt-copy" id="vt-copy">
       <span class="tag">Virtuální prohlídky</span>
-      <h2>Houseboat Praha</h2>
-      <p class="lead">
+      <h2 id="vt-title">Houseboat Praha</h2>
+      <p class="lead" id="vt-desc">
         Vždy vidíš tři projekty. Další zobrazíš šipkami. Kliknutím na kartu se
         otevře prohlídka v nové záložce. Pozadí se mění podle prostřední karty.
       </p>
       <p>
-        <a class="btn btn--accent" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">Otevřít ukázkovou prohlídku</a>
+        <a class="btn btn--accent" id="vt-link"
+           href="https://tour.giraffe360.com/houseboat-prague-vltava/"
+           target="_blank" rel="noopener">Otevřít ukázkovou prohlídku</a>
         <a class="btn btn--outline" href="#kontakt">Chci nabídku</a>
       </p>
     </div>
@@ -120,36 +122,75 @@
       <div class="vt-viewport">
         <div class="vt-strip">
           <!-- 8 originálních karet (JS si z nich postaví nekonečný loop) -->
-          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL001.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL001.jpg" alt="Ukázka 1">
+          <a class="vt-card"
+             data-bg="CAM05637G0-PR0005-STILL001.jpg"
+             data-title="Houseboat Praha"
+             data-desc="Kompletní 3D tour – prohlédni si houseboat online."
+             href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+            <img src="CAM05637G0-PR0005-STILL001.jpg" alt="Houseboat Praha">
             <div class="vt-meta"><strong>Houseboat Praha</strong><span>Virtuální prohlídka</span></div>
           </a>
-          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL002.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL002.jpg" alt="Ukázka 2">
+
+          <a class="vt-card"
+             data-bg="CAM05637G0-PR0005-STILL002.jpg"
+             data-title="Interiér – obývací část"
+             data-desc="Ukázka detailu interiéru – ozvučení a materiály."
+             href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+            <img src="CAM05637G0-PR0005-STILL002.jpg" alt="Interiér 1">
             <div class="vt-meta"><strong>Interiér 1</strong><span>Ukázka z tour</span></div>
           </a>
-          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL003.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL003.jpg" alt="Ukázka 3">
+
+          <a class="vt-card"
+             data-bg="CAM05637G0-PR0005-STILL003.jpg"
+             data-title="Interiér – denní zóna"
+             data-desc="Prostorná denní část houseboatu s výstupem na palubu."
+             href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+            <img src="CAM05637G0-PR0005-STILL003.jpg" alt="Interiér 2">
             <div class="vt-meta"><strong>Interiér 2</strong><span>Ukázka z tour</span></div>
           </a>
-          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL004.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL004.jpg" alt="Ukázka 4">
+
+          <a class="vt-card"
+             data-bg="CAM05637G0-PR0005-STILL004.jpg"
+             data-title="Detail – materiály"
+             data-desc="Záběry na detaily a povrchy – kvalita na první pohled."
+             href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+            <img src="CAM05637G0-PR0005-STILL004.jpg" alt="Detail">
             <div class="vt-meta"><strong>Detail</strong><span>Ukázka z tour</span></div>
           </a>
-          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL005.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL005.jpg" alt="Ukázka 5">
+
+          <a class="vt-card"
+             data-bg="CAM05637G0-PR0005-STILL005.jpg"
+             data-title="Exteriér – paluba"
+             data-desc="Výhled z paluby a napojení na okolí – atmosféra místa."
+             href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+            <img src="CAM05637G0-PR0005-STILL005.jpg" alt="Exteriér">
             <div class="vt-meta"><strong>Exteriér</strong><span>Ukázka z tour</span></div>
           </a>
-          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL006.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL006.jpg" alt="Ukázka 6">
+
+          <a class="vt-card"
+             data-bg="CAM05637G0-PR0005-STILL006.jpg"
+             data-title="Ložnice"
+             data-desc="Noční zóna – světlo, úložné prostory a pohodlí."
+             href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+            <img src="CAM05637G0-PR0005-STILL006.jpg" alt="Ložnice">
             <div class="vt-meta"><strong>Ložnice</strong><span>Ukázka z tour</span></div>
           </a>
-          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL007.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL007.jpg" alt="Ukázka 7">
+
+          <a class="vt-card"
+             data-bg="CAM05637G0-PR0005-STILL007.jpg"
+             data-title="Salon"
+             data-desc="Hlavní společenský prostor – propojení s exteriérem."
+             href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+            <img src="CAM05637G0-PR0005-STILL007.jpg" alt="Salon">
             <div class="vt-meta"><strong>Salon</strong><span>Ukázka z tour</span></div>
           </a>
-          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL003.jpg" href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL003.jpg" alt="Ukázka 8">
+
+          <a class="vt-card"
+             data-bg="CAM05637G0-PR0005-STILL003.jpg"
+             data-title="Kuchyně"
+             data-desc="Plně vybavená kuchyň – praktičnost i design."
+             href="https://tour.giraffe360.com/houseboat-prague-vltava/" target="_blank" rel="noopener">
+            <img src="CAM05637G0-PR0005-STILL003.jpg" alt="Kuchyně">
             <div class="vt-meta"><strong>Kuchyně</strong><span>Ukázka z tour</span></div>
           </a>
         </div>
@@ -326,7 +367,7 @@
 </script>
 
 <script>
-/* VTOUR — nekonečná karuselová logika + měnící se pozadí */
+/* VTOUR — nekonečný loop + měnící se pozadí + měnící se text + zvýraznění středu */
 (() => {
   const root = document.getElementById('vtour');
   if (!root) return;
@@ -336,11 +377,16 @@
   const nextBtn  = root.querySelector('.vt-next');
   const prevBtn  = root.querySelector('.vt-prev');
 
-  // uložíme si originální karty (bez klonů)
-  const originals = [...strip.querySelectorAll('.vt-card')];
-  let current = 0;          // index prostřední karty v rámci "reálného" pole
-  let visible = 3;          // 3 / 2 / 1 podle šířky
-  let cards = [];           // aktuální DOM karty včetně klonů
+  // copy box elements
+  const copyBox  = document.getElementById('vt-copy');
+  const titleEl  = document.getElementById('vt-title');
+  const descEl   = document.getElementById('vt-desc');
+  const linkEl   = document.getElementById('vt-link');
+
+  const originals = [...strip.querySelectorAll('.vt-card')]; // originální karty
+  let current = 0;     // index v rámci "cards" (včetně klonů)
+  let visible = 3;     // 3/2/1 dle viewportu
+  let cards = [];      // DOM včetně klonů
 
   function calcVisible() {
     if (window.innerWidth <= 640) return 1;
@@ -350,8 +396,8 @@
 
   function rebuild() {
     visible = calcVisible();
-    // strip -> smazat a znovu postavit: [tail klony] + originals + [head klony]
     strip.innerHTML = '';
+    // klony pro nekonečný loop
     const head = originals.slice(0, visible).map(n => n.cloneNode(true));
     const tail = originals.slice(-visible).map(n => n.cloneNode(true));
     tail.forEach(n => strip.appendChild(n));
@@ -359,41 +405,34 @@
     head.forEach(n => strip.appendChild(n));
     cards = [...strip.children];
 
-    // nastavíme current tak, aby ukazoval na první "reálnou" položku
-    current = visible; // offset kvůli tail klonům
-    // okamžitě vystředíme bez animace
+    current = visible; // start na první "reálné" kartě
     centerOn(current, false);
-    updateBackground();
-  }
-
-  function stepWidth() {
-    if (cards.length < 2) return 0;
-    return cards[1].offsetLeft - cards[0].offsetLeft;
+    updateUI(); // nastaví pozadí + text + třídy
   }
 
   function centerOn(idx, animate = true) {
-    const card = cards[idx];
-    if (!card) return;
+    const card = cards[idx]; if (!card) return;
     const cardCenter = card.offsetLeft + card.offsetWidth / 2;
     const vpCenter   = viewport.clientWidth / 2;
     const offset     = -(cardCenter - vpCenter);
     strip.style.transition = animate ? 'transform .55s cubic-bezier(.22,.61,.36,1)' : 'none';
     strip.style.transform  = `translateX(${offset}px)`;
+
+    // okamžitě pro uživatele uprav text (s fade), ať to působí svižně
+    if (animate) updateUI(true);
   }
 
   function normalize() {
     const total = originals.length;
-    // byl posun do klonů vlevo?
     if (current < visible) {
       current += total;
       centerOn(current, false);
     }
-    // nebo do klonů vpravo?
     if (current >= visible + total) {
       current -= total;
       centerOn(current, false);
     }
-    updateBackground();
+    updateUI(); // finální potvrzení po doskrolování
   }
 
   function go(delta) {
@@ -401,12 +440,38 @@
     centerOn(current, true);
   }
 
-  function updateBackground() {
+  function updateUI(fade = false) {
     const total = originals.length;
-    // mapování na reálný index v originálech
     const realIndex = (current - visible + total) % total;
-    const bg = originals[realIndex].getAttribute('data-bg') || originals[realIndex].querySelector('img')?.getAttribute('src');
+    const realCard  = originals[realIndex];
+    const liveCard  = cards[current];
+
+    // pozadí
+    const bg = realCard.dataset.bg || realCard.querySelector('img')?.getAttribute('src');
     if (bg) root.style.setProperty('--vtbg', `url("${bg}")`);
+
+    // texty + odkaz (s jemným fade efektem)
+    const t = realCard.dataset.title || 'Virtuální prohlídka';
+    const d = realCard.dataset.desc  || 'Prohlídka v nové záložce.';
+    const href = realCard.getAttribute('href') || '#';
+
+    if (fade) copyBox.classList.add('swap-out');
+    if (fade) {
+      setTimeout(() => {
+        titleEl.textContent = t;
+        descEl.textContent  = d;
+        linkEl.href         = href;
+        copyBox.classList.remove('swap-out');
+      }, 120);
+    } else {
+      titleEl.textContent = t;
+      descEl.textContent  = d;
+      linkEl.href         = href;
+    }
+
+    // optické zvýraznění prostřední karty
+    cards.forEach(c => c.classList.remove('is-center'));
+    if (liveCard) liveCard.classList.add('is-center');
   }
 
   // ovládání
@@ -414,9 +479,9 @@
   prevBtn.addEventListener('click', () => go(-1));
   strip.addEventListener('transitionend', normalize);
   window.addEventListener('resize', () => {
-    const was = visible;
+    const before = visible;
     const now = calcVisible();
-    if (was !== now) rebuild();
+    if (before !== now) rebuild();
     else centerOn(current, false);
   });
 
