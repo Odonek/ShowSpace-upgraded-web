@@ -158,81 +158,88 @@ input, textarea { width: 100%; padding: 12px 14px; border: 1px solid #e4e6ea; bo
 input:focus, textarea:focus { outline: 2px solid var(--accent); }
 small.help { color: #999; }
 
-/* ====== NOVÁ SEKCE: VIRTUÁLNÍ PROHLÍDKA ====== */
+/* ====== VIRTUÁLNÍ PROHLÍDKA (nový blok) ====== */
 #vtour {
+  --vtbg: url("CAM05637G0-PR0005-STILL001.jpg");
   position: relative;
   padding: clamp(50px, 10vw, 90px) 0;
   color: #fff;
   background: #0f1115;
   overflow: hidden;
 }
-#vtour::before {
+#vtour::before{
   content:"";
   position:absolute; inset:0;
-  background:
+  background-image:
     linear-gradient(90deg, rgba(15,17,21,.86) 0%, rgba(15,17,21,.66) 45%, rgba(15,17,21,.35) 100%),
-    url("CAM05637G0-PR0005-STILL001.jpg") center/cover no-repeat;
+    var(--vtbg);
+  background-size: 100% 100%, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
   filter: saturate(.95) brightness(.9);
   z-index:0;
 }
-#vtour .container {
+#vtour .container{
   position: relative; z-index: 1;
   display: grid; gap: clamp(24px,3vw,36px);
   grid-template-columns: 1.05fr 1.25fr;
   align-items: center;
 }
-#vtour h2 { color:#fff; font-size: clamp(28px,3.4vw,44px); margin: 0 0 10px; }
-#vtour p.lead { color:#dfe5ee; max-width: 56ch; }
-#vtour .btn-ghost {
+#vtour h2{ color:#fff; font-size: clamp(28px,3.4vw,44px); margin: 0 0 10px; }
+#vtour p.lead{ color:#dfe5ee; max-width: 58ch; }
+#vtour .btn-ghost{
   display:inline-block; padding:12px 18px; border-radius:999px;
   border:2px solid rgba(255,255,255,.65); color:#fff;
   background: transparent; font-weight:700;
 }
-#vtour .btn-ghost:hover { background: rgba(255,255,255,.08); }
+#vtour .btn-ghost:hover{ background: rgba(255,255,255,.08); }
 
 /* pravý blok */
 .vt-media { position: relative; }
-.vt-frame {
+.vt-frame{
   width: 100%; aspect-ratio: 16/9; background:#000;
   border-radius: 18px; overflow: hidden;
   box-shadow: 0 18px 46px rgba(0,0,0,.35);
 }
-.vt-frame iframe { width:100%; height:100%; border:0; }
+.vt-frame iframe{ width:100%; height:100%; border:0; }
 
-/* karty přes iframe */
-.vt-cards {
-  position:absolute; right: -8px; bottom: -22px;
-  display:flex; align-items:center; gap:10px;
+/* karty + ovládání */
+.vt-cards{
+  position:absolute; right: -6px; bottom: -22px;
+  display:flex; align-items:center; gap:14px;
   padding: 8px;
 }
 .vt-arrow{
-  width: 40px; height: 40px; border-radius:50%;
-  border:0; cursor:pointer; font-size:22px; line-height:1;
-  background: rgba(255,255,255,.92); color:#111;
-  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  width: 58px; height: 58px; border-radius:50%;
+  border:0; cursor:pointer; font-size:28px; line-height:1;
+  background: rgba(255,255,255,.95); color:#111;
+  box-shadow: 0 10px 28px rgba(0,0,0,.35);
 }
 .vt-arrow:hover{ background: var(--accent); color:#111; }
 .vt-viewport{
-  width: clamp(260px, 42vw, 520px);
+  width: clamp(320px, 54vw, 680px);
   overflow: hidden;
+  position: relative;
+  border-radius: 18px;
 }
 .vt-strip{
-  display:flex; gap:14px;
+  display:flex; gap:16px;
   will-change: transform;
   transition: transform .45s cubic-bezier(.22,.61,.36,1);
+  padding: 4px;
 }
 .vt-card{
   position: relative; display:block;
-  width: clamp(220px, 30vw, 300px);
+  width: clamp(240px, 34vw, 320px);
   border-radius: 16px; overflow: hidden;
   background: rgba(255,255,255,.06);
   border: 1px solid rgba(255,255,255,.18);
   box-shadow: 0 16px 36px rgba(0,0,0,.38);
   color:#fff;
-  transform: translateZ(0); /* pro hladší hover */
+  transform: translateZ(0);
 }
 .vt-card img{
-  width:100%; height:180px; object-fit:cover; display:block;
+  width:100%; height:190px; object-fit:cover; display:block;
   border-bottom-left-radius: 0; border-bottom-right-radius: 0;
 }
 .vt-meta{
@@ -244,10 +251,20 @@ small.help { color: #999; }
 .vt-meta span{ font-size:.9rem; opacity:.9; }
 .vt-card:hover{ transform: translateY(-3px); }
 
-/* responzivita sekce */
+/* velký odkaz přes celý proužek */
+.vt-biglink{
+  position: absolute; inset: 0;
+  z-index: 5; /* pod šipkami (ty mají implicitně výš) */
+  text-indent: -9999px;
+  background: transparent;
+  border-radius: 18px;
+}
+
+/* responzivita */
 @media (max-width: 980px){
   #vtour .container { grid-template-columns: 1fr; }
   .vt-cards{ position: static; margin-top: 14px; justify-content: center; }
+  .vt-viewport{ width: min(92vw, 700px); }
 }
 
 /* ============ FOOTER ============ */
