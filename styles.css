@@ -148,6 +148,27 @@ a[href^="#"]:not(.btn):hover{
 .hero p  { color: #f1f1f1; margin: 0 0 22px; font-size: clamp(16px,1.6vw,18px); }
 .badge { display: inline-flex; gap: 8px; align-items: center; padding: 6px 12px; border-radius: 999px; background: var(--accent); color: #111; font-size: .85rem; font-weight: 600; margin-bottom: 12px; }
 
+/* SPIRÁLY (dekor) */
+.spiral{
+  position:absolute;
+  width:min(60vw, 720px);
+  height:auto;
+  opacity:.26;
+  pointer-events:none;
+  transform-origin: 50% 50%;
+  animation: spin-slow 42s linear infinite;
+  filter: drop-shadow(0 12px 24px rgba(0,0,0,.18));
+  z-index:1;
+}
+.spiral--left  { left:-8%; bottom:-14%; }
+.spiral--right { right:-10%; top:-12%; animation-direction: reverse; }
+.spiral--vt-left { left:-12%; bottom:-16%; opacity:.20; }
+
+@keyframes spin-slow { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
+@media (prefers-reduced-motion: reduce){
+  .spiral{ animation:none; }
+}
+
 /* SECTIONS */
 header.section { padding-top: 140px; }
 .section { padding: 56px 0; background: #fff; }
@@ -178,12 +199,13 @@ header.section { padding-top: 140px; }
 .kpis { display: flex; gap: 18px; margin-top: 14px; flex-wrap: wrap; }
 .kpi { background: var(--slate); color: #fff; padding: 10px 14px; border-radius: 12px; font-weight: 700; }
 
+/* FORM základ (ponecháno kvůli vstupům) */
 .form { display: grid; gap: 12px; }
 input, textarea { width: 100%; padding: 12px 14px; border: 1px solid #e4e6ea; border-radius: 12px; background: #fff; }
 input:focus, textarea:focus { outline: 2px solid var(--accent); }
 small.help { color: #999; }
 
-/* === VTOUR — beze změny funkce, jen pro kontext === */
+/* === VTOUR === */
 #vtour{
   --vtbg: url("CAM05637G0-PR0005-STILL001.jpg");
   --gap: 20px;
