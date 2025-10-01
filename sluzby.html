@@ -336,31 +336,77 @@
   </div>
 </section>
 
-<!-- KONTAKT -->
-<section id="kontakt" class="section section--alt">
-  <div class="container grid grid-2">
-    <div>
+<!-- KONTAKT – dvě karty -->
+<section id="kontakt" class="section contact">
+  <div class="container contact-grid">
+
+    <!-- INFO KARTA -->
+    <div class="contact-card contact-info">
       <h2>Kontaktujte nás</h2>
       <p class="lead">Ozveme se ještě dnes s orientační cenou a termínem.</p>
-      <p><strong>ShowSpace</strong><br />
-        Tel: <a href="tel:+420123456789">+420 123 456 789</a><br />
-        E-mail: <a href="mailto:info@showspace.cz">info@showspace.cz</a></p>
-      <p>IČO: 23631741<br />
-         DIČ: CZ23631741<br />
-         Sídlo: Petrusova 2213/15, 56802 Svitavy<br />
-         Spisová značka: C 55194, KS Hradec Králové</p>
+
+      <ul class="contact-list">
+        <li class="contact-item">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.3 1 .3 2 .5 3 .6.6.1 1 .6 1 1.2V20a2 2 0 0 1-2.2 2 18 18 0 0 1-16-16A2 2 0 0 1 4 3h3.1c.6 0 1.1.4 1.2 1 .1 1 .3 2 .6 3 .1.4 0 .8-.3 1.1l-2 2.2z"/></svg>
+          </div>
+          <div>
+            <strong>Telefon</strong>
+            <a href="tel:+420123456789">+420 123 456 789</a>
+          </div>
+        </li>
+
+        <li class="contact-item">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 3-8 5L4 7V6l8 5 8-5v1z"/></svg>
+          </div>
+          <div>
+            <strong>E-mail</strong>
+            <a href="mailto:info@showspace.cz">info@showspace.cz</a>
+          </div>
+        </li>
+
+        <li class="contact-item">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+          </div>
+          <div>
+            <strong>Sídlo</strong>
+            Petrusova 2213/15, 56802 Svitavy
+          </div>
+        </li>
+
+        <li class="contact-item">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></svg>
+          </div>
+          <div>
+            <strong>Fakturační údaje</strong>
+            IČO: 23631741 • DIČ: CZ23631741<br>
+            Spisová značka: C 55194, KS Hradec Králové
+          </div>
+        </li>
+      </ul>
     </div>
 
-    <div>
-      <form class="form" action="https://formspree.io/f/yourendpoint" method="POST">
-        <input name="jmeno" placeholder="Jméno a příjmení" required />
-        <input name="email" type="email" placeholder="E-mail" required />
-        <input name="telefon" placeholder="Telefon" />
-        <textarea name="zprava" rows="4" placeholder="Stručně popište projekt (m², typ prostoru, lokalita)"></textarea>
-        <button class="btn btn--accent" type="submit">Odeslat poptávku</button>
-        <small class="help">Odesláním souhlasíte se zpracováním údajů pro vyřízení poptávky.</small>
+    <!-- FORM KARTA -->
+    <div class="contact-card contact-form">
+      <h2>Napište nám</h2>
+      <form action="https://formspree.io/f/yourendpoint" method="POST">
+        <div class="form-grid">
+          <input class="full" name="jmeno" placeholder="Jméno a příjmení" required>
+          <input name="email" type="email" placeholder="E-mail" required>
+          <input name="telefon" placeholder="Telefon">
+          <textarea class="full" name="zprava" rows="5" placeholder="Stručně popište projekt"></textarea>
+        </div>
+
+        <div style="display:flex; gap:12px; align-items:center; margin-top:10px;">
+          <button class="btn btn--accent" type="submit">Odeslat poptávku</button>
+          <small class="help">Odesláním souhlasíte se zpracováním údajů pro vyřízení poptávky.</small>
+        </div>
       </form>
     </div>
+
   </div>
 </section>
 
