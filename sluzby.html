@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;500;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <style>
-  /* Doplňky + override pro top bar a footer (styl jako na upgraded webu) */
+  /* Doplňky + přesné srovnání s index.html topbarem a footerem */
   .subtle { color: var(--muted); }
   .grid-4 { display:grid;grid-template-columns:repeat(4,1fr);gap:22px }
   @media (max-width:1100px){ .grid-4{grid-template-columns:repeat(2,1fr)} }
@@ -21,11 +21,11 @@
   .service-card .service-list{margin:0 0 16px;padding-left:18px}
   .service-card .service-list li{margin:6px 0}
 
-  /* === TOP BAR === */
+  /* === TOP BAR – shodný s indexem === */
   .topbar{position:sticky;top:0;inset-inline:0;z-index:100;background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid #eee;transition:box-shadow .2s ease, background .2s ease}
   .topbar.scrolled{background:#fff;box-shadow:0 6px 20px rgba(0,0,0,.08)}
   .topbar-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
-  .logo img{height:56px;width:auto;border-radius:0}
+  .logo img{height:56px;width:auto}
   .main-nav{display:flex;gap:18px;align-items:center}
   .main-nav a{font-weight:600;color:var(--ink);padding:8px 10px;border-radius:999px}
   .main-nav a[aria-current="page"]{background:#f5f7fa}
@@ -34,7 +34,7 @@
   .nav-social a svg{width:20px;height:20px;fill:var(--slate);transition:fill .2s}
   .nav-social a:hover svg{fill:var(--accent)}
 
-  /* === FOOTER === */
+  /* === FOOTER – shodný s indexem === */
   .site-footer{margin-top:40px;background:#fff;color:#666;border-top:1px solid #eee}
   .footer-wrap{padding:16px 0;display:flex;align-items:center;justify-content:space-between;gap:16px}
   .footer-left a{color:var(--slate);font-weight:500}
@@ -78,7 +78,7 @@
 <header class="section">
   <div class="container">
     <h1>Co pro vás uděláme</h1>
-    <p class="lead">Nabízíme přesně ty služby, které jste uvedl: virtuální prohlídky, marketing, správu sociálních sítí a tvorbu webu. Bez balíčků a ceníků.</p>
+    <p class="lead">Virtuální prohlídky, marketing, správa sociálních sítí a tvorba webu. Přehledně a bez ceníků.</p>
   </div>
 </header>
 
@@ -154,14 +154,14 @@
   <div class="container grid grid-2">
     <div>
       <h2>Kontaktujte nás</h2>
-      <p class="lead">Ozveme se ještě dnes.</p>
+      <p class="lead">Ozveme se ještě dnes s orientační cenou a termínem.</p>
       <p><strong>ShowSpace</strong><br />
         Tel: <a href="tel:+420123456789">+420 123 456 789</a><br />
         E-mail: <a href="mailto:info@showspace.cz">info@showspace.cz</a></p>
       <p>IČO: 23631741<br />
          DIČ: CZ23631741<br />
-         Sídlo: Petrusova 2213/15, Předměstí, 56802 Svitavy<br />
-         Spisová značka: C 55194 vedená u Krajského soudu v Hradci Králové</p>
+         Sídlo: Petrusova 2213/15, 56802 Svitavy<br />
+         Spisová značka: C 55194, KS Hradec Králové</p>
     </div>
 
     <div>
