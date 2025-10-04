@@ -7,11 +7,7 @@
   <meta name="description" content="Marketing, sociální sítě, focení a rychlé weby.">
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;500;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="shortcut icon" type="image/png" href="favicon.png">
-  <link rel="apple-touch-icon" href="favicon.png">
   <meta name="theme-color" content="#415A77">
 </head>
 <body>
@@ -19,11 +15,16 @@
 <!-- NAVBAR -->
 <nav>
   <div class="container nav-inner">
-    <a class="logo" href="index.html">
+    <a class="logo" href="index.html" aria-label="ShowSpace">
       <img src="logonahoruvlevo1.png" alt="ShowSpace logo">
     </a>
 
-    <div class="menu">
+    <!-- Hamburger (mobile) -->
+    <button class="nav-burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="primary-menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div id="primary-menu" class="menu">
       <a href="index.html" aria-current="page">Domů</a>
 
       <!-- „Služby“ -->
@@ -41,23 +42,23 @@
       </div>
 
       <a href="galerie.html">Galerie</a>
-    </div>
 
-    <div class="nav-right">
-      <div class="nav-social">
-        <a href="https://facebook.com/showspace" target="_blank" aria-label="Facebook">
-          <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2v-3h2v-2c0-2 1.2-3 3-3 .9 0 1.8.1 1.8.1v2h-1c-1 0-1.3.6-1.3 1.2V12h2.5l-.4 3h-2.1v7A10 10 0 0 0 22 12"/></svg>
-        </a>
-        <a href="https://www.instagram.com/showspace.cz/" target="_blank" aria-label="Instagram">
-          <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg>
-        </a>
-        <a href="https://www.tiktok.com/@show.space360" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-            <path d="M21 8.5a7.5 7.5 0 0 1-4.6-1.6v7.6a5.5 5.5 0 1 1-5.5-5.5c.2 0 .4 0 .6.1v2.6a2.9 2.9 0 1 0 2.9 2.9V2h2.2c.3 1.2 1 2.3 1.9 3.1A5.3 5.3 0 0 0 21 6.5v2z"/>
-          </svg>
-        </a>
+      <div class="nav-right">
+        <div class="nav-social">
+          <a href="https://facebook.com/showspace" target="_blank" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2v-3h2v-2c0-2 1.2-3 3-3 .9 0 1.8.1 1.8.1v2h-1c-1 0-1.3.6-1.3 1.2V12h2.5l-.4 3h-2.1v7A10 10 0 0 0 22 12"/></svg>
+          </a>
+          <a href="https://www.instagram.com/showspace.cz/" target="_blank" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@show.space360" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+              <path d="M21 8.5a7.5 7.5 0 0 1-4.6-1.6v7.6a5.5 5.5 0 1 1-5.5-5.5c.2 0 .4 0 .6.1v2.6a2.9 2.9 0 1 0 2.9 2.9V2h2.2c.3 1.2 1 2.3 1.9 3.1A5.3 5.3 0 0 0 21 6.5v2z"/>
+            </svg>
+          </a>
+        </div>
+        <a href="#kontakt" class="btn btn--accent nav-cta">Kontakt</a>
       </div>
-      <a href="#kontakt" class="btn btn--accent">Kontakt</a>
     </div>
   </div>
 </nav>
@@ -81,7 +82,7 @@
   </div>
 </header>
 
-<!-- BENEFITY – boxy -->
+<!-- BENEFITY -->
 <section id="benefity" class="section section--wide">
   <div class="container">
     <header class="section-head">
@@ -97,19 +98,15 @@
     </header>
 
     <div class="benefit-boxes">
-      <!-- Box 1 -->
       <article class="benefit-box">
         <div class="benefit-box__head">
-          <div class="benefit-box__icon" aria-hidden="true">⏳</div>
-          <h3>Maximální úspora času</h3>
+          <div class="benefit-box__icon">⏳</div><h3>Maximální úspora času</h3>
         </div>
-        <p class="benefit-box__text">
-          Klienti si váš prostor projdou odkudkoli a kdykoli. Vy ušetříte hodiny a můžete řešit to, co je opravdu důležité.
-        </p>
+        <p class="benefit-box__text">Klienti si váš prostor projdou odkudkoli a kdykoli. Vy ušetříte hodiny a můžete řešit to, co je opravdu důležité.</p>
         <ul class="benefit-box__list">
-          <li><span>➤</span> Méně zbytečných osobních obhlídek</li>
+          <li><span>➤</span> Méně zbytečných obhlídek</li>
           <li><span>➤</span> Lepší kvalifikace poptávek</li>
-          <li><span>➤</span> Sdílení prohlídky jedním odkazem</li>
+          <li><span>➤</span> Sdílení jedním odkazem</li>
         </ul>
         <div class="benefit-box__kpi">
           <div class="benefit-number"><span class="counter" data-target="50">0</span>%</div>
@@ -117,15 +114,11 @@
         </div>
       </article>
 
-      <!-- Box 2 -->
       <article class="benefit-box">
         <div class="benefit-box__head">
-          <div class="benefit-box__icon" aria-hidden="true">👥</div>
-          <h3>Více zákazníků a rezervací</h3>
+          <div class="benefit-box__icon">👥</div><h3>Více zákazníků a rezervací</h3>
         </div>
-        <p class="benefit-box__text">
-          Virtuální prohlídka zaujme až 3× více návštěvníků než běžná fotka. Interaktivita + marketing promění návštěvy v klienty.
-        </p>
+        <p class="benefit-box__text">Virtuální prohlídka zaujme až 3× více návštěvníků než běžná fotka. Interaktivita + marketing promění návštěvy v klienty.</p>
         <ul class="benefit-box__list">
           <li><span>➤</span> Delší čas na stránce</li>
           <li><span>➤</span> Vyšší CTR v kampaních</li>
@@ -137,19 +130,15 @@
         </div>
       </article>
 
-      <!-- Box 3 -->
       <article class="benefit-box">
         <div class="benefit-box__head">
-          <div class="benefit-box__icon" aria-hidden="true">🌟</div>
-          <h3>Prémiový dojem a důvěra</h3>
+          <div class="benefit-box__icon">🌟</div><h3>Prémiový dojem a důvěra</h3>
         </div>
-        <p class="benefit-box__text">
-          Reálný pohled na prostor působí profesionálně a snižuje nejistotu. Klienti přesně ví, co dostanou — a vyhrajete nad konkurencí.
-        </p>
+        <p class="benefit-box__text">Reálný pohled na prostor působí profesionálně a snižuje nejistotu. Klienti přesně ví, co dostanou — a vyhrajete nad konkurencí.</p>
         <ul class="benefit-box__list">
-          <li><span>➤</span> Konzistentní prezentace napříč kanály</li>
-          <li><span>➤</span> Menší počet dotazů „co a jak“</li>
-          <li><span>➤</span> Silnější značka a reference</li>
+          <li><span>➤</span> Konzistentní prezentace</li>
+          <li><span>➤</span> Méně dotazů „co a jak“</li>
+          <li><span>➤</span> Silnější značka</li>
         </ul>
         <div class="benefit-box__kpi">
           <div class="benefit-number">+<span class="counter" data-target="40">0</span>%</div>
@@ -160,7 +149,7 @@
   </div>
 </section>
 
-<!-- VTOUR (full-screen, loop) -->
+<!-- VTOUR -->
 <section id="vtour" aria-label="Virtuální prohlídky">
   <div class="vt-overlay"></div>
 
@@ -172,11 +161,11 @@
         Vždy vidíš tři projekty. Další zobrazíš šipkami. Kliknutím na kartu se otevře prohlídka v nové záložce.
         Pozadí se mění podle prostřední karty.
       </p>
-      <p>
+      <p class="vt-cta-wrap">
         <a class="btn btn--accent" id="vt-link"
            href="https://tour.giraffe360.com/houseboat-prague-vltava/"
            target="_blank" rel="noopener">Otevřít ukázkovou prohlídku</a>
-        <a class="btn btn--outline" href="#kontakt">Chci nabídku</a>
+        <a class="btn btn--primary btn-cta-strong" href="#kontakt">Chci nabídku</a>
       </p>
     </div>
 
@@ -186,7 +175,7 @@
           <!-- 8 karet -->
           <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL001.jpg" data-title="Houseboat Praha"
              data-desc="Vytvořili jsme 3D virtuální prohlídku pro vlastníka Houseboatu na míru."
-             href="https://premium.giraffe360.com/bondoxboroughphillips/accd62f7fd354a0e8a952f3703a9f123/?_gl=1*1crnra7*_gcl_au*MjEzMzExOTcwNi4xNzU3NTE3Njk4" target="_blank" rel="noopener">
+             href="https://premium.giraffe360.com/bondoxboroughphillips/accd62f7fd354a0e8a952f3703a9f123/" target="_blank" rel="noopener">
             <img src="CAM05637G0-PR0005-STILL001.jpg" alt="Houseboat Praha"><div class="vt-meta"><strong>Houseboat Praha</strong><span>Virtuální prohlídka</span></div>
           </a>
           <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL002.jpg" data-title="Interiér – obývací část"
@@ -196,7 +185,7 @@
           </a>
           <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL003.jpg" data-title="Interiér – denní zóna"
              data-desc="Prostorná denní část houseboatu s výstupem na palubu."
-             href="https://premium.giraffe360.com/bondoxboroughphillips/accd62f7fd354a0e8a952f3703a9f123/?_gl=1*1crnra7*_gcl_au*MjEzMzExOTcwNi4xNzU3NTE3Njk4" target="_blank" rel="noopener">
+             href="https://premium.giraffe360.com/bondoxboroughphillips/accd62f7fd354a0e8a952f3703a9f123/" target="_blank" rel="noopener">
             <img src="CAM05637G0-PR0005-STILL003.jpg" alt="Interiér 2"><div class="vt-meta"><strong>Interiér 2</strong><span>Ukázka z tour</span></div>
           </a>
           <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL004.jpg" data-title="Detail – materiály"
@@ -235,12 +224,9 @@
   </div>
 </section>
 
-<!-- O NÁS (opravené rozložení: FOTO VLEVO, TEXT VPRAVO) -->
+<!-- O NÁS (desktop: text vlevo, fotka vpravo; mobil: fotka nahoře) -->
 <section id="o-nas" class="section">
   <div class="container about-grid">
-    <div class="about-media">
-      <img src="fotkaonas.JPEG" alt="Tým ShowSpace – foto" loading="lazy">
-    </div>
     <div class="about-text">
       <span class="tag">O nás</span>
       <h2>Jsme ShowSpace</h2>
@@ -260,14 +246,15 @@
         <a href="#kontakt" class="btn btn--accent">Chci nezávaznou poptávku</a>
       </p>
     </div>
+    <div class="about-media">
+      <img src="fotkaonas.JPEG" alt="Tým ShowSpace – foto" loading="lazy">
+    </div>
   </div>
 </section>
 
-<!-- KONTAKT – dvě karty -->
+<!-- KONTAKT -->
 <section id="kontakt" class="section contact">
   <div class="container contact-grid">
-
-    <!-- INFO KARTA -->
     <div class="contact-card contact-info">
       <h2>Kontaktujte nás</h2>
       <p class="lead">Ozveme se s orientační cenou a termínem.</p>
@@ -316,7 +303,6 @@
       </ul>
     </div>
 
-    <!-- FORM KARTA -->
     <div class="contact-card contact-form">
       <h2>Napište nám</h2>
       <form action="https://formspree.io/f/yourendpoint" method="POST">
@@ -327,13 +313,12 @@
           <textarea class="full" name="zprava" rows="5" placeholder="Stručně popište projekt"></textarea>
         </div>
 
-        <div style="display:flex; gap:12px; align-items:center; margin-top:10px;">
+        <div class="form-actions">
           <button class="btn btn--accent" type="submit">Odeslat poptávku</button>
           <small class="help">Odesláním souhlasíte se zpracováním údajů pro vyřízení poptávky.</small>
         </div>
       </form>
     </div>
-
   </div>
 </section>
 
@@ -352,7 +337,6 @@
       <a href="https://www.instagram.com/showspace.cz/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
           <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/>
-        </svg>
       </a>
       <a href="https://www.tiktok.com/@show.space360" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
@@ -382,30 +366,36 @@
 </script>
 
 <script>
-/* Dropdown „Služby“ */
+/* Hamburger + dropdowny */
 (() => {
-  const toggle = document.querySelector('.menu-toggle');
-  const menu = document.getElementById('submenu-sluzby');
-  if(!toggle || !menu) return;
+  const burger = document.querySelector('.nav-burger');
+  const menu = document.getElementById('primary-menu');
+  const servicesToggle = document.querySelector('.menu-toggle');
+  const submenu = document.getElementById('submenu-sluzby');
 
-  const open = () => { toggle.setAttribute('aria-expanded','true'); menu.classList.add('show'); };
-  const close = () => { toggle.setAttribute('aria-expanded','false'); menu.classList.remove('show'); };
-  const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+  if (burger && menu) {
+    burger.addEventListener('click', () => {
+      const open = menu.classList.toggle('open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
 
-  toggle.addEventListener('click', (e)=>{ e.stopPropagation(); isOpen() ? close() : open(); });
-  document.addEventListener('click', (e)=>{ if(isOpen() && !toggle.contains(e.target) && !menu.contains(e.target)) close(); });
-  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && isOpen()) { close(); toggle.focus(); } });
-  menu.querySelectorAll('a').forEach(a=> a.addEventListener('click', close));
+  if (servicesToggle && submenu) {
+    const open = () => { servicesToggle.setAttribute('aria-expanded','true'); submenu.classList.add('show'); };
+    const close = () => { servicesToggle.setAttribute('aria-expanded','false'); submenu.classList.remove('show'); };
+    const isOpen = () => servicesToggle.getAttribute('aria-expanded') === 'true';
+
+    servicesToggle.addEventListener('click', (e)=>{ e.stopPropagation(); isOpen() ? close() : open(); });
+    document.addEventListener('click', (e)=>{ if(isOpen() && !servicesToggle.contains(e.target) && !submenu.contains(e.target)) close(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && isOpen()) { close(); servicesToggle.focus(); } });
+    submenu.querySelectorAll('a').forEach(a=> a.addEventListener('click', close));
+  }
 })();
 </script>
 
 <script>
-/* ČÍSLOVAČE – pomalejší (2.4 s), spouští se až při vstupu každého boxu do viewportu */
+/* ČÍSLOVAČE – pomalejší (2.4 s), spouští se po vstupu boxu/hlavičky do viewportu */
 (() => {
-  const boxes = document.querySelectorAll('.benefit-box');
-  const allCounters = document.querySelectorAll('.counter');
-  if (!boxes.length || !allCounters.length) return;
-
   const DURATION = 2400;
 
   function animateCounter(el, target, duration = DURATION) {
@@ -419,44 +409,43 @@
     requestAnimationFrame(frame);
   }
 
-  const io = new IntersectionObserver((entries, obs) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const counters = e.target.querySelectorAll('.counter');
-        counters.forEach(c => {
+  // benefit boxy
+  const boxes = document.querySelectorAll('.benefit-box');
+  if (boxes.length) {
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.querySelectorAll('.counter').forEach(c => {
           if (c.dataset.played === '1') return;
           c.dataset.played = '1';
-          const raw = c.dataset.target || '0';
-          const numeric = parseInt(raw.replace(/[^0-9]/g,''), 10) || 0;
+          const numeric = parseInt((c.dataset.target || '0').replace(/[^0-9]/g,''), 10) || 0;
           animateCounter(c, numeric);
         });
         obs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.35 });
+      });
+    }, { threshold: 0.35 });
+    boxes.forEach(b => io.observe(b));
+  }
 
-  boxes.forEach(b => io.observe(b));
-
-  // Extra: i headline-stat (80 %) až při scrollu na sekci
-  const head = document.querySelector('#benefity .headline-stat');
+  // headline statistika
+  const head = document.querySelector('#benefity .headline-stat .counter');
   if (head) {
-    const headCounter = head.querySelector('.counter');
     const io2 = new IntersectionObserver((entries, obs) => {
       entries.forEach(e => {
-        if (e.isIntersecting && headCounter && headCounter.dataset.played !== '1') {
-          headCounter.dataset.played = '1';
-          animateCounter(headCounter, parseInt(headCounter.dataset.target||'0',10));
+        if (e.isIntersecting && head.dataset.played !== '1') {
+          head.dataset.played = '1';
+          animateCounter(head, parseInt(head.dataset.target||'0',10));
           obs.disconnect();
         }
       });
-    }, { threshold: 0.35 });
-    io2.observe(head);
+    }, { threshold: 0.3 });
+    io2.observe(head.closest('.headline-stat'));
   }
 })();
 </script>
 
 <script>
-/* VTOUR – loop + bg + text */
+/* VTOUR – loop + bg + text + zvětšení aktivní karty */
 (() => {
   const root = document.getElementById('vtour');
   if (!root) return;
@@ -506,6 +495,7 @@
     const total = originals.length;
     const realIndex = (current - visible + total) % total;
     const realCard  = originals[realIndex];
+    const liveCard  = cards[current];
 
     const bg   = realCard.dataset.bg || realCard.querySelector('img')?.getAttribute('src');
     const t    = realCard.dataset.title || 'Virtuální prohlídka';
@@ -523,15 +513,20 @@
     } else {
       titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
     }
+
+    // zvýrazni/scale aktivní kartu
+    cards.forEach(c => c.classList.remove('is-center'));
+    if (liveCard) liveCard.classList.add('is-center');
   }
 
-  function go(delta){ current += delta; centerOn(current, true); }
-  function normalize(){
+  function normalize() {
     const total = originals.length;
     if (current < visible) { current += total; centerOn(current, false); }
     if (current >= visible + total) { current -= total; centerOn(current, false); }
     updateUI();
   }
+
+  function go(delta){ current += delta; centerOn(current, true); }
 
   nextBtn.addEventListener('click', () => go(+1));
   prevBtn.addEventListener('click', () => go(-1));
@@ -547,4 +542,3 @@
 
 </body>
 </html>
-
