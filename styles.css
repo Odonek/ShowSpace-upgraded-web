@@ -173,8 +173,8 @@ header.section { padding-top: 140px; }
 .kpi { background: var(--slate); color: #fff; padding: 10px 14px; border-radius: 12px; font-weight: 700; }
 @media (max-width: 900px){
   .about-grid{ grid-template-columns: 1fr; }
-  .about-media{ order: 1; } /* na mobilu fotka nad textem je OK; chceš-li text první, změň na order:2 */
-  .about-text{ order: 2; }
+  .about-media{ order: 2; } /* na mobilu fotka nad textem je OK; chceš-li text první, změň na order:2 */
+  .about-text{ order: 1; }
 }
 
 /* === KONTAKT === */
