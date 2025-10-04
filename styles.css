@@ -329,15 +329,6 @@ small.help { color: #999; }
   box-shadow: 0 10px 28px rgba(0,0,0,.35);
 }
 .vt-arrow:hover{ background: var(--accent); color:#111; }
-
-/* O NÁS – jemné zvýraznění fotky */
-.about img {
-  border-radius: 18px;
-  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.15);
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-}
 /* Zvýrazněné tlačítko v sekci virtuálních prohlídek */
 .btn--highlight {
   background: linear-gradient(135deg, var(--accent), #fff6a0);
@@ -348,13 +339,38 @@ small.help { color: #999; }
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
   transition: all 0.25s ease;
   border: none;
+  animation: pulseGlow 2.5s ease-in-out infinite;
 }
 
 .btn--highlight:hover {
   transform: translateY(-3px) scale(1.05);
   background: linear-gradient(135deg, #f9e93a, var(--accent));
   box-shadow: 0 16px 38px rgba(0, 0, 0, 0.3);
+  animation: none; /* pozastaví pulsování při hoveru */
 }
+
+/* Pulzující efekt */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(234, 225, 81, 0);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(234, 225, 81, 0.5);
+    transform: scale(1.04);
+  }
+}
+
+
+/* O NÁS – jemné zvýraznění fotky */
+.about img {
+  border-radius: 18px;
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
 /* KPI boxy – vedle sebe v modrých rámečcích */
 .kpis {
   display: flex;
