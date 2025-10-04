@@ -1,3 +1,10 @@
+Níže jsou kompletní nové verze obou souborů s upravenou sekcí **Benefity**: vyšší bílé pozadí, nový nadpis a 5 jasných důvodů. Čísla stále plynule nabíhají od nuly.
+
+---
+
+### `index.html`
+
+```html
 <!doctype html>
 <html lang="cs">
 <head>
@@ -72,7 +79,6 @@
     <div class="hero-overlay"></div>
   </div>
 
- 
   <div class="container">
     <div class="hero-card">
       <h1>Prodávejte dřív, než klient vstoupí</h1>
@@ -82,27 +88,75 @@
   </div>
 </header>
 
-<!-- BENEFITY -->
-<section id="benefity" class="section">
-  <div class="container benefits-center">
-    <div class="card benefit big">
-      <div class="benefit-icon">⏱</div>
-      <div class="benefit-number"><span class="counter" data-target="100">0</span>%</div>
-      <h3>Úspora času</h3>
-      <p>Vaši klienti si projdou prostor online a vy šetříte hodiny práce.</p>
+<!-- BENEFITY (upraveno) -->
+<section id="benefity" class="section section--tall">
+  <div class="container benefit-wrap grid-2">
+
+    <!-- Textová část s důvody -->
+    <div class="benefit-text">
+      <span class="tag">Proč mít virtuální prohlídku</span>
+      <h2>5 výhod virtuálních prohlídek</h2>
+      <ul class="benefit-list">
+        <li>
+          <div class="bl-ico">💸</div>
+          <div>
+            <strong>Šetří čas i peníze</strong>
+            <p>Zájemci si projdou prostor odkudkoliv – bez nutnosti osobní návštěvy.</p>
+          </div>
+        </li>
+        <li>
+          <div class="bl-ico">📈</div>
+          <div>
+            <strong>Zaujmou více zájemců</strong>
+            <p>Moderní, profesionální prezentace zvyšuje atraktivitu i důvěru.</p>
+          </div>
+        </li>
+        <li>
+          <div class="bl-ico">⏰</div>
+          <div>
+            <strong>Dostupné 24/7</strong>
+            <p>Vaše prostory jsou otevřené online kdykoliv – ideální pro nové klienty či návštěvníky.</p>
+          </div>
+        </li>
+        <li>
+          <div class="bl-ico">🧭</div>
+          <div>
+            <strong>Reálný pocit z prostoru</strong>
+            <p>3D zobrazení lépe přenáší velikost, dispozici i atmosféru než klasické fotky.</p>
+          </div>
+        </li>
+        <li>
+          <div class="bl-ico">🚀</div>
+          <div>
+            <strong>Náskok před konkurencí</strong>
+            <p>Více než <b><span class="counter" data-target="80">0</span>%</b> podniků stále nemá virtuální prohlídku.</p>
+          </div>
+        </li>
+      </ul>
     </div>
-    <div class="card benefit big">
-      <div class="benefit-icon">📈</div>
-      <div class="benefit-number"><span class="counter" data-target="87">0</span>%</div>
-      <h3>Lepší viditelnost</h3>
-      <p>Marketing a obsah zvyšují dosah i zájem.</p>
+
+    <!-- KPI / čísla -->
+    <div class="benefits-center kpi-block">
+      <div class="card benefit big">
+        <div class="benefit-icon">⏱</div>
+        <div class="benefit-number"><span class="counter" data-target="100">0</span>%</div>
+        <h3>Úspora času</h3>
+        <p>Klienti si projdou prostor online a vy šetříte hodiny práce.</p>
+      </div>
+      <div class="card benefit big">
+        <div class="benefit-icon">📈</div>
+        <div class="benefit-number"><span class="counter" data-target="87">0</span>%</div>
+        <h3>Lepší viditelnost</h3>
+        <p>Marketing a obsah zvyšují dosah i zájem.</p>
+      </div>
+      <div class="card benefit big">
+        <div class="benefit-icon">⭐</div>
+        <div class="benefit-number">+<span class="counter" data-target="40">0</span>%</div>
+        <h3>Více důvěry</h3>
+        <p>Jasná prezentace vede k více rezervacím a poptávkám.</p>
+      </div>
     </div>
-    <div class="card benefit big">
-      <div class="benefit-icon">⭐</div>
-      <div class="benefit-number">+<span class="counter" data-target="40">0</span>%</div>
-      <h3>Více důvěry</h3>
-      <p>Jasná prezentace vede k více rezervacím a poptávkám.</p>
-    </div>
+
   </div>
 </section>
 
@@ -111,7 +165,6 @@
   <div class="vt-overlay"></div>
 
   <div class="container vt-grid">
-   
 
     <div class="vt-copy" id="vt-copy">
       <span class="tag">Virtuální prohlídky</span>
@@ -189,9 +242,9 @@
     <div class="text">
       <span class="tag">O nás</span>
       <h2>Jsme ShowSpace</h2>
-      <p class="lead">Jsme parta vysokoškoláků a nadšenců do moderních technologií a marketingu. Baví nás pomáhat s prezentací prostorů v co nejlepším světle.</p>
-      <p>Jsme energičtí a ambiciózní. Ke každému projektu přistupujeme s maximální péčí. Spokojenost klienta je pro nás vždy na prvním místě – když se daří vám, daří se i nám.</p>
-  
+      <p class="lead">Jsme parta studentů Provozně ekonomické fakulty Mendelovy univerzity, kteří jsou zapálení do moderních technologií, marketingu a realitního trhu. Pomáháme podnikům i majitelům nemovitostí najít ty správné zájemce.</p>
+      <p>Snažíme se, aby celý proces, ať už jde o prodej či pronájem nemovitostí, nebo získávání nových zákazníků pro váš byznys, byl co nejjednodušší a zároveň co nejefektivnější.</p>
+      <p>Víme, že čas je drahý, proto za vás kompletně zajistíme všechny služby, abyste se mohli soustředit na to, co umíte nejlépe.</p>
       <div class="kpis">
         <div class="kpi">Virtuální prohlídky</div>
         <div class="kpi">Marketing</div>
@@ -204,7 +257,7 @@
     </div>
 
     <div>
-      <img src="fotkaonas.JPEG" alt="Tým ShowSpace – ilustrační foto">
+      <img src="CAM05637G0-PR0005-STILL001.jpg" alt="Tým ShowSpace – ilustrační foto">
     </div>
   </div>
 </section>
@@ -479,3 +532,5 @@
 
 </body>
 </html>
+
+
