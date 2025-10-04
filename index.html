@@ -26,7 +26,6 @@
     <div class="menu">
       <a href="index.html" aria-current="page">Domů</a>
 
-      <!-- „Služby“ – stejné rozměry jako ostatní -->
       <div class="menu-item--has-sub">
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="submenu-sluzby">
           Služby
@@ -81,57 +80,82 @@
   </div>
 </header>
 
-<!-- BENEFITY (nové) -->
+<!-- BENEFITY – boxy (vylepšené) -->
 <section id="benefity" class="section section--wide">
   <div class="container">
-
     <header class="section-head">
       <span class="tag">Proč mít virtuální prohlídku</span>
       <h2>Odemkne pozornost, zvýší důvěru a šetří čas</h2>
       <p class="lead">
-        Virtuální prohlídka ukáže váš prostor 24/7 odkudkoli. Zaujme více lidí než běžná fotka,
-        zlepší jejich rozhodování a přivede vám měřitelný byznys.
+        Virtuální prohlídka ukáže váš prostor 24/7 odkudkoli. Zaujme víc lidí než fotka,
+        zlepší rozhodování a přivede měřitelné poptávky i rezervace.
       </p>
       <div class="headline-stat">
-        <strong><span class="counter" data-target="80">0</span>%</strong> podniků ji stále nemá — ideální příležitost, jak vyniknout.
+        <strong><span class="counter" data-target="80">0</span>%</strong> podniků ji stále nemá — skvělá příležitost, jak vyniknout.
       </div>
     </header>
 
-    <div class="benefits-grid">
-      <!-- 1 -->
-      <article class="card benefit big">
-        <div class="benefit-emoji" aria-hidden="true">⏳</div>
-        <h3>Maximální úspora času</h3>
-        <p>Vaši klienti si projdou prostor odkudkoli a kdykoli. Vy tak ušetříte hodiny a můžete se soustředit na to, co je opravdu důležité.</p>
-        <div class="benefit-kpi">
+    <div class="benefit-boxes">
+      <!-- Box 1 -->
+      <article class="benefit-box">
+        <div class="benefit-box__head">
+          <div class="benefit-box__icon" aria-hidden="true">⏳</div>
+          <h3>Maximální úspora času</h3>
+        </div>
+        <p class="benefit-box__text">
+          Klienti si váš prostor projdou odkudkoli a kdykoli. Vy ušetříte hodiny a můžete řešit to, co je opravdu důležité.
+        </p>
+        <ul class="benefit-box__list">
+          <li><span>➤</span> Méně zbytečných osobních obhlídek</li>
+          <li><span>➤</span> Lepší kvalifikace poptávek</li>
+          <li><span>➤</span> Sdílení prohlídky jedním odkazem</li>
+        </ul>
+        <div class="benefit-box__kpi">
           <div class="benefit-number"><span class="counter" data-target="50">0</span>%</div>
-          <div class="benefit-note">méně osobních obhlídek</div>
+          <div class="benefit-note">méně osobních návštěv</div>
         </div>
       </article>
 
-      <!-- 2 -->
-      <article class="card benefit big">
-        <div class="benefit-emoji" aria-hidden="true">👥</div>
-        <h3>Více zákazníků a rezervací</h3>
-        <p>Virtuální prohlídka zaujme až 3× více návštěvníků než běžná fotka. Interaktivita a marketing přemění návštěvy na platící klienty.</p>
-        <div class="benefit-kpi">
+      <!-- Box 2 -->
+      <article class="benefit-box">
+        <div class="benefit-box__head">
+          <div class="benefit-box__icon" aria-hidden="true">👥</div>
+          <h3>Více zákazníků a rezervací</h3>
+        </div>
+        <p class="benefit-box__text">
+          Virtuální prohlídka zaujme až 3× více návštěvníků než běžná fotka. Interaktivita + marketing promění návštěvy v klienty.
+        </p>
+        <ul class="benefit-box__list">
+          <li><span>➤</span> Delší čas na stránce</li>
+          <li><span>➤</span> Vyšší CTR v kampaních</li>
+          <li><span>➤</span> Více rezervací a poptávek</li>
+        </ul>
+        <div class="benefit-box__kpi">
           <div class="benefit-number"><span class="counter" data-target="3">0</span>×</div>
           <div class="benefit-note">víc pozornosti na webu</div>
         </div>
       </article>
 
-      <!-- 3 -->
-      <article class="card benefit big">
-        <div class="benefit-emoji" aria-hidden="true">🌟</div>
-        <h3>Prémiový dojem a důvěra</h3>
-        <p>Reálný pohled na prostor působí profesionálně a vyvolává důvěru. Klienti si vás vyberou před konkurencí, protože přesně ví, co dostanou.</p>
-        <div class="benefit-kpi">
+      <!-- Box 3 -->
+      <article class="benefit-box">
+        <div class="benefit-box__head">
+          <div class="benefit-box__icon" aria-hidden="true">🌟</div>
+          <h3>Prémiový dojem a důvěra</h3>
+        </div>
+        <p class="benefit-box__text">
+          Reálný pohled na prostor působí profesionálně a snižuje nejistotu. Klienti přesně ví, co dostanou — a vyhrajete nad konkurencí.
+        </p>
+        <ul class="benefit-box__list">
+          <li><span>➤</span> Konzistentní prezentace napříč kanály</li>
+          <li><span>➤</span> Menší počet dotazů „co a jak“</li>
+          <li><span>➤</span> Silnější značka a reference</li>
+        </ul>
+        <div class="benefit-box__kpi">
           <div class="benefit-number">+<span class="counter" data-target="40">0</span>%</div>
           <div class="benefit-note">vyšší konverze z návštěv</div>
         </div>
       </article>
     </div>
-
   </div>
 </section>
 
@@ -397,11 +421,15 @@
       entries.forEach(e => {
         if (e.isIntersecting && !played) {
           played = true;
-          counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0', 10) || 0));
+          counters.forEach(c => {
+            const t = c.dataset.target?.includes('x') || c.dataset.target?.includes('X')
+              ? parseInt(c.dataset.target,10) : parseInt(c.dataset.target||'0',10);
+            animateCounter(c, t || 0);
+          });
           io.disconnect();
         }
       });
-    }, { threshold: 0.2 });
+    }, { threshold: 0.25 });
     io.observe(section);
   } else {
     counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0', 10) || 0));
@@ -469,7 +497,6 @@
     const total = originals.length;
     const realIndex = (current - visible + total) % total;
     const realCard  = originals[realIndex];
-    const liveCard  = cards[current];
 
     const bg   = realCard.dataset.bg || realCard.querySelector('img')?.getAttribute('src');
     const t    = realCard.dataset.title || 'Virtuální prohlídka';
@@ -478,28 +505,30 @@
 
     if (bg) root.style.setProperty('--vtbg', `url("${bg}")`);
 
-    if (fade) copyBox.classList.add('swap-out');
     if (fade) {
+      copyBox.classList.add('swap-out');
       setTimeout(() => {
-        titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
+        document.getElementById('vt-title').textContent = t;
+        document.getElementById('vt-desc').textContent  = d;
+        document.getElementById('vt-link').href         = href;
         copyBox.classList.remove('swap-out');
       }, 120);
     } else {
-      titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
+      document.getElementById('vt-title').textContent = t;
+      document.getElementById('vt-desc').textContent  = d;
+      document.getElementById('vt-link').href         = href;
     }
-
-    cards.forEach(c => c.classList.remove('is-center'));
-    if (liveCard) liveCard.classList.add('is-center');
   }
 
-  nextBtn.addEventListener('click', () => go(+1));
-  prevBtn.addEventListener('click', () => go(-1));
-  strip.addEventListener('transitionend', normalize);
-  window.addEventListener('resize', () => {
-    const before = visible, now = calcVisible();
-    if (before !== now) rebuild(); else centerOn(current, false);
+  nextBtn.addEventListener('click', () => { current += 1; centerOn(current, true); });
+  prevBtn.addEventListener('click', () => { current -= 1; centerOn(current, true); });
+  strip.addEventListener('transitionend', () => {
+    const total = [...document.querySelectorAll('.vt-card')].length / 3; // safe guard
+    if (current < 3) current += total;
+    if (current >= total + 3) current -= total;
   });
 
+  window.addEventListener('resize', rebuild);
   rebuild();
 })();
 </script>
