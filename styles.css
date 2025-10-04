@@ -19,6 +19,7 @@ html, body {
   background: var(--ivory); color: var(--ink);
   font-family: var(--font); line-height: 1.55; font-weight: 300;
   scroll-behavior: smooth;
+  overflow-x: hidden; /* zabrání horizontálnímu posunu na mobilu */
 }
 img { max-width: 100%; display: block; border-radius: var(--radius); }
 a   { color: inherit; text-decoration: none; transition: .2s; }
@@ -47,7 +48,23 @@ nav {
 .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.1rem; }
 .logo img { height: 80px; width: auto; display: block; }
 
-/* MENU */
+/* HAMBURGER */
+.hamburger{
+  display:none; position: relative;
+  width: 44px; height: 44px; border-radius: 10px;
+  background: #fff; border: 1px solid #e8e8e8;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  align-items:center; justify-content:center; gap:6px; cursor:pointer;
+}
+.hamburger span{
+  display:block; width:20px; height:2px; background:#222; border-radius:1px;
+}
+nav.open .hamburger span:nth-child(2){ opacity:0; }
+nav.open .hamburger span:first-child{ transform: translateY(4px) rotate(45deg); transform-origin:center; }
+nav.open .hamburger span:last-child{ transform: translateY(-4px) rotate(-45deg); transform-origin:center; }
+
+/* PANEL, MENU a SUBMENU */
+.nav-panel{ display:flex; align-items:center; gap:18px; }
 .menu { display: flex; gap: 18px; align-items: center; position:relative; }
 .menu a,
 .menu .menu-toggle{
@@ -97,6 +114,9 @@ a[href^="#"]:not(.btn):hover{
   transform: translateY(-1px) scale(1.04);
 }
 
+/* SCROLL LOCK při otevřeném mobilním menu */
+.nav-lock{ overflow: hidden; }
+
 /* SCROLL TO TOP – vylepšený hover */
 #toTop {
   position: fixed; bottom: 24px; right: 24px;
@@ -130,7 +150,7 @@ a[href^="#"]:not(.btn):hover{
 .btn--outline { background: transparent; border: 2px solid var(--slate); color: var(--slate); }
 .btn--outline:hover { background: rgba(65,90,119,.08); }
 
-/* CTA sjednocení – pulzující žluté pro .btn-cta i .btn--highlight */
+/* CTA – pulzující žluté */
 .btn-cta,
 .btn--highlight {
   background: linear-gradient(135deg, var(--accent), #fff6a0);
@@ -148,7 +168,7 @@ a[href^="#"]:not(.btn):hover{
   transform: translateY(-3px) scale(1.05);
   background: linear-gradient(135deg, #f9e93a, var(--accent));
   box-shadow: 0 16px 38px rgba(0, 0, 0, 0.30);
-  animation: none; /* pozastaví puls při hoveru */
+  animation: none;
 }
 @keyframes pulseGlow {
   0%, 100% { box-shadow: 0 0 0 rgba(234,225,81,0); transform: scale(1); }
@@ -359,3 +379,71 @@ footer { background: #fff; color: #666; border-top: 1px solid #eee; font-size: .
   background: #f6f6f6; color: var(--slate); transition: .25s;
 }
 .footer-social a:hover { background: var(--accent); color: #111; transform: translateY(-2px); }
+
+/* ============ RESPONSIVE ============ */
+
+/* Tablet */
+@media (max-width: 1024px){
+  .logo img { height: 68px; }
+  .nav-inner { padding: 0 18px; }
+}
+
+/* Mobil */
+@media (max-width: 860px){
+  /* Logo menší, víc místa */
+  .logo img { height: 56px; }
+
+  /* zobrazíme hamburger, skryjeme inline panel */
+  .hamburger{ display:flex; }
+
+  .nav-panel{
+    position: fixed;
+    left: 12px; right: 12px; top: 90px;
+    display: none; /* skryto, než je nav.open */
+    flex-direction: column; gap: 14px;
+    background: #fff;
+    border: 1px solid #eee; border-radius: 16px;
+    box-shadow: 0 22px 60px rgba(0,0,0,.18);
+    padding: 14px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    z-index: 1000;
+  }
+  nav.open .nav-panel{ display:flex; }
+
+  /* položky svisle */
+  .menu{ flex-direction: column; align-items: stretch; gap: 10px; }
+  .menu a, .menu .menu-toggle{
+    width: 100%; justify-content: space-between;
+    padding: 12px 14px; font-size: 1rem;
+  }
+
+  /* submenu na mobilu – jako skládací seznam */
+  .submenu{
+    position: static; display: none;
+    margin-top: 8px; padding: 8px;
+    border-radius: 12px; box-shadow: none; border: 1px dashed #eee;
+  }
+  .submenu.show{ display:block; }
+  .submenu a{ padding: 10px 10px; }
+
+  /* sociální + kontakt pod menu, přes celou šířku */
+  .nav-right{
+    width: 100%; justify-content: space-between; gap: 10px;
+  }
+  .nav-right .btn{ flex: 0 0 auto; }
+  .nav-social{ gap: 10px; }
+
+  /* zúžení „pilulky“ navigace, ať nevyčuhuje */
+  .nav-inner{
+    padding: 0 12px;
+    margin-top: 12px;
+  }
+}
+
+/* Malé mobily */
+@media (max-width: 400px){
+  .logo img { height: 48px; }
+  .btn-cta, .btn--highlight { padding: 14px 20px; }
+  .nav-panel{ left: 10px; right: 10px; top: 82px; }
+}
