@@ -26,6 +26,7 @@
     <div class="menu">
       <a href="index.html" aria-current="page">Domů</a>
 
+      <!-- „Služby“ -->
       <div class="menu-item--has-sub">
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="submenu-sluzby">
           Služby
@@ -80,7 +81,7 @@
   </div>
 </header>
 
-<!-- BENEFITY – boxy (vylepšené) -->
+<!-- BENEFITY – boxy -->
 <section id="benefity" class="section section--wide">
   <div class="container">
     <header class="section-head">
@@ -234,15 +235,21 @@
   </div>
 </section>
 
-<!-- O NÁS -->
+<!-- O NÁS (opravené rozložení: FOTO VLEVO, TEXT VPRAVO) -->
 <section id="o-nas" class="section">
-  <div class="container grid grid-2 about">
-    <div class="text">
+  <div class="container about-grid">
+    <div class="about-media">
+      <img src="fotkaonas.JPEG" alt="Tým ShowSpace – foto" loading="lazy">
+    </div>
+    <div class="about-text">
       <span class="tag">O nás</span>
       <h2>Jsme ShowSpace</h2>
-      <p class="lead">Jsme parta studentů Provozně ekonomické fakulty Mendelovy univerzity, kteří jsou zapálení do moderních technologií, marketingu a realitního trhu. Pomáháme podnikům i majitelům nemovitostí najít ty správné zájemce.</p>
-      <p>Snažíme se, aby celý proces, ať už jde o prodej či pronájem nemovitostí, nebo získávání nových zákazníků pro váš byznys, byl co nejjednodušší a zároveň co nejefektivnější.</p>
-      <p>Víme, že čas je drahý, proto za vás kompletně zajistíme všechny služby, abyste se mohli soustředit na to, co umíte nejlépe.</p>
+      <p class="lead">
+        Jsme parta vysokoškoláků a nadšenců do moderních technologií a marketingu. Baví nás pomáhat s prezentací prostorů v co nejlepším světle.
+      </p>
+      <p>
+        Jsme energičtí a ambiciózní. Ke každému projektu přistupujeme s maximální péčí. Spokojenost klienta je pro nás vždy na prvním místě – když se daří vám, daří se i nám.
+      </p>
       <div class="kpis">
         <div class="kpi">Virtuální prohlídky</div>
         <div class="kpi">Marketing</div>
@@ -252,10 +259,6 @@
         <a href="galerie.html" class="btn btn--outline">Ukázky práce</a>
         <a href="#kontakt" class="btn btn--accent">Chci nezávaznou poptávku</a>
       </p>
-    </div>
-
-    <div>
-      <img src="CAM05637G0-PR0005-STILL001.jpg" alt="Tým ShowSpace – ilustrační foto">
     </div>
   </div>
 </section>
@@ -366,6 +369,7 @@
 
 <!-- Skripty -->
 <script>
+/* Scroll-to-top */
 (() => {
   const toTop = document.getElementById("toTop");
   if (!toTop) return;
@@ -396,15 +400,15 @@
 </script>
 
 <script>
-/* BENEFITY čísla (animace) */
+/* ČÍSLOVAČE – pomalejší (2.4 s), spouští se až při vstupu každého boxu do viewportu */
 (() => {
-  const section = document.getElementById('benefity');
-  if (!section) return;
-  const counters = section.querySelectorAll('.counter');
-  if (!counters.length) return;
+  const boxes = document.querySelectorAll('.benefit-box');
+  const allCounters = document.querySelectorAll('.counter');
+  if (!boxes.length || !allCounters.length) return;
 
-  let played = false;
-  function animateCounter(el, target, duration = 1200) {
+  const DURATION = 2400;
+
+  function animateCounter(el, target, duration = DURATION) {
     const t0 = performance.now();
     function frame(now) {
       const p = Math.min((now - t0) / duration, 1);
@@ -414,25 +418,39 @@
     }
     requestAnimationFrame(frame);
   }
-  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduceMotion) { counters.forEach(c => c.textContent = c.dataset.target || c.textContent); return; }
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(entries => {
+
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const counters = e.target.querySelectorAll('.counter');
+        counters.forEach(c => {
+          if (c.dataset.played === '1') return;
+          c.dataset.played = '1';
+          const raw = c.dataset.target || '0';
+          const numeric = parseInt(raw.replace(/[^0-9]/g,''), 10) || 0;
+          animateCounter(c, numeric);
+        });
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.35 });
+
+  boxes.forEach(b => io.observe(b));
+
+  // Extra: i headline-stat (80 %) až při scrollu na sekci
+  const head = document.querySelector('#benefity .headline-stat');
+  if (head) {
+    const headCounter = head.querySelector('.counter');
+    const io2 = new IntersectionObserver((entries, obs) => {
       entries.forEach(e => {
-        if (e.isIntersecting && !played) {
-          played = true;
-          counters.forEach(c => {
-            const t = c.dataset.target?.includes('x') || c.dataset.target?.includes('X')
-              ? parseInt(c.dataset.target,10) : parseInt(c.dataset.target||'0',10);
-            animateCounter(c, t || 0);
-          });
-          io.disconnect();
+        if (e.isIntersecting && headCounter && headCounter.dataset.played !== '1') {
+          headCounter.dataset.played = '1';
+          animateCounter(headCounter, parseInt(headCounter.dataset.target||'0',10));
+          obs.disconnect();
         }
       });
-    }, { threshold: 0.25 });
-    io.observe(section);
-  } else {
-    counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0', 10) || 0));
+    }, { threshold: 0.35 });
+    io2.observe(head);
   }
 })();
 </script>
@@ -484,15 +502,6 @@
     if (animate) updateUI(true);
   }
 
-  function normalize() {
-    const total = originals.length;
-    if (current < visible) { current += total; centerOn(current, false); }
-    if (current >= visible + total) { current -= total; centerOn(current, false); }
-    updateUI();
-  }
-
-  function go(delta){ current += delta; centerOn(current, true); }
-
   function updateUI(fade=false){
     const total = originals.length;
     const realIndex = (current - visible + total) % total;
@@ -508,30 +517,34 @@
     if (fade) {
       copyBox.classList.add('swap-out');
       setTimeout(() => {
-        document.getElementById('vt-title').textContent = t;
-        document.getElementById('vt-desc').textContent  = d;
-        document.getElementById('vt-link').href         = href;
+        titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
         copyBox.classList.remove('swap-out');
       }, 120);
     } else {
-      document.getElementById('vt-title').textContent = t;
-      document.getElementById('vt-desc').textContent  = d;
-      document.getElementById('vt-link').href         = href;
+      titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
     }
   }
 
-  nextBtn.addEventListener('click', () => { current += 1; centerOn(current, true); });
-  prevBtn.addEventListener('click', () => { current -= 1; centerOn(current, true); });
-  strip.addEventListener('transitionend', () => {
-    const total = [...document.querySelectorAll('.vt-card')].length / 3; // safe guard
-    if (current < 3) current += total;
-    if (current >= total + 3) current -= total;
+  function go(delta){ current += delta; centerOn(current, true); }
+  function normalize(){
+    const total = originals.length;
+    if (current < visible) { current += total; centerOn(current, false); }
+    if (current >= visible + total) { current -= total; centerOn(current, false); }
+    updateUI();
+  }
+
+  nextBtn.addEventListener('click', () => go(+1));
+  prevBtn.addEventListener('click', () => go(-1));
+  strip.addEventListener('transitionend', normalize);
+  window.addEventListener('resize', () => {
+    const before = visible, now = calcVisible();
+    if (before !== now) rebuild(); else centerOn(current, false);
   });
 
-  window.addEventListener('resize', rebuild);
   rebuild();
 })();
 </script>
 
 </body>
 </html>
+
