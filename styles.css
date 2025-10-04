@@ -330,6 +330,16 @@ small.help { color: #999; }
 }
 .vt-arrow:hover{ background: var(--accent); color:#111; }
 
+/* O NÁS – jemné zvýraznění fotky */
+.about img {
+  border-radius: 18px;
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+
 /* === KONTAKT: dvě karty (info + formulář) === */
 .contact { background:#fff; }
 .contact-grid{
