@@ -338,6 +338,48 @@ small.help { color: #999; }
   height: auto;
   object-fit: cover;
 }
+/* Zvýrazněné tlačítko v sekci virtuálních prohlídek */
+.btn--highlight {
+  background: linear-gradient(135deg, var(--accent), #fff6a0);
+  color: #111;
+  font-weight: 700;
+  padding: 14px 28px;
+  border-radius: 999px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s ease;
+  border: none;
+}
+
+.btn--highlight:hover {
+  transform: translateY(-3px) scale(1.05);
+  background: linear-gradient(135deg, #f9e93a, var(--accent));
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.3);
+}
+/* KPI boxy – vedle sebe v modrých rámečcích */
+.kpis {
+  display: flex;
+  gap: 16px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.kpi {
+  background: var(--slate);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  flex: 1 1 auto;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.kpi:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.25);
+}
 
 
 /* === KONTAKT: dvě karty (info + formulář) === */
