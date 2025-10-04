@@ -28,7 +28,7 @@
       <span></span><span></span><span></span>
     </button>
 
-    <!-- Desktop menu + panel pro mobil (stejný obsah) -->
+    <!-- Společný panel: na desktopu řádek (menu uprostřed), na mobilu vysouvací box -->
     <div class="nav-panel" id="mobile-panel">
       <div class="menu">
         <a href="index.html" aria-current="page">Domů</a>
@@ -69,7 +69,6 @@
   </div>
 </nav>
 
-
 <!-- HERO -->
 <header class="hero">
   <div class="hero-media">
@@ -104,7 +103,6 @@
     </header>
 
     <div class="benefits-center">
-      <!-- 1 -->
       <div class="card benefit big">
         <div class="benefit-icon" aria-hidden="true">⏳</div>
         <div class="benefit-number">
@@ -114,7 +112,6 @@
         <p>Vaši klienti si projdou prostor odkudkoli a kdykoli. Vy tak ušetříte hodiny a můžete se soustředit na to, co je opravdu důležité.</p>
       </div>
 
-      <!-- 2 -->
       <div class="card benefit big">
         <div class="benefit-icon" aria-hidden="true">👥</div>
         <div class="benefit-number">
@@ -124,7 +121,6 @@
         <p>Virtuální prohlídka zaujme až 3× více návštěvníků než běžná fotka. Díky interaktivitě a marketingu promění více návštěvníků v platící klienty.</p>
       </div>
 
-      <!-- 3 -->
       <div class="card benefit big">
         <div class="benefit-icon" aria-hidden="true">🌟</div>
         <div class="benefit-number">
@@ -137,7 +133,7 @@
   </div>
 </section>
 
-<!-- VTOUR (full-screen, loop) -->
+<!-- VTOUR -->
 <section id="vtour" aria-label="Virtuální prohlídky">
   <div class="vt-overlay"></div>
 
@@ -160,10 +156,9 @@
     <div class="vt-media">
       <div class="vt-viewport">
         <div class="vt-strip">
-          <!-- 8 karet -->
           <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL001.jpg" data-title="Houseboat Praha"
              data-desc="Vytvořili jsme 3D virtuální prohlídku pro vlastníka Houseboatu na míru."
-             href="https://premium.giraffe360.com/bondoxboroughphillips/accd62f7fd354a0e8a952f3703a9f123/?_gl=1*1crnra7*_gcl_au*MjEzMzExOTcwNi4xNzU3NTE3Njk4" target="_blank" rel="noopener">
+             href="https://premium.giraffe360.com/bondoxboroughphillips/accd62f7fd354a0e8a952f3703a9f123/" target="_blank" rel="noopener">
             <img src="CAM05637G0-PR0005-STILL001.jpg" alt="Houseboat Praha"><div class="vt-meta"><strong>Houseboat Praha</strong><span>Virtuální prohlídka</span></div>
           </a>
           <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL002.jpg" data-title="Interiér – obývací část"
@@ -173,7 +168,7 @@
           </a>
           <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL003.jpg" data-title="Interiér – denní zóna"
              data-desc="Prostorná denní část houseboatu s výstupem na palubu."
-             href="https://premium.giraffe360.com/bondoxboroughphillips/accd62f7fd354a0e8a952f3703a9f123/?_gl=1*1crnra7*_gcl_au*MjEzMzExOTcwNi4xNzU3NTE3Njk4" target="_blank" rel="noopener">
+             href="https://premium.giraffe360.com/bondoxboroughphillips/accd62f7fd354a0e8a952f3703a9f123/" target="_blank" rel="noopener">
             <img src="CAM05637G0-PR0005-STILL003.jpg" alt="Interiér 2"><div class="vt-meta"><strong>Interiér 2</strong><span>Ukázka z tour</span></div>
           </a>
           <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL004.jpg" data-title="Detail – materiály"
@@ -227,8 +222,6 @@
         Spokojenost klienta je pro nás vždy na prvním místě – když se daří vám, daří se i nám.
       </p>
 
-      <!-- KPI odstraněny -->
-
       <p style="margin-top:14px">
         <a href="galerie.html" class="btn btn--outline">Ukázky práce</a>
         <a href="#kontakt" class="btn btn--accent btn-cta">Chci nezávaznou poptávku</a>
@@ -241,11 +234,10 @@
   </div>
 </section>
 
-<!-- KONTAKT – dvě karty -->
+<!-- KONTAKT -->
 <section id="kontakt" class="section contact">
   <div class="container contact-grid">
 
-    <!-- INFO KARTA -->
     <div class="contact-card contact-info">
       <h2>Kontaktujte nás</h2>
       <p class="lead">Ozveme se s orientační cenou a termínem.</p>
@@ -294,7 +286,6 @@
       </ul>
     </div>
 
-    <!-- FORM KARTA -->
     <div class="contact-card contact-form">
       <h2>Napište nám</h2>
       <form action="https://formspree.io/f/yourendpoint" method="POST">
@@ -377,7 +368,7 @@
 </script>
 
 <script>
-/* BENEFITY – pomalé čítače od 0 při scrollu + prefix/suffix */
+/* BENEFITY – čítače */
 (() => {
   const section = document.getElementById('benefity');
   if (!section) return;
@@ -391,7 +382,7 @@
     const t0 = performance.now();
     function frame(now) {
       const p = Math.min((now - t0) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+      const eased = 1 - Math.pow(1 - p, 3);
       const value = Math.round(start + (target - start) * eased);
       el.textContent = `${prefix}${value}${suffix}`;
       if (p < 1) requestAnimationFrame(frame);
@@ -505,7 +496,7 @@
 
     const bg   = realCard.dataset.bg || realCard.querySelector('img')?.getAttribute('src');
     const t    = realCard.dataset.title || 'Virtuální prohlídka';
-    const d    = realCard.dataset.desc  || 'Prohlídka v nové záložce.';
+    the_d     = realCard.dataset.desc  || 'Prohlídka v nové záložce.';
     const href = realCard.getAttribute('href') || '#';
 
     if (bg) root.style.setProperty('--vtbg', `url("${bg}")`);
@@ -513,11 +504,11 @@
     if (fade) copyBox.classList.add('swap-out');
     if (fade) {
       setTimeout(() => {
-        titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
+        titleEl.textContent = t; descEl.textContent = the_d; linkEl.href = href;
         copyBox.classList.remove('swap-out');
       }, 120);
     } else {
-      titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
+      titleEl.textContent = t; descEl.textContent = the_d; linkEl.href = href;
     }
 
     cards.forEach(c => c.classList.remove('is-center'));
@@ -575,6 +566,5 @@
 })();
 </script>
 
-  
 </body>
 </html>
