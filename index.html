@@ -72,7 +72,6 @@
     <div class="hero-overlay"></div>
   </div>
 
- 
   <div class="container">
     <div class="hero-card">
       <h1>Prodávejte dřív, než klient vstoupí</h1>
@@ -100,7 +99,9 @@
       <!-- 1 -->
       <div class="card benefit big">
         <div class="benefit-icon" aria-hidden="true">⏳</div>
-        <div class="benefit-number">100%</div>
+        <div class="benefit-number">
+          <span class="counter" data-target="100" data-suffix="%">0</span>
+        </div>
         <h3>Maximální úspora času</h3>
         <p>Vaši klienti si projdou prostor odkudkoli a kdykoli. Vy tak ušetříte hodiny a můžete se soustředit na to, co je opravdu důležité.</p>
       </div>
@@ -108,7 +109,9 @@
       <!-- 2 -->
       <div class="card benefit big">
         <div class="benefit-icon" aria-hidden="true">👥</div>
-        <div class="benefit-number">3×</div>
+        <div class="benefit-number">
+          <span class="counter" data-target="3" data-suffix="×">0</span>
+        </div>
         <h3>Více zákazníků a rezervací</h3>
         <p>Virtuální prohlídka zaujme až 3× více návštěvníků než běžná fotka. Díky interaktivitě a marketingu promění více návštěvníků v platící klienty.</p>
       </div>
@@ -116,7 +119,9 @@
       <!-- 3 -->
       <div class="card benefit big">
         <div class="benefit-icon" aria-hidden="true">🌟</div>
-        <div class="benefit-number">+40%</div>
+        <div class="benefit-number">
+          <span class="counter" data-target="40" data-prefix="+" data-suffix="%">0</span>
+        </div>
         <h3>Prémiový dojem a důvěra</h3>
         <p>Reálný pohled na prostor působí profesionálně a vyvolává důvěru. Klienti si vás vyberou před konkurencí, protože přesně ví, co dostanou.</p>
       </div>
@@ -124,14 +129,11 @@
   </div>
 </section>
 
-
 <!-- VTOUR (full-screen, loop) -->
 <section id="vtour" aria-label="Virtuální prohlídky">
   <div class="vt-overlay"></div>
 
   <div class="container vt-grid">
-   
-
     <div class="vt-copy" id="vt-copy">
       <span class="tag">Virtuální prohlídky</span>
       <h2 id="vt-title">Houseboat Praha</h2>
@@ -217,15 +219,11 @@
         Spokojenost klienta je pro nás vždy na prvním místě – když se daří vám, daří se i nám.
       </p>
 
-      <div class="kpis">
-        <div class="kpi">Virtuální prohlídky</div>
-        <div class="kpi">Marketing</div>
-        <div class="kpi">Web</div>
-      </div>
+      <!-- KPI odstraněny -->
 
       <p style="margin-top:14px">
         <a href="galerie.html" class="btn btn--outline">Ukázky práce</a>
-        <a href="#kontakt" class="btn btn--accent">Chci nezávaznou poptávku</a>
+        <a href="#kontakt" class="btn btn--accent btn-cta">Chci nezávaznou poptávku</a>
       </p>
     </div>
 
@@ -234,7 +232,6 @@
     </div>
   </div>
 </section>
-
 
 <!-- KONTAKT – dvě karty -->
 <section id="kontakt" class="section contact">
@@ -372,7 +369,7 @@
 </script>
 
 <script>
-/* BENEFITY čísla */
+/* BENEFITY – pomalé čítače od 0 při scrollu + prefix/suffix */
 (() => {
   const section = document.getElementById('benefity');
   if (!section) return;
@@ -380,31 +377,58 @@
   if (!counters.length) return;
 
   let played = false;
-  function animateCounter(el, target, duration = 1200) {
+
+  function animateCounter(el, target, {duration = 2600, prefix = '', suffix = ''} = {}) {
+    const start = 0;
     const t0 = performance.now();
     function frame(now) {
       const p = Math.min((now - t0) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(target * eased);
+      const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+      const value = Math.round(start + (target - start) * eased);
+      el.textContent = `${prefix}${value}${suffix}`;
       if (p < 1) requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
   }
+
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduceMotion) { counters.forEach(c => c.textContent = c.dataset.target || c.textContent); return; }
+  if (reduceMotion) {
+    counters.forEach(c => {
+      const target = parseInt(c.dataset.target || '0', 10) || 0;
+      const prefix = c.dataset.prefix || '';
+      const suffix = c.dataset.suffix || '';
+      c.textContent = `${prefix}${target}${suffix}`;
+    });
+    return;
+  }
+
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting && !played) {
           played = true;
-          counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0', 10) || 0));
+          counters.forEach(c => {
+            const target = parseInt(c.dataset.target || '0', 10) || 0;
+            animateCounter(c, target, {
+              duration: 2600,
+              prefix: c.dataset.prefix || '',
+              suffix: c.dataset.suffix || ''
+            });
+          });
           io.disconnect();
         }
       });
     }, { threshold: 0.25 });
     io.observe(section);
   } else {
-    counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0', 10) || 0));
+    counters.forEach(c => {
+      const target = parseInt(c.dataset.target || '0', 10) || 0;
+      animateCounter(c, target, {
+        duration: 2600,
+        prefix: c.dataset.prefix || '',
+        suffix: c.dataset.suffix || ''
+      });
+    });
   }
 })();
 </script>
