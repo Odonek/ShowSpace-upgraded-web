@@ -37,14 +37,28 @@ nav {
   padding: 20px 0;
 }
 .nav-inner {
-  display: flex; align-items: center; justify-content: space-between;
-  height: 64px; padding: 0 28px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  height: 64px;
+  padding: 0 28px;
   background: rgba(255,255,255,0.95);
   border-radius: 999px;
   box-shadow: 0 4px 12px rgba(0,0,0,.08);
   border-top: 4px solid var(--accent);
-  margin-top: 20px; max-width: var(--max); margin-inline: auto;
+  margin-top: 20px;
+  max-width: var(--max);
+  margin-inline: auto;
 }
+
+.menu {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  align-items: center;
+  position: relative;
+}
+
 .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.1rem; }
 .logo img { height: 80px; width: auto; display: block; }
 
