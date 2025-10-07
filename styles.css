@@ -380,6 +380,7 @@ small.help { color: #999; }
   font-weight: 600;
   box-shadow: 0 8px 20px rgba(0,0,0,0.28);
   animation: pulseGlow 3s infinite ease-in-out;
+  margin-left: 10px;
 }
 
 #o-nas .btn--highlight:hover {
