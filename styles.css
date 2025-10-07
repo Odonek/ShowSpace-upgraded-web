@@ -160,52 +160,46 @@ header.section { padding-top: 140px; }
 .grid-2 { grid-template-columns: repeat(2,1fr); }
 @media (max-width: 900px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
 
-/* === BENEFITY: sekce s nadpisem a kartami === */
+/* === BENEFITY: čistší verze s menším nadpisem === */
 #benefity{
-  background: #fff;               /* čisté bílé pozadí */
-  padding: 88px 0 72px;           /* větší svislé odsazení */
+  background: #fff;
+  padding: 88px 0 72px;
 }
 
 /* HLAVIČKA */
 .benefits-head{
   text-align: center;
-  max-width: 1000px;
-  margin: 0 auto 40px;
-}
-.benefits-head .panel{
-  background: #fff;
-  padding: clamp(20px, 3.2vw, 36px);
-  border: 1px solid #eee;
-  border-radius: 20px;
-  box-shadow: 0 18px 46px rgba(0,0,0,.08);
+  max-width: 900px;
+  margin: 0 auto 48px;
 }
 .benefits-head h2{
-  margin: 0 0 8px;
+  margin: 0 0 10px;
   color: var(--slate);
   font-weight: 800;
-  font-size: clamp(30px, 4.2vw, 56px);
+  font-size: clamp(26px, 3.2vw, 42px); /* o něco menší */
   letter-spacing: .2px;
   position: relative;
 }
 .benefits-head h2::after{
   content: "";
   display: block;
-  width: 96px;
-  height: 6px;
+  width: 80px;
+  height: 5px;
   margin: 10px auto 0;
   background: var(--accent);
   border-radius: 999px;
 }
 .benefits-head .lead{
-  margin: 12px auto 0;
-  max-width: 70ch;
+  margin: 14px auto 0;
+  max-width: 65ch;
   color: var(--muted);
-  font-size: clamp(17px, 1.6vw, 22px);
+  font-size: clamp(16px, 1.4vw, 20px);
   line-height: 1.65;
 }
+
 @media (max-width: 720px){
-  #benefity{ padding: 76px 0 64px; }
-  .benefits-head{ margin-bottom: 26px; }
+  #benefity{ padding: 72px 0 60px; }
+  .benefits-head{ margin-bottom: 32px; }
 }
 
 /* GRID BENEFITŮ */
