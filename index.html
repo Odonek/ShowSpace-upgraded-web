@@ -435,31 +435,45 @@
   function go(delta){ current += delta; centerOn(current, true); }
 
   function updateUI(fade=false){
-    const total = originals.length;
-    const realIndex = (current - visible + total) % total;
-    const realCard  = originals[realIndex];
-    const liveCard  = cards[current];
+  const total = originals.length;
 
-    const bg   = realCard.dataset.bg || realCard.querySelector('img')?.getAttribute('src');
-    const t    = realCard.dataset.title || 'Virtuální prohlídka';
-    const d    = realCard.dataset.desc  || 'Prohlídka v nové záložce.';
-    const href = realCard.getAttribute('href') || '#';
+  // "středová" karta (tu necháme pro texty + odkaz)
+  const realIndex = (current - visible + total) % total;
+  const realCard  = originals[realIndex];
+  const liveCard  = cards[current];
 
-    if (bg) root.style.setProperty('--vtbg', `url("${bg}")`);
+  // PRVNÍ viditelná karta vlevo (tu použijeme pro POZADÍ + ZVĚTŠENÍ)
+  const leftOffset = visible === 1 ? 0 : Math.floor(visible / 2); // 0 pro 1 sloupec, 1 pro 2–3 sloupce
+  const firstIdx = current - leftOffset;
+  const firstLive = cards[firstIdx];
+  const realIndexFirst = (firstIdx - visible + total) % total;
+  const realCardFirst = originals[(realIndexFirst + total) % total];
 
-    if (fade) copyBox.classList.add('swap-out');
-    if (fade) {
-      setTimeout(() => {
-        titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
-        copyBox.classList.remove('swap-out');
-      }, 120);
-    } else {
+  // Pozadí sekce z PRVNÍ karty
+  const bgFirst = realCardFirst?.dataset?.bg || realCardFirst?.querySelector('img')?.getAttribute('src');
+  if (bgFirst) root.style.setProperty('--vtbg', `url("${bgFirst}")`);
+
+  // Texty/odkaz ze "středové" karty (beze změny)
+  const t    = realCard.dataset.title || 'Virtuální prohlídka';
+  const d    = realCard.dataset.desc  || 'Prohlídka v nové záložce.';
+  const href = realCard.getAttribute('href') || '#';
+
+  if (fade) copyBox.classList.add('swap-out');
+  if (fade) {
+    setTimeout(() => {
       titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
-    }
-
-    cards.forEach(c => c.classList.remove('is-center'));
-    if (liveCard) liveCard.classList.add('is-center');
+      copyBox.classList.remove('swap-out');
+    }, 120);
+  } else {
+    titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
   }
+
+  // Třídy: zvýrazníme první kartu, ne středovou
+  cards.forEach(c => c.classList.remove('is-center','is-first'));
+  if (liveCard)  liveCard.classList.add('is-center'); // jen interní označení
+  if (firstLive) firstLive.classList.add('is-first'); // vizuální zvýraznění první
+}
+
 
   nextBtn.addEventListener('click', () => go(+1));
   prevBtn.addEventListener('click', () => go(-1));
