@@ -195,6 +195,7 @@ header.section { padding-top: 140px; }
   color: var(--muted);
   font-size: clamp(16px, 1.4vw, 20px);
   line-height: 1.65;
+   text-align: center;
 }
 
 @media (max-width: 720px){
