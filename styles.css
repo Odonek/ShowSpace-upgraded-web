@@ -246,16 +246,14 @@ header.section { padding-top: 140px; }
   .benefits-head{ margin-bottom: 32px; }
 }
 
-/* GRID BENEFITŮ — vycentrované karty, stejné odsazení vlevo/vpravo */
+/* GRID BENEFITŮ – perfektně vycentrovaný */
 .benefits-center{
   display: grid;
-  /* pevnější sloupky 280–360px se zarovnáním doprostřed */
   grid-template-columns: repeat(auto-fit, minmax(280px, 360px));
-  justify-content: center;     /* ✅ celé pole karet uprostřed */
+  justify-content: center;
   gap: 28px;
   text-align: center;
   align-items: stretch;
-  margin-top: 8px;
 }
 
 /* KARTY */
@@ -263,14 +261,21 @@ header.section { padding-top: 140px; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 36px 26px;
+  justify-content: flex-start;      /* ✅ zarovnání obsahu nahoře */
+  padding: 32px 26px 40px;          /* lehce menší top padding */
   border-radius: var(--radius);
   background: #fff;
   border-top: 6px solid var(--accent);
   box-shadow: 0 12px 40px rgba(0,0,0,.20);
   transition: transform .3s, box-shadow .3s;
+  position: relative;
 }
+
+/* jemný posun obsahu směrem nahoru u všech karet */
+.benefits-center .card.benefit.big > * {
+  transform: translateY(-6px);      /* ✅ posun o pár px výš */
+}
+
 .benefits-center .card.benefit.big:hover{
   transform: translateY(-8px);
   box-shadow: 0 20px 60px rgba(0,0,0,.25);
@@ -298,6 +303,7 @@ header.section { padding-top: 140px; }
   color: var(--muted);
   margin: 0;
 }
+
 
 
 
