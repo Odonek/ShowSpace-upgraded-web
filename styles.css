@@ -389,6 +389,41 @@ small.help { color: #999; }
   box-shadow: 0 12px 28px rgba(0,0,0,0.38);
 }
 
+/* === O NÁS – vycentrování textu a sladění s kontaktem === */
+#o-nas .about {
+  align-items: center;              /* vertikálně vycentruje text k fotce */
+  gap: 40px;
+}
+
+#o-nas .about .text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;          /* text vertikálně doprostřed */
+  align-self: stretch;
+}
+
+#o-nas .about h2 {
+  font-size: clamp(30px, 3vw, 42px); /* lehce větší nadpis */
+  margin-bottom: 12px;
+}
+
+#o-nas .about .lead {
+  font-size: clamp(18px, 1.5vw, 20px); /* zvětšený text */
+  line-height: 1.65;
+}
+
+#o-nas img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;                /* aby fotka vyplnila prostor */
+  border-radius: 20px;
+}
+
+/* sladění výšky s kontaktní sekcí */
+#o-nas.section {
+  padding-bottom: 0; /* menší mezera pod sekcí */
+}
+
 
 /* === PULZUJÍCÍ CTA: "Chci nezávaznou poptávku" === */
 
