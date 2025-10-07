@@ -160,40 +160,75 @@ header.section { padding-top: 140px; }
 .grid-2 { grid-template-columns: repeat(2,1fr); }
 @media (max-width: 900px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
 
-/* === BENEFITY (vylepšení) === */
-.benefits-head{
-  text-align:center;
-  max-width: 860px;
-  margin: 0 auto 24px;
-}
-.benefits-head h2{
-  margin:0 0 6px;
-}
-.benefits-head .lead{
-  margin:0;
-  color: var(--muted);
+/* === BENEFITY: sekce s nadpisem a kartami === */
+#benefity{
+  background: #fff;               /* čisté bílé pozadí */
+  padding: 88px 0 72px;           /* větší svislé odsazení */
 }
 
-/* grid zachován; jen drobné doladění na menších šířkách */
+/* HLAVIČKA */
+.benefits-head{
+  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto 40px;
+}
+.benefits-head .panel{
+  background: #fff;
+  padding: clamp(20px, 3.2vw, 36px);
+  border: 1px solid #eee;
+  border-radius: 20px;
+  box-shadow: 0 18px 46px rgba(0,0,0,.08);
+}
+.benefits-head h2{
+  margin: 0 0 8px;
+  color: var(--slate);
+  font-weight: 800;
+  font-size: clamp(30px, 4.2vw, 56px);
+  letter-spacing: .2px;
+  position: relative;
+}
+.benefits-head h2::after{
+  content: "";
+  display: block;
+  width: 96px;
+  height: 6px;
+  margin: 10px auto 0;
+  background: var(--accent);
+  border-radius: 999px;
+}
+.benefits-head .lead{
+  margin: 12px auto 0;
+  max-width: 70ch;
+  color: var(--muted);
+  font-size: clamp(17px, 1.6vw, 22px);
+  line-height: 1.65;
+}
+@media (max-width: 720px){
+  #benefity{ padding: 76px 0 64px; }
+  .benefits-head{ margin-bottom: 26px; }
+}
+
+/* GRID BENEFITŮ */
 .benefits-center{
-  display:grid;
+  display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  text-align:center;
-  align-items:stretch;
+  text-align: center;
+  align-items: stretch;
 }
 @media (max-width: 980px){
   .benefits-center{ grid-template-columns: 1fr; }
 }
 
+/* KARTY */
 .benefits-center .card.benefit.big{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding: 32px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 26px;
   border-radius: var(--radius);
-  background:#fff;
+  background: #fff;
   border-top: 6px solid var(--accent);
   box-shadow: 0 12px 40px rgba(0,0,0,.20);
   transition: transform .3s, box-shadow .3s;
@@ -225,6 +260,7 @@ header.section { padding-top: 140px; }
   color: var(--muted);
   margin: 0;
 }
+
 
 
 /* FORM základ (ponecháno kvůli vstupům) */
