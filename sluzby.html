@@ -14,11 +14,11 @@
   <meta name="theme-color" content="#415A77">
 
   <style>
-    /* =========================================
-       LOKÁLNÍ STYLY – úpravy pro stránku služeb
-       ========================================= */
+    /* ==========================
+       LOKÁLNÍ STYLY – SLUŽBY
+       ========================== */
 
-    /* NAVBAR: jen nahoře, bílé pozadí, žádné “lepení” při scrollu */
+    /* NAVBAR: statický, bílé pozadí */
     body.page-services nav{
       position: static;
       background: #fff;
@@ -32,11 +32,9 @@
       margin-top:0;
       border-top: 4px solid var(--accent);
     }
-
-    /* žádný “spacer” pod navbar */
     .page-top{ display:none !important; height:0 !important; }
 
-    /* Sekce – základní rozvržení */
+    /* Sekce – layout */
     .service-section{ padding: 48px 0; background:#fff; }
     .service-wrap{
       display:grid;
@@ -51,7 +49,7 @@
     .steps li{ margin:6px 0; }
     .cta-row{ display:flex; gap:12px; margin-top:14px; flex-wrap:wrap; }
 
-    /* Média – jednotný vzhled */
+    /* Média */
     .service-media{ display:grid; gap:14px; }
     .media-slot{
       position:relative; width:100%; aspect-ratio:16/9;
@@ -63,7 +61,7 @@
       object-fit:cover; border:0; display:block; border-radius:inherit;
     }
 
-    /* Střídání: reverse = média vlevo / text vpravo */
+    /* Střídání: reverse = média vlevo / text vpravo (jen na desktopu) */
     .service-section.reverse .service-wrap{ grid-template-columns: .95fr 1.05fr; }
     .service-section.reverse .service-text{ order:2; }
     .service-section.reverse .service-media{ order:1; }
@@ -71,7 +69,7 @@
     /* První sekce blíž k navbaru */
     #sluzba-prohlidky.service-section{ padding-top: 28px; }
 
-    /* Na mobilu: vždy text nahoře, média pod ním */
+    /* RESPONSIVE: mobil – vždy text nahoře, média pod ním */
     @media (max-width: 900px){
       .service-wrap{ grid-template-columns: 1fr; }
       .service-text{ order:1 !important; }
@@ -79,8 +77,13 @@
       .service-section.reverse .service-text{ order:1 !important; }
       .service-section.reverse .service-media{ order:2 !important; }
     }
+    /* Extra jistota pro Půdorys (text nahoře, obrázek pod ním) */
+    @media (max-width: 900px){
+      #sluzba-pudorys .service-text{ order:1 !important; }
+      #sluzba-pudorys .service-media{ order:2 !important; }
+    }
 
-    /* Marketing + Sociální sítě (bez fotek) – 2 karty */
+    /* MARKETING + SÍTĚ – karty (bez fotek) */
     .online-block{ background: linear-gradient(180deg, #fff, #f8fafc); border-top: 1px solid #eef2f7; border-bottom:1px solid #eef2f7; }
     .online-head{ text-align:center; max-width: 900px; margin: 0 auto 22px; }
     .online-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -100,17 +103,21 @@
     .text-card p{ margin: 10px 0; }
     .text-card ul{ padding-left: 18px; margin: 8px 0 0; }
     .text-card li{ margin:6px 0; }
+    .text-card .cta-row{ justify-content: center; } /* tlačítka doprostřed */
 
     @media (max-width: 980px){
       .online-grid{ grid-template-columns: 1fr; }
     }
 
-    /* Jednosloupcová středová sekce (Web) */
+    /* WEB – taky v rámečku (card) */
     .service-section.center .service-wrap{
       max-width: 900px; margin:0 auto; grid-template-columns: 1fr;
     }
-    .service-section.center .service-text{ text-align:center; }
-    .service-section.center .cta-row{ justify-content:center; }
+    .service-section.center .service-text{ text-align: initial; }
+    .text-card--web{ max-width: 820px; margin: 0 auto; }
+    .text-card--web h2{ text-align:center; margin-top:6px; }
+    .text-card--web .kvp-list{ list-style:none; padding-left:0; }
+    .text-card--web .cta-row{ justify-content:center; } /* tlačítko uprostřed */
 
     /* DROPDOWN – bez „Kontakt“, přidán „Web“ */
     .menu { position: relative; }
@@ -269,7 +276,7 @@
   </div>
 </section>
 
-<!-- 2) MARKETING + SOCIÁLNÍ SÍTĚ — plná textace, bez fotek; zvýraznění + nadpisy uprostřed -->
+<!-- 2) MARKETING + SOCIÁLNÍ SÍTĚ — karty s textem, tlačítka uprostřed -->
 <section id="sluzba-online" class="section online-block">
   <div class="container">
     <div class="online-head">
@@ -279,7 +286,7 @@
     </div>
 
     <div class="online-grid">
-      <!-- MARKETING (celá textace se zvýrazněním) -->
+      <!-- MARKETING -->
       <article class="text-card">
         <h3>Marketing na Metě a Googlu</h3>
         <p>Získejte <strong>stálý přísun zákazníků</strong> díky efektivnímu online marketingu, který <strong>funguje dlouhodobě</strong>.</p>
@@ -298,7 +305,7 @@
         </div>
       </article>
 
-      <!-- SOCIÁLNÍ SÍTĚ (celá textace se zvýrazněním) -->
+      <!-- SOCIÁLNÍ SÍTĚ -->
       <article class="text-card">
         <h3>Content &amp; Sociální sítě</h3>
         <p>Udělejme z vašich sociálních sítí <strong>silný nástroj</strong> pro budování značky a získávání zákazníků.</p>
@@ -320,25 +327,26 @@
   </div>
 </section>
 
-<!-- 3) WEB – nová krátká sekce uprostřed, bez obrázků -->
+<!-- 3) WEB – nyní v rámečku (card), tlačítko uprostřed, bez „Získat nabídku“ -->
 <section id="sluzba-webdev" class="section service-section center">
   <div class="container service-wrap">
     <div class="service-text">
-      <span class="eyebrow tag">Web</span>
-      <h2>Jednostránkové i vícestránkové weby na míru</h2>
-      <p class="lead">Tvoříme <strong>rychlé</strong>, <strong>čisté</strong> a <strong>kódované</strong> weby – žádné “drag-and-drop” šablony.</p>
+      <article class="text-card text-card--web">
+        <h3>Web</h3>
+        <h2>Jednostránkové i vícestránkové weby na míru</h2>
+        <p class="lead">Tvoříme <strong>rychlé</strong>, <strong>čisté</strong> a <strong>kódované</strong> weby – žádné “drag-and-drop” šablony.</p>
 
-      <ul class="kvp-list" style="list-style:none; padding-left:0">
-        <li>• <strong>Vícestránkové</strong> weby jako náš – se vším všudy.</li>
-        <li>• <strong>Jednostránkové</strong> landingy pro doktory, fitness, výživové plány, salony…</li>
-        <li>• Postavené ručně v <strong>HTML &amp; CSS</strong> s animacemi pomocí <strong>GSAP</strong>.</li>
-        <li>• Připravené na <strong>měření</strong> (GA4, Meta) a <strong>reklamní kampaně</strong>.</li>
-      </ul>
+        <ul class="kvp-list">
+          <li>• <strong>Vícestránkové</strong> weby jako náš – se vším všudy.</li>
+          <li>• <strong>Jednostránkové</strong> landingy pro doktory, fitness, výživové plány, salony…</li>
+          <li>• Postavené ručně v <strong>HTML &amp; CSS</strong> s animacemi pomocí <strong>GSAP</strong>.</li>
+          <li>• Připravené na <strong>měření</strong> (GA4, Meta) a <strong>reklamní kampaně</strong>.</li>
+        </ul>
 
-      <div class="cta-row">
-        <a class="btn btn--accent" href="#kontakt">Probrat web</a>
-        <a class="btn btn--outline" href="#kontakt">Získat nabídku</a>
-      </div>
+        <div class="cta-row">
+          <a class="btn btn--accent" href="#kontakt">Probrat web</a>
+        </div>
+      </article>
     </div>
   </div>
 </section>
