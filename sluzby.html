@@ -19,7 +19,7 @@
        LOKÁLNÍ STYLY – SLUŽBY
        ========================== */
 
-    /* NAVBAR: statický, bílé pozadí (žádný sticky, žádné odsazení navrchu) */
+    /* NAVBAR: statický, bílé pozadí */
     body.page-services nav{
       position: static;
       background: #fff;
@@ -33,7 +33,7 @@
       border-top: 4px solid var(--accent);
     }
 
-    /* Sekce – layout (desktop: 2 sloupce, mobil: text nahoře, obrázek pod ním) */
+    /* Sekce – layout */
     .service-section{ padding: 48px 0; background:#fff; }
     .service-wrap{
       display:grid;
@@ -41,7 +41,7 @@
       gap: 28px;
       align-items: center;
     }
-    /* střídání – „reverse“ přehodí sloupce na desktopu */
+    /* střídání – „reverse“ přehodí sloupce (jen na desktopu) */
     .service-section.reverse .service-wrap{ grid-template-columns: .95fr 1.05fr; }
     .service-section.reverse .service-text{ order:2; }
     .service-section.reverse .service-media{ order:1; }
@@ -65,6 +65,10 @@
       object-fit:cover; border:0; display:block; border-radius:inherit;
     }
 
+    /* Obrázky BEZ pozadí/rámečku (marketing, web) */
+    .media-slot--plain{ background:transparent; border:0; box-shadow:none; }
+    .media-slot--plain img{ object-fit:contain; background:transparent; }
+
     /* RESPONSIVE – na mobilu vždy text nahoře, média pod ním */
     @media (max-width: 900px){
       .service-wrap{ grid-template-columns: 1fr; }
@@ -74,7 +78,7 @@
       .service-section.reverse .service-media{ order:2 !important; }
     }
 
-    /* DROPDOWN – bez „Kontakt“; přidány kotvy */
+    /* DROPDOWN – bez „Kontakt“; přehled kotviček */
     .menu { position: relative; }
     .menu-item--has-sub { position: relative; }
     .menu .menu-toggle{
@@ -104,7 +108,7 @@
 </head>
 <body class="page-services">
 
-<!-- NAVBAR (není sticky) -->
+<!-- NAVBAR -->
 <nav>
   <div class="container nav-inner">
     <a class="logo" href="index.html">
@@ -142,7 +146,7 @@
   </div>
 </nav>
 
-<!-- 1) VIRTUÁLNÍ PROHLÍDKY — PC: text vlevo, prohlídka vpravo -->
+<!-- 1) VIRTUÁLNÍ PROHLÍDKY — text vlevo, média vpravo -->
 <section id="sluzba-prohlidky" class="section service-section">
   <div class="container service-wrap">
     <div class="service-text">
@@ -163,15 +167,15 @@
       <h3>Co je v ceně</h3>
       <ul class="kvp-list">
         <li><strong>Žádný měsíční poplatek</strong> za hosting.</li>
-        <li><strong>2D půdorys</strong> vytvořený pomocí LiDAR senzoru s <strong>98 % přesností</strong>.</li>
+        <li><strong>2D půdorys</strong> pomocí LiDAR (cca <strong>98 % přesnost</strong>).</li>
         <li><strong>Měření vzdáleností</strong> přímo v prohlídce.</li>
-        <li><strong>Interaktivní hotspoty</strong> s informacemi.</li>
-        <li><strong>Implementace do Google Street View</strong>.</li>
+        <li><strong>Hotspoty</strong> (interaktivní info body).</li>
+        <li>Implementace do <strong>Google Street View</strong>.</li>
         <li><strong>Mini landing page</strong> s prezentací prostoru.</li>
       </ul>
 
       <h3>Na přání: video</h3>
-      <p>Z pořízených skenů vytvoříme <strong>video prohlídku</strong> bez nutnosti dodatečného natáčení – doplněnou o <strong>AI voiceover</strong>. Ideální pro web, reklamu i sociální sítě.</p>
+      <p>Z pořízených skenů vytvoříme <strong>video prohlídku</strong> bez dodatečného natáčení – s <strong>AI voiceoverem</strong>.</p>
 
       <div class="cta-row">
         <a class="btn btn--accent" href="#kontakt">Nezávazně poptat</a>
@@ -185,12 +189,16 @@
                 loading="lazy" allowfullscreen
                 title="Virtuální prohlídka – Houseboat Prague Vltava"></iframe>
       </div>
+      <!-- přidaný půdorys PŘÍMO pod prohlídku -->
+      <div class="media-slot">
+        <img src="floorplan.jpg" alt="Ukázka 2D půdorysu – Houseboat" loading="lazy">
+      </div>
     </div>
   </div>
 </section>
 
-<!-- 2) FOTKY — text vlevo, obrázek vpravo -->
-<section id="sluzba-fotky" class="section service-section">
+<!-- 2) FOTKY — OBRÁZEK vlevo, TEXT vpravo (reverse) -->
+<section id="sluzba-fotky" class="section service-section reverse">
   <div class="container service-wrap">
     <div class="service-text">
       <span class="eyebrow tag">Fotky</span>
@@ -214,8 +222,8 @@
   </div>
 </section>
 
-<!-- 3) MARKETING — střídání (na desktopu obrázek vlevo, text vpravo) -->
-<section id="sluzba-marketing" class="section service-section reverse">
+<!-- 3) MARKETING — TEXT vlevo, OBRÁZEK vpravo, obrázek BEZ rámečku -->
+<section id="sluzba-marketing" class="section service-section">
   <div class="container service-wrap">
     <div class="service-text">
       <span class="eyebrow tag">Marketing</span>
@@ -235,15 +243,15 @@
     </div>
 
     <div class="service-media">
-      <div class="media-slot">
+      <div class="media-slot media-slot--plain">
         <img src="metamarketing.png" alt="Meta & Google marketing – ilustrace" loading="lazy">
       </div>
     </div>
   </div>
 </section>
 
-<!-- 4) SOCIÁLNÍ SÍTĚ — text vlevo, obrázek vpravo -->
-<section id="sluzba-social" class="section service-section">
+<!-- 4) SOCIÁLNÍ SÍTĚ — OBRÁZEK vlevo, TEXT vpravo (reverse) -->
+<section id="sluzba-social" class="section service-section reverse">
   <div class="container service-wrap">
     <div class="service-text">
       <span class="eyebrow tag">Sociální sítě</span>
@@ -270,8 +278,8 @@
   </div>
 </section>
 
-<!-- 5) WEB — střídání (na desktopu obrázek vlevo, text vpravo) -->
-<section id="sluzba-webdev" class="section service-section reverse">
+<!-- 5) WEB — TEXT vlevo, OBRÁZEK vpravo, obrázek BEZ rámečku -->
+<section id="sluzba-webdev" class="section service-section">
   <div class="container service-wrap">
     <div class="service-text">
       <span class="eyebrow tag">Web</span>
@@ -289,7 +297,7 @@
     </div>
 
     <div class="service-media">
-      <div class="media-slot">
+      <div class="media-slot media-slot--plain">
         <img src="webfotka.png" alt="Ukázka webu – ilustrace" loading="lazy">
       </div>
     </div>
