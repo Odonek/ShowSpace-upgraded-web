@@ -25,8 +25,15 @@
 
     <!-- Hamburger (zobrazí se jen na mobilu) -->
     <button class="nav-burger" type="button" aria-expanded="false" aria-controls="nav-drawer" aria-label="Otevřít menu">
-      <span></span><span></span><span></span>
-    </button>
+  <!-- ikona menu -->
+  <svg class="icon-menu" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+  </svg>
+  <!-- ikona zavřít -->
+  <svg class="icon-close" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M6 6l12 12M18 6l-12 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+  </svg>
+</button>
 
     <!-- Drawer: na desktopu funguje jako běžná řádka, na mobilu se vysouvá -->
     <div id="nav-drawer" class="nav-drawer" aria-hidden="true">
