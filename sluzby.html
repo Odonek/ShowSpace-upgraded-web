@@ -34,15 +34,25 @@
     }
 
     /* Sekce – layout */
-    .service-section{ padding: 48px 0; background:#fff; }
-    .service-wrap{
-      display:grid;
-      grid-template-columns: 1.05fr .95fr;   /* text | média (default) */
-      gap: 28px;
-      align-items: center;
-    }
+   /* Sekce – layout (oprava mobile stacku pomocí grid-areas) */
+.service-section{ padding: 48px 0; background:#fff; }
+
+.service-wrap{
+  display:grid;
+  grid-template-columns: 1.05fr .95fr;        /* text | média (desktop) */
+  gap: 28px;
+  align-items: center;
+  grid-template-areas: "text media";
+}
+
+.service-text  { grid-area: text; }
+.service-media { grid-area: media; }
     /* střídání – „reverse“ přehodí sloupce (jen na desktopu) */
-    .service-section.reverse .service-wrap{ grid-template-columns: .95fr 1.05fr; }
+    .service-section.reverse .service-wrap{
+  grid-template-columns: .95fr 1.05fr;
+  grid-template-areas: "media text";
+}
+
     .service-section.reverse .service-text{ order:2; }
     .service-section.reverse .service-media{ order:1; }
 
