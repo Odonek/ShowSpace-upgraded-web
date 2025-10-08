@@ -14,6 +14,111 @@
 
 
 /* === HAMBURGER + DRAWER (mobil) === */
+/* ================================
+   DESKTOP: centrování navigace
+   logo | MENU uprostřed | pravá část
+===================================*/
+@media (min-width: 901px){
+  .nav-inner{
+    display: grid !important;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+  }
+
+  /* Drawer se na desktopu chová jako 2-sloupcová mřížka:
+     [ MENU (1fr, full šířka, centrovaný obsah) | pravý blok ] */
+  .nav-drawer{
+    margin-left: 0 !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 18px;
+    width: 100%;
+  }
+
+  /* MENU jde doprostřed svého sloupce */
+  .menu{
+    justify-content: center;
+  }
+
+  /* Pravý blok (sítě + tlačítko) k pravému okraji pilulky */
+  .nav-right{
+    justify-self: end;
+  }
+}
+
+/* ================================
+   HAMBURGER: hezčí vzhled + přepínání ikon
+===================================*/
+.nav-burger{
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 46px; height: 46px;
+  border: 0; border-radius: 12px;
+  cursor: pointer;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  color: var(--slate);
+}
+.nav-burger .icon-menu,
+.nav-burger .icon-close{
+  width: 24px; height: 24px; display: block;
+  transition: transform .18s ease, opacity .18s ease;
+}
+.nav-burger .icon-close{ display: none; }
+
+/* při otevření draweru přepni na křížek */
+.nav-burger[aria-expanded="true"] .icon-menu{ display: none; }
+.nav-burger[aria-expanded="true"] .icon-close{ display: block; }
+
+/* hover/active feeling */
+.nav-burger:hover{ transform: translateY(-1px); }
+.nav-burger:active{ transform: translateY(0); }
+
+/* MOBIL: zobraz burger, drawer je panel pod pilulkou */
+@media (max-width: 900px){
+  .nav-inner{ display: flex !important; }
+  .nav-burger{ display: inline-flex; margin-left: auto; }
+
+  .nav-drawer{
+    position: absolute;
+    left: 12px; right: 12px; top: calc(100% + 10px);
+    display: grid; gap: 14px;
+    padding: 14px; border-radius: 16px;
+    background:#fff; border-top: 4px solid var(--accent);
+    box-shadow: 0 18px 40px rgba(0,0,0,.18);
+    transform-origin: top; transform: scaleY(.96);
+    opacity: 0; pointer-events: none;
+  }
+  body.nav-open .nav-drawer{
+    transform: scaleY(1); opacity: 1; pointer-events: auto;
+  }
+
+  .nav-drawer .menu{
+    flex-direction: column; align-items: stretch; gap: 10px;
+  }
+  .nav-drawer .menu a,
+  .nav-drawer .menu .menu-toggle{
+    width: 100%; justify-content: space-between;
+  }
+
+  /* submenu v proudu dokumentu (ne absolutně) */
+  .submenu{
+    position: static;
+    display: none;
+    padding: 8px;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    box-shadow: none;
+    margin-top: 6px;
+  }
+  .submenu.show{ display:block; }
+}
+
+/* Pojistka, ať je pilulka opravdu uprostřed celé stránky */
+nav { left: 0; right: 0; }
+.nav-inner { margin-inline: auto !important; }
 
 /* tlačítko hamburgeru – skryté na desktopu */
 .nav-burger{
