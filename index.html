@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;500;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 
+
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="shortcut icon" type="image/png" href="favicon.png">
@@ -19,27 +20,26 @@
 <!-- NAVBAR -->
 <nav>
   <div class="container nav-inner">
-    <!-- Logo vlevo -->
     <a class="logo" href="index.html">
       <img src="logonahoruvlevo1.png" alt="ShowSpace logo">
     </a>
 
-    <!-- Středové menu (desktop) -->
-    <div class="menu" role="navigation" aria-label="Hlavní">
+    <div class="menu">
       <a href="index.html" aria-current="page">Domů</a>
 
-      <!-- „Služby“ (desktop dropdown) -->
+      <!-- „Služby“ – stejné rozměry jako ostatní -->
       <div class="menu-item--has-sub">
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="submenu-sluzby">
           Služby
           <svg class="menu-caret" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5z"></path></svg>
         </button>
-        <div id="submenu-sluzby" class="submenu" role="menu" aria-label="Podnabídka Služby">
+         <div id="submenu-sluzby" class="submenu" role="menu" aria-label="Podnabídka Služby">
           <a href="sluzby.html#sluzba-prohlidky" role="menuitem">Virtuální prohlídky</a>
           <a href="sluzby.html#sluzba-fotky" role="menuitem">Fotky</a>
           <a href="sluzby.html#sluzba-marketing" role="menuitem">Marketing</a>
           <a href="sluzby.html#sluzba-social" role="menuitem">Sociální sítě</a>
           <a href="sluzby.html#sluzba-webdev" role="menuitem">Web</a>
+          <!-- volitelně: plný přehled -->
           <a href="sluzby.html" role="menuitem" style="border-top:1px solid #eef; margin-top:6px; padding-top:8px;">Všechny služby</a>
         </div>
       </div>
@@ -47,14 +47,13 @@
       <a href="galerie.html">Galerie</a>
     </div>
 
-    <!-- Pravá část: social + Kontakt + hamburger -->
     <div class="nav-right">
-      <div class="nav-social" aria-label="Sociální sítě">
+      <div class="nav-social">
         <a href="https://facebook.com/showspace" target="_blank" aria-label="Facebook">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2v-3h2v-2c0-2 1.2-3 3-3 .9 0 1.8.1 1.8.1v2h-1c-1 0-1.3.6-1.3 1.2V12h2.5l-.4 3h-2.1v7A10 10 0 0 0 22 12"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2v-3h2v-2c0-2 1.2-3 3-3 .9 0 1.8.1 1.8.1v2h-1c-1 0-1.3.6-1.3 1.2V12h2.5l-.4 3h-2.1v7A10 10 0 0 0 22 12"/></svg>
         </a>
         <a href="https://www.instagram.com/showspace.cz/" target="_blank" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg>
         </a>
         <a href="https://www.tiktok.com/@show.space360" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
@@ -62,53 +61,10 @@
           </svg>
         </a>
       </div>
-
-      <!-- Kontakt: viditelný jen na desktopu -->
-      <a href="#kontakt" class="btn btn--accent nav-contact">Kontakt</a>
-
-      <!-- Hamburger: viditelný jen na mobilu -->
-      <button class="hamburger" type="button" aria-label="Otevřít menu" aria-controls="mnav-panel" aria-expanded="false">
-        <span class="hamburger-box" aria-hidden="true">
-          <span class="hamburger-bar"></span>
-          <span class="hamburger-bar"></span>
-          <span class="hamburger-bar"></span>
-        </span>
-      </button>
+      <a href="#kontakt" class="btn btn--accent">Kontakt</a>
     </div>
   </div>
 </nav>
-
-<!-- MOBILE NAV (offcanvas) -->
-<div class="mnav-overlay" hidden></div>
-<aside id="mnav-panel" class="mnav" aria-hidden="true" tabindex="-1">
-  <div class="mnav-header">
-    <a class="logo" href="index.html" aria-label="Domů">
-      <img src="logonahoruvlevo1.png" alt="" />
-    </a>
-    <button class="mnav-close" type="button" aria-label="Zavřít menu">×</button>
-  </div>
-
-  <nav class="mnav-links" aria-label="Mobilní menu">
-    <a class="mnav-link" href="index.html">Domů</a>
-
-    <details class="mnav-group">
-      <summary class="mnav-link">Služby</summary>
-      <div class="mnav-sub">
-        <a href="sluzby.html#sluzba-prohlidky">Virtuální prohlídky</a>
-        <a href="sluzby.html#sluzba-fotky">Fotky</a>
-        <a href="sluzby.html#sluzba-marketing">Marketing</a>
-        <a href="sluzby.html#sluzba-social">Sociální sítě</a>
-        <a href="sluzby.html#sluzba-webdev">Web</a>
-        <a href="sluzby.html">Všechny služby</a>
-      </div>
-    </details>
-
-    <a class="mnav-link" href="galerie.html">Galerie</a>
-
-    <!-- Kontakt je na mobilu jen v hamburger menu -->
-    <a class="btn btn--accent mnav-cta" href="#kontakt">Kontakt</a>
-  </nav>
-</aside>
 
 <!-- HERO -->
 <header class="hero">
@@ -120,6 +76,7 @@
     <div class="hero-overlay"></div>
   </div>
 
+ 
   <div class="container">
     <div class="hero-card">
       <h1>Prodávejte dřív, než klient vstoupí</h1>
@@ -132,41 +89,59 @@
 <!-- BENEFITY -->
 <section id="benefity" class="section">
   <div class="container">
+
+    <!-- HLAVIČKA -->
     <div class="benefits-head">
       <h2>Proč mít virtuální prohlídku</h2>
       <h3>80&nbsp;% podniků stále nemá virtuální prohlídku — buďte o krok napřed.</h3>
     </div>
 
+    <!-- KARTY BENEFITŮ -->
     <div class="benefits-center">
+
+      <!-- 1) ÚSPORA ČASU -->
       <div class="card benefit big">
         <div class="benefit-icon" aria-hidden="true">📈</div>
-        <div class="benefit-number">+<span class="counter" data-target="46">0</span> %</div>
+        <div class="benefit-number">
+          +<span class="counter" data-target="46">0</span> %
+        </div>
         <h3>Více poptávek</h3>
         <p>Virtuální prohlídky mohou zvýšit počet poptávek až o 46 %.</p>
       </div>
 
+      <!-- 2) VÍCE ZÁKAZNÍKŮ -->
       <div class="card benefit big">
         <div class="benefit-icon" aria-hidden="true">👀</div>
-        <div class="benefit-number">+<span class="counter" data-target="87">0</span> %</div>
+        <div class="benefit-number">
+          +<span class="counter" data-target="87">0</span> %
+        </div>
         <h3>Více zobrazení</h3>
-        <p>Nabídky s virtuální prohlídkou získají až o 87 % více zobrazení než nabídky bez ní.</p>
+        <p>Nabídky s virtuální prohlídkou získají až o       87 % více zobrazení než nabídky bez ní.</p>
       </div>
 
+      <!-- 3) DŮVĚRA -->
       <div class="card benefit big">
         <div class="benefit-icon" aria-hidden="true">👥</div>
-        <div class="benefit-number"><span class="counter" data-target="70">0</span> %</div>
+        <div class="benefit-number">
+          <span class="counter" data-target="70">0</span> %
+        </div>
         <h3>Lidí preferuje prohlídku před fotkami</h3>
         <p>Většina zákazníků dává přednost prohlídkám před statickými obrázky.</p>
       </div>
+
     </div>
+
   </div>
 </section>
 
-<!-- VTOUR -->
+
+
+<!-- VTOUR (full-screen, loop) -->
 <section id="vtour" aria-label="Virtuální prohlídky">
   <div class="vt-overlay"></div>
 
   <div class="container vt-grid">
+    <!-- LEVÁ STRANA – TEXT -->
     <div class="vt-copy" id="vt-copy">
       <span class="tag">Virtuální prohlídky</span>
       <h2 id="vt-title">Houseboat Praha</h2>
@@ -182,9 +157,11 @@
       </p>
     </div>
 
+    <!-- PRAVÁ STRANA – KARTY -->
     <div class="vt-media">
       <div class="vt-viewport">
         <div class="vt-strip">
+          <!-- karty -->
           <a class="vt-card" data-bg="bazenuvod.jpg" data-title="Houseboat Praha"
              data-desc="Vytvořili jsme 3D virtuální prohlídku pro vlastníka Houseboatu na míru."
              href="https://tour.giraffe360.com/houseboat-prague-vltava/"
@@ -202,6 +179,7 @@
         </div>
       </div>
 
+      <!-- ŠIPKY -->
       <div class="vt-controls">
         <button class="vt-arrow vt-prev" aria-label="Předchozí">
           <svg viewBox="0 0 24 24" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
@@ -218,6 +196,7 @@
   </div>
 </section>
 
+
 <!-- O NÁS -->
 <section id="o-nas" class="section">
   <div class="container grid grid-2 about">
@@ -226,7 +205,7 @@
       <h2>Tým ShowSpace</h2>
       <p class="lead">Jsme parta vysokoškoláků a nadšenců do moderních technologií a marketingu. Baví nás pomáhat s prezentací prostorů v co nejlepším světle.</p>
       <p>Jsme energičtí a ambiciózní. Ke každému projektu přistupujeme s maximální péčí. Spokojenost klienta je pro nás vždy na prvním místě – když se daří vám, daří se i nám.</p>
-      <p style="margin-top:12px">
+       <p style="margin-top:12px">
         <a href="galerie.html" class="btn btn--outline">Ukázky práce</a>
         <a href="#kontakt" class="btn btn--highlight pulse btn-cta">Chci nezávaznou poptávku</a>
       </p>
@@ -242,6 +221,7 @@
 <section id="kontakt" class="section contact">
   <div class="container contact-grid">
 
+    <!-- INFO KARTA -->
     <div class="contact-card contact-info">
       <h2>Kontaktujte nás</h2>
       <p class="lead">Ozveme se do 24 hodin.</p>
@@ -249,17 +229,17 @@
       <ul class="contact-list">
         <li class="contact-item">
           <div class="contact-ico">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.3 1 .3 2 .5 3 .6.6.1 1 .6 1 1.2V20a2 2 0 0 1-2.2 2 18 18 0 0 1-16-16A2 2 0 0 1 4 3h3.1c.6 0 1.1.4 1.2 1 .1 1 .3 2 .6 3 .1.4 0 .8-.3 1.1l-2 2.2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.3 1 .3 2 .5 3 .6.6.1 1 .6 1 1.2V20a2 2 0 0 1-2.2 2 18 18 0 0 1-16-16A2 2 0 0 1 4 3h3.1c.6 0 1.1.4 1.2 1 .1 1 .3 2 .6 3 .1.4 0 .8-.3 1.1l-2 2.2z"/></svg>
           </div>
           <div>
             <strong>Telefon</strong>
-            <a href="tel:+420730167681">+420 730 167 681</a>
+            <a href="tel:+420123456789">+420 730 167 681</a>
           </div>
         </li>
 
         <li class="contact-item">
           <div class="contact-ico">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 3-8 5L4 7V6l8 5 8-5v1z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 3-8 5L4 7V6l8 5 8-5v1z"/></svg>
           </div>
           <div>
             <strong>E-mail</strong>
@@ -269,7 +249,7 @@
 
         <li class="contact-item">
           <div class="contact-ico">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
           </div>
           <div>
             <strong>Sídlo</strong>
@@ -279,7 +259,7 @@
 
         <li class="contact-item">
           <div class="contact-ico">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></svg>
           </div>
           <div>
             <strong>Fakturační údaje</strong>
@@ -290,6 +270,7 @@
       </ul>
     </div>
 
+    <!-- FORM KARTA -->
     <div class="contact-card contact-form">
       <h2>Napište nám</h2>
       <form action="https://formspree.io/f/yourendpoint" method="POST">
@@ -306,6 +287,7 @@
         </div>
       </form>
     </div>
+
   </div>
 </section>
 
@@ -341,7 +323,6 @@
 
 <!-- Skripty -->
 <script>
-/* Scroll to top */
 (() => {
   const toTop = document.getElementById("toTop");
   if (!toTop) return;
@@ -354,7 +335,7 @@
 </script>
 
 <script>
-/* Dropdown „Služby“ – desktop */
+/* Dropdown „Služby“ */
 (() => {
   const toggle = document.querySelector('.menu-toggle');
   const menu = document.getElementById('submenu-sluzby');
@@ -466,39 +447,45 @@
   function go(delta){ current += delta; centerOn(current, true); }
 
   function updateUI(fade=false){
-    const total = originals.length;
+  const total = originals.length;
 
-    const realIndex = (current - visible + total) % total;
-    const realCard  = originals[realIndex];
-    const liveCard  = cards[current];
+  // "středová" karta (tu necháme pro texty + odkaz)
+  const realIndex = (current - visible + total) % total;
+  const realCard  = originals[realIndex];
+  const liveCard  = cards[current];
 
-    const leftOffset = visible === 1 ? 0 : Math.floor(visible / 2);
-    const firstIdx = current - leftOffset;
-    const firstLive = cards[firstIdx];
-    const realIndexFirst = (firstIdx - visible + total) % total;
-    const realCardFirst = originals[(realIndexFirst + total) % total];
+  // PRVNÍ viditelná karta vlevo (tu použijeme pro POZADÍ + ZVĚTŠENÍ)
+  const leftOffset = visible === 1 ? 0 : Math.floor(visible / 2); // 0 pro 1 sloupec, 1 pro 2–3 sloupce
+  const firstIdx = current - leftOffset;
+  const firstLive = cards[firstIdx];
+  const realIndexFirst = (firstIdx - visible + total) % total;
+  const realCardFirst = originals[(realIndexFirst + total) % total];
 
-    const bgFirst = realCardFirst?.dataset?.bg || realCardFirst?.querySelector('img')?.getAttribute('src');
-    if (bgFirst) root.style.setProperty('--vtbg', `url("${bgFirst}")`);
+  // Pozadí sekce z PRVNÍ karty
+  const bgFirst = realCardFirst?.dataset?.bg || realCardFirst?.querySelector('img')?.getAttribute('src');
+  if (bgFirst) root.style.setProperty('--vtbg', `url("${bgFirst}")`);
 
-    const t    = realCard.dataset.title || 'Virtuální prohlídka';
-    const d    = realCard.dataset.desc  || 'Prohlídka v nové záložce.';
-    const href = realCard.getAttribute('href') || '#';
+  // Texty/odkaz ze "středové" karty (beze změny)
+  const t    = realCard.dataset.title || 'Virtuální prohlídka';
+  const d    = realCard.dataset.desc  || 'Prohlídka v nové záložce.';
+  const href = realCard.getAttribute('href') || '#';
 
-    if (fade) copyBox.classList.add('swap-out');
-    if (fade) {
-      setTimeout(() => {
-        titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
-        copyBox.classList.remove('swap-out');
-      }, 120);
-    } else {
+  if (fade) copyBox.classList.add('swap-out');
+  if (fade) {
+    setTimeout(() => {
       titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
-    }
-
-    cards.forEach(c => c.classList.remove('is-center','is-first'));
-    if (liveCard)  liveCard.classList.add('is-center');
-    if (firstLive) firstLive.classList.add('is-first');
+      copyBox.classList.remove('swap-out');
+    }, 120);
+  } else {
+    titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
   }
+
+  // Třídy: zvýrazníme první kartu, ne středovou
+  cards.forEach(c => c.classList.remove('is-center','is-first'));
+  if (liveCard)  liveCard.classList.add('is-center'); // jen interní označení
+  if (firstLive) firstLive.classList.add('is-first'); // vizuální zvýraznění první
+}
+
 
   nextBtn.addEventListener('click', () => go(+1));
   prevBtn.addEventListener('click', () => go(-1));
@@ -512,58 +499,5 @@
 })();
 </script>
 
-<script>
-/* MOBILE NAV – hamburger + offcanvas (bez knihoven) */
-(() => {
-  const body     = document.body;
-  const btn      = document.querySelector('.hamburger');
-  const panel    = document.getElementById('mnav-panel');
-  const overlay  = document.querySelector('.mnav-overlay');
-  const btnClose = document.querySelector('.mnav-close');
-
-  if (!btn || !panel || !overlay || !btnClose) return;
-
-  const focusableSel = 'a,button,input,textarea,select,[tabindex]:not([tabindex="-1"])';
-  let lastFocused = null;
-
-  const open = () => {
-    lastFocused = document.activeElement;
-    panel.classList.add('open');
-    overlay.hidden = false;
-    btn.setAttribute('aria-expanded','true');
-    panel.setAttribute('aria-hidden','false');
-    body.classList.add('no-scroll');
-    // roztáhnout první summary automaticky (volitelné)
-    const firstSummary = panel.querySelector('details');
-    if (firstSummary) firstSummary.open = false; // necháme zavřené
-    // fokus do panelu
-    const f = panel.querySelector(focusableSel);
-    if (f) f.focus();
-  };
-
-  const close = () => {
-    panel.classList.remove('open');
-    overlay.hidden = true;
-    btn.setAttribute('aria-expanded','false');
-    panel.setAttribute('aria-hidden','true');
-    body.classList.remove('no-scroll');
-    if (lastFocused) lastFocused.focus();
-  };
-
-  btn.addEventListener('click', open);
-  btnClose.addEventListener('click', close);
-  overlay.addEventListener('click', close);
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && panel.classList.contains('open')) close();
-  });
-
-  // Zavřít po kliknutí na odkaz
-  panel.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => close());
-  });
-})();
-</script>
-
 </body>
-</html>
+</html> 
