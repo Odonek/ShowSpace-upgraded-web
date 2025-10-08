@@ -33,28 +33,24 @@
       border-top: 4px solid var(--accent);
     }
 
-    /* Sekce – layout */
-   /* Sekce – layout (oprava mobile stacku pomocí grid-areas) */
-.service-section{ padding: 48px 0; background:#fff; }
+    /* ========= Sekce – layout (grid-areas) ========= */
+    .service-section{ padding: 48px 0; background:#fff; }
 
-.service-wrap{
-  display:grid;
-  grid-template-columns: 1.05fr .95fr;        /* text | média (desktop) */
-  gap: 28px;
-  align-items: center;
-  grid-template-areas: "text media";
-}
+    .service-wrap{
+      display:grid;
+      gap: 28px;
+      align-items: center;
+      grid-template-columns: 1.05fr .95fr;      /* text | média (desktop) */
+      grid-template-areas: "text media";
+    }
+    .service-text  { grid-area: text; }
+    .service-media { grid-area: media; }
 
-.service-text  { grid-area: text; }
-.service-media { grid-area: media; }
-    /* střídání – „reverse“ přehodí sloupce (jen na desktopu) */
+    /* střídání: reverse = média vlevo / text vpravo (jen desktop) */
     .service-section.reverse .service-wrap{
-  grid-template-columns: .95fr 1.05fr;
-  grid-template-areas: "media text";
-}
-
-    .service-section.reverse .service-text{ order:2; }
-    .service-section.reverse .service-media{ order:1; }
+      grid-template-columns: .95fr 1.05fr;
+      grid-template-areas: "media text";
+    }
 
     /* první sekce blíž k navbaru */
     #sluzba-prohlidky.service-section{ padding-top: 28px; }
@@ -64,6 +60,7 @@
     .kvp-list li, .steps li{ margin:6px 0; }
     .cta-row{ display:flex; gap:12px; margin-top:14px; flex-wrap:wrap; }
 
+    /* Média */
     .service-media{ display:grid; gap:14px; }
     .media-slot{
       position:relative; width:100%; aspect-ratio:16/9;
@@ -79,16 +76,24 @@
     .media-slot--plain{ background:transparent; border:0; box-shadow:none; }
     .media-slot--plain img{ object-fit:contain; background:transparent; }
 
-    /* RESPONSIVE – na mobilu vždy text nahoře, média pod ním */
+    /* ======= RESPONSIVE ======= */
+    /* Na mobilu VŽDY text nahoře a obrázek pod ním – i u .reverse */
     @media (max-width: 900px){
-      .service-wrap{ grid-template-columns: 1fr; }
-      .service-text{ order:1 !important; }
-      .service-media{ order:2 !important; }
-      .service-section.reverse .service-text{ order:1 !important; }
-      .service-section.reverse .service-media{ order:2 !important; }
+      .service-wrap{
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "text"
+          "media";
+      }
+      .service-section.reverse .service-wrap{
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "text"
+          "media";
+      }
     }
 
-    /* DROPDOWN – bez „Kontakt“; přehled kotviček */
+    /* ===== Dropdown „Služby“ ===== */
     .menu { position: relative; }
     .menu-item--has-sub { position: relative; }
     .menu .menu-toggle{
@@ -199,7 +204,7 @@
                 loading="lazy" allowfullscreen
                 title="Virtuální prohlídka – Houseboat Prague Vltava"></iframe>
       </div>
-      <!-- přidaný půdorys PŘÍMO pod prohlídku -->
+      <!-- Půdorys přímo pod prohlídkou -->
       <div class="media-slot">
         <img src="floorplan.jpg" alt="Ukázka 2D půdorysu – Houseboat" loading="lazy">
       </div>
@@ -232,7 +237,7 @@
   </div>
 </section>
 
-<!-- 3) MARKETING — TEXT vlevo, OBRÁZEK vpravo, obrázek BEZ rámečku -->
+<!-- 3) MARKETING — TEXT vlevo, OBRÁZEK vpravo (bez rámečku) -->
 <section id="sluzba-marketing" class="section service-section">
   <div class="container service-wrap">
     <div class="service-text">
@@ -288,7 +293,7 @@
   </div>
 </section>
 
-<!-- 5) WEB — TEXT vlevo, OBRÁZEK vpravo, obrázek BEZ rámečku -->
+<!-- 5) WEB — TEXT vlevo, OBRÁZEK vpravo (bez rámečku) -->
 <section id="sluzba-webdev" class="section service-section">
   <div class="container service-wrap">
     <div class="service-text">
