@@ -387,28 +387,44 @@ small.help { color: #999; }
 .vt-meta strong{ display:block; font-size:1.05rem; }
 .vt-meta span{ font-size:.9rem; opacity:.9; }
 
-/* Šipky */
-.vt-controls{ display:flex; align-items:center; justify-content:center; gap:18px; }
+/* === ŠIPKY – umístění uprostřed pod kartami === */
+.vt-controls{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 18px;                          /* uprav výšku podle chuti */
+  display: flex; align-items: center; justify-content: center;
+  gap: 18px;
+  z-index: 5;
+  pointer-events: auto;
+}
+@media (max-width: 640px){
+  .vt-controls{ bottom: 12px; }
+}
 
+/* === TLAČÍTKA – dokonale vycentrované ikonky v kolečku === */
 .vt-arrow{
-  width:64px; height:64px; border-radius:50%;
-  border:0; cursor:pointer; padding:0;
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  border: 0; cursor: pointer; padding: 0;
   background: rgba(255,255,255,.96);
   box-shadow: 0 10px 28px rgba(0,0,0,.35);
-  display:grid; place-items:center;      /* perfektní střed */
+  display: grid; place-items: center;          /* perfektní střed */
   transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
 }
-
 .vt-arrow svg{
-  width:28px; height:28px; display:block;
-  fill:none; stroke:#111; stroke-width:2.25;
-  stroke-linecap:round; stroke-linejoin:round;
+  width: 28px; height: 28px; display: block;
+  stroke: #111; stroke-width: 2.25;
+  stroke-linecap: round; stroke-linejoin: round;
+  fill: none;
 }
+/* jemná optická korekce */
+.vt-prev svg{ transform: translateX(-1px); }
+.vt-next svg{ transform: translateX( 1px); }
 
 .vt-arrow:hover{ background: var(--accent); transform: translateY(-2px); }
-.vt-arrow:hover svg{ stroke:#111; }
-.vt-arrow:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
-
+.vt-arrow:hover svg{ stroke: #111; }
+.vt-arrow:focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; }
 /* === CTA tlačítka === */
 .vt-buttons {
   display: flex;
