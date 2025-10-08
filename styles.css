@@ -553,22 +553,38 @@ small.help { color: #999; }
   object-fit: cover;
 }
 
-/* tlačítka ve stejném stylu */
-#o-nas .about .btn {
-  margin-top: 14px;
+/* O NÁS – dvojice tlačítek */
+.onas-buttons {
+  display: flex;
+  gap: 24px;            /* větší mezera mezi tlačítky */
+  align-items: center;
+  flex-wrap: wrap;
 }
 
-#o-nas .about .btn--highlight {
-  padding: 12px 24px;
-  font-size: 1rem;
+/* Obě tlačítka mají stejnou výšku a padding */
+.onas-buttons .btn {
+  min-height: 58px;     /* stejné jako vlevo */
+  padding: 0 32px;      /* větší horizontální prostor */
   font-weight: 600;
-  animation: pulseGlow 3s infinite ease-in-out;
-  margin-left: 10px;
+  font-size: 1.05rem;
 }
 
-#o-nas .about .btn--highlight:hover {
-  transform: translateY(-2px) scale(1.04);
+/* Tlačítko zvýrazněné (žluté) */
+.btn--highlight {
+  background: #fff59f;
+  color: #111;
+  box-shadow: 0 0 20px rgba(255, 245, 159, 0.8);
 }
+.btn--highlight:hover {
+  background: #ffeb3b;
+}
+
+/* Na mobilu menší mezera */
+@media (max-width: 640px){
+  .onas-buttons { gap: 16px; justify-content: center; }
+  .onas-buttons .btn { width: 100%; text-align: center; }
+}
+
 
 /* responzivita – na mobilech text nad fotkou */
 @media (max-width: 900px) {
