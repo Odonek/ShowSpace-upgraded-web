@@ -13,10 +13,6 @@
   <link rel="shortcut icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
   <meta name="theme-color" content="#415A77">
-
-  <!-- GSAP + ScrollTrigger -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 </head>
 <body>
   
@@ -76,6 +72,7 @@
     <div class="hero-overlay"></div>
   </div>
 
+ 
   <div class="container">
     <div class="hero-card">
       <h1>Prodávejte dřív, než klient vstoupí</h1>
@@ -88,12 +85,17 @@
 <!-- BENEFITY -->
 <section id="benefity" class="section">
   <div class="container">
+
+    <!-- HLAVIČKA -->
     <div class="benefits-head">
       <h2>Proč mít virtuální prohlídku</h2>
       <h3>80&nbsp;% podniků stále nemá virtuální prohlídku — buďte o krok napřed.</h3>
     </div>
 
+    <!-- KARTY BENEFITŮ -->
     <div class="benefits-center">
+
+      <!-- 1) ÚSPORA ČASU -->
       <div class="card benefit big">
         <div class="benefit-icon" aria-hidden="true">📈</div>
         <div class="benefit-number">
@@ -103,15 +105,17 @@
         <p>Virtuální prohlídky mohou zvýšit počet poptávek až o 46 %.</p>
       </div>
 
+      <!-- 2) VÍCE ZÁKAZNÍKŮ -->
       <div class="card benefit big">
         <div class="benefit-icon" aria-hidden="true">👀</div>
         <div class="benefit-number">
           +<span class="counter" data-target="87">0</span> %
         </div>
         <h3>Více zobrazení</h3>
-        <p>Nabídky s virtuální prohlídkou získají až o 87 % více zobrazení než nabídky bez ní.</p>
+        <p>Nabídky s virtuální prohlídkou získají až o       87 % více zobrazení než nabídky bez ní.</p>
       </div>
 
+      <!-- 3) DŮVĚRA -->
       <div class="card benefit big">
         <div class="benefit-icon" aria-hidden="true">👥</div>
         <div class="benefit-number">
@@ -120,9 +124,13 @@
         <h3>Lidí preferuje prohlídku před fotkami</h3>
         <p>Většina zákazníků dává přednost prohlídkám před statickými obrázky.</p>
       </div>
+
     </div>
+
   </div>
 </section>
+
+
 
 <!-- VTOUR (full-screen, loop) -->
 <section id="vtour" aria-label="Virtuální prohlídky">
@@ -167,7 +175,7 @@
         </div>
       </div>
 
-      <!-- ŠIPKY POD KARTAMI -->
+      <!-- ŠIPKY -->
       <div class="vt-controls">
         <button class="vt-arrow vt-prev" aria-label="Předchozí">
           <svg viewBox="0 0 24 24" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
@@ -183,6 +191,7 @@
     </div>
   </div>
 </section>
+
 
 <!-- O NÁS -->
 <section id="o-nas" class="section">
@@ -207,6 +216,8 @@
 <!-- KONTAKT – dvě karty -->
 <section id="kontakt" class="section contact">
   <div class="container contact-grid">
+
+    <!-- INFO KARTA -->
     <div class="contact-card contact-info">
       <h2>Kontaktujte nás</h2>
       <p class="lead">Ozveme se do 24 hodin.</p>
@@ -255,6 +266,7 @@
       </ul>
     </div>
 
+    <!-- FORM KARTA -->
     <div class="contact-card contact-form">
       <h2>Napište nám</h2>
       <form action="https://formspree.io/f/yourendpoint" method="POST">
@@ -271,6 +283,7 @@
         </div>
       </form>
     </div>
+
   </div>
 </section>
 
@@ -335,17 +348,40 @@
 })();
 </script>
 
-<!-- BENEFITY čísla – nahrazeno GSAPem (ponecháváme jen fallback pro reduced-motion) -->
 <script>
+/* BENEFITY čísla */
 (() => {
   const section = document.getElementById('benefity');
   if (!section) return;
   const counters = section.querySelectorAll('.counter');
   if (!counters.length) return;
 
+  let played = false;
+  function animateCounter(el, target, duration = 1200) {
+    const t0 = performance.now();
+    function frame(now) {
+      const p = Math.min((now - t0) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased);
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduceMotion) {
-    counters.forEach(c => c.textContent = c.dataset.target || c.textContent);
+  if (reduceMotion) { counters.forEach(c => c.textContent = c.dataset.target || c.textContent); return; }
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !played) {
+          played = true;
+          counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0', 10) || 0));
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.25 });
+    io.observe(section);
+  } else {
+    counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0', 10) || 0));
   }
 })();
 </script>
@@ -407,39 +443,45 @@
   function go(delta){ current += delta; centerOn(current, true); }
 
   function updateUI(fade=false){
-    const total = originals.length;
+  const total = originals.length;
 
-    const realIndex = (current - visible + total) % total;
-    const realCard  = originals[realIndex];
-    const liveCard  = cards[current];
+  // "středová" karta (tu necháme pro texty + odkaz)
+  const realIndex = (current - visible + total) % total;
+  const realCard  = originals[realIndex];
+  const liveCard  = cards[current];
 
-    const leftOffset = visible === 1 ? 0 : Math.floor(visible / 2);
-    const firstIdx = current - leftOffset;
-    const firstLive = cards[firstIdx];
-    const realIndexFirst = (firstIdx - visible + total) % total;
-    const realCardFirst = originals[(realIndexFirst + total) % total];
+  // PRVNÍ viditelná karta vlevo (tu použijeme pro POZADÍ + ZVĚTŠENÍ)
+  const leftOffset = visible === 1 ? 0 : Math.floor(visible / 2); // 0 pro 1 sloupec, 1 pro 2–3 sloupce
+  const firstIdx = current - leftOffset;
+  const firstLive = cards[firstIdx];
+  const realIndexFirst = (firstIdx - visible + total) % total;
+  const realCardFirst = originals[(realIndexFirst + total) % total];
 
-    const bgFirst = realCardFirst?.dataset?.bg || realCardFirst?.querySelector('img')?.getAttribute('src');
-    if (bgFirst) root.style.setProperty('--vtbg', `url("${bgFirst}")`);
+  // Pozadí sekce z PRVNÍ karty
+  const bgFirst = realCardFirst?.dataset?.bg || realCardFirst?.querySelector('img')?.getAttribute('src');
+  if (bgFirst) root.style.setProperty('--vtbg', `url("${bgFirst}")`);
 
-    const t    = realCard.dataset.title || 'Virtuální prohlídka';
-    const d    = realCard.dataset.desc  || 'Prohlídka v nové záložce.';
-    const href = realCard.getAttribute('href') || '#';
+  // Texty/odkaz ze "středové" karty (beze změny)
+  const t    = realCard.dataset.title || 'Virtuální prohlídka';
+  const d    = realCard.dataset.desc  || 'Prohlídka v nové záložce.';
+  const href = realCard.getAttribute('href') || '#';
 
-    if (fade) copyBox.classList.add('swap-out');
-    if (fade) {
-      setTimeout(() => {
-        titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
-        copyBox.classList.remove('swap-out');
-      }, 120);
-    } else {
+  if (fade) copyBox.classList.add('swap-out');
+  if (fade) {
+    setTimeout(() => {
       titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
-    }
-
-    cards.forEach(c => c.classList.remove('is-center','is-first'));
-    if (liveCard)  liveCard.classList.add('is-center');
-    if (firstLive) firstLive.classList.add('is-first');
+      copyBox.classList.remove('swap-out');
+    }, 120);
+  } else {
+    titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
   }
+
+  // Třídy: zvýrazníme první kartu, ne středovou
+  cards.forEach(c => c.classList.remove('is-center','is-first'));
+  if (liveCard)  liveCard.classList.add('is-center'); // jen interní označení
+  if (firstLive) firstLive.classList.add('is-first'); // vizuální zvýraznění první
+}
+
 
   nextBtn.addEventListener('click', () => go(+1));
   prevBtn.addEventListener('click', () => go(-1));
@@ -453,105 +495,5 @@
 })();
 </script>
 
-<!-- GSAP ANIMATIONS -->
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  if (!window.gsap) return;
-  gsap.registerPlugin(ScrollTrigger);
-
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // NAVBAR – fade zhora
-  if (!prefersReduced) {
-    gsap.from("nav", { y: -50, opacity: 0, duration: 0.9, ease: "power2.out" });
-  }
-
-  // HERO – text
-  if (!prefersReduced) {
-    gsap.from(".hero-card > *", {
-      opacity: 0, y: 40, duration: 1, ease: "power3.out", stagger: 0.15, delay: 0.2
-    });
-    // HERO – parallax video
-    gsap.to(".hero-media video", {
-      yPercent: 10, ease: "none",
-      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }
-    });
-  }
-
-  // BENEFITY – karty + počítadla
-  gsap.from("#benefity .card.benefit.big", {
-    scrollTrigger: { trigger: "#benefity", start: "top 80%" },
-    opacity: 0, y: 60, duration: 0.9, ease: "power3.out", stagger: 0.15
-  });
-
-  // Počítadla až při zobrazení
-  ScrollTrigger.create({
-    trigger: "#benefity",
-    start: "top 80%",
-    once: true,
-    onEnter: () => {
-      const reduce = prefersReduced;
-      document.querySelectorAll("#benefity .counter").forEach(el => {
-        const target = parseInt(el.dataset.target || el.textContent || "0", 10);
-        if (reduce) { el.textContent = target; return; }
-        gsap.fromTo(el, { textContent: 0 }, {
-          textContent: target,
-          duration: 1.6,
-          ease: "power1.out",
-          snap: { textContent: 1 }
-        });
-      });
-    }
-  });
-
-  // VTOUR – text vlevo
-  gsap.from("#vt-copy", {
-    scrollTrigger: { trigger: "#vtour", start: "top 85%" },
-    x: -60, opacity: 0, duration: 1, ease: "power3.out"
-  });
-
-  // VTOUR – karty (stagger + scale)
-  gsap.from("#vtour .vt-card", {
-    scrollTrigger: { trigger: "#vtour", start: "top 85%" },
-    opacity: 0, y: 80, scale: 0.92, stagger: 0.12, duration: 1, ease: "power3.out"
-  });
-
-  // VTOUR – parallax pozadí (overlay) při scrollu – jemný efekt
-  if (!prefersReduced) {
-    gsap.to("#vtour .vt-overlay", {
-      backgroundPosition: "center 20%",
-      ease: "none",
-      scrollTrigger: { trigger: "#vtour", start: "top bottom", end: "bottom top", scrub: true }
-    });
-  }
-
-  // O NÁS – text zleva, obrázek zprava + slight zoom
-  gsap.from("#o-nas .text", {
-    scrollTrigger: { trigger: "#o-nas", start: "top 85%" },
-    x: -60, opacity: 0, duration: 1, ease: "power3.out"
-  });
-  gsap.from("#o-nas img", {
-    scrollTrigger: { trigger: "#o-nas", start: "top 85%" },
-    x: 60, opacity: 0, scale: 1.05, duration: 1, ease: "power3.out"
-  });
-
-  // KONTAKT – dvě karty + ikonky ve staggers
-  gsap.from("#kontakt .contact-card", {
-    scrollTrigger: { trigger: "#kontakt", start: "top 85%" },
-    opacity: 0, y: 60, duration: 1, ease: "power3.out", stagger: 0.2
-  });
-  gsap.from("#kontakt .contact-item", {
-    scrollTrigger: { trigger: "#kontakt", start: "top 80%" },
-    opacity: 0, x: -30, duration: 0.6, ease: "power3.out", stagger: 0.08, delay: 0.2
-  });
-
-  // FOOTER – poslední fade-up
-  gsap.from("footer", {
-    scrollTrigger: { trigger: "footer", start: "top 95%" },
-    opacity: 0, y: 40, duration: 0.9, ease: "power3.out"
-  });
-});
-</script>
-
 </body>
-</html>
+</html> 
