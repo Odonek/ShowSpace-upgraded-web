@@ -324,6 +324,56 @@ input, textarea{ width:100%; padding:12px 14px; border:1px solid #e4e6ea; border
 input:focus, textarea:focus{ outline:2px solid var(--accent); }
 .contact-form .help{ color:#777; }
 
+
+/* === NAVBAR FIX: 100% centrování menu + čisté odkazy na desktopu === */
+.nav-inner{ position: relative; }  /* ukotvení pro absolutně centrované menu */
+
+/* Desktop */
+@media (min-width: 901px){
+  /* jednoduché rozložení: logo vlevo, PRAVÝ blok vpravo, menu absolutně uprostřed */
+  .nav-inner{
+    display: flex !important;
+    align-items: center;
+  }
+  .nav-drawer{
+    display: flex !important;
+    align-items: center;
+    gap: 18px;
+    width: 100%;        /* ať má střed prostor */
+  }
+  .nav-right{ margin-left: auto; } /* doprava */
+
+  /* MENU absolutně vystředíme vůči celé pilulce */
+  .menu{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+
+  /* Na desktopu odkazy bez bílých „pilulek“ */
+  .menu a,
+  .menu .menu-toggle{
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 8px 6px !important;
+    color: var(--slate);
+    transform: none !important;
+  }
+  .menu a:hover,
+  .menu .menu-toggle:hover{
+    background: transparent !important;
+    color: var(--slate-600);
+  }
+
+  /* aby dropdown nekryl stín pilulky */
+  .submenu{ z-index: 500; }
+}
+
+
+
 /* FOOTER */
 footer { background: #fff; color: #666; border-top: 1px solid #eee; font-size: .9rem; }
 .footer-wrap { padding: 18px 0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:10px; }
