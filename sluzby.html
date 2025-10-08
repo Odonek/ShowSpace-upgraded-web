@@ -14,62 +14,33 @@
   <meta name="theme-color" content="#415A77">
 
   <style>
-    /* ===========================
-       Doplňkové styly pro Služby
-       =========================== */
+    /* =========================================
+       LOKÁLNÍ STYLY – úpravy pro stránku služeb
+       ========================================= */
 
-    /* 1) Navbar – bílé pozadí, sticky, stín */
+    /* 1) NAVBAR: jen nahoře, bílé pozadí, žádné “lepení” při scrollu */
     body.page-services nav{
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      position: static;              /* přepíše případné absolute ze styles.css */
       background: #fff;
       border-bottom: 1px solid #eee;
       box-shadow: 0 4px 14px rgba(0,0,0,.06);
+      padding-top: 10px;             /* jemný dech navnitř */
+      padding-bottom: 10px;
     }
     body.page-services .nav-inner{
-      background:#fff;
-      margin-top:0;
+      background:#fff;               /* bílé “pilulky” */
+      margin-top:0;                  /* žádná mezera nahoře */
       border-top: 4px solid var(--accent);
     }
 
-    /* 2) Spacer pod navbar, aby nic nepřekrýval */
-    .page-top{ height: 110px; }
-    @media (max-width: 900px){ .page-top{ height: 96px; } }
+    /* 2) Zrušení jakéhokoli “spaceru” pod navbar – nechceme žádný béžový pás */
+    .page-top{ display:none !important; height:0 !important; }
 
-    /* 3) Submenu Služby (stejné jako zbytek webu) */
-    .menu { position: relative; }
-    .menu-item--has-sub { position: relative; }
-    .menu .menu-toggle{
-      display:inline-flex; align-items:center; gap:8px;
-      font-weight:600; color: var(--slate);
-      padding: 6px 14px; background: rgba(255,255,255,0.9);
-      border:0; border-radius: 999px; box-shadow: 0 2px 6px rgba(0,0,0,.08);
-      cursor:pointer; font-family: var(--font);
-    }
-    .menu .menu-toggle:hover { background: var(--accent); color:#111; }
-    .menu .menu-caret { width: 14px; height: 14px; transition: transform .2s ease; }
-    .menu .menu-toggle[aria-expanded="true"] .menu-caret { transform: rotate(180deg); }
-
-    .submenu {
-      position: absolute; top: calc(100% + 8px); left: 0;
-      display:none; min-width: 240px; padding:10px;
-      background:#fff; border:1px solid #eee; border-radius: 14px;
-      box-shadow: 0 14px 36px rgba(0,0,0,.12); z-index: 200;
-    }
-    .submenu.show { display:block; }
-    .submenu a {
-      display:flex; align-items:center; gap:10px;
-      padding:10px 12px; border-radius:10px; font-weight:600; color:var(--ink);
-      background:#fff;
-    }
-    .submenu a:hover { background: #f6f8fb; color: var(--slate); }
-
-    /* 4) Layout sekcí služeb */
-    .service-section{ padding: 64px 0; }
+    /* 3) Sekce – základní rozvržení */
+    .service-section{ padding: 48px 0; background:#fff; }
     .service-wrap{
       display:grid;
-      grid-template-columns: 1.05fr .95fr;
+      grid-template-columns: 1.05fr .95fr;   /* text | média (default) */
       gap: 28px;
       align-items: center;
     }
@@ -80,7 +51,7 @@
     .steps li{ margin:6px 0; }
     .cta-row{ display:flex; gap:12px; margin-top:14px; flex-wrap:wrap; }
 
-    /* Média */
+    /* Média – jednotný vzhled */
     .service-media{ display:grid; gap:14px; }
     .media-slot{
       position:relative; width:100%; aspect-ratio:16/9;
@@ -97,19 +68,10 @@
     .service-section.reverse .service-text{ order:2; }
     .service-section.reverse .service-media{ order:1; }
 
-    /* Varianta: média středem pod textem (Virtuální prohlídky) */
-    .service-section.center-media .service-wrap{
-      grid-template-columns: 1fr;
-      max-width: 1000px;
-    }
-    .center-media .service-media{
-      justify-items:center;
-    }
-    .center-media .media-slot{
-      width: min(100%, 900px);
-    }
+    /* První sekce – přitáhnout blíž k navbaru */
+    #sluzba-prohlidky.service-section{ padding-top: 28px; }
 
-    /* Na mobilu – vždy text nahoře, média pod tím */
+    /* Na mobilu: vždy text nahoře, média pod ním */
     @media (max-width: 900px){
       .service-wrap{ grid-template-columns: 1fr; }
       .service-text{ order:1 !important; }
@@ -118,48 +80,55 @@
       .service-section.reverse .service-media{ order:2 !important; }
     }
 
-    /* 5) Kombinovaná sekce: Marketing + Sociální sítě + Web (bez fotek) */
-    .combo{
-      background: linear-gradient(180deg, #fff, #f8fafc);
-      border-top: 1px solid #eef2f7;
-      border-bottom: 1px solid #eef2f7;
-    }
-    .combo .combo-head{
-      text-align:center;
-      max-width: 800px;
-      margin: 0 auto 24px;
-    }
-    .combo-grid{
-      display:grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 18px;
-    }
-    .combo-card{
-      background:#fff;
-      border: 1px solid #edf0f4;
-      border-top: 6px solid var(--accent);
-      border-radius: 16px;
-      box-shadow: 0 10px 28px rgba(0,0,0,.08);
+    /* 4) Marketing + Sociální sítě (bez fotek) – 2 “karty” vedle sebe */
+    .online-block{ background: linear-gradient(180deg, #fff, #f8fafc); border-top: 1px solid #eef2f7; border-bottom:1px solid #eef2f7; }
+    .online-head{ text-align:center; max-width: 900px; margin: 0 auto 22px; }
+    .online-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .text-card{
+      background:#fff; border:1px solid #edf0f4; border-top:6px solid var(--accent);
+      border-radius:16px; box-shadow: 0 10px 28px rgba(0,0,0,.08);
       padding: 20px 18px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
     }
-    .combo-ico{ font-size: 28px; }
-    .combo-card h3{ margin: 0 0 4px; color: var(--slate); }
-    .combo-card .lead{ margin:0; color: var(--muted); }
-    .combo-card ul{ padding-left: 18px; margin: 8px 0 0; }
-    .combo-card ul li{ margin:6px 0; }
-    .combo-card .cta-row{ margin-top: auto; }
+    .text-card h3{ margin: 0 0 8px; color: var(--slate); }
+    .text-card p{ margin: 10px 0; }
+    .text-card ul{ padding-left: 18px; margin: 8px 0 0; }
+    .text-card li{ margin:6px 0; }
 
     @media (max-width: 980px){
-      .combo-grid{ grid-template-columns: 1fr; }
+      .online-grid{ grid-template-columns: 1fr; }
     }
+
+    /* 5) DROPDOWN – odebrat “Kontakt” a upravit položky */
+    .menu { position: relative; }
+    .menu-item--has-sub { position: relative; }
+    .menu .menu-toggle{
+      display:inline-flex; align-items:center; gap:8px;
+      font-weight:600; color: var(--slate);
+      padding: 6px 14px; background: rgba(255,255,255,0.9);
+      border:0; border-radius: 999px; box-shadow: 0 2px 6px rgba(0,0,0,.08);
+      cursor:pointer; font-family: var(--font);
+    }
+    .menu .menu-toggle:hover { background: var(--accent); color:#111; }
+    .menu .menu-caret { width: 14px; height: 14px; transition: transform .2s ease; }
+    .menu .menu-toggle[aria-expanded="true"] .menu-caret { transform: rotate(180deg); }
+    .submenu {
+      position: absolute; top: calc(100% + 8px); left: 0;
+      display:none; min-width: 240px; padding:10px;
+      background:#fff; border:1px solid #eee; border-radius: 14px;
+      box-shadow: 0 14px 36px rgba(0,0,0,.12); z-index: 200;
+    }
+    .submenu.show { display:block; }
+    .submenu a {
+      display:flex; align-items:center; gap:10px;
+      padding:10px 12px; border-radius:10px; font-weight:600; color:var(--ink);
+      background:#fff;
+    }
+    .submenu a:hover { background: #f6f8fb; color: var(--slate); }
   </style>
 </head>
 <body class="page-services">
 
-<!-- NAVBAR -->
+<!-- NAVBAR (není sticky) -->
 <nav>
   <div class="container nav-inner">
     <a class="logo" href="index.html">
@@ -178,8 +147,8 @@
           <a href="#sluzba-prohlidky" role="menuitem">Virtuální prohlídky</a>
           <a href="#sluzba-pudorys" role="menuitem">Půdorys</a>
           <a href="#sluzba-fotky" role="menuitem">Fotky</a>
-          <a href="#balik-online" role="menuitem">Marketing • Sítě • Web</a>
-          <a href="#kontakt" role="menuitem">Kontakt</a>
+          <a href="#sluzba-online" role="menuitem">Marketing &amp; Sítě</a>
+          <!-- Kontakt z nabídky záměrně odebrán -->
         </div>
       </div>
 
@@ -197,11 +166,10 @@
   </div>
 </nav>
 
-<!-- Spacer pod navbar -->
-<div class="page-top" aria-hidden="true"></div>
+<!-- ŽÁDNÝ page-top spacer – hned následuje obsah -->
 
-<!-- 1) VIRTUÁLNÍ PROHLÍDKY — text + prohlídka uprostřed pod textem -->
-<section id="sluzba-prohlidky" class="section service-section center-media">
+<!-- 1) VIRTUÁLNÍ PROHLÍDKY — PC: text vlevo, prohlídka vpravo -->
+<section id="sluzba-prohlidky" class="section service-section">
   <div class="container service-wrap">
     <div class="service-text">
       <span class="eyebrow tag">Virtuální prohlídky</span>
@@ -277,7 +245,7 @@
       </ul>
       <div class="cta-row">
         <a class="btn btn--accent" href="#kontakt">Nezávazně poptat focení</a>
-        <a class="btn btn--outline" href="#balik-online">Marketing • Sítě • Web →</a>
+        <a class="btn btn--outline" href="#sluzba-online">Marketing &amp; Sítě →</a>
       </div>
     </div>
 
@@ -289,65 +257,58 @@
   </div>
 </section>
 
-<!-- 2) KOMBINOVANÁ SEKCE: Marketing + Sociální sítě + Web (bez médií) -->
-<section id="balik-online" class="section combo">
+<!-- 2) MARKETING + SOCIÁLNÍ SÍTĚ — plná textace, bez fotek -->
+<section id="sluzba-online" class="section online-block">
   <div class="container">
-    <div class="combo-head">
+    <div class="online-head">
       <span class="eyebrow tag">Online růst</span>
-      <h2>Marketing, Sociální sítě a Web</h2>
-      <p class="lead">Propojený balík služeb, který dovede návštěvníky z reklamy až k poptávce. Bez zbytečných obrázků, maximálně přehledně.</p>
+      <h2>Marketing na Metě a Googlu &amp; Content &amp; Sociální sítě</h2>
+      <p class="lead">Bez zbytečných obrázků – srozumitelně, přehledně a připravené k akci.</p>
     </div>
 
-    <div class="combo-grid">
-      <!-- Marketing -->
-      <article class="combo-card">
-        <div class="combo-ico" aria-hidden="true">🎯</div>
-        <h3>Marketing &amp; PPC</h3>
-        <p class="lead">Stálý přísun zákazníků díky kampaním v Google Ads a Meta Ads.</p>
+    <div class="online-grid">
+      <!-- MARKETING (celá textace) -->
+      <article class="text-card">
+        <h3>Marketing na Metě a Googlu</h3>
+        <p>Získejte stálý přísun zákazníků díky efektivnímu online marketingu, který funguje dlouhodobě.</p>
+        <p>Cílená reklama na Meta a Google platformách, která přivádí zákazníky přímo k vám. Nastavíme kampaně přesně podle vašeho cíle – více rezervací, poptávek nebo návštěv.</p>
+        <p>Strategie a správa kampaní, které zefektivní váš rozpočet a zajistí viditelnost tam, kde vás zákazníci hledají.</p>
+        <p>Pravidelné vyhodnocování a optimalizace, aby vaše reklama měla maximální návratnost a rostla spolu s vaším podnikáním.</p>
+        <p>Pomáháme vám být vidět online – a proměnit zhlédnutí v reálné návštěvy a prodeje.</p>
+        <h4>Zahrnuté služby:</h4>
         <ul>
-          <li>Strategie a struktura kampaní dle cílů</li>
-          <li>Měření konverzí (GA4, Meta Pixel, Ads)</li>
-          <li>Průběžná optimalizace a reporting</li>
+          <li>Vytvoření atraktivních reklamních vizuálů a textů</li>
+          <li>Propojení s vašimi sociálními sítěmi a webem</li>
+          <li>Měsíční report výkonu kampaní</li>
         </ul>
-        <div class="cta-row">
+        <div class="cta-row" style="margin-top:14px">
           <a class="btn btn--accent" href="#kontakt">Chci návrh kampaní</a>
         </div>
       </article>
 
-      <!-- Sociální sítě -->
-      <article class="combo-card">
-        <div class="combo-ico" aria-hidden="true">📱</div>
-        <h3>Sociální sítě</h3>
-        <p class="lead">Obsah, který buduje komunitu a přivádí návštěvy na web.</p>
+      <!-- SOCIÁLNÍ SÍTĚ (celá textace) -->
+      <article class="text-card">
+        <h3>Content &amp; Sociální sítě</h3>
+        <p>Udělejme z vašich sociálních sítí silný nástroj pro budování značky a získávání zákazníků.</p>
+        <p>Vytváříme reálný obsah, který zaujme a prodává – videa, Reels, Stories i statické posty.</p>
+        <h4>Postaráme se o:</h4>
         <ul>
-          <li>Redakční plán, Reels a krátká videa</li>
-          <li>Publikace a moderace komentářů a zpráv</li>
-          <li>Konzistentní vizuální identita</li>
+          <li>Tvorbu obsahu v jednotném vizuálním stylu</li>
+          <li>Plán publikace a pravidelnost příspěvků</li>
+          <li>Texty a popisky, které mluví jazykem vaší značky</li>
+          <li>Konzistentní vizuální identitu napříč profily</li>
+          <li>Budování komunity a zapojení sledujících</li>
         </ul>
-        <div class="cta-row">
-          <a class="btn btn--accent" href="#kontakt">Domluvit správu</a>
-        </div>
-      </article>
-
-      <!-- Web -->
-      <article class="combo-card">
-        <div class="combo-ico" aria-hidden="true">🖥️</div>
-        <h3>Tvorba webu</h3>
-        <p class="lead">Rychlé weby připravené na měření i kampaně.</p>
-        <ul>
-          <li>UX/UI návrh a copywriting</li>
-          <li>Implementace (statický / CMS)</li>
-          <li>SEO základy a integrace prohlídek</li>
-        </ul>
-        <div class="cta-row">
-          <a class="btn btn--accent" href="#kontakt">Probrat projekt</a>
+        <p style="margin-top:10px">Cílem je, aby vaše značka působila profesionálně, autenticky a dlouhodobě rostla.</p>
+        <div class="cta-row" style="margin-top:14px">
+          <a class="btn btn--accent" href="#kontakt">Domluvit správu sítí</a>
         </div>
       </article>
     </div>
   </div>
 </section>
 
-<!-- KONTAKT – dvě karty (beze změny) -->
+<!-- KONTAKT – dvě karty -->
 <section id="kontakt" class="section contact">
   <div class="container contact-grid">
 
