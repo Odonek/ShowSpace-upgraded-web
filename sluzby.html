@@ -18,25 +18,25 @@
        LOKÁLNÍ STYLY – úpravy pro stránku služeb
        ========================================= */
 
-    /* 1) NAVBAR: jen nahoře, bílé pozadí, žádné “lepení” při scrollu */
+    /* NAVBAR: jen nahoře, bílé pozadí, žádné “lepení” při scrollu */
     body.page-services nav{
-      position: static;              /* přepíše případné absolute ze styles.css */
+      position: static;
       background: #fff;
       border-bottom: 1px solid #eee;
       box-shadow: 0 4px 14px rgba(0,0,0,.06);
-      padding-top: 10px;             /* jemný dech navnitř */
+      padding-top: 10px;
       padding-bottom: 10px;
     }
     body.page-services .nav-inner{
-      background:#fff;               /* bílé “pilulky” */
-      margin-top:0;                  /* žádná mezera nahoře */
+      background:#fff;
+      margin-top:0;
       border-top: 4px solid var(--accent);
     }
 
-    /* 2) Zrušení jakéhokoli “spaceru” pod navbar – nechceme žádný béžový pás */
+    /* žádný “spacer” pod navbar */
     .page-top{ display:none !important; height:0 !important; }
 
-    /* 3) Sekce – základní rozvržení */
+    /* Sekce – základní rozvržení */
     .service-section{ padding: 48px 0; background:#fff; }
     .service-wrap{
       display:grid;
@@ -68,7 +68,7 @@
     .service-section.reverse .service-text{ order:2; }
     .service-section.reverse .service-media{ order:1; }
 
-    /* První sekce – přitáhnout blíž k navbaru */
+    /* První sekce blíž k navbaru */
     #sluzba-prohlidky.service-section{ padding-top: 28px; }
 
     /* Na mobilu: vždy text nahoře, média pod ním */
@@ -80,7 +80,7 @@
       .service-section.reverse .service-media{ order:2 !important; }
     }
 
-    /* 4) Marketing + Sociální sítě (bez fotek) – 2 “karty” vedle sebe */
+    /* Marketing + Sociální sítě (bez fotek) – 2 karty */
     .online-block{ background: linear-gradient(180deg, #fff, #f8fafc); border-top: 1px solid #eef2f7; border-bottom:1px solid #eef2f7; }
     .online-head{ text-align:center; max-width: 900px; margin: 0 auto 22px; }
     .online-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -89,7 +89,14 @@
       border-radius:16px; box-shadow: 0 10px 28px rgba(0,0,0,.08);
       padding: 20px 18px;
     }
-    .text-card h3{ margin: 0 0 8px; color: var(--slate); }
+    .text-card h3{
+      margin: 0 0 8px; color: var(--slate); text-align:center;
+      font-weight:800;
+    }
+    .text-card h4{
+      margin: 12px 0 8px; color: var(--slate); text-align:center;
+      font-weight:700;
+    }
     .text-card p{ margin: 10px 0; }
     .text-card ul{ padding-left: 18px; margin: 8px 0 0; }
     .text-card li{ margin:6px 0; }
@@ -98,7 +105,14 @@
       .online-grid{ grid-template-columns: 1fr; }
     }
 
-    /* 5) DROPDOWN – odebrat “Kontakt” a upravit položky */
+    /* Jednosloupcová středová sekce (Web) */
+    .service-section.center .service-wrap{
+      max-width: 900px; margin:0 auto; grid-template-columns: 1fr;
+    }
+    .service-section.center .service-text{ text-align:center; }
+    .service-section.center .cta-row{ justify-content:center; }
+
+    /* DROPDOWN – bez „Kontakt“, přidán „Web“ */
     .menu { position: relative; }
     .menu-item--has-sub { position: relative; }
     .menu .menu-toggle{
@@ -148,7 +162,7 @@
           <a href="#sluzba-pudorys" role="menuitem">Půdorys</a>
           <a href="#sluzba-fotky" role="menuitem">Fotky</a>
           <a href="#sluzba-online" role="menuitem">Marketing &amp; Sítě</a>
-          <!-- Kontakt z nabídky záměrně odebrán -->
+          <a href="#sluzba-webdev" role="menuitem">Web</a>
         </div>
       </div>
 
@@ -166,20 +180,18 @@
   </div>
 </nav>
 
-<!-- ŽÁDNÝ page-top spacer – hned následuje obsah -->
-
 <!-- 1) VIRTUÁLNÍ PROHLÍDKY — PC: text vlevo, prohlídka vpravo -->
 <section id="sluzba-prohlidky" class="section service-section">
   <div class="container service-wrap">
     <div class="service-text">
       <span class="eyebrow tag">Virtuální prohlídky</span>
       <h2>360° / 3D prohlídky</h2>
-      <p class="lead">Pro reality, showroomy, hotely nebo gastro. Zážitková prezentace prostoru, kterou si lidé projdou odkudkoli a kdykoli.</p>
+      <p class="lead">Pro reality, showroomy, hotely nebo gastro. <strong>Zážitková prezentace prostoru</strong>, kterou si lidé projdou odkudkoli a kdykoli.</p>
 
       <ul class="kvp-list">
         <li><strong>Moderní 3D prohlídky</strong>, které vtáhnou zákazníky přímo do prostoru.</li>
         <li>Díky technologii <strong>Giraffe360</strong> získáte prohlídku ve vysoké kvalitě, uloženou v cloudu – bez poplatků za hosting.</li>
-        <li>Připravené k okamžitému sdílení na web, sítě i do inzerátu.</li>
+        <li>Připravené k <strong>okamžitému sdílení</strong> na web, sítě i do inzerátu.</li>
         <li>Možnost <strong>měření vzdáleností</strong> přímo v prohlídce.</li>
         <li>Výsledek dodáme <strong>už do týdne</strong> od realizace.</li>
       </ul>
@@ -213,10 +225,10 @@
     <div class="service-text">
       <span class="eyebrow tag">Půdorys</span>
       <h2>Přesný 2D půdorys z LiDAR skenů</h2>
-      <p class="lead">Na základě LiDAR senzoru vytvoříme 2D půdorys s <strong>98&nbsp;% přesností</strong>. Dodá prezentaci profesionální vzhled a pomůže lidem lépe se zorientovat v prostoru.</p>
+      <p class="lead">Na základě LiDAR senzoru vytvoříme 2D půdorys s <strong>98&nbsp;% přesností</strong>. Dodá prezentaci <strong>profesionální vzhled</strong> a pomůže lidem lépe se zorientovat v prostoru.</p>
       <ul class="kvp-list">
-        <li>Vhodné pro web, tisk i inzerci</li>
-        <li>Možnost doplnit popisky místností a metráže</li>
+        <li>Vhodné pro <strong>web, tisk i inzerci</strong></li>
+        <li>Možnost doplnit <strong>popisky místností</strong> a metráže</li>
       </ul>
       <div class="cta-row">
         <a class="btn btn--accent" href="#kontakt">Chci nacenit půdorys</a>
@@ -238,10 +250,10 @@
     <div class="service-text">
       <span class="eyebrow tag">Fotky</span>
       <h2>Profesionálně upravené fotografie</h2>
-      <p class="lead">Získáte fotografie ve vysokém rozlišení s realistickými barvami, ostrými detaily a konzistentním stylem.</p>
+      <p class="lead">Získáte fotografie ve <strong>vysokém rozlišení</strong> s realistickými barvami, ostrými detaily a konzistentním stylem.</p>
       <ul class="kvp-list">
-        <li>Kombinace automatické optimalizace a ruční korekce expozice</li>
-        <li>Připravené pro web, sítě i tisk</li>
+        <li>Kombinace <strong>automatické optimalizace</strong> a ruční korekce expozice</li>
+        <li>Připravené pro <strong>web, sítě i tisk</strong></li>
       </ul>
       <div class="cta-row">
         <a class="btn btn--accent" href="#kontakt">Nezávazně poptat focení</a>
@@ -257,7 +269,7 @@
   </div>
 </section>
 
-<!-- 2) MARKETING + SOCIÁLNÍ SÍTĚ — plná textace, bez fotek -->
+<!-- 2) MARKETING + SOCIÁLNÍ SÍTĚ — plná textace, bez fotek; zvýraznění + nadpisy uprostřed -->
 <section id="sluzba-online" class="section online-block">
   <div class="container">
     <div class="online-head">
@@ -267,43 +279,66 @@
     </div>
 
     <div class="online-grid">
-      <!-- MARKETING (celá textace) -->
+      <!-- MARKETING (celá textace se zvýrazněním) -->
       <article class="text-card">
         <h3>Marketing na Metě a Googlu</h3>
-        <p>Získejte stálý přísun zákazníků díky efektivnímu online marketingu, který funguje dlouhodobě.</p>
-        <p>Cílená reklama na Meta a Google platformách, která přivádí zákazníky přímo k vám. Nastavíme kampaně přesně podle vašeho cíle – více rezervací, poptávek nebo návštěv.</p>
-        <p>Strategie a správa kampaní, které zefektivní váš rozpočet a zajistí viditelnost tam, kde vás zákazníci hledají.</p>
-        <p>Pravidelné vyhodnocování a optimalizace, aby vaše reklama měla maximální návratnost a rostla spolu s vaším podnikáním.</p>
-        <p>Pomáháme vám být vidět online – a proměnit zhlédnutí v reálné návštěvy a prodeje.</p>
-        <h4>Zahrnuté služby:</h4>
+        <p>Získejte <strong>stálý přísun zákazníků</strong> díky efektivnímu online marketingu, který <strong>funguje dlouhodobě</strong>.</p>
+        <p><strong>Cílená reklama</strong> na <strong>Meta</strong> a <strong>Google</strong> platformách, která přivádí zákazníky přímo k vám. Nastavíme kampaně <strong>přesně podle vašeho cíle</strong> – více rezervací, poptávek nebo návštěv.</p>
+        <p><strong>Strategie a správa kampaní</strong>, které zefektivní váš rozpočet a zajistí viditelnost tam, kde vás zákazníci hledají.</p>
+        <p><strong>Pravidelné vyhodnocování a optimalizace</strong>, aby vaše reklama měla maximální návratnost a rostla spolu s vaším podnikáním.</p>
+        <p>Pomáháme vám být <strong>vidět online</strong> – a proměnit zhlédnutí v <strong>reálné návštěvy a prodeje</strong>.</p>
+        <h4>Zahrnuté služby</h4>
         <ul>
-          <li>Vytvoření atraktivních reklamních vizuálů a textů</li>
-          <li>Propojení s vašimi sociálními sítěmi a webem</li>
-          <li>Měsíční report výkonu kampaní</li>
+          <li><strong>Vizuály a texty reklam</strong> na míru</li>
+          <li><strong>Propojení</strong> se sociálními sítěmi a webem</li>
+          <li><strong>Měsíční report</strong> výkonu kampaní</li>
         </ul>
         <div class="cta-row" style="margin-top:14px">
           <a class="btn btn--accent" href="#kontakt">Chci návrh kampaní</a>
         </div>
       </article>
 
-      <!-- SOCIÁLNÍ SÍTĚ (celá textace) -->
+      <!-- SOCIÁLNÍ SÍTĚ (celá textace se zvýrazněním) -->
       <article class="text-card">
         <h3>Content &amp; Sociální sítě</h3>
-        <p>Udělejme z vašich sociálních sítí silný nástroj pro budování značky a získávání zákazníků.</p>
-        <p>Vytváříme reálný obsah, který zaujme a prodává – videa, Reels, Stories i statické posty.</p>
-        <h4>Postaráme se o:</h4>
+        <p>Udělejme z vašich sociálních sítí <strong>silný nástroj</strong> pro budování značky a získávání zákazníků.</p>
+        <p>Vytváříme obsah, který <strong>zaujme a prodává</strong> – <strong>videa</strong>, <strong>Reels</strong>, <strong>Stories</strong> i <strong>statické posty</strong>.</p>
+        <h4>Postaráme se o</h4>
         <ul>
-          <li>Tvorbu obsahu v jednotném vizuálním stylu</li>
-          <li>Plán publikace a pravidelnost příspěvků</li>
-          <li>Texty a popisky, které mluví jazykem vaší značky</li>
-          <li>Konzistentní vizuální identitu napříč profily</li>
-          <li>Budování komunity a zapojení sledujících</li>
+          <li><strong>Tvorbu obsahu</strong> v jednotném vizuálním stylu</li>
+          <li><strong>Plán publikace</strong> a pravidelnost příspěvků</li>
+          <li><strong>Texty a popisky</strong> v tónu vaší značky</li>
+          <li><strong>Konzistentní vizuální identitu</strong> napříč profily</li>
+          <li><strong>Budování komunity</strong> a zapojení sledujících</li>
         </ul>
-        <p style="margin-top:10px">Cílem je, aby vaše značka působila profesionálně, autenticky a dlouhodobě rostla.</p>
+        <p style="margin-top:10px">Cílem je, aby vaše značka působila <strong>profesionálně</strong>, <strong>autenticky</strong> a <strong>dlouhodobě rostla</strong>.</p>
         <div class="cta-row" style="margin-top:14px">
           <a class="btn btn--accent" href="#kontakt">Domluvit správu sítí</a>
         </div>
       </article>
+    </div>
+  </div>
+</section>
+
+<!-- 3) WEB – nová krátká sekce uprostřed, bez obrázků -->
+<section id="sluzba-webdev" class="section service-section center">
+  <div class="container service-wrap">
+    <div class="service-text">
+      <span class="eyebrow tag">Web</span>
+      <h2>Jednostránkové i vícestránkové weby na míru</h2>
+      <p class="lead">Tvoříme <strong>rychlé</strong>, <strong>čisté</strong> a <strong>kódované</strong> weby – žádné “drag-and-drop” šablony.</p>
+
+      <ul class="kvp-list" style="list-style:none; padding-left:0">
+        <li>• <strong>Vícestránkové</strong> weby jako náš – se vším všudy.</li>
+        <li>• <strong>Jednostránkové</strong> landingy pro doktory, fitness, výživové plány, salony…</li>
+        <li>• Postavené ručně v <strong>HTML &amp; CSS</strong> s animacemi pomocí <strong>GSAP</strong>.</li>
+        <li>• Připravené na <strong>měření</strong> (GA4, Meta) a <strong>reklamní kampaně</strong>.</li>
+      </ul>
+
+      <div class="cta-row">
+        <a class="btn btn--accent" href="#kontakt">Probrat web</a>
+        <a class="btn btn--outline" href="#kontakt">Získat nabídku</a>
+      </div>
     </div>
   </div>
 </section>
