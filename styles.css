@@ -723,3 +723,82 @@ width: 38px; height: 38px; border-radius: 50%;
 background: #f6f6f6; color: var(--slate); transition: .25s;
 }
 .footer-social a:hover { background: var(--accent); color: #111; transform: translateY(-2px); } 
+
+/* === HAMBURGER & MOBILE MENU (dropdown) === */
+
+/* Burger defaultně skrytý (desktop) */
+.hamburger{
+  display:none;
+  width:46px; height:46px; border:0; border-radius:12px;
+  background: rgba(255,255,255,.95);
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  padding:0 10px; cursor:pointer;
+  align-items:center; justify-content:center; gap:5px;
+}
+.hamburger span{
+  width:22px; height:2px; background: var(--slate); border-radius:2px;
+  transition: transform .2s, opacity .2s, width .2s;
+}
+.hamburger[aria-expanded="true"] span:nth-child(1){ transform: translateY(6px) rotate(45deg); }
+.hamburger[aria-expanded="true"] span:nth-child(2){ opacity:0; width:0; }
+.hamburger[aria-expanded="true"] span:nth-child(3){ transform: translateY(-6px) rotate(-45deg); }
+
+/* Panel */
+.mobile-menu{
+  position: fixed; left:0; right:0; top: calc(20px + 64px + 16px); /* pod nav pilulkou */
+  max-height: calc(100dvh - (20px + 64px + 16px));
+  background:#fff; color: var(--ink);
+  transform: translateY(-10px); opacity:0; pointer-events:none; visibility:hidden;
+  transition: transform .25s ease, opacity .25s ease, visibility .25s;
+  z-index: 900;
+  border-radius: 16px;
+  margin: 0 auto; width: min(94%, 720px);
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+.mobile-menu.is-open{
+  transform: translateY(0); opacity:1; pointer-events:auto; visibility:visible;
+}
+.mobile-menu__inner{
+  padding: 14px 16px 18px;
+  display:flex; flex-direction:column; gap:8px; overflow:auto; -webkit-overflow-scrolling:touch;
+}
+.mobile-menu__inner a{
+  display:block; padding: 12px 12px; border-radius: 12px;
+  font-weight:600; color: var(--slate);
+}
+.mobile-menu__inner a:hover{ background:#f6f8fb; color:#111; }
+
+/* Accordion „Služby“ v mobil menu */
+.m-acc summary{
+  list-style:none; cursor:pointer; padding:12px; border-radius:12px;
+  font-weight:700; color: var(--slate);
+}
+.m-acc summary::marker{ display:none; }
+.m-acc[open] summary{ background:#f6f8fb; }
+.m-acc__links{ display:grid; gap:6px; padding: 8px 6px 10px 12px; }
+.m-acc__links a{ padding:10px; border-radius:10px; font-weight:500; }
+
+/* Social odkazy */
+.mobile-social{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 8px; }
+.mobile-social a{
+  padding:8px 12px; border-radius:999px; background:#f6f6f6; font-weight:600; color:var(--slate);
+}
+.mobile-social a:hover{ background: var(--accent); color:#111; }
+
+/* Backdrop */
+.mobile-backdrop{
+  position: fixed; inset:0; background: rgba(0,0,0,.35);
+  z-index: 800; opacity:0; transition: opacity .25s ease;
+}
+.mobile-backdrop.show{ opacity:1; }
+body.menu-lock{ overflow:hidden; }
+
+/* Breakpoint: mobilní chování */
+@media (max-width: 900px){
+  .menu, .nav-right{ display:none; }   /* schovej desktop menu */
+  .hamburger{ display:inline-flex; margin-left:auto; } /* burger vpravo */
+  .nav-inner{ gap:12px; padding: 0 16px; }
+  .logo img{ height:64px; }
+}
+
+/* Desktop beze změny */
