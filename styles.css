@@ -868,3 +868,11 @@ body.menu-lock{ overflow:hidden; }
     margin-top: 16px;         /* žluté tlačítko níž = víc prostoru */
   }
 }
+
+
+/* --- micro-optimalizace pro animace --- */
+.hero h1, .hero p, .hero .btn-cta { will-change: transform, opacity; }
+#benefity .benefits-head h2, #benefity .benefits-head h3 { will-change: transform, opacity; }
+#benefity .benefits-center .m-anim-card { will-change: transform, opacity; }
+#vt-copy .m-anim-up, .vt-viewport, .vt-controls { will-change: transform, opacity; }
+#o-nas .m-anim-up, #o-nas .m-anim-pop, #kontakt .contact-card, #kontakt .contact-item, footer { will-change: transform, opacity; }
