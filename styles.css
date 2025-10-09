@@ -876,3 +876,13 @@ body.menu-lock{ overflow:hidden; }
 #benefity .benefits-center .m-anim-card { will-change: transform, opacity; }
 #vt-copy .m-anim-up, .vt-viewport, .vt-controls { will-change: transform, opacity; }
 #o-nas .m-anim-up, #o-nas .m-anim-pop, #kontakt .contact-card, #kontakt .contact-item, footer { will-change: transform, opacity; }
+
+
+.benefit-number { font-variant-numeric: tabular-nums; -webkit-font-smoothing: antialiased; }
+.benefit-number.is-done { animation: benefitPop .38s ease-out 1; }
+@keyframes benefitPop {
+  0% { transform: translateY(0) scale(1); }
+  55% { transform: translateY(-2px) scale(1.06); }
+  100% { transform: translateY(0) scale(1); }
+}
+
