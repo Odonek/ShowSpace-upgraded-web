@@ -440,7 +440,7 @@
           io.disconnect();
         }
       });
-    }, { threshold: 1.25 });
+    }, { threshold: 0.25 });
     io.observe(section);
   } else {
     counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0', 10) || 0));
