@@ -411,42 +411,62 @@
 </script>
 
 <script>
-/* BENEFITY čísla */
+<script>
+// ===== BENEFITY: pomalé počítadlo 0 → target (IO + rAF) =====
 (() => {
   const section = document.getElementById('benefity');
   if (!section) return;
-  const counters = section.querySelectorAll('.counter');
+
+  const counters = [...section.querySelectorAll('.counter')];
   if (!counters.length) return;
 
-  let played = false;
-  function animateCounter(el, target, duration = 1200) {
-    const t0 = performance.now();
+  // Easing (smooth-out na konci)
+  const easeOutCubic = p => 1 - Math.pow(1 - p, 3);
+
+  // Jedno počítadlo
+  function runCounter(el) {
+    const target   = parseInt(el.dataset.target || el.textContent || '0', 10) || 0;
+    const seconds  = Number(el.dataset.duration || 5.5); // ← změníš na co chceš (např. 7)
+    const duration = Math.max(0.2, seconds) * 1000;
+
+    // Start vždy od 0
+    el.textContent = '0';
+    const start = performance.now();
+
     function frame(now) {
-      const p = Math.min((now - t0) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(target * eased);
-      if (p < 1) requestAnimationFrame(frame);
+      const t = Math.min((now - start) / duration, 1);
+      const v = Math.round(target * easeOutCubic(t));
+      el.textContent = String(v);
+      if (t < 1) requestAnimationFrame(frame);
+      else el.textContent = String(target); // pojistka finální hodnoty
     }
     requestAnimationFrame(frame);
   }
-  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduceMotion) { counters.forEach(c => c.textContent = c.dataset.target || c.textContent); return; }
+
+  // Respectuje reduced motion
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) { counters.forEach(el => el.textContent = el.dataset.target || el.textContent); return; }
+
+  // Spustit jednou po vstupu sekce do viewportu
+  let played = false;
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting && !played) {
           played = true;
-          counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0', 10) || 0));
+          // volitelný jemný „stagger“
+          counters.forEach((el, i) => setTimeout(() => runCounter(el), i * 180));
           io.disconnect();
         }
       });
-    }, { threshold: 0.25 });
+    }, { threshold: 0.3 });
     io.observe(section);
   } else {
-    counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0', 10) || 0));
+    counters.forEach(runCounter);
   }
 })();
 </script>
+
 
 <script>
 /* VTOUR – loop + bg + text */
