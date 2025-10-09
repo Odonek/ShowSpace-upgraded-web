@@ -673,130 +673,106 @@
 </script>
 
 
-<!-- ===== GSAP + SCROLLTRIGGER ===== -->
+<!-- GSAP + ScrollTrigger CDN (ponech) -->
 <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
 
-<!-- ===== ANIMACE PODLE POŽADAVKŮ ===== -->
+<!-- Vyladěné animace celé stránky -->
 <script>
 (() => {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce || !window.gsap) return;
   gsap.registerPlugin(ScrollTrigger);
 
-  // Helpery
-  const once = (triggerSel, onEnter, start='top 80%') => {
-    ScrollTrigger.create({ trigger: triggerSel, start, once: true, onEnter });
+  // Pomocné funkce
+  const once = (trigger, fn, start='top 80%') => {
+    ScrollTrigger.create({ trigger, start, once: true, onEnter: fn });
   };
 
-  /* ---------------------------
+  /* ==========================
    * HERO
-   * ------------------------- */
-  // h1 zprava
+   * ========================== */
+  // h1 zprava, podtitulek zleva, CTA „pop“
   once('.hero', () => {
-    gsap.fromTo('.hero h1',
-      { autoAlpha: 0, x: 60 },
-      { autoAlpha: 1, x: 0, duration: .8, ease: 'power3.out' }
-    );
-    // podtitulek zleva (spustí se hned po h1)
-    gsap.fromTo('.hero p',
-      { autoAlpha: 0, x: -60 },
-      { autoAlpha: 1, x: 0, duration: .8, ease: 'power3.out', delay: .15 }
-    );
-    // CTA jemný pop
-    gsap.fromTo('.hero .btn-cta',
-      { autoAlpha: 0, scale: .92 },
-      { autoAlpha: 1, scale: 1, duration: .6, ease: 'back.out(1.6)', delay: .3 }
-    );
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    tl.fromTo('.hero h1', { autoAlpha: 0, x: 70 }, { autoAlpha: 1, x: 0, duration: .85 })
+      .fromTo('.hero p',  { autoAlpha: 0, x:-70 }, { autoAlpha: 1, x: 0, duration: .85 }, '-=0.55')
+      .fromTo('.hero .btn-cta', { autoAlpha: 0, scale: .92 }, { autoAlpha: 1, scale: 1, duration: .6, ease: 'back.out(1.7)' }, '-=0.35');
   }, 'top 75%');
 
-  /* ---------------------------
-   * BENEFITY – HLAVIČKA
-   * ------------------------- */
-  // „Proč mít virtuální prohlídku“ shora
-  once('#benefity .benefits-head h2', () => {
-    gsap.fromTo('#benefity .benefits-head h2',
-      { autoAlpha: 0, y: -40 },
-      { autoAlpha: 1, y: 0, duration: .7, ease: 'power2.out' }
-    );
+  /* Jemný parallax videa v hero (není nutné, ale působí luxusně) */
+  gsap.to('.hero-overlay', {
+    backgroundPositionY: '15%',
+    ease: 'none',
+    scrollTrigger: { trigger: '.hero', start: 'top bottom', end: 'bottom top', scrub: .35 }
   });
 
-  // „80 % podniků…“ fade-in
-  once('#benefity .benefits-head h3', () => {
-    gsap.fromTo('#benefity .benefits-head h3',
-      { autoAlpha: 0 },
-      { autoAlpha: 1, duration: .7, ease: 'power2.out' }
+  /* ==========================
+   * BENEFITY – hlavička
+   * ========================== */
+  // h2 shora
+  once('#benefity .benefits-head h2', () => {
+    gsap.fromTo('#benefity .benefits-head h2',
+      { autoAlpha: 0, y: -42 },
+      { autoAlpha: 1, y: 0, duration: .75, ease: 'power2.out' }
     );
   }, 'top 85%');
 
-  /* ---------------------------
-   * BENEFITY – BOXY
-   * logika: nejdřív střed fade-in, pak vlny doleva/doprava
-   * ------------------------- */
+  // h3 fade-in
+  once('#benefity .benefits-head h3', () => {
+    gsap.fromTo('#benefity .benefits-head h3',
+      { autoAlpha: 0 },
+      { autoAlpha: 1, duration: .65, ease: 'power2.out' }
+    );
+  }, 'top 85%');
+
+  /* ==========================
+   * BENEFITY – boxy (střed → vlny do stran)
+   * ========================== */
   once('#benefity .benefits-center', () => {
     const cards = gsap.utils.toArray('#benefity .benefits-center .m-anim-card');
     if (!cards.length) return;
 
-    const center = Math.floor((cards.length - 1) / 2); // pro 3 = index 1
+    const center = Math.floor((cards.length - 1) / 2);
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-    // 1) prostřední fade-in
-    tl.fromTo(cards[center],
-      { autoAlpha: 0, y: 20 },
-      { autoAlpha: 1, y: 0, duration: .5 }
-    );
+    // 1) prostřední fade
+    tl.fromTo(cards[center], { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: .5 });
 
-    // 2) vlny do stran – vždy dvojice: levá zleva, pravá zprava
+    // 2) vlny – levá zleva, pravá zprava (pěkně zároveň)
     let step = 1;
     while (center - step >= 0 || center + step < cards.length) {
       const left  = cards[center - step];
       const right = cards[center + step];
 
-      if (left) {
-        tl.fromTo(left,
-          { autoAlpha: 0, x: -60 },
-          { autoAlpha: 1, x: 0, duration: .55 },
-          '>-0.25' // lehké překrytí s předchozím
-        );
-      }
-      if (right) {
-        tl.fromTo(right,
-          { autoAlpha: 0, x: 60 },
-          { autoAlpha: 1, x: 0, duration: .55 },
-          left ? '<0.05' : '>-0.25' // pokud je levá, pustíme skoro zároveň
-        );
-      }
+      if (left)  tl.fromTo(left,  { autoAlpha: 0, x:-60 }, { autoAlpha: 1, x: 0, duration: .55 }, '>-0.2');
+      if (right) tl.fromTo(right, { autoAlpha: 0, x: 60 }, { autoAlpha: 1, x: 0, duration: .55 }, '<0.05');
+
       step++;
     }
   }, 'top 85%');
 
-  /* ---------------------------
-   * VTOUR – texty, viewport, šipky (při scrollu)
-   * ------------------------- */
+  /* ==========================
+   * VTOUR – text, viewport, šipky
+   * ========================== */
   once('#vtour', () => {
     gsap.fromTo('#vt-copy .m-anim-up',
-      { autoAlpha: 0, y: 24 },
+      { autoAlpha: 0, y: 26 },
       { autoAlpha: 1, y: 0, duration: .65, ease: 'power2.out', stagger: .1 }
     );
-    gsap.fromTo('.vt-viewport',
-      { autoAlpha: 0 },
-      { autoAlpha: 1, duration: .6, ease: 'power2.out', delay: .1 }
-    );
-    gsap.fromTo('.vt-controls',
-      { autoAlpha: 0, y: 10 },
-      { autoAlpha: 1, y: 0, duration: .5, ease: 'power2.out', delay: .2 }
-    );
-  }, 'top 80%');
+    gsap.fromTo('.vt-viewport', { autoAlpha: 0 }, { autoAlpha: 1, duration: .6, ease: 'power2.out', delay: .1 });
+    gsap.fromTo('.vt-controls', { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: .55, ease: 'power2.out', delay: .2 });
+  }, 'top 82%');
 
-  // jemné „dýchání“ šipek (jen když jsou v zorném poli)
+  // Šipky – „dýchání“ jen když jsou v zorném poli
   gsap.to('.vt-arrow', {
     y: -4, duration: 1.2, repeat: -1, yoyo: true, ease: 'sine.inOut',
     scrollTrigger: { trigger: '#vtour', start: 'top 90%', end: 'bottom top', toggleActions: 'play pause resume pause' }
   });
 
-  /* ---------------------------
+  /* ==========================
    * O NÁS
-   * ------------------------- */
+   * ========================== */
   once('#o-nas', () => {
     gsap.fromTo('#o-nas .text .m-anim-up',
       { autoAlpha: 0, y: 22 },
@@ -806,11 +782,11 @@
       { autoAlpha: 0, scale: .94 },
       { autoAlpha: 1, scale: 1, duration: .55, ease: 'back.out(1.6)', delay: .05 }
     );
-  }, 'top 80%');
+  }, 'top 82%');
 
-  /* ---------------------------
+  /* ==========================
    * KONTAKT + FOOTER
-   * ------------------------- */
+   * ========================== */
   once('#kontakt', () => {
     gsap.fromTo('#kontakt .contact-card',
       { autoAlpha: 0, y: 24 },
@@ -823,20 +799,21 @@
   }, 'top 85%');
 
   once('footer', () => {
-    gsap.fromTo('footer',
-      { autoAlpha: 0 },
-      { autoAlpha: 1, duration: .6, ease: 'power2.out' }
-    );
+    gsap.fromTo('footer', { autoAlpha: 0 }, { autoAlpha: 1, duration: .6, ease: 'power2.out' });
   }, 'top 95%');
 
-  // Jemný parallax u pozadí VTOUR (jen když sekce vidět)
+  /* ==========================
+   * Velmi jemný parallax u VTOUR pozadí
+   * ========================== */
   gsap.to('#vtour .vt-overlay', {
     backgroundPositionY: '12%',
     ease: 'none',
     scrollTrigger: { trigger: '#vtour', start: 'top bottom', end: 'bottom top', scrub: .3 }
   });
+
 })();
 </script>
+
 
   
   
