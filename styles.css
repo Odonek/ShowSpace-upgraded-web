@@ -12,6 +12,95 @@
 --shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
+/* === HAMBURGER & MOBILE DRAWER === */
+
+/* Burger – defaultně schovaný (desktop) */
+.hamburger {
+  display: none;
+  width: 44px; height: 44px; border-radius: 12px;
+  border: 0; background: rgba(255,255,255,.9);
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  align-items: center; justify-content: center;
+  gap: 5px; padding: 0 10px; cursor: pointer;
+}
+.hamburger span {
+  display: block; width: 22px; height: 2px; background: var(--slate);
+  border-radius: 2px; transition: transform .2s, opacity .2s, width .2s;
+}
+.hamburger[aria-expanded="true"] span:nth-child(1){ transform: translateY(6px) rotate(45deg); }
+.hamburger[aria-expanded="true"] span:nth-child(2){ opacity: 0; width: 0; }
+.hamburger[aria-expanded="true"] span:nth-child(3){ transform: translateY(-6px) rotate(-45deg); }
+
+/* Drawer základ */
+.nav-drawer {
+  position: fixed; inset: 0 0 0 auto; /* pravý okraj */
+  width: min(86%, 360px);
+  background: #fff; color: var(--ink);
+  transform: translateX(100%);
+  transition: transform .3s ease;
+  z-index: 1000; display: flex; flex-direction: column;
+  box-shadow: -12px 0 40px rgba(0,0,0,.25);
+}
+.nav-drawer.is-open { transform: translateX(0); }
+.nav-drawer__head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; border-bottom: 1px solid #eee;
+}
+.nav-drawer__head .logo img { height: 48px; }
+
+.drawer-close {
+  background: transparent; border: 0; font-size: 22px; cursor: pointer; color: var(--slate);
+  width: 44px; height: 44px; border-radius: 10px;
+}
+.drawer-close:hover { background: #f6f8fb; }
+
+.nav-drawer__body {
+  padding: 14px 16px 24px; overflow: auto; -webkit-overflow-scrolling: touch;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.nav-drawer__body a {
+  display: block; padding: 12px 10px; border-radius: 10px; font-weight: 600; color: var(--slate);
+}
+.nav-drawer__body a:hover { background: #f6f8fb; color: #111; }
+
+/* Mobilní "Služby" rozbalovačka */
+.m-sub summary {
+  list-style: none; cursor: pointer; padding: 12px 10px; border-radius: 10px; font-weight: 700; color: var(--slate);
+}
+.m-sub summary::marker { display: none; }
+.m-sub[open] summary { background: #f6f8fb; }
+.m-sub__links { display: grid; gap: 6px; padding: 8px 6px 10px 12px; }
+.m-sub__links a { padding: 10px; font-weight: 500; }
+
+/* Social v draweru */
+.drawer-social {
+  display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px;
+}
+.drawer-social a {
+  padding: 8px 12px; border-radius: 999px; background: #f6f6f6; font-weight: 600; color: var(--slate);
+}
+.drawer-social a:hover { background: var(--accent); color: #111; }
+
+/* Backdrop */
+.nav-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,.35);
+  z-index: 999; opacity: 0; transition: opacity .25s ease;
+}
+.nav-backdrop.show { opacity: 1; }
+body.nav-lock { overflow: hidden; }
+
+/* Breakpointy: na mobilu se skryje desktop menu a ukáže burger */
+@media (max-width: 900px){
+  .menu, .nav-right { display: none; }        /* schovat desktop část */
+  .hamburger { display: inline-flex; }         /* ukázat burger */
+  .nav-inner { padding-right: 14px; padding-left: 14px; }
+  .logo img { height: 64px; }                  /* menší logo v liště */
+}
+
+/* Na větších šířkách ponecháme původní vzhled (nic dalšího netřeba) */
+
+
+
 /* RESET & BASE */
 
 * { box-sizing: border-box; }
