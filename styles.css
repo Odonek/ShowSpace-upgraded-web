@@ -12,18 +12,6 @@
 --shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-/* Hladší animace (doporučeno) */
-.hero-card h1, .hero-card p, .btn, .vt-card, .contact-card, .footer-social a,
-.section h2, .section p, .benefits-center .card, .vt-arrow, .menu a, .menu .menu-toggle {
-  will-change: transform, opacity;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* Přístupnost: vypnout animace, když si to uživatel přeje */
-@media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; }
-}
-
 /* RESET & BASE */
 
 * { box-sizing: border-box; }
@@ -880,21 +868,3 @@ body.menu-lock{ overflow:hidden; }
     margin-top: 16px;         /* žluté tlačítko níž = víc prostoru */
   }
 }
-
-
-/* --- micro-optimalizace pro animace --- */
-.hero h1, .hero p, .hero .btn-cta { will-change: transform, opacity; }
-#benefity .benefits-head h2, #benefity .benefits-head h3 { will-change: transform, opacity; }
-#benefity .benefits-center .m-anim-card { will-change: transform, opacity; }
-#vt-copy .m-anim-up, .vt-viewport, .vt-controls { will-change: transform, opacity; }
-#o-nas .m-anim-up, #o-nas .m-anim-pop, #kontakt .contact-card, #kontakt .contact-item, footer { will-change: transform, opacity; }
-
-
-.benefit-number { font-variant-numeric: tabular-nums; -webkit-font-smoothing: antialiased; }
-.benefit-number.is-done { animation: benefitPop .38s ease-out 1; }
-@keyframes benefitPop {
-  0% { transform: translateY(0) scale(1); }
-  55% { transform: translateY(-2px) scale(1.06); }
-  100% { transform: translateY(0) scale(1); }
-}
-
