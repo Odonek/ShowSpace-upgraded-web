@@ -673,26 +673,23 @@
 </script>
 
 
-<!-- GSAP + ScrollTrigger CDN (ponech) -->
+<!-- GSAP + ScrollTrigger CDN -->
 <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
 
-<!-- Vyladěné animace celé stránky -->
+<!-- Animace přizpůsobené tvému HTML (bez speciálních tříd) -->
 <script>
 (() => {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce || !window.gsap) return;
   gsap.registerPlugin(ScrollTrigger);
 
-  // Pomocné funkce
-  const once = (trigger, fn, start='top 80%') => {
+  const once = (trigger, fn, start='top 80%') =>
     ScrollTrigger.create({ trigger, start, once: true, onEnter: fn });
-  };
 
   /* ==========================
-   * HERO
+   * HERO (h1 zprava, p zleva, CTA pop)
    * ========================== */
-  // h1 zprava, podtitulek zleva, CTA „pop“
   once('.hero', () => {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
     tl.fromTo('.hero h1', { autoAlpha: 0, x: 70 }, { autoAlpha: 1, x: 0, duration: .85 })
@@ -700,7 +697,7 @@
       .fromTo('.hero .btn-cta', { autoAlpha: 0, scale: .92 }, { autoAlpha: 1, scale: 1, duration: .6, ease: 'back.out(1.7)' }, '-=0.35');
   }, 'top 75%');
 
-  /* Jemný parallax videa v hero (není nutné, ale působí luxusně) */
+  // jemný parallax overlaye v hero
   gsap.to('.hero-overlay', {
     backgroundPositionY: '15%',
     ease: 'none',
@@ -710,7 +707,6 @@
   /* ==========================
    * BENEFITY – hlavička
    * ========================== */
-  // h2 shora
   once('#benefity .benefits-head h2', () => {
     gsap.fromTo('#benefity .benefits-head h2',
       { autoAlpha: 0, y: -42 },
@@ -718,7 +714,6 @@
     );
   }, 'top 85%');
 
-  // h3 fade-in
   once('#benefity .benefits-head h3', () => {
     gsap.fromTo('#benefity .benefits-head h3',
       { autoAlpha: 0 },
@@ -727,10 +722,10 @@
   }, 'top 85%');
 
   /* ==========================
-   * BENEFITY – boxy (střed → vlny do stran)
+   * BENEFITY – boxy (střed → vlna do stran)
    * ========================== */
   once('#benefity .benefits-center', () => {
-    const cards = gsap.utils.toArray('#benefity .benefits-center .m-anim-card');
+    const cards = gsap.utils.toArray('#benefity .benefits-center .card.benefit.big');
     if (!cards.length) return;
 
     const center = Math.floor((cards.length - 1) / 2);
@@ -739,24 +734,22 @@
     // 1) prostřední fade
     tl.fromTo(cards[center], { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: .5 });
 
-    // 2) vlny – levá zleva, pravá zprava (pěkně zároveň)
+    // 2) vlna – levý zleva, pravý zprava
     let step = 1;
     while (center - step >= 0 || center + step < cards.length) {
       const left  = cards[center - step];
       const right = cards[center + step];
-
       if (left)  tl.fromTo(left,  { autoAlpha: 0, x:-60 }, { autoAlpha: 1, x: 0, duration: .55 }, '>-0.2');
       if (right) tl.fromTo(right, { autoAlpha: 0, x: 60 }, { autoAlpha: 1, x: 0, duration: .55 }, '<0.05');
-
       step++;
     }
   }, 'top 85%');
 
   /* ==========================
-   * VTOUR – text, viewport, šipky
+   * VTOUR – texty, viewport, šipky
    * ========================== */
   once('#vtour', () => {
-    gsap.fromTo('#vt-copy .m-anim-up',
+    gsap.fromTo('#vt-copy .tag, #vt-title, #vt-desc, #vt-copy .vt-buttons',
       { autoAlpha: 0, y: 26 },
       { autoAlpha: 1, y: 0, duration: .65, ease: 'power2.out', stagger: .1 }
     );
@@ -764,21 +757,28 @@
     gsap.fromTo('.vt-controls', { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: .55, ease: 'power2.out', delay: .2 });
   }, 'top 82%');
 
-  // Šipky – „dýchání“ jen když jsou v zorném poli
+  // šipky „dýchají“ jen když jsou v zorném poli
   gsap.to('.vt-arrow', {
     y: -4, duration: 1.2, repeat: -1, yoyo: true, ease: 'sine.inOut',
     scrollTrigger: { trigger: '#vtour', start: 'top 90%', end: 'bottom top', toggleActions: 'play pause resume pause' }
+  });
+
+  // jemný parallax pozadí vtour
+  gsap.to('#vtour .vt-overlay', {
+    backgroundPositionY: '12%',
+    ease: 'none',
+    scrollTrigger: { trigger: '#vtour', start: 'top bottom', end: 'bottom top', scrub: .3 }
   });
 
   /* ==========================
    * O NÁS
    * ========================== */
   once('#o-nas', () => {
-    gsap.fromTo('#o-nas .text .m-anim-up',
+    gsap.fromTo('#o-nas .text .tag, #o-nas .text h2, #o-nas .text .lead, #o-nas .text p',
       { autoAlpha: 0, y: 22 },
       { autoAlpha: 1, y: 0, duration: .6, ease: 'power2.out', stagger: .08 }
     );
-    gsap.fromTo('#o-nas .m-anim-pop',
+    gsap.fromTo('#o-nas img',
       { autoAlpha: 0, scale: .94 },
       { autoAlpha: 1, scale: 1, duration: .55, ease: 'back.out(1.6)', delay: .05 }
     );
@@ -801,16 +801,6 @@
   once('footer', () => {
     gsap.fromTo('footer', { autoAlpha: 0 }, { autoAlpha: 1, duration: .6, ease: 'power2.out' });
   }, 'top 95%');
-
-  /* ==========================
-   * Velmi jemný parallax u VTOUR pozadí
-   * ========================== */
-  gsap.to('#vtour .vt-overlay', {
-    backgroundPositionY: '12%',
-    ease: 'none',
-    scrollTrigger: { trigger: '#vtour', start: 'top bottom', end: 'bottom top', scrub: .3 }
-  });
-
 })();
 </script>
 
