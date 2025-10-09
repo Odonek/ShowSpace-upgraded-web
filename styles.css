@@ -832,3 +832,40 @@ body.menu-lock{ overflow:hidden; }
   #cookie-banner .cookie-actions .btn{ width:100%; }
 }
 
+/* ===== MOBILNÍ ÚPRAVY ===== */
+@media (max-width: 640px){
+
+  /* VTOUR: víc vzduchu, ať nic "nelepí" na bílou sekci pod tím */
+  #vtour{
+    padding-top: 68px;        /* víc místa nad obsahem */
+    padding-bottom: 110px;    /* prodloužené pozadí sekce */
+  }
+
+  /* štítek "Virtuální prohlídky" – odtáhnout od textu/karet */
+  #vt-copy .tag{
+    margin-bottom: 16px;
+  }
+
+  /* karty a šipky – malé rozestupy */
+  .vt-viewport{
+    margin: 8px 0 18px;       /* karty nejsou nalepené */
+  }
+  .vt-controls{
+    margin-top: 18px;
+    padding-bottom: 22px;     /* rezerva nad spodním okrajem sekce */
+    gap: 18px;
+  }
+
+  /* O NÁS: tlačítka pod sebe a s mezerou navíc pro žluté */
+  #o-nas .text .btn{
+    display: block;
+    width: 100%;
+  }
+  #o-nas .text .btn--outline{
+    margin: 8px 0 14px;       /* mezera pod "Ukázky práce" */
+  }
+  #o-nas .text .btn--highlight{
+    margin-top: 16px;         /* žluté tlačítko níž = víc prostoru */
+  }
+}
+
