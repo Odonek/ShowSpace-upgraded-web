@@ -12,7 +12,8 @@
   type="text/plain"
   data-cookiecategory="analytics"
   src="https://www.googletagmanager.com/gtag/js?id=G-6GXGVQV909"
-  id="ga4-loader">
+  id="ga4-loader"
+  async>
 </script>
 
 <!-- GA4 – inicializace (taky až po souhlasu) -->
@@ -612,35 +613,49 @@
 
 <script>
 (function () {
-  const KEY = 'cookieConsent';         // 'accepted' | 'declined'
+  const KEY = 'cookieConsent';
   const banner = document.getElementById('cookie-banner');
   if (!banner) return;
 
   const acceptBtn  = banner.querySelector('.cookie-accept');
   const declineBtn = banner.querySelector('.cookie-decline');
 
-  const consent = localStorage.getItem(KEY);
-
   function show()  { banner.hidden = false; }
   function hide()  { banner.hidden = true;  }
 
+  // Spustí skripty označené jako analytics
   function enableNonEssential() {
-    // Spusť skripty označené jako type="text/plain" data-consent="analytics"
-    document.querySelectorAll('script[type="text/plain"][data-consent="analytics"]').forEach(s => {
+    document.querySelectorAll('script[type="text/plain"][data-cookiecategory="analytics"]').forEach(s => {
       const r = document.createElement('script');
-      // zkopíruj atributy
+      // zkopíruj všechny atributy kromě type
       [...s.attributes].forEach(a => { if (a.name !== 'type') r.setAttribute(a.name, a.value); });
-      r.text = s.text;     // inline obsah
+      r.text = s.text;     // podpora inline initu
       s.replaceWith(r);
     });
   }
 
+  // Smaže GA cookies při odmítnutí (pro jistotu i s doménou)
+  function deleteAnalyticsCookies() {
+    const names = ['_gid','_gat'];
+    // _ga má prefixy (_ga_*, _ga)
+    document.cookie.split(';').forEach(c => {
+      const name = c.split('=')[0].trim();
+      if (name === '_ga' || name.startsWith('_ga') || names.includes(name)) {
+        const base = `${name}=; Max-Age=0; path=/;`;
+        document.cookie = base;
+        document.cookie = base + ` domain=.${location.hostname.replace(/^www\./,'')};`;
+      }
+    });
+  }
+
+  const consent = localStorage.getItem(KEY);
+
   if (consent === 'accepted') {
-    enableNonEssential();  // už dřív povoleno
+    enableNonEssential();
   } else if (consent === 'declined') {
-    // nic nespouštět, jen nechat skryté
+    // nic nespouštět
   } else {
-    show();                // nevybráno => ukaž banner
+    show();
   }
 
   acceptBtn.addEventListener('click', () => {
@@ -652,10 +667,11 @@
   declineBtn.addEventListener('click', () => {
     localStorage.setItem(KEY, 'declined');
     hide();
-    // zůstává pouze technický záznam o odmítnutí; nic dalšího se nespustí
+    deleteAnalyticsCookies();
   });
 })();
 </script>
+
 
   
 </body>
