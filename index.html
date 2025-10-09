@@ -575,6 +575,68 @@
 })();
 </script>
 
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Nastavení souborů cookie" hidden>
+  <div class="cookie-inner">
+    <p class="cookie-text">
+      Používáme nezbytné cookies a volitelné analytické pro zlepšení webu.
+      Podrobnosti najdeš v
+      <a href="gdpr.html">Zásadách ochrany osobních údajů</a>.
+    </p>
+    <div class="cookie-actions">
+      <button class="btn btn--accent cookie-accept" type="button">Přijmout</button>
+      <button class="btn btn--outline cookie-decline" type="button" aria-label="Odmítnout analytické cookies">Odmítnout</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const KEY = 'cookieConsent';         // 'accepted' | 'declined'
+  const banner = document.getElementById('cookie-banner');
+  if (!banner) return;
+
+  const acceptBtn  = banner.querySelector('.cookie-accept');
+  const declineBtn = banner.querySelector('.cookie-decline');
+
+  const consent = localStorage.getItem(KEY);
+
+  function show()  { banner.hidden = false; }
+  function hide()  { banner.hidden = true;  }
+
+  function enableNonEssential() {
+    // Spusť skripty označené jako type="text/plain" data-consent="analytics"
+    document.querySelectorAll('script[type="text/plain"][data-consent="analytics"]').forEach(s => {
+      const r = document.createElement('script');
+      // zkopíruj atributy
+      [...s.attributes].forEach(a => { if (a.name !== 'type') r.setAttribute(a.name, a.value); });
+      r.text = s.text;     // inline obsah
+      s.replaceWith(r);
+    });
+  }
+
+  if (consent === 'accepted') {
+    enableNonEssential();  // už dřív povoleno
+  } else if (consent === 'declined') {
+    // nic nespouštět, jen nechat skryté
+  } else {
+    show();                // nevybráno => ukaž banner
+  }
+
+  acceptBtn.addEventListener('click', () => {
+    localStorage.setItem(KEY, 'accepted');
+    hide();
+    enableNonEssential();
+  });
+
+  declineBtn.addEventListener('click', () => {
+    localStorage.setItem(KEY, 'declined');
+    hide();
+    // zůstává pouze technický záznam o odmítnutí; nic dalšího se nespustí
+  });
+})();
+</script>
+
   
 </body>
 </html> 
