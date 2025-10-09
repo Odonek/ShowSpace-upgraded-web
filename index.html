@@ -7,6 +7,26 @@
   <meta name="description" content="Marketing, sociální sítě, focení a rychlé weby.">
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;500;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <!-- GA4 – loader (blokováno, dokud uživatel neodsouhlasí analytiku) -->
+<script
+  type="text/plain"
+  data-cookiecategory="analytics"
+  src="https://www.googletagmanager.com/gtag/js?id=G-6GXGVQV909"
+  id="ga4-loader">
+</script>
+
+<!-- GA4 – inicializace (taky až po souhlasu) -->
+<script
+  id="ga4-init"
+  type="text/plain"
+  data-cookiecategory="analytics">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6GXGVQV909', {
+    anonymize_ip: true
+  });
+</script>
 
 
   <!-- Favicon -->
