@@ -24,22 +24,26 @@
       <img src="logonahoruvlevo1.png" alt="ShowSpace logo">
     </a>
 
+    <!-- Burger (ukáže se jen na mobilu) -->
+    <button class="hamburger" type="button" aria-label="Otevřít menu" aria-controls="mobileMenu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- PŮVODNÍ DESKTOPOVÉ MENU – necháváme jak je -->
     <div class="menu">
       <a href="index.html" aria-current="page">Domů</a>
 
-      <!-- „Služby“ – stejné rozměry jako ostatní -->
       <div class="menu-item--has-sub">
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="submenu-sluzby">
           Služby
           <svg class="menu-caret" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5z"></path></svg>
         </button>
-         <div id="submenu-sluzby" class="submenu" role="menu" aria-label="Podnabídka Služby">
+        <div id="submenu-sluzby" class="submenu" role="menu" aria-label="Podnabídka Služby">
           <a href="sluzby.html#sluzba-prohlidky" role="menuitem">Virtuální prohlídky</a>
           <a href="sluzby.html#sluzba-fotky" role="menuitem">Fotky</a>
           <a href="sluzby.html#sluzba-marketing" role="menuitem">Marketing</a>
           <a href="sluzby.html#sluzba-social" role="menuitem">Sociální sítě</a>
           <a href="sluzby.html#sluzba-webdev" role="menuitem">Web</a>
-          <!-- volitelně: plný přehled -->
           <a href="sluzby.html" role="menuitem" style="border-top:1px solid #eef; margin-top:6px; padding-top:8px;">Všechny služby</a>
         </div>
       </div>
@@ -64,7 +68,40 @@
       <a href="#kontakt" class="btn btn--accent">Kontakt</a>
     </div>
   </div>
+
+  <!-- MOBILNÍ MENU (dropdown panel) -->
+  <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu__inner">
+      <a href="index.html">Domů</a>
+
+      <details class="m-acc">
+        <summary>Služby</summary>
+        <div class="m-acc__links">
+          <a href="sluzby.html#sluzba-prohlidky">Virtuální prohlídky</a>
+          <a href="sluzby.html#sluzba-fotky">Fotky</a>
+          <a href="sluzby.html#sluzba-marketing">Marketing</a>
+          <a href="sluzby.html#sluzba-social">Sociální sítě</a>
+          <a href="sluzby.html#sluzba-webdev">Web</a>
+          <a href="sluzby.html">Všechny služby</a>
+        </div>
+      </details>
+
+      <a href="galerie.html">Galerie</a>
+
+      <a href="#kontakt" class="btn btn--accent" style="margin-top:8px">Kontakt</a>
+
+      <div class="mobile-social">
+        <a href="https://facebook.com/showspace" target="_blank" aria-label="Facebook">Facebook</a>
+        <a href="https://www.instagram.com/showspace.cz/" target="_blank" aria-label="Instagram">Instagram</a>
+        <a href="https://www.tiktok.com/@show.space360" target="_blank" aria-label="TikTok">TikTok</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Backdrop -->
+  <div class="mobile-backdrop" hidden></div>
 </nav>
+
 
 <!-- HERO -->
 <header class="hero">
@@ -499,5 +536,45 @@
 })();
 </script>
 
+
+<script>
+/* === Hamburger – otevření mobilního menu === */
+(() => {
+  const burger   = document.querySelector('.hamburger');
+  const panel    = document.getElementById('mobileMenu');
+  const backdrop = document.querySelector('.mobile-backdrop');
+
+  if(!burger || !panel || !backdrop) return;
+
+  const open = () => {
+    panel.classList.add('is-open');
+    burger.setAttribute('aria-expanded','true');
+    panel.setAttribute('aria-hidden','false');
+    backdrop.hidden = false;
+    requestAnimationFrame(()=> backdrop.classList.add('show'));
+    document.body.classList.add('menu-lock');
+  };
+  const close = () => {
+    panel.classList.remove('is-open');
+    burger.setAttribute('aria-expanded','false');
+    panel.setAttribute('aria-hidden','true');
+    backdrop.classList.remove('show');
+    setTimeout(()=> (backdrop.hidden = true), 200);
+    document.body.classList.remove('menu-lock');
+  };
+
+  burger.addEventListener('click', (e)=> {
+    e.stopPropagation();
+    (burger.getAttribute('aria-expanded') === 'true') ? close() : open();
+  });
+  backdrop.addEventListener('click', close);
+  document.addEventListener('keydown', (e)=> { if(e.key === 'Escape') close(); });
+  panel.addEventListener('click', (e)=> {
+    const a = e.target.closest('a'); if(a) close();   // zavřít po kliknutí na odkaz
+  });
+})();
+</script>
+
+  
 </body>
 </html> 
