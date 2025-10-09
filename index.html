@@ -411,29 +411,42 @@
 </script>
 
 <script>
-<script>
-// ===== POMALÉ NABÍHÁNÍ ČÍSEL (formát, volitelná data-duration) =====
-const countTo = (el, target, secDefault = 5.2) => {
-  if (!el) return;
-  const duration = Number(el.dataset.duration || secDefault);
-  const format = (n) => Math.round(n).toLocaleString('cs-CZ');
+/* BENEFITY čísla */
+(() => {
+  const section = document.getElementById('benefity');
+  if (!section) return;
+  const counters = section.querySelectorAll('.counter');
+  if (!counters.length) return;
 
-  const obj = { v: 0 };
-  gsap.to(obj, {
-    v: target,
-    duration,
-    ease: 'power1.out',
-    onUpdate: () => (el.textContent = format(obj.v)),
-    onComplete: () => {
-      const wrap = el.closest('.benefit-number');
-      if (!wrap) return;
-      wrap.classList.add('is-done');
-      gsap.fromTo(wrap, { y: 0, scale: 1 }, { y: -2, scale: 1.055, yoyo: true, repeat: 1, duration: 0.26, ease: 'power2.out' });
+  let played = false;
+  function animateCounter(el, target, duration = 1200) {
+    const t0 = performance.now();
+    function frame(now) {
+      const p = Math.min((now - t0) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased);
+      if (p < 1) requestAnimationFrame(frame);
     }
-  });
-};
+    requestAnimationFrame(frame);
+  }
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) { counters.forEach(c => c.textContent = c.dataset.target || c.textContent); return; }
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !played) {
+          played = true;
+          counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0', 10) || 0));
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.25 });
+    io.observe(section);
+  } else {
+    counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0', 10) || 0));
+  }
+})();
 </script>
-
 
 <script>
 /* VTOUR – loop + bg + text */
@@ -660,174 +673,6 @@ const countTo = (el, target, secDefault = 5.2) => {
 </script>
 
 
-<script>
-(() => {
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce || !window.gsap) return;
-  gsap.registerPlugin(ScrollTrigger);
-
-  // Helper: spustí animaci jen jednou při scrollu
-  const once = (trigger, fn, start='top 80%') =>
-    ScrollTrigger.create({ trigger, start, once: true, onEnter: fn });
-
-  /* ==========================
-   * NAV – jemné objevení
-   * ========================== */
-  once('nav', () => {
-    gsap.fromTo('nav .nav-inner', { autoAlpha: 0, y: -18 }, { autoAlpha: 1, y: 0, duration: 0.9, ease: 'power2.out' });
-  }, 'top 98%');
-
-  /* ==========================
-   * HERO – h1 zprava, podtitulek zleva, CTA pop (pomalu)
-   * ========================== */
-  once('.hero', () => {
-    const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
-    tl.fromTo('.hero h1', { autoAlpha: 0, x: 110 }, { autoAlpha: 1, x: 0, duration: 1.35 })
-      .fromTo('.hero p',  { autoAlpha: 0, x:-110 }, { autoAlpha: 1, x: 0, duration: 1.35 }, '-=0.85')
-      .fromTo('.hero .btn-cta', { autoAlpha: 0, scale: 0.9 }, { autoAlpha: 1, scale: 1, duration: 1.0, ease: 'back.out(1.5)' }, '-=0.55');
-  }, 'top 78%');
-
-  // Jemný pomalejší parallax overlaye v hero
-  gsap.to('.hero-overlay', {
-    backgroundPositionY: '16%',
-    ease: 'none',
-    scrollTrigger: { trigger: '.hero', start: 'top bottom', end: 'bottom top', scrub: 0.5 }
-  });
-
-  /* ==========================
-   * BENEFITY – hlavička
-   * ========================== */
-  once('#benefity .benefits-head', () => {
-    const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
-    tl.fromTo('#benefity .benefits-head h2', { autoAlpha: 0, y: -50 }, { autoAlpha: 1, y: 0, duration: 1.1 })
-      .fromTo('#benefity .benefits-head h3', { autoAlpha: 0 }, { autoAlpha: 1, duration: 1.0 }, '-=0.4');
-  }, 'top 86%');
-
-  /* ==========================
-   * BENEFITY – karty: prostřední „zůstává“, z ní vyjedou dvě zbylé
-   * + POMALÉ ČÍSLA (napojeno per-karta)
-   * ========================== */
-  once('#benefity .benefits-center', () => {
-    const cards = gsap.utils.toArray('#benefity .benefits-center .card.benefit.big');
-    if (!cards.length) return;
-
-    // najdi střed
-    const centerIndex = Math.floor((cards.length - 1) / 2);
-    const centerCard  = cards[centerIndex];
-
-    // připrav „vlnu“ pro zbylé karty (od středu ven)
-    const lefts  = cards.slice(0, centerIndex).reverse(); // z nejbližší k centru ven
-    const rights = cards.slice(centerIndex + 1);
-
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-    // 0) startovní stav
-    gsap.set(cards, { transformOrigin: '50% 50%' });
-    gsap.set(lefts,  { autoAlpha: 0, x: -90, y: 6,  scale: 0.96 });
-    gsap.set(rights, { autoAlpha: 0, x:  90, y: 6,  scale: 0.96 });
-
-    // 1) prostřední – fadeUp pomalu
-    tl.fromTo(centerCard, { autoAlpha: 0, y: 26, scale: 0.96 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.95 });
-
-    // 1a) spustit číslo v prostřední (nejdelší)
-    tl.add(() => {
-      const num = centerCard.querySelector('.counter');
-      if (num) countTo(num, Number(num.dataset.target || num.textContent || 0), 5.6);
-    }, '>-0.2');
-
-    // 2) malý „puls“ centra, jako kdyby z něj vyjely ostatní
-    tl.to(centerCard, { scale: 1.02, duration: 0.28, ease: 'power1.out' }, '>-0.15')
-      .to(centerCard, { scale: 1.00, duration: 0.32, ease: 'power2.inOut' }, '>-0.05');
-
-    // 3) z centra ven – páry (levá zleva, pravá zprava)
-    const maxLen = Math.max(lefts.length, rights.length);
-    for (let i = 0; i < maxLen; i++) {
-      const l = lefts[i];
-      const r = rights[i];
-
-      if (l) {
-        tl.fromTo(l, { autoAlpha: 0, x: -90, y: 6, scale: 0.96 }, { autoAlpha: 1, x: 0, y: 0, scale: 1, duration: 1.05 }, '>-0.10')
-          .add(() => {
-            const n = l.querySelector('.counter');
-            if (n) countTo(n, Number(n.dataset.target || n.textContent || 0), 5.0);
-          }, '<0.0');
-      }
-      if (r) {
-        tl.fromTo(r, { autoAlpha: 0, x: 90, y: 6, scale: 0.96 }, { autoAlpha: 1, x: 0, y: 0, scale: 1, duration: 1.05 }, '<0.05')
-          .add(() => {
-            const n = r.querySelector('.counter');
-            if (n) countTo(n, Number(n.dataset.target || n.textContent || 0), 5.0);
-          }, '<0.0');
-      }
-    }
-  }, 'top 84%');
-
-  /* ==========================
-   * VTOUR – texty, viewport, šipky (pomaleji)
-   * ========================== */
-  once('#vtour', () => {
-    gsap.fromTo('#vt-copy .tag, #vt-title, #vt-desc, #vt-copy .vt-buttons',
-      { autoAlpha: 0, y: 32 },
-      { autoAlpha: 1, y: 0, duration: 1.0, ease: 'power2.out', stagger: 0.18 }
-    );
-    gsap.fromTo('.vt-viewport', { autoAlpha: 0 }, { autoAlpha: 1, duration: 1.0, ease: 'power2.out', delay: 0.18 });
-    gsap.fromTo('.vt-controls', { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.95, ease: 'power2.out', delay: 0.35 });
-  }, 'top 82%');
-
-  // Šipky „dýchají“ – pomalejší rytmus
-  gsap.to('.vt-arrow', {
-    y: -6, duration: 2.1, repeat: -1, yoyo: true, ease: 'sine.inOut',
-    scrollTrigger: { trigger: '#vtour', start: 'top 90%', end: 'bottom top', toggleActions: 'play pause resume pause' }
-  });
-
-  // Jemný parallax pozadí vtour
-  gsap.to('#vtour .vt-overlay', {
-    backgroundPositionY: '12%',
-    ease: 'none',
-    scrollTrigger: { trigger: '#vtour', start: 'top bottom', end: 'bottom top', scrub: 0.55 }
-  });
-
-  /* ==========================
-   * O NÁS – po odstavcích, střídavé směry + jemná skew (pomalu)
-   * ========================== */
-  once('#o-nas', () => {
-    // Tag + H2
-    gsap.fromTo('#o-nas .text .tag, #o-nas .text h2',
-      { autoAlpha: 0, y: 30 },
-      { autoAlpha: 1, y: 0, duration: 1.1, ease: 'power2.out', stagger: 0.2 }
-    );
-
-    // Odstavce – střídavě zleva/zprava + micro-skew
-    const paras = gsap.utils.toArray('#o-nas .text p');
-    paras.forEach((el, i) => {
-      const fromLeft = i % 2 === 0;
-      gsap.fromTo(el,
-        { autoAlpha: 0, x: fromLeft ? -70 : 70, skewX: fromLeft ? 2 : -2 },
-        { autoAlpha: 1, x: 0, skewX: 0, duration: 1.1, ease: 'power3.out', delay: 0.12 + i * 0.18 }
-      );
-    });
-
-    // Obrázek – pomalý pop
-    gsap.fromTo('#o-nas img', { autoAlpha: 0, scale: 0.94, y: 10 }, { autoAlpha: 1, scale: 1, y: 0, duration: 1.05, ease: 'back.out(1.4)', delay: 0.25 });
-  }, 'top 82%');
-
-  /* ==========================
-   * KONTAKT + FOOTER (pomaleji)
-   * ========================== */
-  once('#kontakt', () => {
-    gsap.fromTo('#kontakt .contact-card', { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 1.05, ease: 'power2.out', stagger: 0.2 });
-    gsap.fromTo('#kontakt .contact-item', { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.95, ease: 'power2.out', stagger: 0.1, delay: 0.2 });
-  }, 'top 85%');
-
-  once('footer', () => {
-    gsap.fromTo('footer', { autoAlpha: 0 }, { autoAlpha: 1, duration: 1.0, ease: 'power2.out' });
-  }, 'top 96%');
-})();
-</script>
-
-
-
-  
   
 </body>
 </html> 
