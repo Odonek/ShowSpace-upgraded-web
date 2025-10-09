@@ -802,3 +802,39 @@ body.menu-lock{ overflow:hidden; }
 }
 
 /* Desktop beze změny */ 
+
+
+/* === NAV: sjednocená výška pilulek (fix pro <button> "Služby") === */
+:root{
+  --pill-h: 46px;   /* výška pilulek – klidně 44–48 podle chuti */
+  --pill-x: 16px;   /* vodorovný padding */
+  --pill-gap: 8px;  /* mezera mezi textem a šipkou */
+}
+
+.menu a,
+.menu .menu-toggle{
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pill-gap);
+  height: var(--pill-h);       /* stejné pro <a> i <button> */
+  padding: 0 var(--pill-x);    /* výšku určuje height */
+  line-height: 1;              /* zruší rozdíly line-height */
+  border-radius: 999px;        /* zachová kulatý tvar */
+  box-sizing: border-box;      /* přesné měření */
+}
+
+/* zruší nativní vzhled tlačítka (iOS/Safari/Chrome) */
+.menu .menu-toggle{
+  -webkit-appearance: none;
+  appearance: none;
+  background-clip: padding-box;
+}
+
+/* caret jako čistá ikona, aby neovlivňovala výšku */
+.menu .menu-caret{
+  width: 14px;
+  height: 14px;
+  display: block;
+  flex: 0 0 14px;
+  pointer-events: none;
+}
