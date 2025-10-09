@@ -411,42 +411,29 @@
 </script>
 
 <script>
-/* BENEFITY čísla */
-(() => {
-  const section = document.getElementById('benefity');
-  if (!section) return;
-  const counters = section.querySelectorAll('.counter');
-  if (!counters.length) return;
+<script>
+// ===== POMALÉ NABÍHÁNÍ ČÍSEL (formát, volitelná data-duration) =====
+const countTo = (el, target, secDefault = 5.2) => {
+  if (!el) return;
+  const duration = Number(el.dataset.duration || secDefault);
+  const format = (n) => Math.round(n).toLocaleString('cs-CZ');
 
-  let played = false;
-  function animateCounter(el, target, duration = 1200) {
-    const t0 = performance.now();
-    function frame(now) {
-      const p = Math.min((now - t0) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(target * eased);
-      if (p < 1) requestAnimationFrame(frame);
+  const obj = { v: 0 };
+  gsap.to(obj, {
+    v: target,
+    duration,
+    ease: 'power1.out',
+    onUpdate: () => (el.textContent = format(obj.v)),
+    onComplete: () => {
+      const wrap = el.closest('.benefit-number');
+      if (!wrap) return;
+      wrap.classList.add('is-done');
+      gsap.fromTo(wrap, { y: 0, scale: 1 }, { y: -2, scale: 1.055, yoyo: true, repeat: 1, duration: 0.26, ease: 'power2.out' });
     }
-    requestAnimationFrame(frame);
-  }
-  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduceMotion) { counters.forEach(c => c.textContent = c.dataset.target || c.textContent); return; }
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting && !played) {
-          played = true;
-          counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0', 10) || 0));
-          io.disconnect();
-        }
-      });
-    }, { threshold: 0.25 });
-    io.observe(section);
-  } else {
-    counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0', 10) || 0));
-  }
-})();
+  });
+};
 </script>
+
 
 <script>
 /* VTOUR – loop + bg + text */
