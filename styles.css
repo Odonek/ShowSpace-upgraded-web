@@ -802,3 +802,33 @@ body.menu-lock{ overflow:hidden; }
 }
 
 /* Desktop beze změny */ 
+
+/* === COOKIE BANNER (kompaktní, barvy webu) === */
+#cookie-banner{
+  position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%);
+  z-index: 1000;
+  max-width: min(780px, 92vw);
+  background: #fff;
+  border-radius: 16px;
+  border-top: 4px solid var(--accent);
+  box-shadow: 0 14px 36px rgba(0,0,0,.12);
+  padding: 0;
+}
+#cookie-banner .cookie-inner{
+  display: flex; gap: 14px; align-items: center; justify-content: space-between;
+  padding: 14px 16px;
+}
+#cookie-banner .cookie-text{
+  margin: 0; font-size: .95rem; color: var(--ink);
+}
+#cookie-banner .cookie-text a{
+  font-weight: 600; color: var(--slate); border-bottom: 1px dashed rgba(65,90,119,.35);
+}
+#cookie-banner .cookie-text a:hover{ color:#111; border-color: var(--accent); }
+#cookie-banner .cookie-actions{ display:flex; gap:10px; flex-shrink:0; }
+@media (max-width: 640px){
+  #cookie-banner .cookie-inner{ flex-direction: column; align-items: stretch; gap:10px; }
+  #cookie-banner .cookie-actions{ width:100%; }
+  #cookie-banner .cookie-actions .btn{ width:100%; }
+}
+
