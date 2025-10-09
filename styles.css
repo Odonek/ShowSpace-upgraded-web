@@ -12,6 +12,18 @@
 --shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
+/* Hladší animace (doporučeno) */
+.hero-card h1, .hero-card p, .btn, .vt-card, .contact-card, .footer-social a,
+.section h2, .section p, .benefits-center .card, .vt-arrow, .menu a, .menu .menu-toggle {
+  will-change: transform, opacity;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Přístupnost: vypnout animace, když si to uživatel přeje */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
 /* RESET & BASE */
 
 * { box-sizing: border-box; }
