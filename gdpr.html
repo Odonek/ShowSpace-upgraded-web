@@ -50,10 +50,16 @@
       <img src="logonahoruvlevo1.png" alt="ShowSpace logo">
     </a>
 
+    <!-- Burger (jen na mobilu) -->
+    <button class="hamburger" type="button" aria-label="Otevřít menu" aria-controls="mobileMenu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- DESKTOPOVÉ MENU – zůstává -->
     <div class="menu">
       <a href="index.html">Domů</a>
 
-      <!-- Dropdown „Služby“ (stejný markup jako na dalších stránkách) -->
+      <!-- Dropdown „Služby“ -->
       <div class="menu-item--has-sub">
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="submenu-sluzby">
           Služby
@@ -76,7 +82,33 @@
       <a href="index.html#kontakt" class="btn btn--accent">Poptávka</a>
     </div>
   </div>
+
+  <!-- MOBILNÍ MENU panel -->
+  <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu__inner">
+      <a href="index.html">Domů</a>
+
+      <details class="m-acc">
+        <summary>Služby</summary>
+        <div class="m-acc__links">
+          <a href="sluzby.html#sluzba-prohlidky">Virtuální prohlídky</a>
+          <a href="sluzby.html#sluzba-fotky">Fotky</a>
+          <a href="sluzby.html#sluzba-marketing">Marketing</a>
+          <a href="sluzby.html#sluzba-social">Sociální sítě</a>
+          <a href="sluzby.html#sluzba-webdev">Web</a>
+          <a href="sluzby.html">Všechny služby</a>
+        </div>
+      </details>
+
+      <a href="galerie.html">Galerie</a>
+      <a href="index.html#kontakt" class="btn btn--accent" style="margin-top:8px">Poptávka</a>
+    </div>
+  </div>
+
+  <!-- Backdrop -->
+  <div class="mobile-backdrop" hidden></div>
 </nav>
+
 
 <header class="section">
   <div class="container">
@@ -173,5 +205,44 @@
   })();
 </script>
 
+<script>
+/* Hamburger – mobilní menu (GDPR) */
+(() => {
+  const burger   = document.querySelector('.hamburger');
+  const panel    = document.getElementById('mobileMenu');
+  const backdrop = document.querySelector('.mobile-backdrop');
+
+  if(!burger || !panel || !backdrop) return;
+
+  const open = () => {
+    panel.classList.add('is-open');
+    burger.setAttribute('aria-expanded','true');
+    panel.setAttribute('aria-hidden','false');
+    backdrop.hidden = false;
+    requestAnimationFrame(()=> backdrop.classList.add('show'));
+    document.body.classList.add('menu-lock');
+  };
+  const close = () => {
+    panel.classList.remove('is-open');
+    burger.setAttribute('aria-expanded','false');
+    panel.setAttribute('aria-hidden','true');
+    backdrop.classList.remove('show');
+    setTimeout(()=> (backdrop.hidden = true), 200);
+    document.body.classList.remove('menu-lock');
+  };
+
+  burger.addEventListener('click', (e)=> {
+    e.stopPropagation();
+    (burger.getAttribute('aria-expanded') === 'true') ? close() : open();
+  });
+  backdrop.addEventListener('click', close);
+  document.addEventListener('keydown', (e)=> { if(e.key === 'Escape') close(); });
+
+  // zavřít po kliku na odkaz v panelu
+  panel.addEventListener('click', (e)=> { if(e.target.closest('a')) close(); });
+})();
+</script>
+
+  
 </body>
 </html>
