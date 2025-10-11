@@ -1103,4 +1103,20 @@ nav {
   will-change: transform, opacity, filter;
 }
 
+/* ✅ Hero může chytat kliky */
+.hero {
+  pointer-events: auto !important;   /* přebije staré pravidlo */
+  position: relative !important;
+  z-index: 0 !important;
+}
+
+/* ✅ Jen video/overlay jsou „průchozí“ a pod UI */
+.hero-media,
+.hero-media video,
+.hero-overlay {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: -1 !important;
+  pointer-events: none !important;
+}
 
