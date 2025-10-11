@@ -15,37 +15,103 @@
   <meta name="theme-color" content="#415A77">
 
   <style>
-   /* === SLUŽBY: navbar nahoře, neoverlayuje, bílé pozadí === */
+  /* === SLUŽBY: NAVBAR jako na vzoru (pill) =================== */
 body.page-services nav{
-  position: static !important;       /* žádný fixed/sticky */
-  top: auto; left: auto; right: auto;
-  background: #fff !important;       /* čistě bílé */
-  border-bottom: 1px solid #eee;
-  box-shadow: 0 4px 14px rgba(0,0,0,.06);
-  padding: 10px 0;
-  margin: 0 !important;
-  transform: none !important;        /* kdyby globál něco posouval */
-}
-
-/* vnitřek navu – zruší proužek i „pill“ */
-body.page-services .nav-inner{
-  background: #fff !important;
-  border-top: 0 !important;          /* odstraní žlutý proužek */
-  border-radius: 0 !important;       /* žádné zaoblení pillu */
+  position: relative !important;      /* žádný sticky/fixed */
+  background: transparent !important; /* pozadí stránky, ne béžový pruh */
+  border: 0 !important;
   box-shadow: none !important;
-  margin-top: 0 !important;
+  padding: 18px 0;                    /* mezera okolo pillu */
+  margin: 0 !important;
 }
 
-/* malá mezera pod navem, ať text neleží nalepený */
-body.page-services nav + *{
-  margin-top: 12px;
+body.page-services .nav-inner{
+  background: #fff !important;        /* čistě bílé */
+  border-radius: 999px !important;    /* pilulka */
+  padding: 10px 18px !important;
+  border-top: 6px solid #F0DF47 !important; /* žlutý proužek nahoře */
+  box-shadow: 0 14px 36px rgba(0,0,0,.10) !important; /* plovoucí efekt */
+  margin-top: 0 !important;           /* žádný vnější offset */
 }
 
-/* kotvy neskáčou pod nav (pro jistotu ponecháme offset) */
+/* drobnost: aby text nezačínal nalepeně pod navem */
+body.page-services nav + *{ margin-top: 12px; }
+
+/* pro skoky na kotvy, kdyby byly použité */
 body.page-services section{ scroll-margin-top: 72px; }
 
-/* submenu nad obsahem */
+/* submenu měj nad obsahem */
 body.page-services .submenu{ z-index: 200; }
+
+/* ============== ZBYTEK – vaše stávající sekce/služby ============== */
+.service-section{ padding: 48px 0; background:#fff; }
+
+.service-wrap{
+  display:grid; gap:28px; align-items:center;
+  grid-template-columns: 1.05fr .95fr; grid-template-areas: "text media";
+}
+.service-text{ grid-area:text; }
+.service-media{ grid-area:media; }
+
+.service-section.reverse .service-wrap{
+  grid-template-columns:.95fr 1.05fr; grid-template-areas:"media text";
+}
+
+#sluzba-prohlidky.service-section{ padding-top:28px; }
+.service-text h2{ margin:6px 0 10px; }
+.kvp-list,.steps{ padding-left:18px; } .kvp-list li,.steps li{ margin:6px 0; }
+.cta-row{ display:flex; gap:12px; margin-top:14px; flex-wrap:wrap; }
+
+.service-media{ display:grid; gap:14px; }
+.media-slot{
+  position:relative; width:100%; aspect-ratio:16/9;
+  border-radius:18px; background:#fff;
+  border:1px solid #e9edf2; box-shadow: var(--shadow); overflow:hidden;
+}
+.media-slot iframe,.media-slot img,.media-slot video{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; border:0; display:block; border-radius:inherit;
+}
+.media-slot--plain{ background:transparent; border:0; box-shadow:none; }
+.media-slot--plain img{ object-fit:contain; background:transparent; }
+
+@media (max-width:900px){
+  .service-wrap{
+    grid-template-columns:1fr;
+    grid-template-areas:"text" "media";
+  }
+  .service-section.reverse .service-wrap{
+    grid-template-columns:1fr;
+    grid-template-areas:"text" "media";
+  }
+}
+
+/* Dropdown „Služby“ – nechávám beze změny */
+.menu{ position:relative; }
+.menu-item--has-sub{ position:relative; }
+.menu .menu-toggle{
+  display:inline-flex; align-items:center; gap:8px;
+  font-weight:600; color:var(--slate);
+  padding:6px 14px; background:rgba(255,255,255,0.9);
+  border:0; border-radius:999px; box-shadow:0 2px 6px rgba(0,0,0,.08);
+  cursor:pointer; font-family:var(--font);
+}
+.menu .menu-toggle:hover{ background:var(--accent); color:#111; }
+.menu .menu-caret{ width:14px; height:14px; transition:transform .2s ease; }
+.menu .menu-toggle[aria-expanded="true"] .menu-caret{ transform:rotate(180deg); }
+.submenu{
+  position:absolute; top:calc(100% + 8px); left:0;
+  display:none; min-width:240px; padding:10px;
+  background:#fff; border:1px solid #eee; border-radius:14px;
+  box-shadow:0 14px 36px rgba(0,0,0,.12); z-index:200;
+}
+.submenu.show{ display:block; }
+.submenu a{
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px; border-radius:10px; font-weight:600; color:var(--ink);
+  background:#fff;
+}
+.submenu a:hover{ background:#f6f8fb; color:var(--slate); }
 
     /* ==========================
        LOKÁLNÍ STYLY – SLUŽBY
