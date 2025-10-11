@@ -18,6 +18,63 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
   <style>
+    /* ——— VIRTUÁLNÍ PROHLÍDKY: extra styling + animace ——— */
+.prohlidky-head { display:flex; align-items:center; gap:12px; }
+.prohlidky-logo {
+  width:34px; height:34px; border-radius:8px;
+  background:linear-gradient(135deg,#F0DF47 0%, #ffd000 70%, #fff3a0 100%);
+  box-shadow:0 10px 22px rgba(240,223,71,.35), inset 0 0 14px rgba(255,255,255,.6);
+  display:grid; place-items:center; font-weight:800; color:#111; letter-spacing:.5px;
+}
+
+/* zvýraznění v textu – jemný shimmer */
+.hl {
+  background:linear-gradient(90deg, rgba(240,223,71,.25), rgba(240,223,71,.55), rgba(240,223,71,.25));
+  border-radius:8px; padding:0 .25em;
+  animation:hlShimmer 2.2s ease-in-out infinite alternate;
+}
+@keyframes hlShimmer {
+  from { filter:blur(.4px); }
+  to   { filter:blur(1.2px); }
+}
+
+/* stat pily */
+.stat-pills { display:flex; flex-wrap:wrap; gap:10px; margin:12px 0 4px; }
+.pill {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 12px; border-radius:999px; font-weight:700;
+  background:#111; color:#fff;
+  box-shadow:0 10px 24px rgba(17,24,39,.14);
+  transform:translateZ(0);
+}
+.pill small { opacity:.8; font-weight:600; }
+
+/* check-řádky */
+.checkline { display:flex; align-items:flex-start; gap:10px; margin:8px 0; }
+.checkline svg { width:18px; height:18px; flex:0 0 18px; color:#10b981; margin-top:2px; }
+
+/* animované podtržení nad seznamy */
+.section-underline {
+  position:relative; display:inline-block; padding-bottom:4px; margin-bottom:6px;
+}
+.section-underline::after{
+  content:""; position:absolute; left:0; bottom:0; height:3px; width:0%;
+  background:linear-gradient(90deg,#f0df47, #ffd84d);
+  border-radius:3px; box-shadow:0 8px 18px rgba(240,223,71,.45);
+  animation:lineGrow .8s .35s cubic-bezier(.2,.8,.2,1) forwards;
+}
+@keyframes lineGrow { to{ width:100%; } }
+
+/* jemná animace pro pily */
+@keyframes pop {
+  from { transform:translateY(8px) scale(.96); opacity:0; filter:blur(8px); }
+  to   { transform:none; opacity:1; filter:blur(0); }
+}
+.pill.anim-pop { animation:pop .48s cubic-bezier(.2,.8,.2,1) both; }
+
+/* drobná hloubka médií při hoveru (jen ne-plain) */
+.media-slot:not(.media-slot--plain):hover{ box-shadow:0 26px 64px rgba(17,24,39,.16); transform:translateY(-2px); }
+
 /* Vynutit čistě bílé pozadí nahoře */
 body.page-services,
 body.page-services nav,
@@ -215,20 +272,44 @@ body.page-services .submenu{ z-index:200; }
 <!-- 1) VIRTUÁLNÍ PROHLÍDKY — text vlevo, média vpravo -->
 <section id="sluzba-prohlidky" class="section service-section">
   <div class="container service-wrap">
+
     <div class="service-text">
-      <span class="eyebrow tag">Virtuální prohlídky</span>
-      <h2>360° / 3D prohlídky</h2>
+      <div class="prohlidky-head">
+        <div class="prohlidky-logo">360</div>
+        <span class="eyebrow tag">Virtuální prohlídky</span>
+      </div>
+
+      <h2 class="section-underline">360° / 3D prohlídky</h2>
 
       <h3>Pro koho to je</h3>
-      <p class="lead">Virtuální prohlídky jsou ideální pro jakýkoli prostor, který chcete atraktivně prezentovat online – od komerčních provozů po nemovitosti a veřejná místa.</p>
+      <p class="lead">
+        Virtuální prohlídky vtáhnou návštěvníka <span class="hl">přímo do prostoru</span> —
+        skvělé pro komerční provozy, nemovitosti i veřejná místa. Zákazník si projde interiér
+        v klidu z mobilu a vy <span class="hl">získáte víc relevantních poptávek</span>.
+      </p>
+
+      <!-- Stat pily -->
+      <div class="stat-pills">
+        <span class="pill anim-pop"><strong>98 %</strong> <small>LiDAR přesnost</small></span>
+        <span class="pill anim-pop" style="animation-delay:.06s"><strong>do 7 dní</strong> <small>hotovo</small></span>
+        <span class="pill anim-pop" style="animation-delay:.12s"><strong>0 Kč</strong> <small>hosting</small></span>
+      </div>
 
       <h3>Co získáte</h3>
-      <ul class="kvp-list">
-        <li><strong>Moderní 3D prohlídky</strong>, které vtáhnou vaše zákazníky přímo do prostoru.</li>
-        <li>Díky technologii <strong>Giraffe360</strong> získáte uživatelsky přívětivou prohlídku ve vysoké kvalitě.</li>
-        <li>Prohlídky jsou připravené k <strong>okamžitému sdílení</strong> na web, sociální sítě nebo do inzerátu.</li>
-        <li>Výsledek dodáme <strong>už do týdne</strong> od realizace.</li>
-      </ul>
+      <div class="kvp-list">
+        <div class="checkline">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <p><strong>Moderní 3D prohlídky</strong> s plynulým pohybem a přechody — „jako byste tam byli“.</p>
+        </div>
+        <div class="checkline">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <p>Technologie <strong>Giraffe360</strong> = vysoká kvalita, jednoduché ovládání a sdílení.</p>
+        </div>
+        <div class="checkline">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <p><strong>Okamžité nasdílení</strong> na web, do inzerátu nebo na sociální sítě.</p>
+        </div>
+      </div>
 
       <h3>Co je v ceně</h3>
       <ul class="kvp-list">
@@ -241,7 +322,10 @@ body.page-services .submenu{ z-index:200; }
       </ul>
 
       <h3>Na přání: video</h3>
-      <p>Z pořízených skenů vytvoříme <strong>video prohlídku</strong> bez dodatečného natáčení – s <strong>AI voiceoverem</strong>.</p>
+      <p class="lead">
+        Z pořízených skenů vytvoříme <strong>video prohlídku</strong> bez dodatečného natáčení —
+        s <strong>AI voiceoverem</strong>. Ideální pro Reels či YouTube Shorts.
+      </p>
 
       <div class="cta-row">
         <a class="btn btn--accent" href="#kontakt">Nezávazně poptat</a>
@@ -255,13 +339,14 @@ body.page-services .submenu{ z-index:200; }
                 loading="lazy" allowfullscreen
                 title="Virtuální prohlídka – Houseboat Prague Vltava"></iframe>
       </div>
-      <!-- Půdorys přímo pod prohlídkou -->
       <div class="media-slot">
         <img src="pudorys8.png" alt="Ukázka 2D půdorysu – Houseboat" loading="lazy">
       </div>
     </div>
+
   </div>
 </section>
+
 
 <!-- 2) FOTKY — OBRÁZEK vlevo, TEXT vpravo (reverse) -->
 <section id="sluzba-fotky" class="section service-section reverse">
@@ -551,6 +636,35 @@ document.addEventListener('DOMContentLoaded', () => {
     navInner.classList.add('wow','animate__animated','animate__fadeInDownBig');
     navInner.style.animationDuration = '720ms';
   }
+// ——— VIRTUÁLNÍ PROHLÍDKY: intenzivnější animace a přesnější stagger ———
+const secP = document.getElementById('sluzba-prohlidky');
+if (secP){
+  const text  = secP.querySelector('.service-text');
+  const media = secP.querySelector('.service-media');
+
+  // text sloupec – výraznější nástup zleva + delší easing
+  if (text){
+    text.classList.remove('animate__fadeInLeftBig','animate__fadeInRightBig');
+    text.classList.add('wow','animate__animated','animate__lightSpeedInLeft');
+    text.style.animationDuration = '820ms';
+    text.style.animationDelay = '0.06s';
+
+    // odstavec po odstavci (bez tlačítek) + blurIn
+    const blocks = text.querySelectorAll('h2,h3,p.lead,.kvp-list,.checkline,.stat-pills .pill');
+    blocks.forEach((el, i)=>{
+      el.classList.add('wow','animate__animated','anim-blurIn');
+      el.style.animationDelay = (0.14 + i * 0.08) + 's';
+    });
+  }
+
+  // media – jemný backInRight
+  if (media){
+    media.classList.remove('animate__backInRight','animate__backInLeft');
+    media.classList.add('wow','animate__animated','animate__backInRight');
+    media.style.animationDuration = '860ms';
+    media.style.animationDelay = '0.18s';
+  }
+}
 
   // SECTIONS – texty a média (střídání směrů + stagger + blurIn)
   document.querySelectorAll('.service-section').forEach((sec, idx) => {
