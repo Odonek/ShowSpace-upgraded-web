@@ -456,7 +456,7 @@
 </script>
 
 <script>
-/* VTOUR – loop + bg + text + autoplay + swipe */
+/* VTOUR – loop + bg + text + autoplay + swipe (fix: visible ≤ originals.length) */
 (() => {
   const root = document.getElementById('vtour');
   if (!root) return;
@@ -476,19 +476,25 @@
   let visible = 3;
   let cards = [];
 
-  // autoplay
-  const AUTOPLAY_MS = 3800;
+  // Autoplay interval (10s). Pro 8 sekund dej 8000.
+  const AUTOPLAY_MS = 10000;
   let timer = null;
   let isPointerOver = false;
 
-  const calcVisible = () =>
+  const calcVisibleRaw = () =>
     window.innerWidth <= 640 ? 1 : (window.innerWidth <= 980 ? 2 : 3);
+
+  const calcVisible = () => {
+    // Nikdy neukazuj víc „slotů“, než je originálů – jinak se rozbije mapování.
+    const wanted = calcVisibleRaw();
+    return Math.max(1, Math.min(wanted, originals.length));
+  };
 
   function rebuild() {
     visible = calcVisible();
     strip.innerHTML = '';
 
-    // nekonečný pás: [tail][originals][head]
+    // Nekonečný pás: [tail][originals][head]
     const head = originals.slice(0, visible).map(n => n.cloneNode(true));
     const tail = originals.slice(-visible).map(n => n.cloneNode(true));
 
@@ -497,7 +503,7 @@
     head.forEach(n => strip.appendChild(n));
 
     cards = [...strip.children];
-    current = visible;        // první „reálná“ karta uprostřed
+    current = visible; // začátek na první „reálné“ kartě uprostřed
     centerOn(current, false);
     updateUI();
     restartAutoplay();
@@ -527,22 +533,28 @@
     centerOn(current, true);
   }
 
+  // Převod „živého“ indexu (včetně klonů) na index originálu
+  function liveToReal(liveIdx) {
+    const total = originals.length;
+    return ( (liveIdx - visible) % total + total ) % total;
+  }
+
   function updateUI(fade = false) {
     const total = originals.length;
 
-    // středová karta (texty + odkaz)
-    const realIndex = (current - visible + total) % total;
+    // Středová karta (pro texty/odkaz)
+    const realIndex = liveToReal(current);
     const realCard  = originals[realIndex];
     const liveCard  = cards[current];
 
-    // první viditelná vlevo (pro desktop pozadí + zvětšení)
+    // První viditelná vlevo (pro desktop pozadí + zvětšení)
     const leftOffset = (visible === 1 ? 0 : Math.floor(visible / 2));
     const firstIdx   = current - leftOffset;
     const firstLive  = cards[firstIdx];
-    const realIndexFirst = (firstIdx - visible + total) % total;
-    const realCardFirst  = originals[(realIndexFirst + total) % total];
+    const realIndexFirst = liveToReal(firstIdx);
+    const realCardFirst  = originals[realIndexFirst];
 
-    // === POZADÍ ===
+    // === Pozadí ===
     // mobil: středová; desktop/tablet: první vlevo
     const bgSourceCard = (visible === 1 ? realCard : realCardFirst);
     const imgSrc = bgSourceCard?.querySelector('img')?.getAttribute('src');
@@ -550,7 +562,7 @@
     const bg = imgSrc || dataBg;
     if (bg) root.style.setProperty('--vtbg', `url("${bg}")`);
 
-    // texty/odkaz
+    // === Texty/odkaz (středová karta) ===
     const t    = realCard.dataset.title || 'Virtuální prohlídka';
     const d    = realCard.dataset.desc  || 'Prohlídka v nové záložce.';
     const href = realCard.getAttribute('href') || '#';
@@ -569,13 +581,13 @@
       linkEl.href         = href;
     }
 
-    // třídy (zvětšená první vlevo)
+    // Zvýraznění: první vlevo je větší
     cards.forEach(c => c.classList.remove('is-center','is-first'));
     if (liveCard)  liveCard.classList.add('is-center');
     if (firstLive) firstLive.classList.add('is-first');
   }
 
-  // autoplay
+  // Autoplay
   function startAutoplay() {
     if (timer) return;
     timer = setInterval(() => {
@@ -585,25 +597,25 @@
   function stopAutoplay()   { if (timer) { clearInterval(timer); timer = null; } }
   function restartAutoplay(){ stopAutoplay(); startAutoplay(); }
 
-  // ovládání
+  // Ovládání
   nextBtn.addEventListener('click', () => { go(+1); restartAutoplay(); });
   prevBtn.addEventListener('click', () => { go(-1); restartAutoplay(); });
   strip.addEventListener('transitionend', normalize);
 
-  // klávesy
+  // Klávesy
   root.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight') { go(+1); restartAutoplay(); }
     if (e.key === 'ArrowLeft')  { go(-1); restartAutoplay(); }
   });
   root.setAttribute('tabindex', '-1');
 
-  // pauza na hover/dotyk
+  // Pauza na hover/dotyk
   [root, viewport, nextBtn, prevBtn, copyBox].forEach(el => {
     el.addEventListener('pointerenter', () => { isPointerOver = true; stopAutoplay(); }, {passive:true});
     el.addEventListener('pointerleave', () => { isPointerOver = false; startAutoplay(); }, {passive:true});
   });
 
-  // swipe
+  // Swipe
   let touchStartX = 0, touchDX = 0;
   const SWIPE_MIN = 40;
   viewport.addEventListener('touchstart', (e) => {
@@ -619,22 +631,22 @@
     restartAutoplay();
   }, { passive: true });
 
-  // viditelnost tabu
+  // Viditelnost tabu
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') startAutoplay(); else stopAutoplay();
   });
 
-  // resize
+  // Resize
   window.addEventListener('resize', () => {
     const before = visible, now = calcVisible();
     if (before !== now) rebuild(); else centerOn(current, false);
   });
 
-  // start
   rebuild();
   startAutoplay();
 })();
 </script>
+
 
 
 
