@@ -586,24 +586,26 @@
     const bg = imgSrc || dataBg;
     if (bg) root.style.setProperty('--vtbg', `url("${bg}")`);
 
-    // === Texty/odkaz (středová karta) ===
-    const t    = realCard.dataset.title || 'Virtuální prohlídka';
-    const d    = realCard.dataset.desc  || 'Prohlídka v nové záložce.';
-    const href = realCard.getAttribute('href') || '#';
+    // === Texty/odkaz – stejné jako zdroj pozadí ===
+const textSourceCard = (visible === 1 ? realCard : realCardFirst); // stejné pravidlo jako pro bg
+const t    = textSourceCard?.dataset.title || 'Virtuální prohlídka';
+const d    = textSourceCard?.dataset.desc  || 'Prohlídka v nové záložce.';
+const href = textSourceCard?.getAttribute('href') || '#';
 
-    if (fade) copyBox.classList.add('swap-out');
-    if (fade) {
-      setTimeout(() => {
-        titleEl.textContent = t;
-        descEl.textContent  = d;
-        linkEl.href         = href;
-        copyBox.classList.remove('swap-out');
-      }, 120);
-    } else {
-      titleEl.textContent = t;
-      descEl.textContent  = d;
-      linkEl.href         = href;
-    }
+if (fade) copyBox.classList.add('swap-out');
+if (fade) {
+  setTimeout(() => {
+    titleEl.textContent = t;
+    descEl.textContent  = d;
+    linkEl.href         = href;
+    copyBox.classList.remove('swap-out');
+  }, 120);
+} else {
+  titleEl.textContent = t;
+  descEl.textContent  = d;
+  linkEl.href         = href;
+}
+
 
     // Zvýraznění: první vlevo je větší
     cards.forEach(c => c.classList.remove('is-center','is-first'));
