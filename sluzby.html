@@ -14,6 +14,17 @@
   <link rel="apple-touch-icon" href="favicon.png">
   <meta name="theme-color" content="#415A77">
 
+  <!-- Animate.css (pro wow animace) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<style>
+  /* WOW/Animate helpery + respekt k prefer-reduced-motion */
+  .wow { visibility: hidden; } /* wow si to po načtení přepne na visible */
+  @media (prefers-reduced-motion: reduce){
+    .wow, .animate__animated { animation: none !important; transition: none !important; }
+  }
+</style>
+
+
   <style>
     /* SLUŽBY: vynutit čistě bílé pozadí nahoře */
 body.page-services,
@@ -633,6 +644,84 @@ body.page-services .submenu{ z-index: 200; }
 })();
 </script>
 
+
+  <!-- WOW.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" defer></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Pokud uživatel preferuje méně pohybu, WOW nespouštěj
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 1) NAV – jemný drop-in efekt
+  const navInner = document.querySelector('.nav-inner');
+  if (navInner) {
+    navInner.classList.add('wow','animate__animated','animate__fadeInDown');
+    navInner.style.setProperty('--wow-delay','0s');
+  }
+
+  // 2) Každá sekce služeb – text + média
+  document.querySelectorAll('.service-section').forEach((sec, sIdx) => {
+    const text  = sec.querySelector('.service-text');
+    const media = sec.querySelector('.service-media');
+
+    if (text) {
+      text.classList.add('wow','animate__animated','animate__fadeInUp');
+      text.style.animationDuration = '700ms';
+      text.style.animationDelay = (0.05 + sIdx * 0.03) + 's';
+    }
+
+    if (media) {
+      media.classList.add('wow','animate__animated',
+        sec.classList.contains('reverse') ? 'animate__fadeInLeft' : 'animate__fadeInRight'
+      );
+      media.style.animationDuration = '700ms';
+      media.style.animationDelay = (0.15 + sIdx * 0.03) + 's';
+    }
+
+    // 3) Stagger pro listy v sekci (li postupně nahoru)
+    sec.querySelectorAll('.kvp-list li, .steps li').forEach((li, i) => {
+      li.classList.add('wow','animate__animated','animate__fadeInUp');
+      li.style.animationDuration = '600ms';
+      li.style.animationDelay = (0.10 + i * 0.06) + 's';
+    });
+  });
+
+  // 4) Kontakt karty – příjemný slide-in
+  document.querySelectorAll('.contact-card').forEach((card, i) => {
+    card.classList.add('wow','animate__animated', i === 0 ? 'animate__fadeInRight' : 'animate__fadeInLeft');
+    card.style.animationDuration = '700ms';
+    card.style.animationDelay = (0.12 + i * 0.08) + 's';
+  });
+
+  // 5) CTA tlačítka – drobný pop-in
+  document.querySelectorAll('.cta-row .btn, .nav-right .btn').forEach((btn, i) => {
+    btn.classList.add('wow','animate__animated','animate__zoomIn');
+    btn.style.animationDuration = '500ms';
+    btn.style.animationDelay = (0.18 + i * 0.04) + 's';
+  });
+
+  // 6) Obrázky v .media-slot -- jemný zoom/fade
+  document.querySelectorAll('.media-slot img, .media-slot iframe, .media-slot video').forEach((m, i) => {
+    m.classList.add('wow','animate__animated','animate__fadeIn');
+    m.style.animationDuration = '650ms';
+    m.style.animationDelay = (0.12 + i * 0.05) + 's';
+  });
+
+  // Spustit WOW (mimo reduce-motion)
+  if (!reduce && typeof WOW !== 'undefined') {
+    new WOW({
+      boxClass:     'wow',
+      animateClass: 'animate__animated',
+      offset:       80,     // kdy se má spustit (px před zobrazením)
+      mobile:       false,  // vypnout na mobilech kvůli výkonu (klidně dej true)
+      live:         false
+    }).init();
+  }
+});
+</script>
+
+  
   
 </body>
 </html>
