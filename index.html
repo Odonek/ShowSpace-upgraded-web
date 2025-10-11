@@ -219,8 +219,7 @@
     <div class="vt-media">
       <div class="vt-viewport">
         <div class="vt-strip">
-          <!-- karty -->
-          <!-- Houseboat – dej mu houseboat fotku -->
+          <!-- karty (opravené) -->
 <a class="vt-card"
    data-bg="CAM05637G0-PR0005-STILL005.jpg"
    data-title="Houseboat Praha"
@@ -228,10 +227,9 @@
    href="https://tour.giraffe360.com/houseboat-prague-vltava/"
    target="_blank" rel="noopener">
   <img src="CAM05637G0-PR0005-STILL005.jpg" alt="Houseboat Praha">
-  ...
+  <div class="vt-meta"><strong>Houseboat Praha</strong><span>Virtuální prohlídka</span></div>
 </a>
 
-<!-- Bazén – dej mu bazén fotku -->
 <a class="vt-card"
    data-bg="bazenmala.jpg"
    data-title="Krytý plavecký bazén Svitavy"
@@ -239,8 +237,9 @@
    href="https://tour.giraffe360.com/krytyplaveckybazensvitavy/"
    target="_blank" rel="noopener">
   <img src="bazenmala.jpg" alt="Krytý plavecký bazén Svitavy">
-  ...
+  <div class="vt-meta"><strong>Krytý plavecký bazén Svitavy</strong><span>Virtuální prohlídka</span></div>
 </a>
+
 
         </div>
       </div>
@@ -456,6 +455,15 @@
 })();
 </script>
 
+
+
+
+<script>
+/* === Hamburger – otevření mobilního menu === */
+(() => {
+  const burger   = document.querySelector('.hamburger');
+  const panel    = document.getElementById('mobileMenu');
+  const backdrop = document.querySelector('.mobile-backdrop');
 <script>
 /* VTOUR – loop + bg + text */
 (() => {
@@ -477,16 +485,20 @@
   let visible = 3;
   let cards = [];
 
-  const calcVisible = () => window.innerWidth <= 640 ? 1 : (window.innerWidth <= 980 ? 2 : 3);
+  const calcVisible = () =>
+    window.innerWidth <= 640 ? 1 : (window.innerWidth <= 980 ? 2 : 3);
 
   function rebuild() {
     visible = calcVisible();
     strip.innerHTML = '';
+
     const head = originals.slice(0, visible).map(n => n.cloneNode(true));
     const tail = originals.slice(-visible).map(n => n.cloneNode(true));
+
     tail.forEach(n => strip.appendChild(n));
     originals.forEach(n => strip.appendChild(n.cloneNode(true)));
     head.forEach(n => strip.appendChild(n));
+
     cards = [...strip.children];
     current = visible;
     centerOn(current, false);
@@ -498,8 +510,10 @@
     const cardCenter = card.offsetLeft + card.offsetWidth / 2;
     const vpCenter   = viewport.clientWidth / 2;
     const offset     = -(cardCenter - vpCenter);
+
     strip.style.transition = animate ? 'transform .55s cubic-bezier(.22,.61,.36,1)' : 'none';
     strip.style.transform  = `translateX(${offset}px)`;
+
     if (animate) updateUI(true);
   }
 
@@ -510,58 +524,61 @@
     updateUI();
   }
 
-  function go(delta){ current += delta; centerOn(current, true); }
+  function go(delta) { current += delta; centerOn(current, true); }
 
-  function updateUI(fade=false){
-  const total = originals.length;
+  function updateUI(fade = false) {
+    const total = originals.length;
 
-  // "středová" karta (tu necháme pro texty + odkaz)
-  const realIndex = (current - visible + total) % total;
-  const realCard  = originals[realIndex];
-  const liveCard  = cards[current];
+    // Středová karta (pro texty a odkaz)
+    const realIndex = (current - visible + total) % total;
+    const realCard  = originals[realIndex];
+    const liveCard  = cards[current];
 
-  // PRVNÍ viditelná karta vlevo (tu použijeme pro POZADÍ + ZVĚTŠENÍ)
-  const leftOffset = visible === 1 ? 0 : Math.floor(visible / 2); // 0 pro 1 sloupec, 1 pro 2–3 sloupce
-  const firstIdx = current - leftOffset;
-  const firstLive = cards[firstIdx];
-  const realIndexFirst = (firstIdx - visible + total) % total;
-  const realCardFirst = originals[(realIndexFirst + total) % total];
+    // První viditelná vlevo (pro pozadí na desktopu)
+    const leftOffset = (visible === 1 ? 0 : Math.floor(visible / 2));
+    const firstIdx   = current - leftOffset;
+    const firstLive  = cards[firstIdx];
+    const realIndexFirst = (firstIdx - visible + total) % total;
+    const realCardFirst  = originals[(realIndexFirst + total) % total];
 
-// místo:
-// const bgFirst = realCardFirst?.dataset?.bg || realCardFirst?.querySelector('img')?.getAttribute('src');
-// if (bgFirst) root.style.setProperty('--vtbg', `url("${bgFirst}")`);
+    // === Pozadí sekce ===
+    // Mobil: ber ze středové karty, Desktop/Tablet: z první vlevo.
+    // Preferuj <img src>, fallback na data-bg (blbuvzdorné).
+    const bgSourceCard = (visible === 1 ? realCard : realCardFirst);
+    const imgSrc = bgSourceCard?.querySelector('img')?.getAttribute('src');
+    const dataBg = bgSourceCard?.dataset?.bg;
+    const bg = imgSrc || dataBg;
+    if (bg) root.style.setProperty('--vtbg', `url("${bg}")`);
 
-// dej:
-const bgSourceCard = (visible === 1 ? realCard : realCardFirst);
-const bg = bgSourceCard?.dataset?.bg || bgSourceCard?.querySelector('img')?.getAttribute('src');
-if (bg) root.style.setProperty('--vtbg', `url("${bg}")`);
+    // === Texty a odkaz ze středové karty ===
+    const t    = realCard.dataset.title || 'Virtuální prohlídka';
+    const d    = realCard.dataset.desc  || 'Prohlídka v nové záložce.';
+    const href = realCard.getAttribute('href') || '#';
 
+    if (fade) copyBox.classList.add('swap-out');
+    if (fade) {
+      setTimeout(() => {
+        titleEl.textContent = t;
+        descEl.textContent  = d;
+        linkEl.href         = href;
+        copyBox.classList.remove('swap-out');
+      }, 120);
+    } else {
+      titleEl.textContent = t;
+      descEl.textContent  = d;
+      linkEl.href         = href;
+    }
 
-  // Texty/odkaz ze "středové" karty (beze změny)
-  const t    = realCard.dataset.title || 'Virtuální prohlídka';
-  const d    = realCard.dataset.desc  || 'Prohlídka v nové záložce.';
-  const href = realCard.getAttribute('href') || '#';
-
-  if (fade) copyBox.classList.add('swap-out');
-  if (fade) {
-    setTimeout(() => {
-      titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
-      copyBox.classList.remove('swap-out');
-    }, 120);
-  } else {
-    titleEl.textContent = t; descEl.textContent = d; linkEl.href = href;
+    // Třídy pro vizuální zvýraznění (první karta vlevo je zvýrazněná)
+    cards.forEach(c => c.classList.remove('is-center', 'is-first'));
+    if (liveCard)  liveCard.classList.add('is-center'); // interní označení
+    if (firstLive) firstLive.classList.add('is-first'); // vizuální zvýraznění
   }
-
-  // Třídy: zvýrazníme první kartu, ne středovou
-  cards.forEach(c => c.classList.remove('is-center','is-first'));
-  if (liveCard)  liveCard.classList.add('is-center'); // jen interní označení
-  if (firstLive) firstLive.classList.add('is-first'); // vizuální zvýraznění první
-}
-
 
   nextBtn.addEventListener('click', () => go(+1));
   prevBtn.addEventListener('click', () => go(-1));
   strip.addEventListener('transitionend', normalize);
+
   window.addEventListener('resize', () => {
     const before = visible, now = calcVisible();
     if (before !== now) rebuild(); else centerOn(current, false);
@@ -570,14 +587,6 @@ if (bg) root.style.setProperty('--vtbg', `url("${bg}")`);
   rebuild();
 })();
 </script>
-
-
-<script>
-/* === Hamburger – otevření mobilního menu === */
-(() => {
-  const burger   = document.querySelector('.hamburger');
-  const panel    = document.getElementById('mobileMenu');
-  const backdrop = document.querySelector('.mobile-backdrop');
 
   if(!burger || !panel || !backdrop) return;
 
