@@ -670,9 +670,19 @@ document.addEventListener('DOMContentLoaded', () => {
     m.style.animationDelay = (0.12 + i * 0.06) + 's';
   });
 
-  // WOW init (mimo „reduced-motion“)
+  // === WOW init: povol mobil + fallback, když se nespustí ===
   if (!reduce && typeof WOW !== 'undefined') {
-    new WOW({ boxClass:'wow', animateClass:'animate__animated', offset:90, mobile:false, live:false }).init();
+    new WOW({
+      boxClass:'wow',
+      animateClass:'animate__animated',
+      offset:90,
+      mobile:true,   // ← povoleno na mobilech
+      live:false
+    }).init();
+  } else {
+    // Fallback: když WOW neběží (reduce motion / chybí knihovna),
+    // odhal všechny .wow prvky, ať nezůstanou skryté.
+    document.querySelectorAll('.wow').forEach(el => { el.style.visibility = 'visible'; });
   }
 });
 </script>
