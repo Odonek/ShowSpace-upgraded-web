@@ -1103,22 +1103,4 @@ nav {
   will-change: transform, opacity, filter;
 }
 
-/* Hero – aby šel proklik na CTA */
-.hero { position: relative; }
-.hero .hero-media { 
-  position: absolute; inset: 0; 
-  z-index: 0; 
-  pointer-events: none;        /* video/overlay neblokují klik */
-}
-.hero .hero-media video { width:100%; height:100%; object-fit: cover; }
-.hero .hero-overlay { 
-  position: absolute; inset: 0; 
-  z-index: 1; 
-  pointer-events: none; 
-}
-.hero .container { position: relative; z-index: 2; }
-.hero .hero-card { position: relative; z-index: 3; }
-
-/* Pojistka: když je preloader schovaný, ať vůbec nechytá události */
-#preloader.is-done { pointer-events: none; }
 
