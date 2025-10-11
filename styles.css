@@ -877,3 +877,9 @@ body.menu-lock{ overflow:hidden; }
 
 /* když by se někde dědila barva, ať jsou meta texty karet jistě čitelné */
 .vt-meta { color: #fff; }
+
+/* skryj výchozí stav jen když běží JS (bez JS zůstanou viditelné) */
+.js [data-anim] { opacity: 0; will-change: transform, opacity; }
+
+/* hezčí 3D pro tilt */
+.vt-card { transform-style: preserve-3d; }
