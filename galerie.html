@@ -4,16 +4,21 @@
   <meta charset="utf-8">
   <title>Galerie – ShowSpace</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;500;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+
   <!-- Favicony -->
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="shortcut icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
   <meta name="theme-color" content="#415A77">
 
+  <!-- Animate.css pro WOW animace -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
   <style>
-    /* Lokální styly Galerie */
+    /* ==== Lokální styly Galerie + animace ==== */
     header.section .container{
       text-align:center;
       display:flex; flex-direction:column; align-items:center; justify-content:center;
@@ -27,8 +32,13 @@
     .project{
       display:flex; flex-direction:column; gap:12px;
       padding:16px; border:1px solid #e9edf2; border-radius:18px;
-      background:#fff; box-shadow: var(--shadow);
+      background:#fff; box-shadow: var(--shadow, 0 10px 24px rgba(17,24,39,.08));
       text-align:center; /* vycentruje nadpis & popisek v kartě */
+      transition: transform .22s ease, box-shadow .22s ease;
+    }
+    .project:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 18px 48px rgba(17,24,39,.14);
     }
     .project .thumb{
       position:relative; width:100%; aspect-ratio:16/9; overflow:hidden;
@@ -46,7 +56,7 @@
     .embed-holder{
       display:none; position:relative; width:100%; aspect-ratio:16/9;
       border-radius:14px; overflow:hidden; border:1px solid #e9edf2; box-shadow:var(--shadow);
-      margin-top:6px;
+      margin-top:6px; background:#fff;
     }
     .embed-holder.show{display:block;}
     .embed-holder iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
@@ -55,6 +65,23 @@
       background:#fff; border:1px solid #e9edf2; border-radius:999px; padding:6px 10px; cursor:pointer;
       box-shadow:0 2px 8px rgba(0,0,0,.08); font-weight:600;
     }
+
+    /* WOW helper */
+    .wow{ visibility:hidden; }
+    @media (prefers-reduced-motion: reduce){
+      .wow, .animate__animated{ animation:none !important; transition:none !important; }
+    }
+
+    /* Vlastní jemný blur-in pro texty */
+    @keyframes blurIn {
+      from { opacity:0; filter:blur(12px); transform:translateY(8px) scale(.985); }
+      to   { opacity:1; filter:blur(0);    transform:none; }
+    }
+    .anim-blurIn{ animation:blurIn .66s cubic-bezier(.2,.8,.2,1) both; }
+
+    /* CTA mikrohover – tlačítka ponecháme bez WOW, ať „neskáčou“ */
+    .btn{ transition: transform .18s ease, box-shadow .18s ease; }
+    .btn:hover{ transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0,0,0,.12); }
   </style>
 </head>
 <body>
@@ -400,6 +427,79 @@
 })();
 </script>
 
-  
+<!-- WOW.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" defer></script>
+
+<!-- Choreografie animací (Galerie) -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // NAV – jemný drop-in
+  const navInner = document.querySelector('.nav-inner');
+  if (navInner) {
+    navInner.classList.add('wow','animate__animated','animate__fadeInDownBig');
+    navInner.style.animationDuration = '680ms';
+  }
+
+  // Header – nadpis a podnadpis s blurIn/fade
+  const header = document.querySelector('header.section .container');
+  if (header){
+    const h1 = header.querySelector('h1');
+    const lead = header.querySelector('.lead');
+    if (h1){
+      h1.classList.add('wow','animate__animated','anim-blurIn');
+      h1.style.animationDelay = '0.05s';
+    }
+    if (lead){
+      lead.classList.add('wow','animate__animated','animate__fadeInUp');
+      lead.style.animationDelay = '0.18s';
+      lead.style.animationDuration = '620ms';
+    }
+  }
+
+  // Projektové karty – zoomIn + jemný stagger
+  const cards = document.querySelectorAll('.project');
+  cards.forEach((card, i) => {
+    card.classList.add('wow','animate__animated','animate__zoomIn');
+    card.style.animationDuration = '700ms';
+    card.style.animationDelay = (0.10 + i * 0.10) + 's';
+
+    // Náhledový obrázek: samostatný fade
+    const img = card.querySelector('.thumb img');
+    if (img){
+      img.classList.add('wow','animate__animated','animate__fadeIn');
+      img.style.animationDelay = (0.16 + i * 0.10) + 's';
+      img.style.animationDuration = '560ms';
+    }
+
+    // Textové bloky uvnitř – jemný blurIn (bez tlačítek)
+    card.querySelectorAll('h3, p').forEach((el, j) => {
+      el.classList.add('wow','animate__animated','anim-blurIn');
+      el.style.animationDelay = (0.18 + i * 0.10 + j * 0.06) + 's';
+    });
+  });
+
+  // Kontakt – info zprava, formulář zleva
+  const infoCard = document.querySelector('.contact-card.contact-info');
+  const formCard = document.querySelector('.contact-card.contact-form');
+  if (infoCard) {
+    infoCard.classList.add('wow','animate__animated','animate__fadeInRightBig');
+    infoCard.style.animationDuration = '800ms';
+    infoCard.style.animationDelay = '0.12s';
+  }
+  if (formCard) {
+    formCard.classList.add('wow','animate__animated','animate__fadeInLeftBig');
+    formCard.style.animationDuration = '800ms';
+    formCard.style.animationDelay = '0.22s';
+  }
+
+  // WOW init (mimo reduced-motion)
+  if (!reduce && typeof WOW !== 'undefined') {
+    new WOW({ boxClass:'wow', animateClass:'animate__animated', offset:90, mobile:false, live:false }).init();
+  }
+});
+</script>
+
 </body>
 </html>
