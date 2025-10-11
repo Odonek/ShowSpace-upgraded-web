@@ -919,3 +919,59 @@ body.menu-lock{ overflow:hidden; }
 
 /* Stagger podpora (delay z JS) */
 [data-stagger] > .rev { transition-delay: var(--delay, 0s); }
+
+
+/* --- VTOUR karty: kompozitní transformy přes CSS proměnné --- */
+.vt-card{
+  --tx: 0px;
+  --ty: 0px;
+  --rot: 0deg;
+  --scale: .92;              /* výchozí zmenšení */
+  transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(var(--scale));
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+
+/* středová = menší, první vlevo = větší (desktop) */
+.vt-card.is-center { --scale: .92; }
+.vt-card.is-first  { --scale: 1.06; }  /* klidně ↑/↓ uprav */
+
+@media (max-width: 640px){
+  /* na mobilu nechej všechny stejně velké (nebo jemně ↑) */
+  .vt-card.is-first { --scale: 1.02; }
+}
+
+/* --- Reveal (GSAP-friendly) – jen poloha/rotace, neškáluj! --- */
+.js .rev {
+  opacity: 0;
+  /* výchozí posun/rotace nastavíme přes proměnné,
+     scale NECHÁVÁME na kartě (.is-first / .is-center) */
+  will-change: transform, opacity;
+}
+
+.rev-up    { --ty: 26px;  }
+.rev-down  { --ty: -24px; }
+.rev-left  { --tx: 26px;  }
+.rev-right { --tx: -26px; }
+.rev-rot   { --rot: -2deg; }
+.rev-skew  { /* jen vizuální „náznak“ – do GSAP dáme skutečný skew */ }
+
+.rev.in {
+  opacity: 1;
+  --tx: 0px; --ty: 0px; --rot: 0deg;
+}
+
+/* Stagger podpora */
+[data-stagger] > .rev { transition-delay: var(--delay, 0s); }
+
+/* --- Hravý hover efekt na kartách --- */
+.vt-card::after{
+  content:"";
+  position:absolute; inset:0;
+  background: linear-gradient(120deg, transparent 40%, rgba(255,255,255,.25) 50%, transparent 60%);
+  transform: translateX(-120%);
+  pointer-events:none;
+}
+.vt-card:hover::after{
+  transition: transform .8s ease;
+  transform: translateX(120%);
+}
