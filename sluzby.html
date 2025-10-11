@@ -5,8 +5,6 @@
   <title>Služby – ShowSpace</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Virtuální prohlídky, marketing, správa sociálních sítí a tvorba webu. Transparentně, rychle, s měřitelným výsledkem." />
-
-  <!-- Font + globální CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;500;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 
@@ -16,170 +14,219 @@
   <link rel="apple-touch-icon" href="favicon.png">
   <meta name="theme-color" content="#415A77">
 
-  <!-- Animate.css pro WOW animace -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-
   <style>
-/* =========================
-   ZÁKLAD – vzhled a layout
-   ========================= */
-
-/* Vynutit bílé pozadí jako na indexu */
+    /* SLUŽBY: vynutit čistě bílé pozadí nahoře */
 body.page-services,
 body.page-services nav,
 body.page-services .nav-inner,
 body.page-services .container,
-body.page-services header { background:#fff !important; background-image:none !important; }
+body.page-services header {
+  background: #fff !important;
+  background-image: none !important;   /* kdyby byl někde gradient */
+}
 
+/* kdyby ho kreslily pseudo-elementy/okrasné pruhy */
 body.page-services::before,
 body.page-services::after,
 body.page-services nav::before,
 body.page-services nav::after,
 body.page-services .nav-inner::before,
-body.page-services .nav-inner::after { content:none !important; background:transparent !important; }
+body.page-services .nav-inner::after {
+  content: none !important;
+  background: transparent !important;
+}
 
-body.page-services nav { border-top:0 !important; }
+/* nechceme žádný „globální“ horní border na celé liště */
+body.page-services nav { border-top: 0 !important; }
+
+  /* === SLUŽBY: NAVBAR jako na vzoru (pill) =================== */
 body.page-services nav{
-  position:relative !important; background:transparent !important; border:0 !important; box-shadow:none !important;
-  padding:18px 0; margin:0 !important;
+  position: relative !important;      /* žádný sticky/fixed */
+  background: transparent !important; /* pozadí stránky, ne béžový pruh */
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 18px 0;                    /* mezera okolo pillu */
+  margin: 0 !important;
 }
-body.page-services .nav-inner{
-  background:#fff !important; border-radius:999px !important; padding:10px 18px !important;
-  border-top:6px solid #F0DF47 !important; box-shadow:0 14px 36px rgba(0,0,0,.10) !important; margin-top:0 !important;
-}
-body.page-services nav + *{ margin-top:12px; }
-body.page-services section{ scroll-margin-top:72px; }
-body.page-services .submenu{ z-index:200; }
 
-/* Sekce Služby */
-.section.service-section{ padding:48px 0; background:#fff; }
+body.page-services .nav-inner{
+  background: #fff !important;        /* čistě bílé */
+  border-radius: 999px !important;    /* pilulka */
+  padding: 10px 18px !important;
+  border-top: 6px solid #F0DF47 !important; /* žlutý proužek nahoře */
+  box-shadow: 0 14px 36px rgba(0,0,0,.10) !important; /* plovoucí efekt */
+  margin-top: 0 !important;           /* žádný vnější offset */
+}
+
+/* drobnost: aby text nezačínal nalepeně pod navem */
+body.page-services nav + *{ margin-top: 12px; }
+
+/* pro skoky na kotvy, kdyby byly použité */
+body.page-services section{ scroll-margin-top: 72px; }
+
+/* submenu měj nad obsahem */
+body.page-services .submenu{ z-index: 200; }
+
+/* ============== ZBYTEK – vaše stávající sekce/služby ============== */
+.service-section{ padding: 48px 0; background:#fff; }
+
 .service-wrap{
   display:grid; gap:28px; align-items:center;
-  grid-template-columns:1.05fr .95fr; grid-template-areas:"text media";
+  grid-template-columns: 1.05fr .95fr; grid-template-areas: "text media";
 }
 .service-text{ grid-area:text; }
 .service-media{ grid-area:media; }
+
 .service-section.reverse .service-wrap{
   grid-template-columns:.95fr 1.05fr; grid-template-areas:"media text";
 }
+
 #sluzba-prohlidky.service-section{ padding-top:28px; }
 .service-text h2{ margin:6px 0 10px; }
-.kvp-list,.steps{ padding-left:18px; }
-.kvp-list li,.steps li{ margin:6px 0; }
+.kvp-list,.steps{ padding-left:18px; } .kvp-list li,.steps li{ margin:6px 0; }
 .cta-row{ display:flex; gap:12px; margin-top:14px; flex-wrap:wrap; }
 
-/* MEDIA sloty: základ */
+.service-media{ display:grid; gap:14px; }
 .media-slot{
-  position:relative; width:100%; aspect-ratio:16/9; border-radius:18px; background:#fff;
-  border:1px solid #e9edf2; box-shadow:var(--shadow); overflow:hidden;
-  transition:transform .25s ease, box-shadow .25s ease, filter .25s ease;
+  position:relative; width:100%; aspect-ratio:16/9;
+  border-radius:18px; background:#fff;
+  border:1px solid #e9edf2; box-shadow: var(--shadow); overflow:hidden;
 }
 .media-slot iframe,.media-slot img,.media-slot video{
-  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border:0; display:block; border-radius:inherit;
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; border:0; display:block; border-radius:inherit;
 }
+.media-slot--plain{ background:transparent; border:0; box-shadow:none; }
+.media-slot--plain img{ object-fit:contain; background:transparent; }
 
-/* „Plain“ verze bez rámečku/stínu (Marketing / Social / Web) */
-.media-slot--plain{ background:transparent !important; border:0 !important; box-shadow:none !important; }
-.media-slot--plain img,.media-slot--plain iframe,.media-slot--plain video{ object-fit:contain; background:transparent; }
-
-/* Plovoucí hloubka jen pro ne-plain */
-.media-slot.is-floating:not(.media-slot--plain){
-  box-shadow:0 24px 60px rgba(17,24,39,.12); transform:translateZ(0); filter:saturate(1.02);
-}
-
-/* Responsivita */
 @media (max-width:900px){
-  .service-wrap{ grid-template-columns:1fr; grid-template-areas:"text" "media"; }
-  .service-section.reverse .service-wrap{ grid-template-columns:1fr; grid-template-areas:"text" "media"; }
+  .service-wrap{
+    grid-template-columns:1fr;
+    grid-template-areas:"text" "media";
+  }
+  .service-section.reverse .service-wrap{
+    grid-template-columns:1fr;
+    grid-template-areas:"text" "media";
+  }
 }
 
-/* Dropdown „Služby“ */
+/* Dropdown „Služby“ – nechávám beze změny */
 .menu{ position:relative; }
 .menu-item--has-sub{ position:relative; }
 .menu .menu-toggle{
   display:inline-flex; align-items:center; gap:8px;
-  font-weight:600; color:var(--slate); padding:6px 14px; background:rgba(255,255,255,0.9);
-  border:0; border-radius:999px; box-shadow:0 2px 6px rgba(0,0,0,.08); cursor:pointer; font-family:var(--font);
+  font-weight:600; color:var(--slate);
+  padding:6px 14px; background:rgba(255,255,255,0.9);
+  border:0; border-radius:999px; box-shadow:0 2px 6px rgba(0,0,0,.08);
+  cursor:pointer; font-family:var(--font);
 }
 .menu .menu-toggle:hover{ background:var(--accent); color:#111; }
 .menu .menu-caret{ width:14px; height:14px; transition:transform .2s ease; }
 .menu .menu-toggle[aria-expanded="true"] .menu-caret{ transform:rotate(180deg); }
 .submenu{
-  position:absolute; top:calc(100% + 8px); left:0; display:none; min-width:240px; padding:10px;
-  background:#fff; border:1px solid #eee; border-radius:14px; box-shadow:0 14px 36px rgba(0,0,0,.12); z-index:200;
+  position:absolute; top:calc(100% + 8px); left:0;
+  display:none; min-width:240px; padding:10px;
+  background:#fff; border:1px solid #eee; border-radius:14px;
+  box-shadow:0 14px 36px rgba(0,0,0,.12); z-index:200;
 }
 .submenu.show{ display:block; }
 .submenu a{
-  display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; font-weight:600; color:var(--ink); background:#fff;
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px; border-radius:10px; font-weight:600; color:var(--ink);
+  background:#fff;
 }
 .submenu a:hover{ background:#f6f8fb; color:var(--slate); }
 
-/* =========================
-   KONTAKT – karty + neon line
-   ========================= */
-.contact-grid{ position:relative; display:grid; grid-template-columns:1fr 1fr; gap:24px; }
-.contact-card{
-  position:relative; background:#fff; border-radius:18px; box-shadow:0 18px 48px rgba(17,24,39,.08); overflow:hidden; padding:24px;
-  border-top:6px solid #F0DF47;
-}
+    /* ==========================
+       LOKÁLNÍ STYLY – SLUŽBY
+       ========================== */
 
-/* Neonová rozmazaná čára uprostřed (jako na odkazu) */
-.contact-grid::before{
-  content:""; position:absolute; left:50%; top:6%; bottom:6%; width:2px; transform:translateX(-50%);
-  background:linear-gradient(to bottom,
-    rgba(240,223,71,0) 0%,
-    rgba(240,223,71,.55) 30%,
-    rgba(240,223,71,.95) 50%,
-    rgba(240,223,71,.55) 70%,
-    rgba(240,223,71,0) 100%);
-  filter:blur(2px); opacity:.9; pointer-events:none;
-}
-.contact-grid::after{
-  content:""; position:absolute; left:50%; top:0; bottom:0; width:120px; transform:translateX(-50%);
-  background:radial-gradient(ellipse at center,
-    rgba(240,223,71,.24) 0%,
-    rgba(240,223,71,.10) 40%,
-    rgba(240,223,71,0) 70%);
-  filter:blur(18px); opacity:.75; pointer-events:none;
-}
-@media (max-width:900px){
-  .contact-grid{ grid-template-columns:1fr; gap:18px; }
-  .contact-grid::before{
-    left:6%; right:6%; top:50%; bottom:auto; width:auto; height:2px; transform:translateY(-50%);
-    background:linear-gradient(to right,
-      rgba(240,223,71,0) 0%,
-      rgba(240,223,71,.55) 30%,
-      rgba(240,223,71,.95) 50%,
-      rgba(240,223,71,.55) 70%,
-      rgba(240,223,71,0) 100%);
-  }
-  .contact-grid::after{
-    top:50%; left:0; right:0; height:120px; width:auto; transform:translateY(-50%);
-  }
-}
+    /* ========= Sekce – layout (grid-areas) ========= */
+    .service-section{ padding: 48px 0; background:#fff; }
 
-/* =========================
-   ANIMACE – WOW helpers + custom blur-in
-   ========================= */
+    .service-wrap{
+      display:grid;
+      gap: 28px;
+      align-items: center;
+      grid-template-columns: 1.05fr .95fr;      /* text | média (desktop) */
+      grid-template-areas: "text media";
+    }
+    .service-text  { grid-area: text; }
+    .service-media { grid-area: media; }
 
-/* WOW si po načtení přepne visibility na visible */
-.wow{ visibility:hidden; }
+    /* střídání: reverse = média vlevo / text vpravo (jen desktop) */
+    .service-section.reverse .service-wrap{
+      grid-template-columns: .95fr 1.05fr;
+      grid-template-areas: "media text";
+    }
 
-/* respekt k prefer-reduced-motion */
-@media (prefers-reduced-motion: reduce){
-  .wow, .animate__animated{ animation:none !important; transition:none !important; }
-}
+    /* první sekce blíž k navbaru */
+    #sluzba-prohlidky.service-section{ padding-top: 28px; }
 
-/* Vlastní jemný „blur-in“ efekt (opacity + blur) */
-@keyframes blurIn {
-  from { opacity:0; filter:blur(14px); transform:translateY(8px) scale(.98); }
-  to   { opacity:1; filter:blur(0);    transform:none; }
-}
-.anim-blurIn{ animation:blurIn .66s cubic-bezier(.2,.8,.2,1) both; }
+    .service-text h2{ margin:6px 0 10px; }
+    .kvp-list, .steps{ padding-left:18px; }
+    .kvp-list li, .steps li{ margin:6px 0; }
+    .cta-row{ display:flex; gap:12px; margin-top:14px; flex-wrap:wrap; }
 
-/* CTA micro-interakce */
-.btn{ transition:transform .18s ease, box-shadow .18s ease; }
-.btn:hover{ transform:translateY(-2px); box-shadow:0 12px 28px rgba(0,0,0,.12); }
+    /* Média */
+    .service-media{ display:grid; gap:14px; }
+    .media-slot{
+      position:relative; width:100%; aspect-ratio:16/9;
+      border-radius:18px; background:#fff;
+      border:1px solid #e9edf2; box-shadow: var(--shadow); overflow:hidden;
+    }
+    .media-slot iframe, .media-slot img, .media-slot video{
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; border:0; display:block; border-radius:inherit;
+    }
+
+    /* Obrázky BEZ pozadí/rámečku (marketing, web) */
+    .media-slot--plain{ background:transparent; border:0; box-shadow:none; }
+    .media-slot--plain img{ object-fit:contain; background:transparent; }
+
+    /* ======= RESPONSIVE ======= */
+    /* Na mobilu VŽDY text nahoře a obrázek pod ním – i u .reverse */
+    @media (max-width: 900px){
+      .service-wrap{
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "text"
+          "media";
+      }
+      .service-section.reverse .service-wrap{
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "text"
+          "media";
+      }
+    }
+
+    /* ===== Dropdown „Služby“ ===== */
+    .menu { position: relative; }
+    .menu-item--has-sub { position: relative; }
+    .menu .menu-toggle{
+      display:inline-flex; align-items:center; gap:8px;
+      font-weight:600; color: var(--slate);
+      padding: 6px 14px; background: rgba(255,255,255,0.9);
+      border:0; border-radius: 999px; box-shadow: 0 2px 6px rgba(0,0,0,.08);
+      cursor:pointer; font-family: var(--font);
+    }
+    .menu .menu-toggle:hover { background: var(--accent); color:#111; }
+    .menu .menu-caret { width: 14px; height: 14px; transition: transform .2s ease; }
+    .menu .menu-toggle[aria-expanded="true"] .menu-caret { transform: rotate(180deg); }
+    .submenu {
+      position: absolute; top: calc(100% + 8px); left: 0;
+      display:none; min-width: 240px; padding:10px;
+      background:#fff; border:1px solid #eee; border-radius: 14px;
+      box-shadow: 0 14px 36px rgba(0,0,0,.12); z-index: 200;
+    }
+    .submenu.show { display:block; }
+    .submenu a {
+      display:flex; align-items:center; gap:10px;
+      padding:10px 12px; border-radius:10px; font-weight:600; color:var(--ink);
+      background:#fff;
+    }
+    .submenu a:hover { background: #f6f8fb; color: var(--slate); }
   </style>
 </head>
 <body class="page-services">
@@ -187,16 +234,19 @@ body.page-services .submenu{ z-index:200; }
 <!-- NAVBAR -->
 <nav>
   <div class="container nav-inner">
-    <a class="logo" href="index.html"><img src="logonahoruvlevo1.png" alt="ShowSpace logo"></a>
+    <a class="logo" href="index.html">
+      <img src="logonahoruvlevo1.png" alt="ShowSpace logo">
+    </a>
 
-    <!-- Burger (jen mobil) -->
+    <!-- Burger (jen na mobilu) -->
     <button class="hamburger" type="button" aria-label="Otevřít menu" aria-controls="mobileMenu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
 
-    <!-- Menu -->
+    <!-- PŮVODNÍ DESKTOPOVÉ MENU – beze změny -->
     <div class="menu">
       <a href="index.html">Domů</a>
+
       <div class="menu-item--has-sub">
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="submenu-sluzby">
           Služby
@@ -211,6 +261,7 @@ body.page-services .submenu{ z-index:200; }
           <a href="sluzby.html" role="menuitem" style="border-top:1px solid #eef; margin-top:6px; padding-top:8px;">Všechny služby</a>
         </div>
       </div>
+
       <a href="galerie.html">Galerie</a>
     </div>
 
@@ -228,6 +279,7 @@ body.page-services .submenu{ z-index:200; }
   <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
     <div class="mobile-menu__inner">
       <a href="index.html">Domů</a>
+
       <details class="m-acc">
         <summary>Služby</summary>
         <div class="m-acc__links">
@@ -250,10 +302,13 @@ body.page-services .submenu{ z-index:200; }
       </div>
     </div>
   </div>
+
+  <!-- Backdrop -->
   <div class="mobile-backdrop" hidden></div>
 </nav>
 
-<!-- 1) PROHLÍDKY -->
+
+<!-- 1) VIRTUÁLNÍ PROHLÍDKY — text vlevo, média vpravo -->
 <section id="sluzba-prohlidky" class="section service-section">
   <div class="container service-wrap">
     <div class="service-text">
@@ -292,8 +347,11 @@ body.page-services .submenu{ z-index:200; }
 
     <div class="service-media">
       <div class="media-slot">
-        <iframe src="https://tour.giraffe360.com/houseboat-prague-vltava/" loading="lazy" allowfullscreen title="Virtuální prohlídka – Houseboat Prague Vltava"></iframe>
+        <iframe src="https://tour.giraffe360.com/houseboat-prague-vltava/"
+                loading="lazy" allowfullscreen
+                title="Virtuální prohlídka – Houseboat Prague Vltava"></iframe>
       </div>
+      <!-- Půdorys přímo pod prohlídkou -->
       <div class="media-slot">
         <img src="pudorys8.png" alt="Ukázka 2D půdorysu – Houseboat" loading="lazy">
       </div>
@@ -301,7 +359,7 @@ body.page-services .submenu{ z-index:200; }
   </div>
 </section>
 
-<!-- 2) FOTKY (reverse) -->
+<!-- 2) FOTKY — OBRÁZEK vlevo, TEXT vpravo (reverse) -->
 <section id="sluzba-fotky" class="section service-section reverse">
   <div class="container service-wrap">
     <div class="service-text">
@@ -326,7 +384,7 @@ body.page-services .submenu{ z-index:200; }
   </div>
 </section>
 
-<!-- 3) MARKETING -->
+<!-- 3) MARKETING — TEXT vlevo, OBRÁZEK vpravo (bez rámečku) -->
 <section id="sluzba-marketing" class="section service-section">
   <div class="container service-wrap">
     <div class="service-text">
@@ -354,7 +412,7 @@ body.page-services .submenu{ z-index:200; }
   </div>
 </section>
 
-<!-- 4) SOCIÁLNÍ SÍTĚ (reverse) -->
+<!-- 4) SOCIÁLNÍ SÍTĚ — OBRÁZEK vlevo, TEXT vpravo (reverse) -->
 <section id="sluzba-social" class="section service-section reverse">
   <div class="container service-wrap">
     <div class="service-text">
@@ -382,7 +440,7 @@ body.page-services .submenu{ z-index:200; }
   </div>
 </section>
 
-<!-- 5) WEB -->
+<!-- 5) WEB — TEXT vlevo, OBRÁZEK vpravo (bez rámečku) -->
 <section id="sluzba-webdev" class="section service-section">
   <div class="container service-wrap">
     <div class="service-text">
@@ -408,7 +466,7 @@ body.page-services .submenu{ z-index:200; }
   </div>
 </section>
 
-<!-- KONTAKT -->
+<!-- KONTAKT – dvě karty -->
 <section id="kontakt" class="section contact">
   <div class="container contact-grid">
 
@@ -514,31 +572,31 @@ body.page-services .submenu{ z-index:200; }
 <script>
   const toTop = document.getElementById("toTop");
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 200) toTop.classList.add("show"); else toTop.classList.remove("show");
+    if (window.scrollY > 200) { toTop.classList.add("show"); } else { toTop.classList.remove("show"); }
   }, {passive:true});
-  toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  toTop.addEventListener("click", () => { window.scrollTo({ top: 0, behavior: "smooth" }); });
 </script>
 
-<!-- Dropdown „Služby“ -->
 <script>
-(function(){
-  const toggle = document.querySelector('.menu-toggle');
-  const menu = document.getElementById('submenu-sluzby');
-  if(!toggle || !menu) return;
+  // Dropdown „Služby“
+  (function(){
+    const toggle = document.querySelector('.menu-toggle');
+    const menu = document.getElementById('submenu-sluzby');
+    if(!toggle || !menu) return;
 
-  const open = () => { toggle.setAttribute('aria-expanded','true'); menu.classList.add('show'); };
-  const close = () => { toggle.setAttribute('aria-expanded','false'); menu.classList.remove('show'); };
-  const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+    const open = () => { toggle.setAttribute('aria-expanded','true'); menu.classList.add('show'); };
+    const close = () => { toggle.setAttribute('aria-expanded','false'); menu.classList.remove('show'); };
+    const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
 
-  toggle.addEventListener('click', (e)=>{ e.stopPropagation(); isOpen() ? close() : open(); });
-  document.addEventListener('click', (e)=>{ if(isOpen() && !toggle.contains(e.target) && !menu.contains(e.target)) close(); });
-  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && isOpen()) { close(); toggle.focus(); } });
-  menu.querySelectorAll('a').forEach(a=> a.addEventListener('click', close));
-})();
+    toggle.addEventListener('click', (e)=>{ e.stopPropagation(); isOpen() ? close() : open(); });
+    document.addEventListener('click', (e)=>{ if(isOpen() && !toggle.contains(e.target) && !menu.contains(e.target)) close(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && isOpen()) { close(); toggle.focus(); } });
+    menu.querySelectorAll('a').forEach(a=> a.addEventListener('click', close));
+  })();
 </script>
 
-<!-- Hamburger – mobilní menu -->
 <script>
+/* Hamburger – mobilní menu */
 (() => {
   const burger   = document.querySelector('.hamburger');
   const panel    = document.getElementById('mobileMenu');
@@ -570,107 +628,11 @@ body.page-services .submenu{ z-index:200; }
   backdrop.addEventListener('click', close);
   document.addEventListener('keydown', (e)=> { if(e.key === 'Escape') close(); });
 
+  // zavřít po kliku na libovolný odkaz v panelu
   panel.addEventListener('click', (e)=> { if(e.target.closest('a')) close(); });
 })();
 </script>
 
-<!-- WOW.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
-
-<!-- Choreografie animací + parallax -->
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* NAV – drop-in */
-  const navInner = document.querySelector('.nav-inner');
-  if (navInner) {
-    navInner.classList.add('wow','animate__animated','animate__fadeInDownBig');
-    navInner.style.animationDuration = '720ms';
-  }
-
-  /* SECTIONS – texty a média: střídavé směry + stagger + vlast. blurIn */
-  document.querySelectorAll('.service-section').forEach((sec, idx) => {
-    const text  = sec.querySelector('.service-text');
-    const media = sec.querySelector('.service-media');
-
-    if (text) {
-      // základní vstup textového sloupce
-      text.classList.add('wow','animate__animated','animate__fadeInUpBig');
-      text.style.animationDuration = '760ms';
-      text.style.animationDelay = (0.06 + idx * 0.05) + 's';
-
-      // vnořené bloky – jemný stagger + blurIn
-      text.querySelectorAll('h2, h3, p.lead, ul.kvp-list').forEach((el, i) => {
-        el.classList.add('wow','animate__animated','anim-blurIn');
-        el.style.animationDelay = (0.12 + i * 0.08) + 's';
-      });
-    }
-
-    if (media) {
-      media.classList.add('wow','animate__animated',
-        sec.classList.contains('reverse') ? 'animate__backInLeft' : 'animate__backInRight'
-      );
-      media.style.animationDuration = '840ms';
-      media.style.animationDelay = (0.16 + idx * 0.05) + 's';
-    }
-
-    // konkrétní list itemy – fadeUp se staggerem
-    sec.querySelectorAll('.kvp-list li, .steps li').forEach((li, i) => {
-      li.classList.add('wow','animate__animated','animate__fadeInUp');
-      li.style.animationDuration = '560ms';
-      li.style.animationDelay = (0.10 + i * 0.08) + 's';
-    });
-  });
-
-  /* CTA tlačítka – pop-in */
-  document.querySelectorAll('.cta-row .btn, .nav-right .btn').forEach((btn, i) => {
-    btn.classList.add('wow','animate__animated','animate__zoomIn');
-    btn.style.animationDuration = '520ms';
-    btn.style.animationDelay = (0.18 + i * 0.05) + 's';
-  });
-
-  /* Kontakt karty – protisměr + overshoot */
-  document.querySelectorAll('.contact-card').forEach((card, i) => {
-    card.classList.add('wow','animate__animated', i === 0 ? 'animate__fadeInRightBig' : 'animate__fadeInLeftBig');
-    card.style.animationDuration = '820ms';
-    card.style.animationDelay = (0.14 + i * 0.12) + 's';
-  });
-
-  /* Média uvnitř slotů – jemný fade */
-  document.querySelectorAll('.media-slot img, .media-slot iframe, .media-slot video').forEach((m, i) => {
-    m.classList.add('wow','animate__animated','animate__fadeIn');
-    m.style.animationDuration = '680ms';
-    m.style.animationDelay = (0.12 + i * 0.06) + 's';
-  });
-
-  /* WOW init */
-  if (!reduce && typeof WOW !== 'undefined') {
-    new WOW({ boxClass:'wow', animateClass:'animate__animated', offset:90, mobile:false, live:false }).init();
-  }
-
-  /* PARALLAX pro .media-slot (jemný, šetrný) */
-  const slots = Array.from(document.querySelectorAll('.media-slot'));
-  if (!reduce && slots.length) {
-    const onScroll = () => {
-      const vh = window.innerHeight;
-      slots.forEach(el => {
-        const r = el.getBoundingClientRect();
-        const center = (r.top + r.bottom) / 2;
-        const dist = Math.max(-1, Math.min(1, (center - vh/2) / (vh/2))); // -1..1
-        el.style.transform = `translateY(${dist * -8}px)`;                // jemný parallax
-
-        // hloubka jen pro ne-plain sloty ve viewportu
-        if (!el.classList.contains('media-slot--plain') && r.top < vh && r.bottom > 0) el.classList.add('is-floating');
-        else el.classList.remove('is-floating');
-      });
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive:true });
-    window.addEventListener('resize', onScroll);
-  }
-});
-</script>
-
+  
 </body>
-</html>
+</html>  
