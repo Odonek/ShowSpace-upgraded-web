@@ -1095,3 +1095,7 @@ nav {
   }
   .wow-underline { background-size: 100% 3px !important; }
 }
+
+#kontakt .contact-card {
+  will-change: transform, opacity, filter;
+}
