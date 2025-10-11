@@ -792,156 +792,116 @@
   
 <script>
 (() => {
-  if (!('IntersectionObserver' in window)) {
-    // Bez IO prostě všechno ukaž (bez animací)
-    document.documentElement.classList.remove('js');
-    return;
-  }
-
-  // Helper: označ element k animaci (transition varianta)
-  function mark(el, cls, dur = 0.9, extra = {}) {
-    el.classList.add('rev', cls);
-    el.style.setProperty('--dur', `${dur}s`);
-    if (extra.ease)  el.style.setProperty('--ease',  extra.ease);
-    if (extra.delay) el.style.setProperty('--delay', `${extra.delay}s`);
-  }
-
-  // === HERO
-  const h1  = document.querySelector('.hero-card h1');
-  const p   = document.querySelector('.hero-card p');
-  const cta = document.querySelector('.hero-card .btn-cta');
-  h1  && mark(h1,  'rev-up',  .8);
-  p   && mark(p,   'rev-up',  .8, { delay:.05 });
-  cta && mark(cta, 'rev-pop', .9);
-
-  // === BENEFITY
-  const bh2 = document.querySelector('#benefity .benefits-head h2');
-  const bh3 = document.querySelector('#benefity .benefits-head h3');
-  bh2 && mark(bh2, 'rev-up');
-  bh3 && mark(bh3, 'rev-up', .8, { delay:.06 });
-
-  const bgrid = document.querySelector('#benefity .benefits-center');
-  if (bgrid) {
-    bgrid.setAttribute('data-stagger','');
-    [...bgrid.children].forEach((card, i) => {
-      mark(card, ['rev-rot','rev-pop','rev-skew','rev-up'][i % 4], .85);
-      card.style.setProperty('--delay', `${i * 0.10}s`);
+  // 1) Hromadně označíme prvky třídami .rev + varianty
+  const mark = (sel, cls='rev-up', baseDelay=0, step=0.08) => {
+    const nodes = document.querySelectorAll(sel);
+    nodes.forEach((el, i) => {
+      el.classList.add('rev', cls);
+      el.style.setProperty('--delay', (baseDelay + i*step).toFixed(2) + 's');
     });
-  }
+  };
 
-  // === VTOUR – text vlevo + tlačítka
-  ['#vt-copy .tag','#vt-title','#vt-desc'].forEach((sel, i) => {
-    const el = document.querySelector(sel);
-    el && mark(el, 'rev-right', .85, { delay: i * 0.06 });
-  });
-  const vtBtns = document.querySelector('#vt-copy .vt-buttons');
-  if (vtBtns) {
-    vtBtns.setAttribute('data-stagger','');
-    vtBtns.querySelectorAll('.btn').forEach((btn, i) => {
-      mark(btn, 'rev-pop', .8);
-      btn.style.setProperty('--delay', `${i * 0.10}s`);
-    });
-  }
+  // Hero
+  mark('.hero-card h1','rev-up',0,0);
+  mark('.hero-card p','rev-up',.06,0);
+  mark('.hero-card .btn-cta','rev-rot',.12,0);
 
-  // === VTOUR – karty
-  document.querySelectorAll('#vtour .vt-card').forEach((card, i) => {
-    const v = ['rev-pop','rev-up','rev-rot','rev-skew','rev-left'][i % 5];
-    mark(card, v, .9);
-  });
+  // Sekce: titulky, podtitulky, odstavce, tlačítka
+  mark('section h2','rev-up',0,.05);
+  mark('section h3, section .lead','rev-right',.02,.05);
+  mark('section p','rev-up',.04,.03);
+  mark('section .btn','rev-pop',.04,.05);
 
-  // === O NÁS
-  const about = document.querySelector('#o-nas .about .text');
-  if (about) {
-    about.setAttribute('data-stagger','');
-    about.querySelectorAll(':scope > *').forEach((el, i) => {
-      mark(el, 'rev-up', .85);
-      el.style.setProperty('--delay', `${i * 0.08}s`);
-    });
-  }
-  const aboutImg = document.querySelector('#o-nas .about img');
-  aboutImg && mark(aboutImg, 'rev-left', .9);
+  // Karty/boxy napříč webem
+  mark('.benefits-center .card','rev-rot',0,.1);
+  mark('#kontakt .contact-card','rev-up',0,.12);
 
-  // === KONTAKT
-  const kgrid = document.querySelector('#kontakt .contact-grid');
-  if (kgrid) {
-    kgrid.setAttribute('data-stagger','');
-    kgrid.querySelectorAll('.contact-card').forEach((el, i) => {
-      mark(el, 'rev-up', .9);
-      el.style.setProperty('--delay', `${i * 0.12}s`);
-    });
-  }
+  // VTOUR – text vlevo
+  mark('#vt-copy .tag','rev-right',0,0);
+  mark('#vt-title','rev-up',.05,0);
+  mark('#vt-desc','rev-up',.08,0);
+  mark('#vt-copy .vt-buttons .btn','rev-pop',.12,.08);
 
-  // Observer – jednorázově přidá .in (žádné opakované toggly => žádný flicker)
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('in');
-        io.unobserve(e.target);
-      }
-    });
-  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
+  // Obrázky obecně
+  mark('img','rev-up',0,.04);
 
-  document.querySelectorAll('.rev').forEach(el => io.observe(el));
-
-  // Reduced motion: vše zobraz bez animací
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('.rev').forEach(el => {
-      el.style.transition = 'none';
-      el.style.opacity = '1';
-      el.style.transform = 'none';
-      el.classList.add('in');
-    });
-    io.disconnect?.();
-  }
-})();
-</script>
-<script>
-(() => {
+  // 2) GSAP reveal s pružností a lehkou randomizací
   if (!window.gsap) return;
-
-  // 1) Zaregistruj ScrollTrigger
   if (gsap && gsap.registerPlugin) gsap.registerPlugin(ScrollTrigger);
 
-  // Pomocník: animuj element s variantou
-  const animateIn = (el) => {
-    const base = {
-      opacity: 0,
-      x: 0, y: 0, rotation: 0, skewY: 0,
-      clearProps: "all",
-    };
+  const rnd = (min,max)=> Math.random()*(max-min)+min;
 
-    // Varianta z tříd
-    if (el.classList.contains('rev-up'))    base.y = 40;
-    if (el.classList.contains('rev-down'))  base.y = -40;
-    if (el.classList.contains('rev-left'))  base.x = 40;
-    if (el.classList.contains('rev-right')) base.x = -40;
-    if (el.classList.contains('rev-rot'))   base.rotation = -3;
-    if (el.classList.contains('rev-skew'))  base.skewY = 6;
-
-    // Trocha náhody pro „živost“
-    const rnd = (min,max)=> Math.random()*(max-min)+min;
+  document.querySelectorAll('.rev').forEach((el) => {
+    const style = getComputedStyle(el);
+    const delay = parseFloat(style.getPropertyValue('--delay') || 0);
 
     gsap.fromTo(el,
-      base,
+      {
+        opacity: 0,
+        x: parseFloat(style.getPropertyValue('--tx')) || 0,
+        y: parseFloat(style.getPropertyValue('--ty')) || 0,
+        rotation: parseFloat((style.getPropertyValue('--rot')||'0deg')),
+        skewY: parseFloat((style.getPropertyValue('--skew')||'0deg')),
+      },
       {
         opacity: 1,
         x: 0, y: 0, rotation: 0, skewY: 0,
-        ease: "back.out(1.6)",                 // pružnost
-        duration: rnd(0.7, 1.0),               // mírně různé časy
-        delay: parseFloat(getComputedStyle(el).getPropertyValue('--delay') || 0),
+        ease: "back.out(1.7)",
+        duration: rnd(0.7, 1.0),
+        delay,
         scrollTrigger: {
           trigger: el,
-          start: "top 82%",
-          toggleActions: "play none none none", // jednorázově
+          start: "top 85%",
+          toggleActions: "play none none none",
           once: true
-        }
+        },
+        onStart: () => el.classList.add('in')
       }
     );
-  };
+  });
 
-  document.querySelectorAll('.rev').forEach(animateIn);
+  // 3) Hero “wow” timeline při načtení
+  const hero = document.querySelector('.hero');
+  if (hero) {
+    const tl = gsap.timeline();
+    tl.fromTo('.hero-overlay',{opacity:.0},{opacity:1, duration:0.6, ease:"power2.out"},0)
+      .from('.hero-card h1',{y:40, opacity:0, duration:.9, ease:'back.out(1.6)'},0.1)
+      .from('.hero-card p',{y:28, opacity:0, duration:.8, ease:'back.out(1.6)'},0.22)
+      .from('.hero-card .btn-cta',{scale:.9, rotate:-3, opacity:0, duration:.8, ease:'back.out(2.2)'},0.34);
+  }
+
+  // 4) VTOUR karty – jemný 3D tilt (navazuje na CSS proměnné)
+  const cards = document.querySelectorAll('.vt-card');
+  const CLAMP = (v, min, max) => Math.max(min, Math.min(max, v));
+  cards.forEach(card => {
+    let rX = 0, rY = 0, raf = null;
+    const onMove = (e) => {
+      const rect = card.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      const px = (mx / rect.width) - 0.5;
+      const py = (my / rect.height) - 0.5;
+      rY = CLAMP(px * 16, -8, 8);
+      rX = CLAMP(-py * 16, -8, 8);
+      if (!raf) {
+        raf = requestAnimationFrame(() => {
+          // složený transform zachová --scale z .is-first
+          card.style.transform = `translate(var(--tx), var(--ty)) rotate(var(--rot)) skewY(var(--skew)) scale(var(--scale)) rotateX(${rX}deg) rotateY(${rY}deg)`;
+          raf = null;
+        });
+      }
+    };
+    const reset = () => {
+      card.style.transition = 'transform .35s ease';
+      card.style.transform = `translate(var(--tx), var(--ty)) rotate(var(--rot)) skewY(var(--skew)) scale(var(--scale)) rotateX(0deg) rotateY(0deg)`;
+      setTimeout(()=> card.style.transition = '', 350);
+    };
+    card.addEventListener('pointermove', onMove, { passive: true });
+    card.addEventListener('pointerleave', reset);
+  });
 })();
 </script>
+
 
 
 
