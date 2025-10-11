@@ -934,8 +934,22 @@ if (fade) {
       }
     );
   });
+
+  // Kontakt – animace obou karet (info + formulář)
+  document.querySelectorAll('#kontakt .contact-card').forEach((el, i) => {
+    gsap.fromTo(
+      el,
+      { y: 24, opacity: 0, filter: 'blur(6px)', scale: 0.98 },
+      {
+        y: 0, opacity: 1, filter: 'blur(0)', scale: 1,
+        ease: 'power3.out', duration: 0.8, delay: 0.05 + i * 0.1,
+        scrollTrigger: { trigger: el, start: 'top 85%', once: true }
+      }
+    );
+  });
 })();
 </script>
+
 
   
 </body>
