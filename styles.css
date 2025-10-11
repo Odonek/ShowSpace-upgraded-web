@@ -12,41 +12,7 @@
 --shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-/* === PRELOADER === */
-#preloader{
-  position: fixed; inset: 0; z-index: 99999;
-  display: grid; place-items: center;
-  background: var(--ivory, #fffbef);   /* barva pozadí webu */
-  transition: opacity .4s ease, visibility .4s ease;
-}
-#preloader img{
-  display:block;
-  width: clamp(160px, 26vw, 320px);
-  height: auto;
-  animation: logoPulse 2.6s ease-in-out infinite, logoBlink 5.6s ease-in-out infinite;
-  transform-origin: center;
-  filter: drop-shadow(0 6px 18px rgba(0,0,0,.08));
-}
-/* skryto po načtení */
-#preloader.is-done{ opacity:0; visibility:hidden; }
 
-/* jemné dýchání */
-@keyframes logoPulse{
-  0%,100%{ transform: scale(1); }
-  50%    { transform: scale(1.03); }
-}
-/* „mrknutí“ – krátké zploštění Y, aby oko zůstalo celé */
-@keyframes logoBlink{
-  0%, 92%, 100%   { transform: scale(1); }
-  94%             { transform: scale(1.02, .88); }
-  96%             { transform: scale(1, .82); }
-  98%             { transform: scale(1.02, .95); }
-}
-
-/* respektuje reduced motion */
-@media (prefers-reduced-motion: reduce){
-  #preloader img{ animation: none; }
-}
 
 
 /* RESET & BASE */
