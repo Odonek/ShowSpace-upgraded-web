@@ -1031,3 +1031,6 @@ nav {
   top: 0; left: 0; right: 0;
   z-index: 9999 !important;       /* jistota nad .hero */
 }
+
+/* jemný pop – kombinace malého posunu a rotace */
+.rev-pop { --ty: 16px; --rot: -1.5deg; }
