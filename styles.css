@@ -979,15 +979,6 @@ body.menu-lock{ overflow:hidden; }
 
 /* ===== Z-INDEX / OVERLAY HOTFIX (nav, submenu, mobilní panel, cookie, toTop) ===== */
 
-/* Vše kolem hero nechť má nejnižší prioritu */
-.hero,
-.hero-media,
-.hero-media video,
-.hero-overlay {
-  position: relative;
-  z-index: 0;             /* pod UI prvky */
-  pointer-events: none;   /* video/overlay neblokuje kliky */
-}
 
 /* Navigace a její prvky vždy nad videem */
 nav { position: absolute; z-index: 5000; }      /* může zůstat absolute; klidně change na fixed */
@@ -1005,21 +996,7 @@ nav, .mobile-menu, #cookie-banner { isolation: isolate; }
 
 /* ===== NAV nad videem + video pod UI (HOTFIX) ===== */
 
-/* video a overlay dej pod vše ostatní */
-.hero-media,
-.hero-media video,
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: -1;            /* bylo 0 → dej pod obsah i nav */
-  pointer-events: none;   /* ať neblokuje kliky */
-}
 
-/* obsah v hero (nad videem) */
-.hero .container {
-  position: relative;
-  z-index: 2;
-}
 
 
 
