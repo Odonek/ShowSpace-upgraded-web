@@ -782,6 +782,133 @@
 })();
 </script>
 
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+<script>
+(() => {
+  // Respektuj "snížit pohyb"
+  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Globální defaulty
+  gsap.defaults({ ease: "power3.out", duration: 1 });
+
+  /* === NAV (drop-in) === */
+  gsap.from(".nav-inner", {
+    y: -40, opacity: 0, duration: .8, delay: .2
+  });
+
+  /* === HERO === */
+  const tlHero = gsap.timeline();
+  tlHero
+    .from(".hero h1", { y: 40, opacity: 0 })
+    .from(".hero p",  { y: 26, opacity: 0 }, "-=0.6")
+    .from(".hero .btn-cta", { y: 18, opacity: 0, scale: .98 }, "-=0.5");
+
+  // Jemný zoom videa v čase
+  gsap.to(".hero-media video", { scale: 1.06, duration: 18, ease: "none" });
+
+  /* === UNIVERZÁLNÍ REVEALY PRO TEXTY (sekce) === */
+  gsap.utils.toArray("section .lead, section h2, section h3").forEach(el => {
+    gsap.from(el, {
+      scrollTrigger: { trigger: el, start: "top 85%" },
+      y: 28, opacity: 0, duration: .9
+    });
+  });
+  gsap.utils.toArray("section p:not(.lead)").forEach((el, i) => {
+    gsap.from(el, {
+      scrollTrigger: { trigger: el, start: "top 88%" },
+      y: 18, opacity: 0, duration: .7, delay: (i % 3) * 0.05
+    });
+  });
+
+  /* === BENEFITY === */
+  // Hlavička
+  gsap.from("#benefity .benefits-head > *", {
+    scrollTrigger: { trigger: "#benefity .benefits-head", start: "top 85%" },
+    y: 30, opacity: 0, stagger: 0.12
+  });
+  // Karty – střídání směrů a jemný pop
+  gsap.utils.toArray("#benefity .card.benefit.big").forEach((card, idx) => {
+    gsap.from(card, {
+      scrollTrigger: { trigger: card, start: "top 88%" },
+      y: 40 * (idx % 2 ? 1 : -1),
+      rotate: (idx % 2 ? -1.5 : 1.5),
+      opacity: 0, scale: .96, duration: .9
+    });
+  });
+  // Parallax čísla
+  gsap.utils.toArray("#benefity .benefit-number").forEach(num => {
+    gsap.to(num, {
+      scrollTrigger: { trigger: num, start: "top bottom", end: "bottom top", scrub: true },
+      yPercent: -12
+    });
+  });
+
+  /* === VTOUR === */
+  // Text vlevo
+  gsap.from("#vtour .vt-copy .tag, #vtour #vt-title, #vtour #vt-desc, #vtour .vt-buttons", {
+    scrollTrigger: { trigger: "#vtour .vt-copy", start: "top 75%" },
+    y: 26, opacity: 0, stagger: 0.12
+  });
+  // Karty – jemné přiletění + stagger
+  gsap.from("#vtour .vt-card", {
+    scrollTrigger: { trigger: "#vtour .vt-viewport", start: "top 80%" },
+    y: 30, opacity: 0, scale: .92, stagger: 0.1
+  });
+  // Šipky pod tím
+  gsap.from("#vtour .vt-controls .vt-arrow", {
+    scrollTrigger: { trigger: "#vtour .vt-controls", start: "top 90%" },
+    y: 16, opacity: 0, stagger: 0.1
+  });
+
+  /* === O NÁS === */
+  gsap.from("#o-nas .about .text", {
+    scrollTrigger: { trigger: "#o-nas .about", start: "top 80%" },
+    x: -40, opacity: 0
+  });
+  gsap.from("#o-nas .about img", {
+    scrollTrigger: { trigger: "#o-nas .about", start: "top 80%" },
+    x: 40, opacity: 0, rotate: 1.2, duration: 1
+  });
+  // Jemný parallax obrázku
+  gsap.to("#o-nas .about img", {
+    scrollTrigger: { trigger: "#o-nas .about img", start: "top bottom", end: "bottom top", scrub: true },
+    yPercent: -10
+  });
+
+  /* === KONTAKT (dvě karty proti sobě) === */
+  gsap.from(".contact-info", {
+    scrollTrigger: { trigger: ".contact-grid", start: "top 85%" },
+    x: -46, opacity: 0
+  });
+  gsap.from(".contact-form", {
+    scrollTrigger: { trigger: ".contact-grid", start: "top 85%" },
+    x: 46, opacity: 0, delay: .1
+  });
+
+  /* === FOOTER === */
+  gsap.from("footer .footer-wrap > *", {
+    scrollTrigger: { trigger: "footer", start: "top 90%" },
+    y: 16, opacity: 0, stagger: 0.08
+  });
+
+  /* === DROBNÉ WOW EFEKTY NA INTERAKCE === */
+  // Pulse při hoveru na šipkách a CTA (krátký spring)
+  const hoverScale = (sel) => {
+    document.querySelectorAll(sel).forEach(el => {
+      el.addEventListener("pointerenter", () => gsap.to(el, { scale: 1.06, duration: .18, ease: "power2.out" }));
+      el.addEventListener("pointerleave", () => gsap.to(el, { scale: 1.00, duration: .2, ease: "power2.out" }));
+    });
+  };
+  hoverScale(".vt-arrow, .btn-cta, .btn--accent, .btn--outline, .btn--highlight");
+
+})();
+</script>
 
 
   
