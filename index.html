@@ -800,156 +800,122 @@
   const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const ease = "power3.out";
 
-  // --- Vstupní varianty ---
-  const VARIANTS = {
-    "fade-up"   : { y: 32, autoAlpha: 0 },
-    "fade-down" : { y: -28, autoAlpha: 0 },
-    "fade-left" : { x: 32, autoAlpha: 0 },
-    "fade-right": { x: -32, autoAlpha: 0 },
-    "scale-pop" : { scale: 0.88, autoAlpha: 0 },
-    "blur-in"   : { filter: "blur(8px)", autoAlpha: 0 },
-    "skew-up"   : { y: 28, skewY: 4, autoAlpha: 0 },
-    "rotate-in" : { y: 26, rotation: -3, autoAlpha: 0, transformOrigin: "50% 100%" }
-  };
+  // ---------- Pomocné ----------
+  const inview = (targets, vars, opts={}) => {
+    const els = gsap.utils.toArray(targets);
+    if (!els.length) return;
 
-  // --- Pomocníci ---
-  const prime = (nodes, variant="fade-up") => {
-    if (REDUCED) return;
-    const from = VARIANTS[variant] || VARIANTS["fade-up"];
-    gsap.utils.toArray(nodes).forEach(el => {
-      el.classList.add("wow-hide");
-      gsap.set(el, from);
+    els.forEach(el => {
+      // žádné předskrývání v CSS – skryje to až GSAP při vytvoření animace
+      const baseFrom = vars.from || {};
+      const baseTo   = vars.to   || {};
+
+      gsap.from(el, {
+        ...baseFrom,
+        autoAlpha: (baseFrom.autoAlpha ?? 0),
+        duration: (vars.duration ?? 0.9),
+        ease: (vars.ease ?? ease),
+        immediateRender: false,       // ✅ klíč proti probliknutí
+        scrollTrigger: (opts.scroll === false || REDUCED) ? null : {
+          trigger: el,
+          start: opts.start || "top 85%",
+          toggleActions: "play none none none",
+          once: true
+        },
+        onComplete: () => gsap.set(el, { clearProps: "transform,filter,opacity,clipPath,maskImage" }),
+        ...baseTo
+      });
     });
   };
 
-  const play = (el, variant="fade-up", opts={}) => {
-    const from = VARIANTS[variant] || VARIANTS["fade-up"];
-    const base = {
-      duration: opts.duration ?? 0.9,
-      ease: opts.ease ?? ease,
-      y: 0, x: 0, scale: 1, rotation: 0, skewY: 0, filter: "none",
-      autoAlpha: 1,
-      clearProps: "transform,filter,opacity,willChange",
-      onStart: () => el.classList.remove("wow-hide")
-    };
+  const batch = (selector, fromVars, options={}) => {
+    const els = gsap.utils.toArray(selector);
+    if (!els.length) return;
+    if (REDUCED) { gsap.set(els, { autoAlpha:1 }); return; }
 
-    // když je už ve viewportu, animuj bez ScrollTriggeru (eliminuje flicker v hero)
-    const r = el.getBoundingClientRect();
-    const alreadyInView = r.top < innerHeight * 0.9;
+    ScrollTrigger.batch(els, {
+      start: options.start || "top 85%",
+      once: true,
+      onEnter: items => {
+        gsap.from(items, {
+          ...fromVars,
+          autoAlpha: (fromVars.autoAlpha ?? 0),
+          duration: options.duration ?? 0.9,
+          ease,
+          immediateRender: false,     // ✅
+          stagger: options.stagger ?? 0.12,
+          onComplete: () => gsap.set(items, { clearProps: "transform,filter,opacity,clipPath,maskImage" })
+        });
+      }
+    });
+  };
 
-    if (REDUCED) {
-      gsap.set(el, { autoAlpha: 1, clearProps: "all" });
-      return;
-    }
+  // ---------- HERO (bez bliků, „mask reveal“ nadpisu) ----------
+  const heroH1 = document.querySelector(".hero-card h1");
+  if (heroH1) {
+    // hezké odhalení přes clipPath (funguje i bez Splitu)
+    if (!REDUCED) {
+      const tl = gsap.timeline({ defaults:{ ease, duration:0.9 } });
+      // nejdřív skryjeme až teď (ne předem v CSS)
+      gsap.set(heroH1, { autoAlpha:0, clipPath:"inset(0 0 100% 0)" });
+      gsap.set(".hero-card p, .hero-card .btn-cta", { autoAlpha:0, y:18 });
 
-    if (opts.scroll === false || alreadyInView) {
-      gsap.fromTo(el, from, { ...base, delay: opts.delay || 0, stagger: opts.stagger || 0 });
-    } else {
-      gsap.fromTo(el, from, {
-        ...base,
-        delay: opts.delay || 0,
-        stagger: opts.stagger || 0,
-        scrollTrigger: {
-          trigger: opts.trigger || el,
-          start: opts.start || "top 85%",
-          once: true
-        }
+      // animuj hned po layoutu (mimo ScrollTrigger, protože je nad přehybem)
+      requestAnimationFrame(() => {
+        tl.to(heroH1, { autoAlpha:1, clipPath:"inset(0 0 0% 0)", duration:0.8 })
+          .to(".hero-card p", { autoAlpha:1, y:0 }, "-=0.4")
+          .to(".hero-card .btn-cta", { autoAlpha:1, y:0, scale:1, ease:"elastic.out(1,0.6)", duration:1.0 }, "-=0.35");
       });
     }
-  };
-
-  const batch = (selector, variant, extra={}) => {
-    const els = gsap.utils.toArray(selector);
-    prime(els, variant);
-    ScrollTrigger.batch(els, {
-      start: extra.start || "top 85%",
-      once: true,
-      onEnter: items => gsap.fromTo(items,
-        VARIANTS[variant] || VARIANTS["fade-up"],
-        {
-          duration: extra.duration ?? 0.9,
-          ease,
-          y: 0, x: 0, scale: 1, rotation: 0, skewY: 0, filter: "none",
-          autoAlpha: 1,
-          clearProps: "transform,filter,opacity,willChange",
-          stagger: extra.stagger ?? 0.12,
-          onStart: () => items.forEach(i => i.classList.remove("wow-hide"))
-        }
-      )
-    });
-  };
-
-  // --- HERO ---
-  const h1 = document.querySelector(".hero-card h1");
-  if (h1 && !REDUCED) {
-    const words = h1.textContent.trim().split(/\s+/);
-    h1.innerHTML = words.map(w => `<span class="h1w" data-anim>${w}</span>`).join(" ");
-    prime(".h1w","fade-up");
-    // animace hned (hero je ve viewportu)
-    gsap.fromTo(".h1w",
-      VARIANTS["fade-up"],
-      { y:0, autoAlpha:1, duration:.7, ease, stagger:.06, clearProps:"transform,opacity,willChange",
-        onStart: () => document.querySelectorAll(".h1w").forEach(i=>i.classList.remove("wow-hide"))
-      }
-    );
-  } else if (h1) {
-    play(h1, "fade-up", { scroll:false });
   }
 
-  play(document.querySelector(".hero-card p"), "fade-up",   { scroll:false, delay: .05 });
-  play(document.querySelector(".hero-card .btn-cta"), "scale-pop", { scroll:false, delay: .1 });
+  // ---------- BENEFITY ----------
+  inview("#benefity .benefits-head h2", { from:{ y:30 } });
+  inview("#benefity .benefits-head h3", { from:{ y:24 } }, { start:"top 88%" });
+  batch("#benefity .benefits-center .card", { y:28, rotation:-2, autoAlpha:0 }, { stagger:0.14 });
 
-  // --- BENEFITY ---
-  play(document.querySelector("#benefity .benefits-head h2"), "fade-up");
-  play(document.querySelector("#benefity .benefits-head h3"), "fade-up", { delay: .05 });
-  batch("#benefity .benefits-center .card", "rotate-in", { stagger: .14 });
+  // ---------- VTOUR (copy) ----------
+  inview("#vt-copy .tag",  { from:{ x:-26 } });
+  inview("#vt-title",      { from:{ x:-22 } });
+  inview("#vt-desc",       { from:{ x:-18 } });
+  batch("#vt-copy .vt-buttons .btn", { y:20, scale:0.94 }, { stagger:0.10 });
 
-  // --- VTOUR (vlevo) ---
-  ["#vt-copy .tag","#vt-title","#vt-desc"].forEach((sel, i) => {
-    const el = document.querySelector(sel);
-    if (el) play(el, "fade-right", { delay: i*0.05 });
+  // ---------- VTOUR (karty – pestřejší) ----------
+  const variants = [
+    { y:28, autoAlpha:0 },
+    { scale:0.88, autoAlpha:0 },
+    { y:24, skewY:4, autoAlpha:0 },
+    { x:26, autoAlpha:0 },
+    { filter:"blur(8px)", autoAlpha:0 }
+  ];
+  gsap.utils.toArray("#vtour .vt-card").forEach((card, i) => {
+    inview(card, { from: variants[i % variants.length] });
   });
-  batch("#vt-copy .vt-buttons .btn", "scale-pop", { stagger: .1 });
 
-  // --- VTOUR karty ---
-  const vtCards = gsap.utils.toArray("#vtour .vt-card");
-  vtCards.forEach((c, i) => {
-    const variants = ["blur-in","scale-pop","rotate-in","skew-up","fade-up"];
-    prime(c, variants[i % variants.length]);
-    play(c, variants[i % variants.length]);
-  });
+  // ---------- O NÁS ----------
+  batch("#o-nas .about .text > *", { y:22, autoAlpha:0 }, { stagger:0.08 });
+  inview("#o-nas .about img", { from:{ x:26, autoAlpha:0 } });
 
-  // --- O NÁS ---
-  batch("#o-nas .about .text > *", "fade-up", { stagger: .08 });
-  play(document.querySelector("#o-nas .about img"), "fade-left");
+  // ---------- KONTAKT ----------
+  batch("#kontakt .contact-card", { y:26, autoAlpha:0 }, { stagger:0.12 });
 
-  // --- KONTAKT ---
-  batch("#kontakt .contact-card", "fade-up", { stagger: .12 });
-
-  // --- Mikro-parallax (bezpečně) ---
+  // ---------- jemný parallax v hero ----------
   if (!REDUCED) {
     const overlay = document.querySelector(".hero-overlay");
     const media   = document.querySelector(".hero-media");
     overlay && gsap.to(overlay, {
-      opacity: 0.85, scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: .4 }
+      opacity: 0.85,
+      scrollTrigger: { trigger: ".hero", start:"top top", end:"bottom top", scrub:0.4 }
     });
     media && gsap.to(media, {
-      yPercent: 6, scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: .4 }
+      yPercent: 6,
+      scrollTrigger: { trigger: ".hero", start:"top top", end:"bottom top", scrub:0.4 }
     });
   }
 
-  // --- Fail-safe: kdyby něco zůstalo skryté, ukaž to po načtení ---
-  window.addEventListener("load", () => {
-    setTimeout(() => {
-      document.querySelectorAll(".wow-hide,[data-anim]").forEach(el => {
-        if (getComputedStyle(el).opacity === "0") {
-          el.classList.remove("wow-hide");
-          gsap.set(el, { autoAlpha: 1, clearProps: "all" });
-        }
-      });
-      ScrollTrigger.refresh();
-    }, 400);
-  });
+  // ---------- odolnost při resize/refresh ----------
+  ScrollTrigger.config({ ignoreMobileResize: true });
+  window.addEventListener("load", () => setTimeout(() => ScrollTrigger.refresh(), 200));
 })();
 </script>
 
