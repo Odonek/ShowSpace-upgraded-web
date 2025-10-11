@@ -42,6 +42,11 @@
   <meta name="theme-color" content="#415A77">
 </head>
 <body>
+  <!-- PRELOADER -->
+<div id="preloader" aria-hidden="true">
+  <img src="logonahoruvlevo.png" alt="Show Space logo" width="220" height="80" />
+</div>
+
   
 <!-- NAVBAR -->
 <nav>
@@ -950,6 +955,29 @@ if (fade) {
 })();
 </script>
 
+<script>
+(function(){
+  const pre = document.getElementById('preloader');
+  if(!pre) return;
+
+  // minimální zobrazení (proti "bliknutí")
+  const MIN_MS = 600;
+  const t0 = performance.now();
+
+  function hide(){
+    const dt = performance.now() - t0;
+    const wait = Math.max(0, MIN_MS - dt);
+    setTimeout(()=> pre.classList.add('is-done'), wait);
+  }
+
+  // schovej po kompletním načtení
+  if(document.readyState === 'complete') hide();
+  else window.addEventListener('load', hide);
+
+  // pojistka – kdyby load neproběhl (třeba z cache)
+  setTimeout(()=> pre.classList.add('is-done'), 5000);
+})();
+</script>
 
   
 </body>
