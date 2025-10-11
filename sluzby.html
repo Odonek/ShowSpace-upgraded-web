@@ -14,171 +14,219 @@
   <link rel="apple-touch-icon" href="favicon.png">
   <meta name="theme-color" content="#415A77">
 
-  <!-- Animate.css + WOW -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-
   <style>
-    /* ===== ZÁKLAD – respekt k reduced motion ===== */
-    .wow{ visibility:hidden; }
-    @media (prefers-reduced-motion: reduce){
-      .wow, .animate__animated{ animation:none !important; transition:none !important; }
-    }
+    /* SLUŽBY: vynutit čistě bílé pozadí nahoře */
+body.page-services,
+body.page-services nav,
+body.page-services .nav-inner,
+body.page-services .container,
+body.page-services header {
+  background: #fff !important;
+  background-image: none !important;   /* kdyby byl někde gradient */
+}
 
-    /* ===== NAV – bílé pozadí jako na indexu ===== */
-    body.page-services,
-    body.page-services nav,
-    body.page-services .nav-inner,
-    body.page-services .container,
-    body.page-services header{ background:#fff !important; }
+/* kdyby ho kreslily pseudo-elementy/okrasné pruhy */
+body.page-services::before,
+body.page-services::after,
+body.page-services nav::before,
+body.page-services nav::after,
+body.page-services .nav-inner::before,
+body.page-services .nav-inner::after {
+  content: none !important;
+  background: transparent !important;
+}
 
-    body.page-services nav{
-      position:relative !important;
-      background:transparent !important;
-      border:0 !important; box-shadow:none !important;
-      padding:18px 0; margin:0 !important;
-    }
-    body.page-services .nav-inner{
-      background:#fff !important;
-      border-radius:999px !important;
-      padding:10px 18px !important;
-      border-top:6px solid #F0DF47 !important;
-      box-shadow:0 14px 36px rgba(0,0,0,.10) !important;
-      margin-top:0 !important;
-    }
-    body.page-services nav + *{ margin-top:12px; }
-    body.page-services section{ scroll-margin-top:72px; }
-    body.page-services .submenu{ z-index:200; }
+/* nechceme žádný „globální“ horní border na celé liště */
+body.page-services nav { border-top: 0 !important; }
 
-    /* ===== SLUŽBY – rozvržení ===== */
-    .service-section{ padding:48px 0; background:#fff; }
+  /* === SLUŽBY: NAVBAR jako na vzoru (pill) =================== */
+body.page-services nav{
+  position: relative !important;      /* žádný sticky/fixed */
+  background: transparent !important; /* pozadí stránky, ne béžový pruh */
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 18px 0;                    /* mezera okolo pillu */
+  margin: 0 !important;
+}
+
+body.page-services .nav-inner{
+  background: #fff !important;        /* čistě bílé */
+  border-radius: 999px !important;    /* pilulka */
+  padding: 10px 18px !important;
+  border-top: 6px solid #F0DF47 !important; /* žlutý proužek nahoře */
+  box-shadow: 0 14px 36px rgba(0,0,0,.10) !important; /* plovoucí efekt */
+  margin-top: 0 !important;           /* žádný vnější offset */
+}
+
+/* drobnost: aby text nezačínal nalepeně pod navem */
+body.page-services nav + *{ margin-top: 12px; }
+
+/* pro skoky na kotvy, kdyby byly použité */
+body.page-services section{ scroll-margin-top: 72px; }
+
+/* submenu měj nad obsahem */
+body.page-services .submenu{ z-index: 200; }
+
+/* ============== ZBYTEK – vaše stávající sekce/služby ============== */
+.service-section{ padding: 48px 0; background:#fff; }
+
+.service-wrap{
+  display:grid; gap:28px; align-items:center;
+  grid-template-columns: 1.05fr .95fr; grid-template-areas: "text media";
+}
+.service-text{ grid-area:text; }
+.service-media{ grid-area:media; }
+
+.service-section.reverse .service-wrap{
+  grid-template-columns:.95fr 1.05fr; grid-template-areas:"media text";
+}
+
+#sluzba-prohlidky.service-section{ padding-top:28px; }
+.service-text h2{ margin:6px 0 10px; }
+.kvp-list,.steps{ padding-left:18px; } .kvp-list li,.steps li{ margin:6px 0; }
+.cta-row{ display:flex; gap:12px; margin-top:14px; flex-wrap:wrap; }
+
+.service-media{ display:grid; gap:14px; }
+.media-slot{
+  position:relative; width:100%; aspect-ratio:16/9;
+  border-radius:18px; background:#fff;
+  border:1px solid #e9edf2; box-shadow: var(--shadow); overflow:hidden;
+}
+.media-slot iframe,.media-slot img,.media-slot video{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; border:0; display:block; border-radius:inherit;
+}
+.media-slot--plain{ background:transparent; border:0; box-shadow:none; }
+.media-slot--plain img{ object-fit:contain; background:transparent; }
+
+@media (max-width:900px){
+  .service-wrap{
+    grid-template-columns:1fr;
+    grid-template-areas:"text" "media";
+  }
+  .service-section.reverse .service-wrap{
+    grid-template-columns:1fr;
+    grid-template-areas:"text" "media";
+  }
+}
+
+/* Dropdown „Služby“ – nechávám beze změny */
+.menu{ position:relative; }
+.menu-item--has-sub{ position:relative; }
+.menu .menu-toggle{
+  display:inline-flex; align-items:center; gap:8px;
+  font-weight:600; color:var(--slate);
+  padding:6px 14px; background:rgba(255,255,255,0.9);
+  border:0; border-radius:999px; box-shadow:0 2px 6px rgba(0,0,0,.08);
+  cursor:pointer; font-family:var(--font);
+}
+.menu .menu-toggle:hover{ background:var(--accent); color:#111; }
+.menu .menu-caret{ width:14px; height:14px; transition:transform .2s ease; }
+.menu .menu-toggle[aria-expanded="true"] .menu-caret{ transform:rotate(180deg); }
+.submenu{
+  position:absolute; top:calc(100% + 8px); left:0;
+  display:none; min-width:240px; padding:10px;
+  background:#fff; border:1px solid #eee; border-radius:14px;
+  box-shadow:0 14px 36px rgba(0,0,0,.12); z-index:200;
+}
+.submenu.show{ display:block; }
+.submenu a{
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px; border-radius:10px; font-weight:600; color:var(--ink);
+  background:#fff;
+}
+.submenu a:hover{ background:#f6f8fb; color:var(--slate); }
+
+    /* ==========================
+       LOKÁLNÍ STYLY – SLUŽBY
+       ========================== */
+
+    /* ========= Sekce – layout (grid-areas) ========= */
+    .service-section{ padding: 48px 0; background:#fff; }
+
     .service-wrap{
-      display:grid; gap:28px; align-items:center;
-      grid-template-columns:1.05fr .95fr; grid-template-areas:"text media";
+      display:grid;
+      gap: 28px;
+      align-items: center;
+      grid-template-columns: 1.05fr .95fr;      /* text | média (desktop) */
+      grid-template-areas: "text media";
     }
-    .service-text{ grid-area:text; }
-    .service-media{ grid-area:media; }
+    .service-text  { grid-area: text; }
+    .service-media { grid-area: media; }
+
+    /* střídání: reverse = média vlevo / text vpravo (jen desktop) */
     .service-section.reverse .service-wrap{
-      grid-template-columns:.95fr 1.05fr; grid-template-areas:"media text";
+      grid-template-columns: .95fr 1.05fr;
+      grid-template-areas: "media text";
     }
-    #sluzba-prohlidky.service-section{ padding-top:28px; }
+
+    /* první sekce blíž k navbaru */
+    #sluzba-prohlidky.service-section{ padding-top: 28px; }
+
     .service-text h2{ margin:6px 0 10px; }
-    .kvp-list,.steps{ padding-left:18px; }
-    .kvp-list li,.steps li{ margin:6px 0; }
+    .kvp-list, .steps{ padding-left:18px; }
+    .kvp-list li, .steps li{ margin:6px 0; }
     .cta-row{ display:flex; gap:12px; margin-top:14px; flex-wrap:wrap; }
 
-    /* ===== MEDIA sloty ===== */
+    /* Média */
+    .service-media{ display:grid; gap:14px; }
     .media-slot{
       position:relative; width:100%; aspect-ratio:16/9;
       border-radius:18px; background:#fff;
-      border:1px solid #e9edf2; box-shadow:var(--shadow); overflow:hidden;
-      transition:transform .25s ease, box-shadow .25s ease, filter .25s ease;
+      border:1px solid #e9edf2; box-shadow: var(--shadow); overflow:hidden;
     }
-    .media-slot iframe,.media-slot img,.media-slot video{
+    .media-slot iframe, .media-slot img, .media-slot video{
       position:absolute; inset:0; width:100%; height:100%;
       object-fit:cover; border:0; display:block; border-radius:inherit;
     }
 
-    /* „Plain“ = bez rámečku/stínu (Marketing/Content/Web) */
-    .media-slot--plain{
-      background:transparent !important; border:0 !important; box-shadow:none !important;
-    }
-    .media-slot--plain img,
-    .media-slot--plain iframe,
-    .media-slot--plain video{ object-fit:contain; background:transparent; }
+    /* Obrázky BEZ pozadí/rámečku (marketing, web) */
+    .media-slot--plain{ background:transparent; border:0; box-shadow:none; }
+    .media-slot--plain img{ object-fit:contain; background:transparent; }
 
-    /* „is-floating“ hloubka jen pro ne-plain sloty */
-    .media-slot.is-floating:not(.media-slot--plain){
-      box-shadow:0 24px 60px rgba(17,24,39,.12);
-      transform:translateZ(0);
-      filter:saturate(1.02);
-    }
-
-    /* ===== CTA micro-interakce ===== */
-    .btn{ transition:transform .18s ease, box-shadow .18s ease; }
-    .btn:hover{ transform:translateY(-2px); box-shadow:0 12px 28px rgba(0,0,0,.12); }
-
-    /* ===== Kontakt – dvě karty + neon čára uprostřed ===== */
-    .contact .container{ position:relative; }
-    .contact-grid{
-      display:grid; grid-template-columns:1fr 1fr; gap:24px; position:relative;
-    }
-    .contact-card{
-      position:relative; background:#fff; border-radius:18px;
-      box-shadow:0 18px 48px rgba(17,24,39,.08); overflow:hidden;
-      padding:24px;
-      border-top:6px solid #F0DF47;
-    }
-
-    /* neon/blur čára (vertikální) */
-    .contact-grid::before{
-      content:""; position:absolute; left:50%; top:6%; bottom:6%; width:2px; transform:translateX(-50%);
-      background:linear-gradient(to bottom,
-        rgba(240,223,71,0) 0%,
-        rgba(240,223,71,.55) 30%,
-        rgba(240,223,71,.95) 50%,
-        rgba(240,223,71,.55) 70%,
-        rgba(240,223,71,0) 100%);
-      filter:blur(2px); opacity:.9; pointer-events:none;
-    }
-    .contact-grid::after{
-      content:""; position:absolute; left:50%; top:0; bottom:0; width:120px; transform:translateX(-50%);
-      background:radial-gradient(ellipse at center,
-        rgba(240,223,71,.24) 0%,
-        rgba(240,223,71,.10) 40%,
-        rgba(240,223,71,0) 70%);
-      filter:blur(18px); opacity:.75; pointer-events:none;
-    }
-
-    /* ===== Responsivita ===== */
-    @media (max-width:900px){
-      .service-wrap,
+    /* ======= RESPONSIVE ======= */
+    /* Na mobilu VŽDY text nahoře a obrázek pod ním – i u .reverse */
+    @media (max-width: 900px){
+      .service-wrap{
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "text"
+          "media";
+      }
       .service-section.reverse .service-wrap{
-        grid-template-columns:1fr; grid-template-areas:"text" "media";
-      }
-      .contact-grid{
-        grid-template-columns:1fr; gap:18px;
-      }
-      /* neon čára vodorovně mezi kartami */
-      .contact-grid::before{
-        left:6%; right:6%; top:50%; bottom:auto; width:auto; height:2px; transform:translateY(-50%);
-        background:linear-gradient(to right,
-          rgba(240,223,71,0) 0%,
-          rgba(240,223,71,.55) 30%,
-          rgba(240,223,71,.95) 50%,
-          rgba(240,223,71,.55) 70%,
-          rgba(240,223,71,0) 100%);
-      }
-      .contact-grid::after{
-        top:50%; left:0; right:0; height:120px; width:auto; transform:translateY(-50%);
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "text"
+          "media";
       }
     }
 
-    /* ===== DROBNOSTI MENU (zůstává) ===== */
-    .menu{ position:relative; }
-    .menu-item--has-sub{ position:relative; }
+    /* ===== Dropdown „Služby“ ===== */
+    .menu { position: relative; }
+    .menu-item--has-sub { position: relative; }
     .menu .menu-toggle{
       display:inline-flex; align-items:center; gap:8px;
-      font-weight:600; color:var(--slate);
-      padding:6px 14px; background:rgba(255,255,255,0.9);
-      border:0; border-radius:999px; box-shadow:0 2px 6px rgba(0,0,0,.08);
-      cursor:pointer; font-family:var(--font);
+      font-weight:600; color: var(--slate);
+      padding: 6px 14px; background: rgba(255,255,255,0.9);
+      border:0; border-radius: 999px; box-shadow: 0 2px 6px rgba(0,0,0,.08);
+      cursor:pointer; font-family: var(--font);
     }
-    .menu .menu-toggle:hover{ background:var(--accent); color:#111; }
-    .menu .menu-caret{ width:14px; height:14px; transition:transform .2s ease; }
-    .menu .menu-toggle[aria-expanded="true"] .menu-caret{ transform:rotate(180deg); }
-    .submenu{
-      position:absolute; top:calc(100% + 8px); left:0;
-      display:none; min-width:240px; padding:10px;
-      background:#fff; border:1px solid #eee; border-radius:14px;
-      box-shadow:0 14px 36px rgba(0,0,0,.12); z-index:200;
+    .menu .menu-toggle:hover { background: var(--accent); color:#111; }
+    .menu .menu-caret { width: 14px; height: 14px; transition: transform .2s ease; }
+    .menu .menu-toggle[aria-expanded="true"] .menu-caret { transform: rotate(180deg); }
+    .submenu {
+      position: absolute; top: calc(100% + 8px); left: 0;
+      display:none; min-width: 240px; padding:10px;
+      background:#fff; border:1px solid #eee; border-radius: 14px;
+      box-shadow: 0 14px 36px rgba(0,0,0,.12); z-index: 200;
     }
-    .submenu.show{ display:block; }
-    .submenu a{
+    .submenu.show { display:block; }
+    .submenu a {
       display:flex; align-items:center; gap:10px;
       padding:10px 12px; border-radius:10px; font-weight:600; color:var(--ink);
       background:#fff;
     }
-    .submenu a:hover{ background:#f6f8fb; color:var(--slate); }
+    .submenu a:hover { background: #f6f8fb; color: var(--slate); }
   </style>
 </head>
 <body class="page-services">
@@ -195,9 +243,10 @@
       <span></span><span></span><span></span>
     </button>
 
-    <!-- Menu -->
+    <!-- PŮVODNÍ DESKTOPOVÉ MENU – beze změny -->
     <div class="menu">
       <a href="index.html">Domů</a>
+
       <div class="menu-item--has-sub">
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="submenu-sluzby">
           Služby
@@ -212,6 +261,7 @@
           <a href="sluzby.html" role="menuitem" style="border-top:1px solid #eef; margin-top:6px; padding-top:8px;">Všechny služby</a>
         </div>
       </div>
+
       <a href="galerie.html">Galerie</a>
     </div>
 
@@ -229,6 +279,7 @@
   <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
     <div class="mobile-menu__inner">
       <a href="index.html">Domů</a>
+
       <details class="m-acc">
         <summary>Služby</summary>
         <div class="m-acc__links">
@@ -257,7 +308,7 @@
 </nav>
 
 
-<!-- 1) PROHLÍDKY -->
+<!-- 1) VIRTUÁLNÍ PROHLÍDKY — text vlevo, média vpravo -->
 <section id="sluzba-prohlidky" class="section service-section">
   <div class="container service-wrap">
     <div class="service-text">
@@ -300,6 +351,7 @@
                 loading="lazy" allowfullscreen
                 title="Virtuální prohlídka – Houseboat Prague Vltava"></iframe>
       </div>
+      <!-- Půdorys přímo pod prohlídkou -->
       <div class="media-slot">
         <img src="pudorys8.png" alt="Ukázka 2D půdorysu – Houseboat" loading="lazy">
       </div>
@@ -307,7 +359,7 @@
   </div>
 </section>
 
-<!-- 2) FOTKY (reverse) -->
+<!-- 2) FOTKY — OBRÁZEK vlevo, TEXT vpravo (reverse) -->
 <section id="sluzba-fotky" class="section service-section reverse">
   <div class="container service-wrap">
     <div class="service-text">
@@ -332,7 +384,7 @@
   </div>
 </section>
 
-<!-- 3) MARKETING -->
+<!-- 3) MARKETING — TEXT vlevo, OBRÁZEK vpravo (bez rámečku) -->
 <section id="sluzba-marketing" class="section service-section">
   <div class="container service-wrap">
     <div class="service-text">
@@ -360,7 +412,7 @@
   </div>
 </section>
 
-<!-- 4) SOCIÁLNÍ SÍTĚ (reverse) -->
+<!-- 4) SOCIÁLNÍ SÍTĚ — OBRÁZEK vlevo, TEXT vpravo (reverse) -->
 <section id="sluzba-social" class="section service-section reverse">
   <div class="container service-wrap">
     <div class="service-text">
@@ -388,7 +440,7 @@
   </div>
 </section>
 
-<!-- 5) WEB -->
+<!-- 5) WEB — TEXT vlevo, OBRÁZEK vpravo (bez rámečku) -->
 <section id="sluzba-webdev" class="section service-section">
   <div class="container service-wrap">
     <div class="service-text">
@@ -414,77 +466,77 @@
   </div>
 </section>
 
-<!-- KONTAKT -->
+<!-- KONTAKT – dvě karty -->
 <section id="kontakt" class="section contact">
-  <div class="container">
-    <div class="contact-grid">
-      <!-- INFO KARTA -->
-      <div class="contact-card contact-info">
-        <h2>Kontaktujte nás</h2>
-        <p class="lead">Ozveme se do 24 hodin.</p>
+  <div class="container contact-grid">
 
-        <ul class="contact-list">
-          <li class="contact-item">
-            <div class="contact-ico">
-              <svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.3 1 .3 2 .5 3 .6.6.1 1 .6 1 1.2V20a2 2 0 0 1-2.2 2 18 18 0 0 1-16-16A2 2 0 0 1 4 3h3.1c.6 0 1.1.4 1.2 1 .1 1 .3 2 .6 3 .1.4 0 .8-.3 1.1l-2 2.2z"/></svg>
-            </div>
-            <div>
-              <strong>Telefon</strong>
-              <a href="tel:+420730167681">+420 730 167 681</a>
-            </div>
-          </li>
+    <!-- INFO KARTA -->
+    <div class="contact-card contact-info">
+      <h2>Kontaktujte nás</h2>
+      <p class="lead">Ozveme se do 24 hodin.</p>
 
-          <li class="contact-item">
-            <div class="contact-ico">
-              <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 3-8 5L4 7V6l8 5 8-5v1z"/></svg>
-            </div>
-            <div>
-              <strong>E-mail</strong>
-              <a href="mailto:info@showspace.cz">info@showspace.cz</a>
-            </div>
-          </li>
-
-          <li class="contact-item">
-            <div class="contact-ico">
-              <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
-            </div>
-            <div>
-              <strong>Sídlo</strong>
-              Petrusova 2213/15, 56802 Svitavy
-            </div>
-          </li>
-
-          <li class="contact-item">
-            <div class="contact-ico">
-              <svg viewBox="0 0 24 24"><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></svg>
-            </div>
-            <div>
-              <strong>Fakturační údaje</strong>
-              IČO: 23631741 • DIČ: CZ23631741<br>
-              Spisová značka: C 55194, KS Hradec Králové
-            </div>
-          </li>
-        </ul>
-      </div>
-
-      <!-- FORM KARTA -->
-      <div class="contact-card contact-form">
-        <h2>Napište nám</h2>
-        <form action="https://formspree.io/f/yourendpoint" method="POST">
-          <div class="form-grid">
-            <input class="full" name="jmeno" placeholder="Jméno a příjmení" required>
-            <input name="email" type="email" placeholder="E-mail" required>
-            <input name="telefon" placeholder="Telefon">
-            <textarea class="full" name="zprava" rows="5" placeholder="Stručně popište projekt"></textarea>
+      <ul class="contact-list">
+        <li class="contact-item">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.3 1 .3 2 .5 3 .6.6.1 1 .6 1 1.2V20a2 2 0 0 1-2.2 2 18 18 0 0 1-16-16A2 2 0 0 1 4 3h3.1c.6 0 1.1.4 1.2 1 .1 1 .3 2 .6 3 .1.4 0 .8-.3 1.1l-2 2.2z"/></svg>
           </div>
-
-          <div style="display:flex; gap:12px; align-items:center; margin-top:10px;">
-            <button class="btn btn--accent" type="submit">Odeslat poptávku</button>
-            <small class="help">Odesláním souhlasíte se zpracováním údajů pro vyřízení poptávky.</small>
+          <div>
+            <strong>Telefon</strong>
+            <a href="tel:+420730167681">+420 730 167 681</a>
           </div>
-        </form>
-      </div>
+        </li>
+
+        <li class="contact-item">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 3-8 5L4 7V6l8 5 8-5v1z"/></svg>
+          </div>
+          <div>
+            <strong>E-mail</strong>
+            <a href="mailto:info@showspace.cz">info@showspace.cz</a>
+          </div>
+        </li>
+
+        <li class="contact-item">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+          </div>
+          <div>
+            <strong>Sídlo</strong>
+            Petrusova 2213/15, 56802 Svitavy
+          </div>
+        </li>
+
+        <li class="contact-item">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></svg>
+          </div>
+          <div>
+            <strong>Fakturační údaje</strong>
+            IČO: 23631741 • DIČ: CZ23631741<br>
+            Spisová značka: C 55194, KS Hradec Králové
+          </div>
+        </li>
+      </ul>
     </div>
+
+    <!-- FORM KARTA -->
+    <div class="contact-card contact-form">
+      <h2>Napište nám</h2>
+      <form action="https://formspree.io/f/yourendpoint" method="POST">
+        <div class="form-grid">
+          <input class="full" name="jmeno" placeholder="Jméno a příjmení" required>
+          <input name="email" type="email" placeholder="E-mail" required>
+          <input name="telefon" placeholder="Telefon">
+          <textarea class="full" name="zprava" rows="5" placeholder="Stručně popište projekt"></textarea>
+        </div>
+
+        <div style="display:flex; gap:12px; align-items:center; margin-top:10px;">
+          <button class="btn btn--accent" type="submit">Odeslat poptávku</button>
+          <small class="help">Odesláním souhlasíte se zpracováním údajů pro vyřízení poptávky.</small>
+        </div>
+      </form>
+    </div>
+
   </div>
 </section>
 
@@ -520,31 +572,31 @@
 <script>
   const toTop = document.getElementById("toTop");
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 200) toTop.classList.add("show"); else toTop.classList.remove("show");
+    if (window.scrollY > 200) { toTop.classList.add("show"); } else { toTop.classList.remove("show"); }
   }, {passive:true});
-  toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  toTop.addEventListener("click", () => { window.scrollTo({ top: 0, behavior: "smooth" }); });
 </script>
 
-<!-- Dropdown „Služby“ -->
 <script>
-(function(){
-  const toggle = document.querySelector('.menu-toggle');
-  const menu = document.getElementById('submenu-sluzby');
-  if(!toggle || !menu) return;
+  // Dropdown „Služby“
+  (function(){
+    const toggle = document.querySelector('.menu-toggle');
+    const menu = document.getElementById('submenu-sluzby');
+    if(!toggle || !menu) return;
 
-  const open = () => { toggle.setAttribute('aria-expanded','true'); menu.classList.add('show'); };
-  const close = () => { toggle.setAttribute('aria-expanded','false'); menu.classList.remove('show'); };
-  const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+    const open = () => { toggle.setAttribute('aria-expanded','true'); menu.classList.add('show'); };
+    const close = () => { toggle.setAttribute('aria-expanded','false'); menu.classList.remove('show'); };
+    const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
 
-  toggle.addEventListener('click', (e)=>{ e.stopPropagation(); isOpen() ? close() : open(); });
-  document.addEventListener('click', (e)=>{ if(isOpen() && !toggle.contains(e.target) && !menu.contains(e.target)) close(); });
-  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && isOpen()) { close(); toggle.focus(); } });
-  menu.querySelectorAll('a').forEach(a=> a.addEventListener('click', close));
-})();
+    toggle.addEventListener('click', (e)=>{ e.stopPropagation(); isOpen() ? close() : open(); });
+    document.addEventListener('click', (e)=>{ if(isOpen() && !toggle.contains(e.target) && !menu.contains(e.target)) close(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && isOpen()) { close(); toggle.focus(); } });
+    menu.querySelectorAll('a').forEach(a=> a.addEventListener('click', close));
+  })();
 </script>
 
-<!-- Hamburger – mobilní menu -->
 <script>
+/* Hamburger – mobilní menu */
 (() => {
   const burger   = document.querySelector('.hamburger');
   const panel    = document.getElementById('mobileMenu');
@@ -576,116 +628,11 @@
   backdrop.addEventListener('click', close);
   document.addEventListener('keydown', (e)=> { if(e.key === 'Escape') close(); });
 
+  // zavřít po kliku na libovolný odkaz v panelu
   panel.addEventListener('click', (e)=> { if(e.target.closest('a')) close(); });
 })();
 </script>
 
-<!-- WOW.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
-
-<!-- Animace + Parallax -->
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* NAV – drop-in */
-  const navInner = document.querySelector('.nav-inner');
-  if (navInner) {
-    navInner.classList.add('wow','animate__animated','animate__fadeInDownBig');
-    navInner.style.animationDuration = '720ms';
-  }
-
-  /* SECTIONS – text i média, dynamické směry + stagger */
-  document.querySelectorAll('.service-section').forEach((sec, idx) => {
-    const text  = sec.querySelector('.service-text');
-    const media = sec.querySelector('.service-media');
-
-    if (text) {
-      text.classList.add('wow','animate__animated','animate__fadeInUpBig');
-      text.style.animationDuration = '760ms';
-      text.style.animationDelay = (0.06 + idx * 0.05) + 's';
-
-      // Stagger na vnořené nadpisy/odstavce
-      text.querySelectorAll('h2, h3, p.lead, ul.kvp-list').forEach((el, i) => {
-        el.classList.add('wow','animate__animated','animate__fadeInUp');
-        el.style.animationDuration = '620ms';
-        el.style.animationDelay = (0.12 + i * 0.06) + 's';
-      });
-    }
-
-    if (media) {
-      media.classList.add('wow','animate__animated',
-        sec.classList.contains('reverse') ? 'animate__backInLeft' : 'animate__backInRight'
-      );
-      media.style.animationDuration = '840ms';
-      media.style.animationDelay = (0.16 + idx * 0.05) + 's';
-    }
-
-    // Listy – svižný stagger
-    sec.querySelectorAll('.kvp-list li, .steps li').forEach((li, i) => {
-      li.classList.add('wow','animate__animated','animate__fadeInUp');
-      li.style.animationDuration = '560ms';
-      li.style.animationDelay = (0.10 + i * 0.08) + 's';
-    });
-  });
-
-  /* CTA tlačítka – peckový pop-in */
-  document.querySelectorAll('.cta-row .btn, .nav-right .btn').forEach((btn, i) => {
-    btn.classList.add('wow','animate__animated','animate__zoomIn');
-    btn.style.animationDuration = '520ms';
-    btn.style.animationDelay = (0.18 + i * 0.05) + 's';
-  });
-
-  /* Kontakt karty – protisměr + overshoot */
-  document.querySelectorAll('.contact-card').forEach((card, i) => {
-    card.classList.add('wow','animate__animated', i === 0 ? 'animate__fadeInRightBig' : 'animate__fadeInLeftBig');
-    card.style.animationDuration = '820ms';
-    card.style.animationDelay = (0.14 + i * 0.12) + 's';
-  });
-
-  /* Média uvnitř – jemný „fade“ */
-  document.querySelectorAll('.media-slot img, .media-slot iframe, .media-slot video').forEach((m, i) => {
-    m.classList.add('wow','animate__animated','animate__fadeIn');
-    m.style.animationDuration = '680ms';
-    m.style.animationDelay = (0.12 + i * 0.06) + 's';
-  });
-
-  /* WOW start */
-  if (!reduce && typeof WOW !== 'undefined') {
-    new WOW({
-      boxClass: 'wow',
-      animateClass: 'animate__animated',
-      offset: 90,
-      mobile: false,
-      live: false
-    }).init();
-  }
-
-  /* PARALLAX pro .media-slot (jemný a bezpečný) */
-  const slots = Array.from(document.querySelectorAll('.media-slot'));
-  if (!reduce && slots.length) {
-    const onScroll = () => {
-      const vh = window.innerHeight;
-      slots.forEach(el => {
-        const r = el.getBoundingClientRect();
-        const center = (r.top + r.bottom) / 2;
-        const dist = Math.max(-1, Math.min(1, (center - vh/2) / (vh/2))); // -1..1
-        el.style.transform = `translateY(${dist * -8}px)`;                // jemný parallax
-
-        // hloubka jen pro ne-plain sloty ve viewportu
-        if (!el.classList.contains('media-slot--plain') && r.top < vh && r.bottom > 0) {
-          el.classList.add('is-floating');
-        } else {
-          el.classList.remove('is-floating');
-        }
-      });
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-  }
-});
-</script>
-
+  
 </body>
-</html>
+</html> 
