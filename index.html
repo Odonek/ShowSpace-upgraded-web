@@ -220,20 +220,28 @@
       <div class="vt-viewport">
         <div class="vt-strip">
           <!-- karty -->
-          <a class="vt-card" data-bg="bazenuvod.jpg" data-title="Houseboat Praha"
-             data-desc="Vytvořili jsme 3D virtuální prohlídku pro vlastníka Houseboatu na míru."
-             href="https://tour.giraffe360.com/houseboat-prague-vltava/"
-             target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL005.jpg" alt="Houseboat Praha">
-            <div class="vt-meta"><strong>Houseboat Praha</strong><span>Virtuální prohlídka</span></div>
-          </a>
+          <!-- Houseboat – dej mu houseboat fotku -->
+<a class="vt-card"
+   data-bg="CAM05637G0-PR0005-STILL005.jpg"
+   data-title="Houseboat Praha"
+   data-desc="Vytvořili jsme 3D virtuální prohlídku pro vlastníka Houseboatu na míru."
+   href="https://tour.giraffe360.com/houseboat-prague-vltava/"
+   target="_blank" rel="noopener">
+  <img src="CAM05637G0-PR0005-STILL005.jpg" alt="Houseboat Praha">
+  ...
+</a>
 
-          <a class="vt-card" data-bg="CAM05637G0-PR0005-STILL001.jpg" data-title="Krytý plavecký bazén Svitavy"
-             data-desc="3D prohlídka vytvořená na míru pro Sportes Svitavy s.r.o."
-             href="https://tour.giraffe360.com/krytyplaveckybazensvitavy/" target="_blank" rel="noopener">
-            <img src="bazenmala.jpg" alt="Krytý plavecký bazén Svitavy">
-            <div class="vt-meta"><strong>Krytý plavecký bazén Svitavy</strong><span>Virtuální prohlídka</span></div>
-          </a>
+<!-- Bazén – dej mu bazén fotku -->
+<a class="vt-card"
+   data-bg="bazenmala.jpg"
+   data-title="Krytý plavecký bazén Svitavy"
+   data-desc="3D prohlídka vytvořená na míru pro Sportes Svitavy s.r.o."
+   href="https://tour.giraffe360.com/krytyplaveckybazensvitavy/"
+   target="_blank" rel="noopener">
+  <img src="bazenmala.jpg" alt="Krytý plavecký bazén Svitavy">
+  ...
+</a>
+
         </div>
       </div>
 
@@ -519,9 +527,15 @@
   const realIndexFirst = (firstIdx - visible + total) % total;
   const realCardFirst = originals[(realIndexFirst + total) % total];
 
-  // Pozadí sekce z PRVNÍ karty
-  const bgFirst = realCardFirst?.dataset?.bg || realCardFirst?.querySelector('img')?.getAttribute('src');
-  if (bgFirst) root.style.setProperty('--vtbg', `url("${bgFirst}")`);
+// místo:
+// const bgFirst = realCardFirst?.dataset?.bg || realCardFirst?.querySelector('img')?.getAttribute('src');
+// if (bgFirst) root.style.setProperty('--vtbg', `url("${bgFirst}")`);
+
+// dej:
+const bgSourceCard = (visible === 1 ? realCard : realCardFirst);
+const bg = bgSourceCard?.dataset?.bg || bgSourceCard?.querySelector('img')?.getAttribute('src');
+if (bg) root.style.setProperty('--vtbg', `url("${bg}")`);
+
 
   // Texty/odkaz ze "středové" karty (beze změny)
   const t    = realCard.dataset.title || 'Virtuální prohlídka';
