@@ -15,6 +15,30 @@
   <meta name="theme-color" content="#415A77">
 
   <style>
+    /* SLUŽBY: vynutit čistě bílé pozadí nahoře */
+body.page-services,
+body.page-services nav,
+body.page-services .nav-inner,
+body.page-services .container,
+body.page-services header {
+  background: #fff !important;
+  background-image: none !important;   /* kdyby byl někde gradient */
+}
+
+/* kdyby ho kreslily pseudo-elementy/okrasné pruhy */
+body.page-services::before,
+body.page-services::after,
+body.page-services nav::before,
+body.page-services nav::after,
+body.page-services .nav-inner::before,
+body.page-services .nav-inner::after {
+  content: none !important;
+  background: transparent !important;
+}
+
+/* nechceme žádný „globální“ horní border na celé liště */
+body.page-services nav { border-top: 0 !important; }
+
   /* === SLUŽBY: NAVBAR jako na vzoru (pill) =================== */
 body.page-services nav{
   position: relative !important;      /* žádný sticky/fixed */
