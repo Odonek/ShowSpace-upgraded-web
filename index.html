@@ -895,6 +895,53 @@
   }
 })();
 </script>
+<script>
+(() => {
+  if (!window.gsap) return;
+
+  // 1) Zaregistruj ScrollTrigger
+  if (gsap && gsap.registerPlugin) gsap.registerPlugin(ScrollTrigger);
+
+  // Pomocník: animuj element s variantou
+  const animateIn = (el) => {
+    const base = {
+      opacity: 0,
+      x: 0, y: 0, rotation: 0, skewY: 0,
+      clearProps: "all",
+    };
+
+    // Varianta z tříd
+    if (el.classList.contains('rev-up'))    base.y = 40;
+    if (el.classList.contains('rev-down'))  base.y = -40;
+    if (el.classList.contains('rev-left'))  base.x = 40;
+    if (el.classList.contains('rev-right')) base.x = -40;
+    if (el.classList.contains('rev-rot'))   base.rotation = -3;
+    if (el.classList.contains('rev-skew'))  base.skewY = 6;
+
+    // Trocha náhody pro „živost“
+    const rnd = (min,max)=> Math.random()*(max-min)+min;
+
+    gsap.fromTo(el,
+      base,
+      {
+        opacity: 1,
+        x: 0, y: 0, rotation: 0, skewY: 0,
+        ease: "back.out(1.6)",                 // pružnost
+        duration: rnd(0.7, 1.0),               // mírně různé časy
+        delay: parseFloat(getComputedStyle(el).getPropertyValue('--delay') || 0),
+        scrollTrigger: {
+          trigger: el,
+          start: "top 82%",
+          toggleActions: "play none none none", // jednorázově
+          once: true
+        }
+      }
+    );
+  };
+
+  document.querySelectorAll('.rev').forEach(animateIn);
+})();
+</script>
 
 
 
