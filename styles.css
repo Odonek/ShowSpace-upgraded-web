@@ -1034,3 +1034,39 @@ nav {
 
 /* jemný pop – kombinace malého posunu a rotace */
 .rev-pop { --ty: 16px; --rot: -1.5deg; }
+
+/* === WOW text animace – slova === */
+.wow-word {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+  transform: translateY(16px);
+  opacity: 0;
+  filter: blur(6px);
+}
+
+/* Nadpisové „sweep“ podtržení řízené proměnnou --u (0..1) */
+.wow-underline {
+  position: relative;
+  background-image:
+    linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: calc(var(--u, 0) * 100%) 3px; /* roste z 0 na 100% */
+}
+
+/* Benefit čísla – jemný pop-in */
+.benefit-number .pop-in {
+  display: inline-block;
+  transform: scale(.8) translateY(6px);
+  opacity: 0;
+}
+
+/* Reduced motion: vše bez efektů */
+@media (prefers-reduced-motion: reduce) {
+  .wow-word, .benefit-number .pop-in {
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+  }
+  .wow-underline { background-size: 100% 3px !important; }
+}
