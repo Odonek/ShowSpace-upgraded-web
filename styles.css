@@ -891,3 +891,31 @@ body.menu-lock{ overflow:hidden; }
 .hero .container { position: relative; z-index: 2; }
 #vtour .vt-grid { position: relative; z-index: 2; }
 #vtour .vt-overlay { z-index: 0; }
+
+/* === Reveal (transition-based, bez problikávání) === */
+.js .rev {
+  opacity: 0;
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  transition:
+    transform var(--dur, .8s) var(--ease, cubic-bezier(.22,.61,.36,1)),
+    opacity   var(--dur, .8s) var(--ease, cubic-bezier(.22,.61,.36,1));
+}
+
+/* výchozí transformace variant */
+.rev-up    { transform: translateY(28px); }
+.rev-down  { transform: translateY(-26px); }
+.rev-left  { transform: translateX(26px); }
+.rev-right { transform: translateX(-26px); }
+.rev-pop   { transform: scale(.92); }
+.rev-skew  { transform: translateY(24px) skewY(4deg); }
+.rev-rot   { transform: translateY(22px) rotate(-2deg); }
+
+/* aktivovaný stav – po přidání .in z IO */
+.rev.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Stagger podpora (delay z JS) */
+[data-stagger] > .rev { transition-delay: var(--delay, 0s); }
