@@ -795,48 +795,70 @@
 
 <script>
 (() => {
-  // -- Hromadné označení prvků k reveal animaci
+  // helper: hromadné označení prvků a nastavení delaye
   const mark = (sel, cls='rev-up', baseDelay=0, step=0.08) => {
     document.querySelectorAll(sel).forEach((el, i) => {
+      // bezpečnost: nikdy neoznačuj obsah v HERO
+      if (el.closest('.hero')) return;
       el.classList.add('rev', cls);
       el.style.setProperty('--delay', (baseDelay + i*step).toFixed(2) + 's');
     });
   };
 
- 
+  /* ====== OŽIVENÍ ROZJEZDŮ (mimo HERO) ====== */
 
-  // Sekce
-  mark('section h2','rev-up',0,.05);
-  mark('section h3, section .lead','rev-right',.02,.05);
-  mark('section p','rev-up',.04,.03);
-  mark('section .btn','rev-pop',.04,.05);
+  // Nadpisy a podnadpisy – jemně zespodu + zprava
+  mark('section h2','rev-up',0,.03);
+  mark('section h3, section .lead','rev-right',.05,.03);
 
-  // Karty/boxy
-  mark('.benefits-center .card','rev-rot',0,.1);
-  mark('#kontakt .contact-card','rev-up',0,.12);
+  // Odstavce a tlačítka – rozumný stagger
+  mark('section p','rev-up',.08,.02);
+  mark('section .btn','rev-pop',.14,.05);
 
-  // VTOUR – text vlevo
-  mark('#vt-copy .tag','rev-right',0,0);
-  mark('#vt-title','rev-up',.05,0);
-  mark('#vt-desc','rev-up',.08,0);
-  mark('#vt-copy .vt-buttons .btn','rev-pop',.12,.08);
+  // BENEFITY: střídavě zleva/zprava + drobná rotace
+  document.querySelectorAll('.benefits-center .card').forEach((el, i) => {
+    el.classList.add('rev', i % 2 ? 'rev-left' : 'rev-right');
+    el.style.setProperty('--delay', (0.05 + i*0.08) + 's');
+    el.style.setProperty('--rot', (i % 2 ? '-2deg' : '2deg'));
+  });
 
-  // Obrázky
-  mark('img','rev-up',0,.04);
+  // VTOUR text vlevo – vyjede zleva, tlačítka „pop“
+  mark('#vt-copy .tag','rev-left',0,0);
+  mark('#vt-title','rev-left',.06,0);
+  mark('#vt-desc','rev-left',.10,0);
+  mark('#vt-copy .vt-buttons .btn','rev-pop',.16,.06);
 
-  // === BEZPEČNÁ ZÁLOHA, KDYŽ GSAP NENÍ K DISPOZICI ===
+  // VTOUR karty – zespodu + lehký protisměrný skew
+  document.querySelectorAll('.vt-card').forEach((el, i) => {
+    el.classList.add('rev','rev-up','rev-skew');
+    el.style.setProperty('--delay', (0.12 + i*0.06) + 's');
+    el.style.setProperty('--skew', (i % 2 ? '5deg' : '-5deg'));
+  });
+
+  // KONTAKT – dvě karty proti sobě
+  const contact = document.querySelectorAll('#kontakt .contact-card');
+  if (contact[0]) { contact[0].classList.add('rev','rev-right'); contact[0].style.setProperty('--delay','0.05s'); }
+  if (contact[1]) { contact[1].classList.add('rev','rev-left');  contact[1].style.setProperty('--delay','0.14s'); }
+
+  // Obrázky v sekcích – střídavě zleva / zespodu (mimo hero)
+  document.querySelectorAll('img').forEach((el, i) => {
+    if (el.closest('.hero')) return;
+    el.classList.add('rev', i % 2 ? 'rev-left' : 'rev-up');
+    el.style.setProperty('--delay', (0.04 + (i % 5)*0.02) + 's');
+  });
+
+  /* ====== FALLBACK (když GSAP chybí) ====== */
   if (!window.gsap) {
     document.querySelectorAll('.rev').forEach((el) => {
       el.classList.add('in');
       el.style.opacity = '1';
       el.style.transform = 'none';
     });
-    return; // skončíme – animace neproběhne, ale vše je viditelné
+    return;
   }
 
-  // === GSAP reveal (když GSAP je k dispozici) ===
+  /* ====== GSAP reveal ====== */
   if (gsap && gsap.registerPlugin) gsap.registerPlugin(ScrollTrigger);
-
   const rnd = (min,max)=> Math.random()*(max-min)+min;
 
   document.querySelectorAll('.rev').forEach((el) => {
@@ -866,43 +888,8 @@
       }
     );
   });
-
- 
-
-  // 3D tilt na kartách (ponecháno)
-  const cards = document.querySelectorAll('.vt-card');
-  const CLAMP = (v, min, max) => Math.max(min, Math.min(max, v));
-  cards.forEach(card => {
-    let rX = 0, rY = 0, raf = null;
-    const onMove = (e) => {
-      const rect = card.getBoundingClientRect();
-      const mx = e.clientX - rect.left;
-      const my = e.clientY - rect.top;
-      const px = (mx / rect.width) - 0.5;
-      const py = (my / rect.height) - 0.5;
-      rY = CLAMP(px * 16, -8, 8);
-      rX = CLAMP(-py * 16, -8, 8);
-      if (!raf) {
-        raf = requestAnimationFrame(() => {
-          card.style.transform = `translate(var(--tx), var(--ty)) rotate(var(--rot)) skewY(var(--skew)) scale(var(--scale)) rotateX(${rX}deg) rotateY(${rY}deg)`;
-          raf = null;
-        });
-      }
-    };
-    const reset = () => {
-      card.style.transition = 'transform .35s ease';
-      card.style.transform = `translate(var(--tx), var(--ty)) rotate(var(--rot)) skewY(var(--skew)) scale(var(--scale)) rotateX(0deg) rotateY(0deg)`;
-      setTimeout(()=> card.style.transition = '', 350);
-    };
-    card.addEventListener('pointermove', onMove, { passive: true });
-    card.addEventListener('pointerleave', reset);
-  });
 })();
 </script>
-
-
-
-
 
 
 
