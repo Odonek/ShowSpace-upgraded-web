@@ -791,108 +791,110 @@
 
 <script>
 (() => {
-  if (!('IntersectionObserver' in window)) return;
-
-  // Helper: označ element k animaci
-  function mark(el, variant = 'fade-up', dur = 0.9, extra = {}) {
-    el.classList.add('reveal');
-    el.style.setProperty('--reveal', variant);
-    el.style.setProperty('--dur',    `${dur}s`);
-    if (extra.ease)  el.style.setProperty('--ease', extra.ease);
-    if (extra.delay) el.style.setProperty('animation-delay', `${extra.delay}s`);
+  if (!('IntersectionObserver' in window)) {
+    // Bez IO prostě všechno ukaž (bez animací)
+    document.documentElement.classList.remove('js');
+    return;
   }
 
-  // 1) HERO – bez flickeru, bez složitostí
-  const h1 = document.querySelector('.hero-card h1');
-  const p  = document.querySelector('.hero-card p');
-  const cta= document.querySelector('.hero-card .btn-cta');
-  if (h1)  mark(h1, 'fade-up', .8);
-  if (p)   mark(p, 'fade-up', .8, { delay:.05 });
-  if (cta) { cta.classList.add('reveal'); cta.style.setProperty('--reveal','pop-elastic'); cta.style.setProperty('--dur','0.9s'); }
+  // Helper: označ element k animaci (transition varianta)
+  function mark(el, cls, dur = 0.9, extra = {}) {
+    el.classList.add('rev', cls);
+    el.style.setProperty('--dur', `${dur}s`);
+    if (extra.ease)  el.style.setProperty('--ease',  extra.ease);
+    if (extra.delay) el.style.setProperty('--delay', `${extra.delay}s`);
+  }
 
-  // 2) BENEFITY
+  // === HERO
+  const h1  = document.querySelector('.hero-card h1');
+  const p   = document.querySelector('.hero-card p');
+  const cta = document.querySelector('.hero-card .btn-cta');
+  h1  && mark(h1,  'rev-up',  .8);
+  p   && mark(p,   'rev-up',  .8, { delay:.05 });
+  cta && mark(cta, 'rev-pop', .9);
+
+  // === BENEFITY
   const bh2 = document.querySelector('#benefity .benefits-head h2');
   const bh3 = document.querySelector('#benefity .benefits-head h3');
-  bh2 && mark(bh2, 'fade-up');
-  bh3 && mark(bh3, 'fade-up', .8, { delay:.06 });
+  bh2 && mark(bh2, 'rev-up');
+  bh3 && mark(bh3, 'rev-up', .8, { delay:.06 });
 
-  // Karty benefity – kontejner s postupným náběhem
   const bgrid = document.querySelector('#benefity .benefits-center');
   if (bgrid) {
     bgrid.setAttribute('data-stagger','');
     [...bgrid.children].forEach((card, i) => {
-      mark(card, ['rotate-in','pop','skew-up','fade-up'][i % 4], .85);
+      mark(card, ['rev-rot','rev-pop','rev-skew','rev-up'][i % 4], .85);
       card.style.setProperty('--delay', `${i * 0.10}s`);
     });
   }
 
-  // 3) VTOUR – levý text
-  ['#vt-copy .tag', '#vt-title', '#vt-desc'].forEach((sel, i) => {
+  // === VTOUR – text vlevo + tlačítka
+  ['#vt-copy .tag','#vt-title','#vt-desc'].forEach((sel, i) => {
     const el = document.querySelector(sel);
-    el && mark(el, 'fade-right', .85, { delay: i * 0.06 });
+    el && mark(el, 'rev-right', .85, { delay: i * 0.06 });
   });
-  const vtBtnsWrap = document.querySelector('#vt-copy .vt-buttons');
-  if (vtBtnsWrap) {
-    vtBtnsWrap.setAttribute('data-stagger','');
-    vtBtnsWrap.querySelectorAll('.btn').forEach((btn, i) => {
-      mark(btn, 'pop', .8);
+  const vtBtns = document.querySelector('#vt-copy .vt-buttons');
+  if (vtBtns) {
+    vtBtns.setAttribute('data-stagger','');
+    vtBtns.querySelectorAll('.btn').forEach((btn, i) => {
+      mark(btn, 'rev-pop', .8);
       btn.style.setProperty('--delay', `${i * 0.10}s`);
     });
   }
 
-  // 4) VTOUR – karty (pestré)
+  // === VTOUR – karty
   document.querySelectorAll('#vtour .vt-card').forEach((card, i) => {
-    const variants = ['pop','fade-up','rotate-in','skew-up','fade-left'];
-    mark(card, variants[i % variants.length], .9);
+    const v = ['rev-pop','rev-up','rev-rot','rev-skew','rev-left'][i % 5];
+    mark(card, v, .9);
   });
 
-  // 5) O NÁS
+  // === O NÁS
   const about = document.querySelector('#o-nas .about .text');
   if (about) {
     about.setAttribute('data-stagger','');
     about.querySelectorAll(':scope > *').forEach((el, i) => {
-      mark(el, 'fade-up', .85);
+      mark(el, 'rev-up', .85);
       el.style.setProperty('--delay', `${i * 0.08}s`);
     });
   }
   const aboutImg = document.querySelector('#o-nas .about img');
-  aboutImg && mark(aboutImg, 'fade-left', .9);
+  aboutImg && mark(aboutImg, 'rev-left', .9);
 
-  // 6) KONTAKT
+  // === KONTAKT
   const kgrid = document.querySelector('#kontakt .contact-grid');
   if (kgrid) {
     kgrid.setAttribute('data-stagger','');
     kgrid.querySelectorAll('.contact-card').forEach((el, i) => {
-      mark(el, 'fade-up', .9);
+      mark(el, 'rev-up', .9);
       el.style.setProperty('--delay', `${i * 0.12}s`);
     });
   }
 
-  // === Observer (jednorázově přidá .is-in – žádné opakované toggly → žádné probliky)
+  // Observer – jednorázově přidá .in (žádné opakované toggly => žádný flicker)
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
-        e.target.classList.add('is-in');
+        e.target.classList.add('in');
         io.unobserve(e.target);
       }
     });
   }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
 
-  // Následně pozoruj VŠECHNY .reveal
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  document.querySelectorAll('.rev').forEach(el => io.observe(el));
 
-  // Pojistka: když je uživatel nastavený na reduced motion, prostě vše zobraz
+  // Reduced motion: vše zobraz bez animací
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('.reveal').forEach(el => {
-      el.style.animation = 'none';
+    document.querySelectorAll('.rev').forEach(el => {
+      el.style.transition = 'none';
       el.style.opacity = '1';
       el.style.transform = 'none';
-      el.classList.add('is-in');
+      el.classList.add('in');
     });
     io.disconnect?.();
   }
 })();
 </script>
+
 
 
 
