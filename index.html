@@ -803,10 +803,7 @@
     });
   };
 
-  // Hero
-  mark('.hero-card h1','rev-up',0,0);
-  mark('.hero-card p','rev-up',.06,0);
-  mark('.hero-card .btn-cta','rev-rot',.12,0);
+ 
 
   // Sekce
   mark('section h2','rev-up',0,.05);
@@ -870,15 +867,7 @@
     );
   });
 
-  // Hero timeline (volitelné)
-  const hero = document.querySelector('.hero');
-  if (hero) {
-    const tl = gsap.timeline();
-    tl.fromTo('.hero-overlay',{opacity:.0},{opacity:1, duration:0.6, ease:"power2.out"},0)
-      .from('.hero-card h1',{y:40, opacity:0, duration:.9, ease:'back.out(1.6)'},0.1)
-      .from('.hero-card p',{y:28, opacity:0, duration:.8, ease:'back.out(1.6)'},0.22)
-      .from('.hero-card .btn-cta',{scale:.9, rotate:-3, opacity:0, duration:.8, ease:'back.out(2.2)'},0.34);
-  }
+ 
 
   // 3D tilt na kartách (ponecháno)
   const cards = document.querySelectorAll('.vt-card');
