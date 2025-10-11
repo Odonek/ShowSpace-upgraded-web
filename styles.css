@@ -870,100 +870,90 @@ body.menu-lock{ overflow:hidden; }
 }
 
 
-/* pojistky proti překrytí */
+/* =========================
+   Pojistky proti překrytí
+   ========================= */
 .hero .container { position: relative; z-index: 2; }
 #vtour .vt-grid { position: relative; z-index: 2; }
 #vtour .vt-overlay { z-index: 0; }
 
-/* když by se někde dědila barva, ať jsou meta texty karet jistě čitelné */
+/* Čitelnost metadat karet */
 .vt-meta { color: #fff; }
 
-
-
-/* hezčí 3D pro tilt */
+/* 3D tilt – pro jemný prostorový efekt */
 .vt-card { transform-style: preserve-3d; }
 
+/* =========================
+   Univerzální REVEAL systém
+   (bez kolizí se škálováním)
+   ========================= */
 
-
-
-
-/* jistota vrstvení nad overlayem */
-.hero .container { position: relative; z-index: 2; }
-#vtour .vt-grid { position: relative; z-index: 2; }
-#vtour .vt-overlay { z-index: 0; }
-
-/* === Reveal (transition-based, bez problikávání) === */
+/* VŠEOBECNÝ základ pro animovatelné prvky */
 .js .rev {
   opacity: 0;
-  transform: translateZ(0);
+  /* proměnné pro počáteční offset/rotace/skew – bez scale! */
+  --tx: 0px; --ty: 0px; --rot: 0deg; --skew: 0deg;
+  transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) skewY(var(--skew));
   will-change: transform, opacity;
   transition:
-    transform var(--dur, .8s) var(--ease, cubic-bezier(.22,.61,.36,1)),
-    opacity   var(--dur, .8s) var(--ease, cubic-bezier(.22,.61,.36,1));
+    transform var(--dur, .85s) var(--ease, cubic-bezier(.22,.61,.36,1)),
+    opacity   var(--dur, .85s) var(--ease, cubic-bezier(.22,.61,.36,1));
 }
 
-/* výchozí transformace variant */
-.rev-up    { transform: translateY(28px); }
-.rev-down  { transform: translateY(-26px); }
-.rev-left  { transform: translateX(26px); }
-.rev-right { transform: translateX(-26px); }
-.rev-pop   { transform: scale(.92); }
-.rev-skew  { transform: translateY(24px) skewY(4deg); }
-.rev-rot   { transform: translateY(22px) rotate(-2deg); }
+/* Variace vstupů (počáteční stav) */
+.rev-up    { --ty: 32px; }
+.rev-down  { --ty: -28px; }
+.rev-left  { --tx: 32px; }
+.rev-right { --tx: -32px; }
+.rev-rot   { --rot: -2.5deg; }
+.rev-skew  { --skew: 6deg; }
 
-/* aktivovaný stav – po přidání .in z IO */
+/* Aktivovaný stav – po přidání .in (dělá GSAP/IO) */
 .rev.in {
   opacity: 1;
-  transform: none;
+  --tx: 0px; --ty: 0px; --rot: 0deg; --skew: 0deg;
 }
 
-/* Stagger podpora (delay z JS) */
+/* Stagger podpora (delay posílá JS) */
 [data-stagger] > .rev { transition-delay: var(--delay, 0s); }
 
+/* Reduced motion respekt */
+@media (prefers-reduced-motion: reduce) {
+  .rev, .rev.in {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
 
-/* --- VTOUR karty: kompozitní transformy přes CSS proměnné --- */
+/* =========================
+   VTOUR – karty a zvýraznění
+   ========================= */
+
+/* Kompozitní transformy přes proměnné + SCALE mimo reveal */
 .vt-card{
-  --tx: 0px;
-  --ty: 0px;
-  --rot: 0deg;
-  --scale: .92;              /* výchozí zmenšení */
-  transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(var(--scale));
+  /* proměnné pro polohu/rotace/skew + samostatná scale */
+  --tx: 0px; --ty: 0px; --rot: 0deg; --skew: 0deg;
+  --scale: .92; /* výchozí jemné zmenšení všech karet */
+  transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) skewY(var(--skew)) scale(var(--scale));
   transition: transform .35s ease, box-shadow .35s ease;
 }
 
-/* středová = menší, první vlevo = větší (desktop) */
+/* Středová karta drží „normální“ (menší) měřítko */
 .vt-card.is-center { --scale: .92; }
-.vt-card.is-first  { --scale: 1.06; }  /* klidně ↑/↓ uprav */
 
+/* PRVNÍ VLEVO = VŽDY VĚTŠÍ (desktop/tablet) */
+.vt-card.is-first  {
+  --scale: 1.08;
+  box-shadow: 0 32px 90px rgba(0,0,0,.55);
+}
+
+/* Mobil: menší boost, ať to nepřestřelí */
 @media (max-width: 640px){
-  /* na mobilu nechej všechny stejně velké (nebo jemně ↑) */
   .vt-card.is-first { --scale: 1.02; }
 }
 
-/* --- Reveal (GSAP-friendly) – jen poloha/rotace, neškáluj! --- */
-.js .rev {
-  opacity: 0;
-  /* výchozí posun/rotace nastavíme přes proměnné,
-     scale NECHÁVÁME na kartě (.is-first / .is-center) */
-  will-change: transform, opacity;
-}
-
-.rev-up    { --ty: 26px;  }
-.rev-down  { --ty: -24px; }
-.rev-left  { --tx: 26px;  }
-.rev-right { --tx: -26px; }
-.rev-rot   { --rot: -2deg; }
-.rev-skew  { /* jen vizuální „náznak“ – do GSAP dáme skutečný skew */ }
-
-.rev.in {
-  opacity: 1;
-  --tx: 0px; --ty: 0px; --rot: 0deg;
-}
-
-/* Stagger podpora */
-[data-stagger] > .rev { transition-delay: var(--delay, 0s); }
-
-/* --- Hravý hover efekt na kartách --- */
+/* Průletový „sheen“ odlesk na hover (hravý WOW efekt) */
 .vt-card::after{
   content:"";
   position:absolute; inset:0;
@@ -975,3 +965,6 @@ body.menu-lock{ overflow:hidden; }
   transition: transform .8s ease;
   transform: translateX(120%);
 }
+
+/* Jemný press pro šipky při kliknutí */
+.vt-arrow:active { transform: translateY(0) scale(.98); }
