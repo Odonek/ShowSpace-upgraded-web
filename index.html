@@ -795,26 +795,27 @@
 
 <script>
 (() => {
-  // Pomocná: nepracuj s prvky uvnitř .hero
   const isInHero = el => !!el.closest('.hero');
+  const hasInteractiveChild = el =>
+    el.querySelector('a, button, input, textarea, select, .btn, svg');
 
-  // Rozseká text na slova (wrapne do span.wow-word), zachová mezery
+  // Bezpečné rozsekání na slova – pouze čistý text bez vnořených elementů
   function splitWords(el) {
     if (!el || isInHero(el)) return [];
-    // už jednou splitnuté neřešíme
     if (el.dataset.split === '1') return [...el.querySelectorAll('.wow-word')];
+    // pokud má potomky (např. <a>), přeskočit
+    if (el.childElementCount > 0 || hasInteractiveChild(el)) return [];
 
     const frag = document.createDocumentFragment();
-    const pieces = el.textContent.split(/(\s+)/);
+    const parts = (el.textContent || '').split(/(\s+)/);
     el.textContent = '';
-    pieces.forEach((t, i) => {
-      if (/\s+/.test(t)) {
-        frag.appendChild(document.createTextNode(t));
-      } else {
-        const span = document.createElement('span');
-        span.className = 'wow-word';
-        span.textContent = t;
-        frag.appendChild(span);
+    parts.forEach(t => {
+      if (/\s+/.test(t)) frag.appendChild(document.createTextNode(t));
+      else {
+        const s = document.createElement('span');
+        s.className = 'wow-word';
+        s.textContent = t;
+        frag.appendChild(s);
       }
     });
     el.appendChild(frag);
@@ -822,19 +823,22 @@
     return [...el.querySelectorAll('.wow-word')];
   }
 
-  // CÍLE: nadpisy, leady, odstavce v sekcích (mimo hero)
+  // Cíle pro animace textu (mimo hero)
   const textTargets = [
     ...document.querySelectorAll('section h2, section h3, section .lead, section p')
   ].filter(el => !isInHero(el));
 
-  // Nadpisům přidej „sweep“ podtržení
+  // Podtržení dáme jen mimo #benefity a #vtour
   textTargets.forEach(el => {
-    if (/H2|H3/.test(el.tagName)) el.classList.add('wow-underline');
+    const inExcluded = el.closest('#benefity, #vtour');
+    if (/H2|H3/.test(el.tagName) && !inExcluded) {
+      el.classList.add('wow-underline');
+    }
   });
 
-  // BENEFITY – čísla dostanou pop-in (obalíme číslo spanem)
+  // BENEFITY – pop-in obal jen pokud ještě není
   document.querySelectorAll('#benefity .benefit-number .counter').forEach(cnt => {
-    if (!cnt.parentElement.querySelector('.pop-in')) {
+    if (!cnt.parentElement.classList.contains('pop-in')) {
       const wrap = document.createElement('span');
       wrap.className = 'pop-in';
       cnt.replaceWith(wrap);
@@ -842,18 +846,25 @@
     }
   });
 
-  // === Fallback bez GSAP ===
+  // Fallback bez GSAP
   if (!window.gsap) {
-    textTargets.forEach(el => { el.style.opacity = 1; el.style.filter = 'none'; el.style.transform = 'none'; });
+    textTargets.forEach(el => {
+      el.style.opacity = 1; el.style.filter = 'none'; el.style.transform = 'none';
+    });
     document.querySelectorAll('.wow-underline').forEach(el => el.style.setProperty('--u','1'));
-    document.querySelectorAll('.benefit-number .pop-in').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
+    document.querySelectorAll('.benefit-number .pop-in').forEach(el => {
+      el.style.opacity = 1; el.style.transform = 'none';
+    });
     return;
   }
 
   if (gsap && gsap.registerPlugin) gsap.registerPlugin(ScrollTrigger);
 
-  // Rozdáme směr: střídavě L/R podle indexu rodičovského bloku
+  // Slova: střídavě L/R, ale NIKDY na elementech s potomky (tlačítka apod.)
   textTargets.forEach((el, i) => {
+    // přeskoč <p> s potomky nebo interaktivním obsahem
+    if (el.tagName === 'P' && (el.childElementCount > 0 || hasInteractiveChild(el))) return;
+
     const words = splitWords(el);
     if (!words.length) return;
 
@@ -867,27 +878,21 @@
         ease: 'power3.out',
         duration: 0.9,
         stagger: { each: 0.03, from: fromLeft ? 'start' : 'end' },
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 85%',
-          once: true
-        }
+        scrollTrigger: { trigger: el, start: 'top 85%', once: true }
       }
     );
 
-    // underline „sweep“ po dopsání slov (jen H2/H3)
+    // underline jen pokud není v #benefity / #vtour
     if (el.classList.contains('wow-underline')) {
       gsap.fromTo(el, { '--u': 0 }, {
-        '--u': 1,
-        duration: 0.8,
-        ease: 'power2.out',
+        '--u': 1, duration: 0.8, ease: 'power2.out',
         scrollTrigger: { trigger: el, start: 'top 85%', once: true },
         delay: 0.05
       });
     }
   });
 
-  // BENEFIT čísla – jemný pop
+  // Benefit čísla – pop-in
   document.querySelectorAll('#benefity .benefit-number .pop-in').forEach((wrap, i) => {
     gsap.fromTo(wrap,
       { scale: 0.84, y: 10, opacity: 0 },
@@ -901,9 +906,9 @@
     );
   });
 
-  // VTOUR – levý textový blok: výraznější nájezd zleva
+  // VTOUR – levý textový blok (zůstává), ale bez podtržení
   const vt = document.querySelector('#vt-copy');
-  if (vt && !isInHero(vt)) {
+  if (vt) {
     gsap.fromTo(vt,
       { x: -36, opacity: 0, filter: 'blur(6px)' },
       {
@@ -914,7 +919,7 @@
     );
   }
 
-  // Karty ve VTOUR: zespodu + malý skew (střídání)
+  // Karty ve VTOUR: přistání zespodu + lehký skew
   document.querySelectorAll('.vt-card').forEach((card, i) => {
     gsap.fromTo(card,
       { y: 30, opacity: 0, skewY: i % 2 ? -6 : 6 },
@@ -927,7 +932,6 @@
       }
     );
   });
-
 })();
 </script>
 
