@@ -1,37 +1,48 @@
 <!doctype html>
 <html lang="cs">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
   <title>ShowSpace – Virtuální prohlídky</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Marketing, sociální sítě, focení a rychlé weby.">
-
-  <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;500;800&display=swap" rel="stylesheet">
-
-  <!-- CSS (cache-bust param měň při updatu) -->
-  <link rel="stylesheet" href="styles.css?v=7">
-
+  <link rel="stylesheet" href="styles.css">
   <script>
-    // označíme dokument pro „reveal“ styly
-    document.documentElement.classList.add('js');
-  </script>
+  // označíme dokument, abychom mohli bezpečně skrýt výchozí stavy jen s JS
+  document.documentElement.classList.add('js');
+</script>
 
-  <!-- GA4 – nespustí se, dokud uživatel neodsouhlasí (cookie banner níž) -->
-  <script type="text/plain" data-cookiecategory="analytics" src="https://www.googletagmanager.com/gtag/js?id=G-6GXGVQV909" async></script>
-  <script id="ga4-init" type="text/plain" data-cookiecategory="analytics">
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config','G-6GXGVQV909',{ anonymize_ip:true });
-  </script>
+  <!-- GA4 – loader (blokováno, dokud uživatel neodsouhlasí analytiku) -->
+<script
+  type="text/plain"
+  data-cookiecategory="analytics"
+  src="https://www.googletagmanager.com/gtag/js?id=G-6GXGVQV909"
+  id="ga4-loader"
+  async>
+</script>
 
-  <!-- Fav -->
-  <link rel="icon" href="favicon.png">
+<!-- GA4 – inicializace (taky až po souhlasu) -->
+<script
+  id="ga4-init"
+  type="text/plain"
+  data-cookiecategory="analytics">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6GXGVQV909', {
+    anonymize_ip: true
+  });
+</script>
+
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="shortcut icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
   <meta name="theme-color" content="#415A77">
 </head>
 <body>
-
+  
 <!-- NAVBAR -->
 <nav>
   <div class="container nav-inner">
@@ -39,10 +50,12 @@
       <img src="logonahoruvlevo1.png" alt="ShowSpace logo">
     </a>
 
+    <!-- Burger (ukáže se jen na mobilu) -->
     <button class="hamburger" type="button" aria-label="Otevřít menu" aria-controls="mobileMenu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
 
+    <!-- PŮVODNÍ DESKTOPOVÉ MENU – necháváme jak je -->
     <div class="menu">
       <a href="index.html" aria-current="page">Domů</a>
 
@@ -73,14 +86,16 @@
           <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg>
         </a>
         <a href="https://www.tiktok.com/@show.space360" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M21 8.5a7.5 7.5 0 0 1-4.6-1.6v7.6a5.5 5.5 0 1 1-5.5-5.5c.2 0 .4 0 .6.1v2.6a2.9 2.9 0 1 0 2.9 2.9V2h2.2c.3 1.2 1 2.3 1.9 3.1A5.3 5.3 0 0 0 21 6.5v2z"/></svg>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+            <path d="M21 8.5a7.5 7.5 0 0 1-4.6-1.6v7.6a5.5 5.5 0 1 1-5.5-5.5c.2 0 .4 0 .6.1v2.6a2.9 2.9 0 1 0 2.9 2.9V2h2.2c.3 1.2 1 2.3 1.9 3.1A5.3 5.3 0 0 0 21 6.5v2z"/>
+          </svg>
         </a>
       </div>
       <a href="#kontakt" class="btn btn--accent">Kontakt</a>
     </div>
   </div>
 
-  <!-- MOBILE MENU -->
+  <!-- MOBILNÍ MENU (dropdown panel) -->
   <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
     <div class="mobile-menu__inner">
       <a href="index.html">Domů</a>
@@ -98,6 +113,7 @@
       </details>
 
       <a href="galerie.html">Galerie</a>
+
       <a href="#kontakt" class="btn btn--accent" style="margin-top:8px">Kontakt</a>
 
       <div class="mobile-social">
@@ -107,8 +123,11 @@
       </div>
     </div>
   </div>
+
+  <!-- Backdrop -->
   <div class="mobile-backdrop" hidden></div>
 </nav>
+
 
 <!-- HERO -->
 <header class="hero">
@@ -120,6 +139,7 @@
     <div class="hero-overlay"></div>
   </div>
 
+ 
   <div class="container">
     <div class="hero-card">
       <h1>Prodávejte dřív, než klient vstoupí</h1>
@@ -132,37 +152,54 @@
 <!-- BENEFITY -->
 <section id="benefity" class="section">
   <div class="container">
+
+    <!-- HLAVIČKA -->
     <div class="benefits-head">
       <h2>Proč mít virtuální prohlídku</h2>
       <h3>80&nbsp;% podniků stále nemá virtuální prohlídku — buďte o krok napřed.</h3>
     </div>
 
+    <!-- KARTY BENEFITŮ -->
     <div class="benefits-center">
+
+      <!-- 1) ÚSPORA ČASU -->
       <div class="card benefit big">
         <div class="benefit-icon" aria-hidden="true">📈</div>
-        <div class="benefit-number">+<span class="counter" data-target="46">0</span> %</div>
+        <div class="benefit-number">
+          +<span class="counter" data-target="46">0</span> %
+        </div>
         <h3>Více poptávek</h3>
         <p>Virtuální prohlídky mohou zvýšit počet poptávek až o 46 %.</p>
       </div>
 
+      <!-- 2) VÍCE ZÁKAZNÍKŮ -->
       <div class="card benefit big">
         <div class="benefit-icon" aria-hidden="true">👀</div>
-        <div class="benefit-number">+<span class="counter" data-target="87">0</span> %</div>
+        <div class="benefit-number">
+          +<span class="counter" data-target="87">0</span> %
+        </div>
         <h3>Více zobrazení</h3>
-        <p>Nabídky s virtuální prohlídkou získají až o 87 % více zobrazení než nabídky bez ní.</p>
+        <p>Nabídky s virtuální prohlídkou získají až o       87 % více zobrazení než nabídky bez ní.</p>
       </div>
 
+      <!-- 3) DŮVĚRA -->
       <div class="card benefit big">
         <div class="benefit-icon" aria-hidden="true">👥</div>
-        <div class="benefit-number"><span class="counter" data-target="70">0</span> %</div>
+        <div class="benefit-number">
+          <span class="counter" data-target="70">0</span> %
+        </div>
         <h3>Lidí preferuje prohlídku před fotkami</h3>
         <p>Většina zákazníků dává přednost prohlídkám před statickými obrázky.</p>
       </div>
+
     </div>
+
   </div>
 </section>
 
-<!-- VTOUR -->
+
+
+<!-- VTOUR (full-screen, loop) -->
 <section id="vtour" aria-label="Virtuální prohlídky">
   <div class="vt-overlay"></div>
 
@@ -187,25 +224,28 @@
     <div class="vt-media">
       <div class="vt-viewport">
         <div class="vt-strip">
-          <a class="vt-card"
-             data-bg="CAM05637G0-PR0005-STILL005.jpg"
-             data-title="Houseboat Praha"
-             data-desc="Vytvořili jsme 3D virtuální prohlídku pro vlastníka Houseboatu na míru."
-             href="https://tour.giraffe360.com/houseboat-prague-vltava/"
-             target="_blank" rel="noopener">
-            <img src="CAM05637G0-PR0005-STILL005.jpg" alt="Houseboat Praha">
-            <div class="vt-meta"><strong>Houseboat Praha</strong><span>Virtuální prohlídka</span></div>
-          </a>
+          <!-- karty (opravené) -->
+<a class="vt-card"
+   data-bg="CAM05637G0-PR0005-STILL005.jpg"
+   data-title="Houseboat Praha"
+   data-desc="Vytvořili jsme 3D virtuální prohlídku pro vlastníka Houseboatu na míru."
+   href="https://tour.giraffe360.com/houseboat-prague-vltava/"
+   target="_blank" rel="noopener">
+  <img src="CAM05637G0-PR0005-STILL005.jpg" alt="Houseboat Praha">
+  <div class="vt-meta"><strong>Houseboat Praha</strong><span>Virtuální prohlídka</span></div>
+</a>
 
-          <a class="vt-card"
-             data-bg="bazenmala.jpg"
-             data-title="Krytý plavecký bazén Svitavy"
-             data-desc="3D prohlídka vytvořená na míru pro Sportes Svitavy s.r.o."
-             href="https://tour.giraffe360.com/krytyplaveckybazensvitavy/"
-             target="_blank" rel="noopener">
-            <img src="bazenmala.jpg" alt="Krytý plavecký bazén Svitavy">
-            <div class="vt-meta"><strong>Krytý plavecký bazén Svitavy</strong><span>Virtuální prohlídka</span></div>
-          </a>
+<a class="vt-card"
+   data-bg="bazenmala.jpg"
+   data-title="Krytý plavecký bazén Svitavy"
+   data-desc="3D prohlídka vytvořená na míru pro Sportes Svitavy s.r.o."
+   href="https://tour.giraffe360.com/krytyplaveckybazensvitavy/"
+   target="_blank" rel="noopener">
+  <img src="bazenmala.jpg" alt="Krytý plavecký bazén Svitavy">
+  <div class="vt-meta"><strong>Krytý plavecký bazén Svitavy</strong><span>Virtuální prohlídka</span></div>
+</a>
+
+
         </div>
       </div>
 
@@ -226,6 +266,7 @@
   </div>
 </section>
 
+
 <!-- O NÁS -->
 <section id="o-nas" class="section">
   <div class="container grid grid-2 about">
@@ -234,7 +275,7 @@
       <h2>Tým ShowSpace</h2>
       <p class="lead">Jsme parta vysokoškoláků a nadšenců do moderních technologií a marketingu. Baví nás pomáhat s prezentací prostorů v co nejlepším světle.</p>
       <p>Jsme energičtí a ambiciózní. Ke každému projektu přistupujeme s maximální péčí. Spokojenost klienta je pro nás vždy na prvním místě – když se daří vám, daří se i nám.</p>
-      <p style="margin-top:12px">
+       <p style="margin-top:12px">
         <a href="galerie.html" class="btn btn--outline">Ukázky práce</a>
         <a href="#kontakt" class="btn btn--highlight pulse btn-cta">Chci nezávaznou poptávku</a>
       </p>
@@ -246,10 +287,11 @@
   </div>
 </section>
 
-<!-- KONTAKT -->
+<!-- KONTAKT – dvě karty -->
 <section id="kontakt" class="section contact">
   <div class="container contact-grid">
 
+    <!-- INFO KARTA -->
     <div class="contact-card contact-info">
       <h2>Kontaktujte nás</h2>
       <p class="lead">Ozveme se do 24 hodin.</p>
@@ -261,7 +303,7 @@
           </div>
           <div>
             <strong>Telefon</strong>
-            <a href="tel:+420730167681">+420 730 167 681</a>
+            <a href="tel:+420123456789">+420 730 167 681</a>
           </div>
         </li>
 
@@ -291,12 +333,14 @@
           </div>
           <div>
             <strong>Fakturační údaje</strong>
-            IČO: 23631741 • DIČ: CZ23631741<br>Spisová značka: C 55194, KS Hradec Králové
+            IČO: 23631741 • DIČ: CZ23631741<br>
+            Spisová značka: C 55194, KS Hradec Králové
           </div>
         </li>
       </ul>
     </div>
 
+    <!-- FORM KARTA -->
     <div class="contact-card contact-form">
       <h2>Napište nám</h2>
       <form action="https://formspree.io/f/yourendpoint" method="POST">
@@ -347,27 +391,8 @@
 <!-- TO TOP -->
 <div id="toTop" title="Zpět nahoru">↑</div>
 
-<!-- COOKIE BANNER -->
-<div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Nastavení souborů cookie" hidden>
-  <div class="cookie-inner">
-    <p class="cookie-text">
-      Používáme nezbytné cookies a volitelné analytické pro zlepšení webu.
-      Podrobnosti najdeš v <a href="gdpr.html">Zásadách ochrany osobních údajů</a>.
-    </p>
-    <div class="cookie-actions">
-      <button class="btn btn--accent cookie-accept" type="button">Přijmout</button>
-      <button class="btn btn--outline cookie-decline" type="button" aria-label="Odmítnout analytické cookies">Odmítnout</button>
-    </div>
-  </div>
-</div>
-
-<!-- KNIHOVNY PRO ANIMACE -->
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-
-<!-- VŠECHNY SKRIPTY STRÁNKY -->
+<!-- Skripty -->
 <script>
-/* Scroll to top */
 (() => {
   const toTop = document.getElementById("toTop");
   if (!toTop) return;
@@ -380,7 +405,7 @@
 </script>
 
 <script>
-/* Dropdown „Služby“ (desktop) */
+/* Dropdown „Služby“ */
 (() => {
   const toggle = document.querySelector('.menu-toggle');
   const menu = document.getElementById('submenu-sluzby');
@@ -398,7 +423,7 @@
 </script>
 
 <script>
-/* BENEFIT counters (pomalu + po zobrazení) */
+/* BENEFITY čísla – pomalejší animace + volitelný data-duration */
 (() => {
   const section = document.getElementById('benefity');
   if (!section) return;
@@ -406,14 +431,15 @@
   const counters = section.querySelectorAll('.counter');
   if (!counters.length) return;
 
-  const SPEED_MS_DEFAULT = 5000;
+  const SPEED_MS_DEFAULT = 5000; // bylo 1200 → výrazně pomalejší
+
   let played = false;
 
   function animateCounter(el, target, duration = SPEED_MS_DEFAULT) {
     const t0 = performance.now();
     function frame(now) {
       const p = Math.min((now - t0) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
+      const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
       el.textContent = Math.round(target * eased);
       if (p < 1) requestAnimationFrame(frame);
     }
@@ -438,7 +464,9 @@
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting && !played) {
-          played = true; run(); io.disconnect();
+          played = true;
+          run();
+          io.disconnect();
         }
       });
     }, { threshold: 0.25 });
@@ -449,8 +477,9 @@
 })();
 </script>
 
+
 <script>
-/* VTOUR – nekonečný pás, první vlevo zvětšená, bg + text sync, autoplay, swipe */
+/* VTOUR – loop + bg + text + autoplay + swipe (fix: visible ≤ originals.length) */
 (() => {
   const root = document.getElementById('vtour');
   if (!root) return;
@@ -470,6 +499,7 @@
   let visible = 3;
   let cards = [];
 
+  // Autoplay interval (10s). Pro 8 sekund dej 8000.
   const AUTOPLAY_MS = 10000;
   let timer = null;
   let isPointerOver = false;
@@ -477,12 +507,17 @@
   const calcVisibleRaw = () =>
     window.innerWidth <= 640 ? 1 : (window.innerWidth <= 980 ? 2 : 3);
 
-  const calcVisible = () => Math.max(1, Math.min(calcVisibleRaw(), originals.length));
+  const calcVisible = () => {
+    // Nikdy neukazuj víc „slotů“, než je originálů – jinak se rozbije mapování.
+    const wanted = calcVisibleRaw();
+    return Math.max(1, Math.min(wanted, originals.length));
+  };
 
   function rebuild() {
     visible = calcVisible();
     strip.innerHTML = '';
 
+    // Nekonečný pás: [tail][originals][head]
     const head = originals.slice(0, visible).map(n => n.cloneNode(true));
     const tail = originals.slice(-visible).map(n => n.cloneNode(true));
 
@@ -491,7 +526,7 @@
     head.forEach(n => strip.appendChild(n));
 
     cards = [...strip.children];
-    current = visible; // začneme na první „reálné“
+    current = visible; // začátek na první „reálné“ kartě uprostřed
     centerOn(current, false);
     updateUI();
     restartAutoplay();
@@ -511,13 +546,17 @@
 
   function normalize() {
     const total = originals.length;
-    if (current < visible)            { current += total; centerOn(current, false); }
-    if (current >= visible + total)   { current -= total; centerOn(current, false); }
+    if (current < visible) { current += total; centerOn(current, false); }
+    if (current >= visible + total) { current -= total; centerOn(current, false); }
     updateUI();
   }
 
-  function go(delta) { current += delta; centerOn(current, true); }
+  function go(delta) {
+    current += delta;
+    centerOn(current, true);
+  }
 
+  // Převod „živého“ indexu (včetně klonů) na index originálu
   function liveToReal(liveIdx) {
     const total = originals.length;
     return ( (liveIdx - visible) % total + total ) % total;
@@ -525,24 +564,28 @@
 
   function updateUI(fade = false) {
     const total = originals.length;
+
+    // Středová karta (pro texty/odkaz)
     const realIndex = liveToReal(current);
     const realCard  = originals[realIndex];
     const liveCard  = cards[current];
 
+    // První viditelná vlevo (pro desktop pozadí + zvětšení)
     const leftOffset = (visible === 1 ? 0 : Math.floor(visible / 2));
     const firstIdx   = current - leftOffset;
     const firstLive  = cards[firstIdx];
     const realIndexFirst = liveToReal(firstIdx);
     const realCardFirst  = originals[realIndexFirst];
 
-    // Pozadí (mobil = středová, desktop = první vlevo)
+    // === Pozadí ===
+    // mobil: středová; desktop/tablet: první vlevo
     const bgSourceCard = (visible === 1 ? realCard : realCardFirst);
     const imgSrc = bgSourceCard?.querySelector('img')?.getAttribute('src');
     const dataBg = bgSourceCard?.dataset?.bg;
     const bg = imgSrc || dataBg;
     if (bg) root.style.setProperty('--vtbg', `url("${bg}")`);
 
-    // Texty/odkaz (středová karta)
+    // === Texty/odkaz (středová karta) ===
     const t    = realCard.dataset.title || 'Virtuální prohlídka';
     const d    = realCard.dataset.desc  || 'Prohlídka v nové záložce.';
     const href = realCard.getAttribute('href') || '#';
@@ -561,12 +604,13 @@
       linkEl.href         = href;
     }
 
-    // Zvýraznění – první vlevo je větší
+    // Zvýraznění: první vlevo je větší
     cards.forEach(c => c.classList.remove('is-center','is-first'));
     if (liveCard)  liveCard.classList.add('is-center');
     if (firstLive) firstLive.classList.add('is-first');
   }
 
+  // Autoplay
   function startAutoplay() {
     if (timer) return;
     timer = setInterval(() => {
@@ -576,16 +620,19 @@
   function stopAutoplay()   { if (timer) { clearInterval(timer); timer = null; } }
   function restartAutoplay(){ stopAutoplay(); startAutoplay(); }
 
+  // Ovládání
   nextBtn.addEventListener('click', () => { go(+1); restartAutoplay(); });
   prevBtn.addEventListener('click', () => { go(-1); restartAutoplay(); });
   strip.addEventListener('transitionend', normalize);
 
+  // Klávesy
   root.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight') { go(+1); restartAutoplay(); }
     if (e.key === 'ArrowLeft')  { go(-1); restartAutoplay(); }
   });
   root.setAttribute('tabindex', '-1');
 
+  // Pauza na hover/dotyk
   [root, viewport, nextBtn, prevBtn, copyBox].forEach(el => {
     el.addEventListener('pointerenter', () => { isPointerOver = true; stopAutoplay(); }, {passive:true});
     el.addEventListener('pointerleave', () => { isPointerOver = false; startAutoplay(); }, {passive:true});
@@ -607,10 +654,12 @@
     restartAutoplay();
   }, { passive: true });
 
+  // Viditelnost tabu
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') startAutoplay(); else stopAutoplay();
   });
 
+  // Resize
   window.addEventListener('resize', () => {
     const before = visible, now = calcVisible();
     if (before !== now) rebuild(); else centerOn(current, false);
@@ -621,8 +670,12 @@
 })();
 </script>
 
+
+
+
+
 <script>
-/* HAMBURGER – mobilní menu */
+/* === Hamburger – otevření mobilního menu === */
 (() => {
   const burger   = document.querySelector('.hamburger');
   const panel    = document.getElementById('mobileMenu');
@@ -652,12 +705,28 @@
   });
   backdrop.addEventListener('click', close);
   document.addEventListener('keydown', (e)=> { if(e.key === 'Escape') close(); });
-  panel.addEventListener('click', (e)=> { const a = e.target.closest('a'); if(a) close(); });
+  panel.addEventListener('click', (e)=> {
+    const a = e.target.closest('a'); if(a) close();   // zavřít po kliknutí na odkaz
+  });
 })();
 </script>
 
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Nastavení souborů cookie" hidden>
+  <div class="cookie-inner">
+    <p class="cookie-text">
+      Používáme nezbytné cookies a volitelné analytické pro zlepšení webu.
+      Podrobnosti najdeš v
+      <a href="gdpr.html">Zásadách ochrany osobních údajů</a>.
+    </p>
+    <div class="cookie-actions">
+      <button class="btn btn--accent cookie-accept" type="button">Přijmout</button>
+      <button class="btn btn--outline cookie-decline" type="button" aria-label="Odmítnout analytické cookies">Odmítnout</button>
+    </div>
+  </div>
+</div>
+
 <script>
-/* COOKIE banner – řízení a načtení analytics */
 (function () {
   const KEY = 'cookieConsent';
   const banner = document.getElementById('cookie-banner');
@@ -669,17 +738,21 @@
   function show()  { banner.hidden = false; }
   function hide()  { banner.hidden = true;  }
 
+  // Spustí skripty označené jako analytics
   function enableNonEssential() {
     document.querySelectorAll('script[type="text/plain"][data-cookiecategory="analytics"]').forEach(s => {
       const r = document.createElement('script');
+      // zkopíruj všechny atributy kromě type
       [...s.attributes].forEach(a => { if (a.name !== 'type') r.setAttribute(a.name, a.value); });
-      r.text = s.text;
+      r.text = s.text;     // podpora inline initu
       s.replaceWith(r);
     });
   }
 
+  // Smaže GA cookies při odmítnutí (pro jistotu i s doménou)
   function deleteAnalyticsCookies() {
     const names = ['_gid','_gat'];
+    // _ga má prefixy (_ga_*, _ga)
     document.cookie.split(';').forEach(c => {
       const name = c.split('=')[0].trim();
       if (name === '_ga' || name.startsWith('_ga') || names.includes(name)) {
@@ -691,27 +764,37 @@
   }
 
   const consent = localStorage.getItem(KEY);
+
   if (consent === 'accepted') {
     enableNonEssential();
-  } else if (consent !== 'declined') {
+  } else if (consent === 'declined') {
+    // nic nespouštět
+  } else {
     show();
   }
 
   acceptBtn.addEventListener('click', () => {
     localStorage.setItem(KEY, 'accepted');
-    hide(); enableNonEssential();
+    hide();
+    enableNonEssential();
   });
+
   declineBtn.addEventListener('click', () => {
     localStorage.setItem(KEY, 'declined');
-    hide(); deleteAnalyticsCookies();
+    hide();
+    deleteAnalyticsCookies();
   });
 })();
 </script>
 
+
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
 <script>
-/* WOW animace – auto-označení prvků a GSAP reveal */
 (() => {
-  // Helper k označení prvků pro reveal
+  // 1) Hromadně označíme prvky třídami .rev + varianty
   const mark = (sel, cls='rev-up', baseDelay=0, step=0.08) => {
     const nodes = document.querySelectorAll(sel);
     nodes.forEach((el, i) => {
@@ -725,23 +808,31 @@
   mark('.hero-card p','rev-up',.06,0);
   mark('.hero-card .btn-cta','rev-rot',.12,0);
 
-  // Sekce: nadpisy, podnadpisy, odstavce, tlačítka
+  // Sekce: titulky, podtitulky, odstavce, tlačítka
   mark('section h2','rev-up',0,.05);
   mark('section h3, section .lead','rev-right',.02,.05);
   mark('section p','rev-up',.04,.03);
   mark('section .btn','rev-pop',.04,.05);
 
-  // Karty/boxy + obrázky
+  // Karty/boxy napříč webem
   mark('.benefits-center .card','rev-rot',0,.1);
   mark('#kontakt .contact-card','rev-up',0,.12);
+
+  // VTOUR – text vlevo
+  mark('#vt-copy .tag','rev-right',0,0);
+  mark('#vt-title','rev-up',.05,0);
+  mark('#vt-desc','rev-up',.08,0);
+  mark('#vt-copy .vt-buttons .btn','rev-pop',.12,.08);
+
+  // Obrázky obecně
   mark('img','rev-up',0,.04);
 
+  // 2) GSAP reveal s pružností a lehkou randomizací
   if (!window.gsap) return;
   if (gsap && gsap.registerPlugin) gsap.registerPlugin(ScrollTrigger);
 
   const rnd = (min,max)=> Math.random()*(max-min)+min;
 
-  // Reveal animace pro všechny .rev
   document.querySelectorAll('.rev').forEach((el) => {
     const style = getComputedStyle(el);
     const delay = parseFloat(style.getPropertyValue('--delay') || 0);
@@ -755,9 +846,10 @@
         skewY: parseFloat((style.getPropertyValue('--skew')||'0deg')),
       },
       {
-        opacity: 1, x:0, y:0, rotation:0, skewY:0,
-        ease: "back.out(1.8)",
-        duration: rnd(0.7, 1.05),
+        opacity: 1,
+        x: 0, y: 0, rotation: 0, skewY: 0,
+        ease: "back.out(1.7)",
+        duration: rnd(0.7, 1.0),
         delay,
         scrollTrigger: {
           trigger: el,
@@ -770,7 +862,7 @@
     );
   });
 
-  // Hero „timeline“ při načtení
+  // 3) Hero “wow” timeline při načtení
   const hero = document.querySelector('.hero');
   if (hero) {
     const tl = gsap.timeline();
@@ -780,7 +872,7 @@
       .from('.hero-card .btn-cta',{scale:.9, rotate:-3, opacity:0, duration:.8, ease:'back.out(2.2)'},0.34);
   }
 
-  // 3D tilt + „sheen“ na kartách VTOUR
+  // 4) VTOUR karty – jemný 3D tilt (navazuje na CSS proměnné)
   const cards = document.querySelectorAll('.vt-card');
   const CLAMP = (v, min, max) => Math.max(min, Math.min(max, v));
   cards.forEach(card => {
@@ -795,6 +887,7 @@
       rX = CLAMP(-py * 16, -8, 8);
       if (!raf) {
         raf = requestAnimationFrame(() => {
+          // složený transform zachová --scale z .is-first
           card.style.transform = `translate(var(--tx), var(--ty)) rotate(var(--rot)) skewY(var(--skew)) scale(var(--scale)) rotateX(${rX}deg) rotateY(${rY}deg)`;
           raf = null;
         });
@@ -811,5 +904,11 @@
 })();
 </script>
 
+
+
+
+
+
+  
 </body>
-</html>
+</html> 
