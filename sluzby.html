@@ -15,70 +15,7 @@
   <meta name="theme-color" content="#415A77">
 
   <style>
-    /* === NAVBAR: fixní nahoře, čistě bílý, bez béžového proužku === */
-body.page-services{
-  --navH: 76px; /* výška navigace (doladíš podle reálu) */
-}
-
-/* zruš staré definice na téhle stránce */
-body.page-services nav{ all: unset; }
-body.page-services .nav-inner{ all: unset; }
-
-/* nové chování navu */
-body.page-services nav{
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 1000;
-  background: #fff !important;     /* čistě bílé pozadí */
-  border-bottom: 1px solid #eee;
-  box-shadow: 0 4px 14px rgba(0,0,0,.06);
-  padding: 10px 0;
-}
-
-/* vnitřek navu – hlavně zrušit ten horní barevný proužek */
-body.page-services .nav-inner{
-  background: #fff !important;
-  margin-top: 0;
-  border-top: 0 !important;         /* <— odstraní béžový proužek */
-}
-
-/* posun obsahu dolů, aby ho nav nepřekrýval */
-body.page-services{ padding-top: var(--navH); }
-
-/* odkazy na kotvy neschová nadpis pod fixní nav */
-body.page-services section{ scroll-margin-top: var(--navH); }
-
-    /* === NAVBAR – sticky a bez překrývání obsahu na stránce Služby === */
-body.page-services{
-  --navH: 72px;          /* přibližná výška navigace (logo + padding) */
-}
-
-body.page-services nav{
-  position: sticky !important;
-  top: 0;
-  z-index: 1000;
-  background: #fff;
-  border-bottom: 1px solid #eee;
-  box-shadow: 0 4px 14px rgba(0,0,0,.06);
-  padding: 10px 0;
-}
-
-/* jemná mezera za navem, aby nic „nelepilo“ hned pod lištu */
-body.page-services nav + *{ margin-top: 8px; }
-
-/* když skáčeš na kotvy z menu, nezařízne to nadpis pod navigaci */
-body.page-services section{ scroll-margin-top: var(--navH); }
-
-/* volitelné: trochu víc místa u první sekce */
-body.page-services #sluzba-prohlidky.service-section{ padding-top: 32px; }
-
-/* původní vzhled vnitřku navu */
-body.page-services .nav-inner{
-  background:#fff;
-  margin-top:0;
-  border-top: 4px solid var(--accent);
-}
-
+   
     /* ==========================
        LOKÁLNÍ STYLY – SLUŽBY
        ========================== */
