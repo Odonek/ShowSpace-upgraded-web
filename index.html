@@ -782,125 +782,115 @@
 })();
 </script>
 
-<!-- GSAP + ScrollTrigger -->
+
+
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
 <script>
 (() => {
-  if (!window.gsap) return; // bezpečný fallback – když se GSAP nenačte, nic se neschová
-
+  if (!window.gsap) return;
   gsap.registerPlugin(ScrollTrigger);
 
-  // Helper: vytvoř reveal animaci pro skupinu prvků
-  function revealGroup(targets, vars = {}) {
-    const els = gsap.utils.toArray(targets);
-    if (!els.length) return;
+  const REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ease = "power3.out";
 
-    // Skryjeme runtime (ne v CSS), ať je vše vidět i bez GSAP
-    gsap.set(els, { autoAlpha: 0, y: 24 });
-
-    els.forEach((el, i) => {
-      gsap.to(el, {
-        autoAlpha: 1,
-        y: 0,
+  // Helper: nic neschovává dopředu, animace jen při vstupu do viewportu
+  const reveal = (targets, vars={}, st={}) => {
+    gsap.utils.toArray(targets).forEach((el, i) => {
+      gsap.from(el, {
         duration: vars.duration ?? 0.9,
-        ease: vars.ease ?? "power3.out",
-        delay: vars.stagger ? i * (vars.stagger) : 0,
+        ease: vars.ease ?? ease,
+        stagger: vars.stagger ? i * vars.stagger : 0,
+        immediateRender: false,        // klíč: nespouštět „from“ hned při vytvoření
+        ...vars,
         scrollTrigger: {
-          trigger: el,
-          start: vars.start ?? "top 85%",
-          once: true
+          trigger: st.trigger ?? el,
+          start: st.start ?? "top 85%",
+          once: st.once ?? true,
+          ...st
         }
       });
     });
-  }
+  };
 
-  // Helper: timeline pro sekce – hezké sekvenční nástupy
-  function sectionTL(trigger, steps = []) {
-    const tl = gsap.timeline({
-      defaults: { ease: "power3.out" },
-      scrollTrigger: { trigger, start: "top 80%", once: true }
+  // NAV – jemný příjezd po loadu
+  const nav = document.querySelector(".nav-inner");
+  if (nav) gsap.from(nav, { y: -20, autoAlpha: 0, duration: 0.7, ease: "power2.out", immediateRender:false });
+
+  // HERO
+  reveal(".hero-card h1", { y: 24, autoAlpha: 0 });
+  reveal(".hero-card p",  { y: 20, autoAlpha: 0 }, { start: "top 90%" });
+  reveal(".hero-card .btn-cta", { y: 16, autoAlpha: 0, scale: 0.98 });
+
+  // BENEFITY – hlavička
+  reveal("#benefity .benefits-head h2", { y: 18, autoAlpha: 0 });
+  // v HTML máš <h3> – taky ho animujeme
+  reveal("#benefity .benefits-head h3, #benefity .benefits-head .lead", { y: 18, autoAlpha: 0 });
+
+  // BENEFITY – karty (střídání variant)
+  gsap.utils.toArray("#benefity .benefits-center .card").forEach((card, i) => {
+    const variants = [
+      { y: 26, autoAlpha: 0, scale: 0.98 },
+      { y: 26, autoAlpha: 0, rotate: -1.5, transformOrigin: "50% 100%" },
+      { y: 26, autoAlpha: 0, rotate:  1.2, transformOrigin: "50% 100%" }
+    ];
+    gsap.from(card, {
+      ...variants[i % variants.length],
+      duration: 0.9,
+      ease,
+      immediateRender:false,
+      scrollTrigger: { trigger: card, start: "top 85%", once: true }
     });
-    steps.forEach(s => tl.from(s.targets, s.vars, s.position));
-  }
-
-  /* NAV – pilulka shora + logo jemně */
-  (() => {
-    const nav = document.querySelector(".nav-inner");
-    if (!nav) return;
-    gsap.set(nav, { y: -20, autoAlpha: 0 });
-    gsap.to(nav, { y: 0, autoAlpha: 1, duration: 0.8, ease: "power2.out", delay: 0.15 });
-  })();
-
-  /* HERO – badge/heading/text/CTA postupně */
-  sectionTL(".hero", [
-    { targets: ".hero-card h1", vars: { y: 20, autoAlpha: 0, duration: 0.9 }, position: 0 },
-    { targets: ".hero-card p",  vars: { y: 20, autoAlpha: 0, duration: 0.9 }, position: "-=0.6" },
-    { targets: ".hero-card .btn-cta", vars: { y: 14, autoAlpha: 0, duration: 0.9, scale: 0.98 }, position: "-=0.65" }
-  ]);
-
-  /* BENEFITY – hlavička, pak tři karty s mírným parallax stínem */
-  sectionTL("#benefity", [
-    { targets: "#benefity .benefits-head h2", vars: { y: 18, autoAlpha: 0, duration: 0.8 }, position: 0 },
-    { targets: "#benefity .benefits-head h3", vars: { y: 18, autoAlpha: 0, duration: 0.8 }, position: "-=0.5" }
-  ]);
-  revealGroup("#benefity .benefits-center .card", { stagger: 0.16, duration: 0.9 });
-  // jemný hover-tilt při scrollu
-  gsap.utils.toArray("#benefity .benefits-center .card").forEach(card => {
-    gsap.fromTo(card, { boxShadow: "0 6px 20px rgba(0,0,0,0.06)" },
-      {
-        boxShadow: "0 14px 40px rgba(0,0,0,0.18)",
-        scrollTrigger: { trigger: card, start: "top 90%", end: "bottom 60%", scrub: 0.3 }
-      });
   });
 
-  /* VTOUR – tag + title + text + tlačítka zleva,
-     karty jemně „vystřelí“ a každá má trochu jinou variantu,
-     ať to není všude stejné */
-  sectionTL("#vtour .vt-grid", [
-    { targets: "#vt-copy .tag",   vars: { x: -18, autoAlpha: 0, duration: 0.6 }, position: 0 },
-    { targets: "#vt-title",       vars: { x: -22, autoAlpha: 0, duration: 0.8 }, position: "-=0.3" },
-    { targets: "#vt-desc",        vars: { x: -22, autoAlpha: 0, duration: 0.8 }, position: "-=0.55" },
-    { targets: "#vt-copy .vt-buttons .btn", vars: { y: 16, autoAlpha: 0, duration: 0.7, stagger: 0.12 }, position: "-=0.5" }
-  ]);
+  // VTOUR – text vlevo
+  reveal("#vt-copy .tag", { x: -18, autoAlpha: 0 });
+  reveal("#vt-title",     { x: -22, autoAlpha: 0 });
+  reveal("#vt-desc",      { x: -22, autoAlpha: 0 });
+  reveal("#vt-copy .vt-buttons .btn", { y: 16, autoAlpha: 0, stagger: 0.12 });
 
-  // karty – mix variant (nahoru/rotate/scale), každá jinak
-  const vtCards = gsap.utils.toArray("#vtour .vt-card");
-  vtCards.forEach((c, i) => {
-    const variant = i % 3;
-    const fromVars = [
-      { y: 40, autoAlpha: 0, scale: 0.96 },
-      { y: 30, autoAlpha: 0, rotate: -2, transformOrigin: "50% 100%" },
-      { y: 34, autoAlpha: 0, scale: 1.04, rotate: 1.5, transformOrigin: "50% 100%" }
-    ][variant];
-
+  // VTOUR – karty (jemné střídání)
+  gsap.utils.toArray("#vtour .vt-card").forEach((c, i) => {
+    const v = i % 3;
+    const from =
+      v === 0 ? { y: 40, autoAlpha: 0, scale: 0.96 } :
+      v === 1 ? { y: 34, autoAlpha: 0, rotate: -2 } :
+                { y: 36, autoAlpha: 0, rotate: 1.3, scale: 1.02 };
     gsap.from(c, {
-      ...fromVars,
-      duration: 0.9,
-      ease: "power3.out",
+      ...from, duration: 0.95, ease, immediateRender:false,
       scrollTrigger: { trigger: c, start: "top 85%", once: true }
     });
   });
 
-  /* O NÁS – text blok a obrázek křížem */
-  sectionTL("#o-nas .about", [
-    { targets: "#o-nas .about .text .tag", vars: { x: -16, autoAlpha: 0, duration: 0.5 }, position: 0 },
-    { targets: "#o-nas .about h2",         vars: { x: -20, autoAlpha: 0, duration: 0.8 }, position: "-=0.3" },
-    { targets: "#o-nas .about .lead",      vars: { x: -20, autoAlpha: 0, duration: 0.8 }, position: "-=0.55" },
-    { targets: "#o-nas .about p:not(.lead)", vars: { y: 16, autoAlpha: 0, duration: 0.7 }, position: "-=0.55" },
-    { targets: "#o-nas .about .btn",       vars: { y: 16, autoAlpha: 0, duration: 0.7, stagger: 0.1 }, position: "-=0.6" },
-    { targets: "#o-nas .about img",        vars: { x: 24, autoAlpha: 0, duration: 0.9 }, position: 0 }
-  ]);
+  // O NÁS
+  reveal("#o-nas .about .tag",  { x: -16, autoAlpha: 0 });
+  reveal("#o-nas .about h2",    { x: -20, autoAlpha: 0 });
+  reveal("#o-nas .about .lead", { x: -20, autoAlpha: 0 });
+  reveal("#o-nas .about p:not(.lead)", { y: 16, autoAlpha: 0 });
+  reveal("#o-nas .about .btn",  { y: 16, autoAlpha: 0, stagger: 0.1 });
+  reveal("#o-nas .about img",   { x: 24, autoAlpha: 0 });
 
-  /* KONTAKT – obě karty zespodu, mírný stagger */
-  revealGroup("#kontakt .contact-card", { stagger: 0.15, duration: 0.9 });
+  // KONTAKT
+  reveal("#kontakt .contact-card", { y: 20, autoAlpha: 0, stagger: 0.12 });
 
-  /* FOOTER – fade in při dojezdu */
-  revealGroup("footer .footer-wrap", { duration: 0.7 });
+  // FOOTER
+  reveal("footer .footer-wrap", { autoAlpha: 0, duration: 0.6 });
+
+  // Jemné „scrub“ efekty (volitelné)
+  if (!REDUCED) {
+    gsap.utils.toArray("#benefity .benefits-center .card").forEach(card => {
+      gsap.fromTo(card,
+        { boxShadow: "0 12px 40px rgba(0,0,0,.18)" },
+        {
+          boxShadow: "0 20px 60px rgba(0,0,0,.24)",
+          scrollTrigger: { trigger: card, start: "top 90%", end: "bottom 65%", scrub: 0.3 }
+        }
+      );
+    });
+  }
 })();
 </script>
-
 
 
   
