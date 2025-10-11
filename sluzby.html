@@ -15,7 +15,38 @@
   <meta name="theme-color" content="#415A77">
 
   <style>
-   
+   /* === SLUŽBY: navbar nahoře, neoverlayuje, bílé pozadí === */
+body.page-services nav{
+  position: static !important;       /* žádný fixed/sticky */
+  top: auto; left: auto; right: auto;
+  background: #fff !important;       /* čistě bílé */
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 4px 14px rgba(0,0,0,.06);
+  padding: 10px 0;
+  margin: 0 !important;
+  transform: none !important;        /* kdyby globál něco posouval */
+}
+
+/* vnitřek navu – zruší proužek i „pill“ */
+body.page-services .nav-inner{
+  background: #fff !important;
+  border-top: 0 !important;          /* odstraní žlutý proužek */
+  border-radius: 0 !important;       /* žádné zaoblení pillu */
+  box-shadow: none !important;
+  margin-top: 0 !important;
+}
+
+/* malá mezera pod navem, ať text neleží nalepený */
+body.page-services nav + *{
+  margin-top: 12px;
+}
+
+/* kotvy neskáčou pod nav (pro jistotu ponecháme offset) */
+body.page-services section{ scroll-margin-top: 72px; }
+
+/* submenu nad obsahem */
+body.page-services .submenu{ z-index: 200; }
+
     /* ==========================
        LOKÁLNÍ STYLY – SLUŽBY
        ========================== */
