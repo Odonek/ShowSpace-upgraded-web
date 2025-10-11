@@ -180,14 +180,23 @@ transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
 @media (max-width: 480px) { .btn-cta { padding: 16px 24px; font-size: 1.05rem; } }
 
 /* HERO */
-.hero,
+/* ✅ Hero může chytat kliky */
+.hero {
+  pointer-events: auto !important;   /* přebije staré pravidlo */
+  position: relative !important;
+  z-index: 0 !important;
+}
+
+/* ✅ Jen video/overlay jsou „průchozí“ a pod UI */
 .hero-media,
 .hero-media video,
 .hero-overlay {
-  position: relative;
-  z-index: 0;          /* pod UI */
-  pointer-events: none;/* neblokuje kliky */
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: -1 !important;
+  pointer-events: none !important;
 }
+
 .hero {
 position: relative; min-height: clamp(560px, 100vh, 900px);
 border-radius: 0 !important; overflow: hidden; background: #f0f0f0; width: 100%;
@@ -1045,14 +1054,7 @@ nav, .mobile-menu, #cookie-banner { isolation: isolate; }
   z-index: 0 !important;
 }
 
-.hero-media,
-.hero-media video,
-.hero-overlay {
-  position: absolute !important;
-  inset: 0 !important;
-  z-index: -1 !important;     /* video + overlay pod obsahem i pod nav */
-  pointer-events: none !important;
-}
+
 
 nav {
   position: absolute !important;  /* zůstává absolute (ne fixed) */
@@ -1101,22 +1103,5 @@ nav {
 
 #kontakt .contact-card {
   will-change: transform, opacity, filter;
-}
-
-/* ✅ Hero může chytat kliky */
-.hero {
-  pointer-events: auto !important;   /* přebije staré pravidlo */
-  position: relative !important;
-  z-index: 0 !important;
-}
-
-/* ✅ Jen video/overlay jsou „průchozí“ a pod UI */
-.hero-media,
-.hero-media video,
-.hero-overlay {
-  position: absolute !important;
-  inset: 0 !important;
-  z-index: -1 !important;
-  pointer-events: none !important;
 }
 
