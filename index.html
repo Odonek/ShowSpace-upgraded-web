@@ -789,133 +789,108 @@
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-
 <script>
 (() => {
-  if (!window.gsap) return;
-  gsap.registerPlugin(ScrollTrigger);
+  if (!('IntersectionObserver' in window)) return;
 
-  const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const ease = "power3.out";
-
-  // ---------- Pomocné ----------
-  const inview = (targets, vars, opts={}) => {
-    const els = gsap.utils.toArray(targets);
-    if (!els.length) return;
-
-    els.forEach(el => {
-      // žádné předskrývání v CSS – skryje to až GSAP při vytvoření animace
-      const baseFrom = vars.from || {};
-      const baseTo   = vars.to   || {};
-
-      gsap.from(el, {
-        ...baseFrom,
-        autoAlpha: (baseFrom.autoAlpha ?? 0),
-        duration: (vars.duration ?? 0.9),
-        ease: (vars.ease ?? ease),
-        immediateRender: false,       // ✅ klíč proti probliknutí
-        scrollTrigger: (opts.scroll === false || REDUCED) ? null : {
-          trigger: el,
-          start: opts.start || "top 85%",
-          toggleActions: "play none none none",
-          once: true
-        },
-        onComplete: () => gsap.set(el, { clearProps: "transform,filter,opacity,clipPath,maskImage" }),
-        ...baseTo
-      });
-    });
-  };
-
-  const batch = (selector, fromVars, options={}) => {
-    const els = gsap.utils.toArray(selector);
-    if (!els.length) return;
-    if (REDUCED) { gsap.set(els, { autoAlpha:1 }); return; }
-
-    ScrollTrigger.batch(els, {
-      start: options.start || "top 85%",
-      once: true,
-      onEnter: items => {
-        gsap.from(items, {
-          ...fromVars,
-          autoAlpha: (fromVars.autoAlpha ?? 0),
-          duration: options.duration ?? 0.9,
-          ease,
-          immediateRender: false,     // ✅
-          stagger: options.stagger ?? 0.12,
-          onComplete: () => gsap.set(items, { clearProps: "transform,filter,opacity,clipPath,maskImage" })
-        });
-      }
-    });
-  };
-
-  // ---------- HERO (bez bliků, „mask reveal“ nadpisu) ----------
-  const heroH1 = document.querySelector(".hero-card h1");
-  if (heroH1) {
-    // hezké odhalení přes clipPath (funguje i bez Splitu)
-    if (!REDUCED) {
-      const tl = gsap.timeline({ defaults:{ ease, duration:0.9 } });
-      // nejdřív skryjeme až teď (ne předem v CSS)
-      gsap.set(heroH1, { autoAlpha:0, clipPath:"inset(0 0 100% 0)" });
-      gsap.set(".hero-card p, .hero-card .btn-cta", { autoAlpha:0, y:18 });
-
-      // animuj hned po layoutu (mimo ScrollTrigger, protože je nad přehybem)
-      requestAnimationFrame(() => {
-        tl.to(heroH1, { autoAlpha:1, clipPath:"inset(0 0 0% 0)", duration:0.8 })
-          .to(".hero-card p", { autoAlpha:1, y:0 }, "-=0.4")
-          .to(".hero-card .btn-cta", { autoAlpha:1, y:0, scale:1, ease:"elastic.out(1,0.6)", duration:1.0 }, "-=0.35");
-      });
-    }
+  // Helper: označ element k animaci
+  function mark(el, variant = 'fade-up', dur = 0.9, extra = {}) {
+    el.classList.add('reveal');
+    el.style.setProperty('--reveal', variant);
+    el.style.setProperty('--dur',    `${dur}s`);
+    if (extra.ease)  el.style.setProperty('--ease', extra.ease);
+    if (extra.delay) el.style.setProperty('animation-delay', `${extra.delay}s`);
   }
 
-  // ---------- BENEFITY ----------
-  inview("#benefity .benefits-head h2", { from:{ y:30 } });
-  inview("#benefity .benefits-head h3", { from:{ y:24 } }, { start:"top 88%" });
-  batch("#benefity .benefits-center .card", { y:28, rotation:-2, autoAlpha:0 }, { stagger:0.14 });
+  // 1) HERO – bez flickeru, bez složitostí
+  const h1 = document.querySelector('.hero-card h1');
+  const p  = document.querySelector('.hero-card p');
+  const cta= document.querySelector('.hero-card .btn-cta');
+  if (h1)  mark(h1, 'fade-up', .8);
+  if (p)   mark(p, 'fade-up', .8, { delay:.05 });
+  if (cta) { cta.classList.add('reveal'); cta.style.setProperty('--reveal','pop-elastic'); cta.style.setProperty('--dur','0.9s'); }
 
-  // ---------- VTOUR (copy) ----------
-  inview("#vt-copy .tag",  { from:{ x:-26 } });
-  inview("#vt-title",      { from:{ x:-22 } });
-  inview("#vt-desc",       { from:{ x:-18 } });
-  batch("#vt-copy .vt-buttons .btn", { y:20, scale:0.94 }, { stagger:0.10 });
+  // 2) BENEFITY
+  const bh2 = document.querySelector('#benefity .benefits-head h2');
+  const bh3 = document.querySelector('#benefity .benefits-head h3');
+  bh2 && mark(bh2, 'fade-up');
+  bh3 && mark(bh3, 'fade-up', .8, { delay:.06 });
 
-  // ---------- VTOUR (karty – pestřejší) ----------
-  const variants = [
-    { y:28, autoAlpha:0 },
-    { scale:0.88, autoAlpha:0 },
-    { y:24, skewY:4, autoAlpha:0 },
-    { x:26, autoAlpha:0 },
-    { filter:"blur(8px)", autoAlpha:0 }
-  ];
-  gsap.utils.toArray("#vtour .vt-card").forEach((card, i) => {
-    inview(card, { from: variants[i % variants.length] });
+  // Karty benefity – kontejner s postupným náběhem
+  const bgrid = document.querySelector('#benefity .benefits-center');
+  if (bgrid) {
+    bgrid.setAttribute('data-stagger','');
+    [...bgrid.children].forEach((card, i) => {
+      mark(card, ['rotate-in','pop','skew-up','fade-up'][i % 4], .85);
+      card.style.setProperty('--delay', `${i * 0.10}s`);
+    });
+  }
+
+  // 3) VTOUR – levý text
+  ['#vt-copy .tag', '#vt-title', '#vt-desc'].forEach((sel, i) => {
+    const el = document.querySelector(sel);
+    el && mark(el, 'fade-right', .85, { delay: i * 0.06 });
+  });
+  const vtBtnsWrap = document.querySelector('#vt-copy .vt-buttons');
+  if (vtBtnsWrap) {
+    vtBtnsWrap.setAttribute('data-stagger','');
+    vtBtnsWrap.querySelectorAll('.btn').forEach((btn, i) => {
+      mark(btn, 'pop', .8);
+      btn.style.setProperty('--delay', `${i * 0.10}s`);
+    });
+  }
+
+  // 4) VTOUR – karty (pestré)
+  document.querySelectorAll('#vtour .vt-card').forEach((card, i) => {
+    const variants = ['pop','fade-up','rotate-in','skew-up','fade-left'];
+    mark(card, variants[i % variants.length], .9);
   });
 
-  // ---------- O NÁS ----------
-  batch("#o-nas .about .text > *", { y:22, autoAlpha:0 }, { stagger:0.08 });
-  inview("#o-nas .about img", { from:{ x:26, autoAlpha:0 } });
-
-  // ---------- KONTAKT ----------
-  batch("#kontakt .contact-card", { y:26, autoAlpha:0 }, { stagger:0.12 });
-
-  // ---------- jemný parallax v hero ----------
-  if (!REDUCED) {
-    const overlay = document.querySelector(".hero-overlay");
-    const media   = document.querySelector(".hero-media");
-    overlay && gsap.to(overlay, {
-      opacity: 0.85,
-      scrollTrigger: { trigger: ".hero", start:"top top", end:"bottom top", scrub:0.4 }
+  // 5) O NÁS
+  const about = document.querySelector('#o-nas .about .text');
+  if (about) {
+    about.setAttribute('data-stagger','');
+    about.querySelectorAll(':scope > *').forEach((el, i) => {
+      mark(el, 'fade-up', .85);
+      el.style.setProperty('--delay', `${i * 0.08}s`);
     });
-    media && gsap.to(media, {
-      yPercent: 6,
-      scrollTrigger: { trigger: ".hero", start:"top top", end:"bottom top", scrub:0.4 }
+  }
+  const aboutImg = document.querySelector('#o-nas .about img');
+  aboutImg && mark(aboutImg, 'fade-left', .9);
+
+  // 6) KONTAKT
+  const kgrid = document.querySelector('#kontakt .contact-grid');
+  if (kgrid) {
+    kgrid.setAttribute('data-stagger','');
+    kgrid.querySelectorAll('.contact-card').forEach((el, i) => {
+      mark(el, 'fade-up', .9);
+      el.style.setProperty('--delay', `${i * 0.12}s`);
     });
   }
 
-  // ---------- odolnost při resize/refresh ----------
-  ScrollTrigger.config({ ignoreMobileResize: true });
-  window.addEventListener("load", () => setTimeout(() => ScrollTrigger.refresh(), 200));
+  // === Observer (jednorázově přidá .is-in – žádné opakované toggly → žádné probliky)
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
+
+  // Následně pozoruj VŠECHNY .reveal
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Pojistka: když je uživatel nastavený na reduced motion, prostě vše zobraz
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.reveal').forEach(el => {
+      el.style.animation = 'none';
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+      el.classList.add('is-in');
+    });
+    io.disconnect?.();
+  }
 })();
 </script>
 
