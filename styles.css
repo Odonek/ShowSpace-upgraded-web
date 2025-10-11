@@ -968,3 +968,29 @@ body.menu-lock{ overflow:hidden; }
 
 /* Jemný press pro šipky při kliknutí */
 .vt-arrow:active { transform: translateY(0) scale(.98); }
+
+/* ===== Z-INDEX / OVERLAY HOTFIX (nav, submenu, mobilní panel, cookie, toTop) ===== */
+
+/* Vše kolem hero nechť má nejnižší prioritu */
+.hero,
+.hero-media,
+.hero-media video,
+.hero-overlay {
+  position: relative;
+  z-index: 0;             /* pod UI prvky */
+  pointer-events: none;   /* video/overlay neblokuje kliky */
+}
+
+/* Navigace a její prvky vždy nad videem */
+nav { position: absolute; z-index: 5000; }      /* může zůstat absolute; klidně change na fixed */
+.submenu { z-index: 6000; }                     /* dropdown „Služby“ */
+.hamburger { z-index: 7000; }                   /* pro jistotu */
+.mobile-menu { z-index: 8000; }                 /* vysouvací panel */
+.mobile-backdrop { z-index: 7500; }             /* šedý podklad za panelem */
+
+/* Další UI, co má být nad vším */
+#cookie-banner { z-index: 9000; }
+#toTop { z-index: 8500; }
+
+/* Izolace nav, aby cizí transform/filters nevytvářely problémy */
+nav, .mobile-menu, #cookie-banner { isolation: isolate; }
