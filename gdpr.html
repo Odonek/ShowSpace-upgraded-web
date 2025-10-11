@@ -40,6 +40,13 @@
       background:#fff;
     }
     .submenu a:hover { background: #f6f8fb; color: var(--slate, #334); }
+
+    /* >>> DŮLEŽITÉ: mobilní breakpoint pro sjednocené chování navbaru <<< */
+    .hamburger{ display:none; }
+    @media (max-width:900px){
+      .menu, .nav-right{ display:none; }
+      .hamburger{ display:inline-flex; align-items:center; justify-content:center; }
+    }
   </style>
 </head>
 <body>
@@ -55,7 +62,7 @@
       <span></span><span></span><span></span>
     </button>
 
-    <!-- DESKTOPOVÉ MENU – zůstává -->
+    <!-- DESKTOPOVÉ MENU -->
     <div class="menu">
       <a href="index.html">Domů</a>
 
