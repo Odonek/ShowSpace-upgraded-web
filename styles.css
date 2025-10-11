@@ -177,6 +177,14 @@ transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
 @media (max-width: 480px) { .btn-cta { padding: 16px 24px; font-size: 1.05rem; } }
 
 /* HERO */
+.hero,
+.hero-media,
+.hero-media video,
+.hero-overlay {
+  position: relative;
+  z-index: 0;          /* pod UI */
+  pointer-events: none;/* neblokuje kliky */
+}
 .hero {
 position: relative; min-height: clamp(560px, 100vh, 900px);
 border-radius: 0 !important; overflow: hidden; background: #f0f0f0; width: 100%;
