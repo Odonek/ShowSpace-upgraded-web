@@ -418,42 +418,60 @@
 </script>
 
 <script>
-/* BENEFITY čísla */
+/* BENEFITY čísla – pomalejší animace + volitelný data-duration */
 (() => {
   const section = document.getElementById('benefity');
   if (!section) return;
+
   const counters = section.querySelectorAll('.counter');
   if (!counters.length) return;
 
+  const SPEED_MS_DEFAULT = 3500; // bylo 1200 → výrazně pomalejší
+
   let played = false;
-  function animateCounter(el, target, duration = 1200) {
+
+  function animateCounter(el, target, duration = SPEED_MS_DEFAULT) {
     const t0 = performance.now();
     function frame(now) {
       const p = Math.min((now - t0) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
+      const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
       el.textContent = Math.round(target * eased);
       if (p < 1) requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
   }
+
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduceMotion) { counters.forEach(c => c.textContent = c.dataset.target || c.textContent); return; }
+  if (reduceMotion) {
+    counters.forEach(c => c.textContent = c.dataset.target || c.textContent);
+    return;
+  }
+
+  function run() {
+    counters.forEach(c => {
+      const target = parseInt(c.dataset.target || '0', 10) || 0;
+      const dur = parseInt(c.dataset.duration || SPEED_MS_DEFAULT, 10);
+      animateCounter(c, target, dur);
+    });
+  }
+
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting && !played) {
           played = true;
-          counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0', 10) || 0));
+          run();
           io.disconnect();
         }
       });
     }, { threshold: 0.25 });
     io.observe(section);
   } else {
-    counters.forEach(c => animateCounter(c, parseInt(c.dataset.target || '0', 10) || 0));
+    run();
   }
 })();
 </script>
+
 
 <script>
 /* VTOUR – loop + bg + text + autoplay + swipe (fix: visible ≤ originals.length) */
