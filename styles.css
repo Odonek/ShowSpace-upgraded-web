@@ -883,34 +883,6 @@ body.menu-lock{ overflow:hidden; }
 /* hezčí 3D pro tilt */
 .vt-card { transform-style: preserve-3d; }
 
-/* === Reveal systém (bez blikání) === */
-
-/* Výchozí stav prvků k animaci se aplikuje jen když běží JS (třída .js je v <html>) */
-.js .reveal { opacity: 0; transform: translate3d(0,0,0); }
-
-/* Aktivace animace */
-.reveal.is-in {
-  animation: var(--reveal, fade-up) var(--dur,.8s) var(--ease,cubic-bezier(.22,.61,.36,1)) both;
-}
-
-/* Varianty (jen transform + opacity) */
-@keyframes fade-up    { from { opacity:0; transform: translateY(28px) } to { opacity:1; transform:none } }
-@keyframes fade-down  { from { opacity:0; transform: translateY(-26px)} to { opacity:1; transform:none } }
-@keyframes fade-left  { from { opacity:0; transform: translateX(26px)} to { opacity:1; transform:none } }
-@keyframes fade-right { from { opacity:0; transform: translateX(-26px)} to { opacity:1; transform:none } }
-@keyframes pop        { from { opacity:0; transform: scale(.92) }      to { opacity:1; transform: scale(1) } }
-@keyframes skew-up    { from { opacity:0; transform: translateY(24px) skewY(4deg) } to { opacity:1; transform:none } }
-@keyframes rotate-in  { from { opacity:0; transform: translateY(22px) rotate(-2deg) } to { opacity:1; transform:none } }
-
-/* Jemný „elastic“ efekt pro CTA (krátká 2fázová animace) */
-@keyframes pop-elastic {
-  0%   { opacity:0; transform: translateY(18px) scale(.94) }
-  60%  { opacity:1; transform: translateY(0)    scale(1.02) }
-  100% { opacity:1; transform: none }
-}
-
-/* Stagger helper: potomkům s data-stagger se v JS doplní --delay, tady ji použijeme */
-[data-stagger] > .reveal { animation-delay: var(--delay, 0s) !important; }
 
 
 
