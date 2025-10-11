@@ -33,7 +33,7 @@
       display:flex; flex-direction:column; gap:12px;
       padding:16px; border:1px solid #e9edf2; border-radius:18px;
       background:#fff; box-shadow: var(--shadow, 0 10px 24px rgba(17,24,39,.08));
-      text-align:center; /* vycentruje nadpis & popisek v kartě */
+      text-align:center;
       transition: transform .22s ease, box-shadow .22s ease;
     }
     .project:hover{
@@ -50,7 +50,7 @@
 
     .project .actions{
       display:flex; gap:10px; flex-wrap:wrap;
-      justify-content:center; /* tlačítka doprostřed boxu */
+      justify-content:center;
     }
 
     .embed-holder{
@@ -494,9 +494,19 @@ document.addEventListener('DOMContentLoaded', () => {
     formCard.style.animationDelay = '0.22s';
   }
 
-  // WOW init (mimo reduced-motion)
+  // WOW init: povol mobil + fallback
   if (!reduce && typeof WOW !== 'undefined') {
-    new WOW({ boxClass:'wow', animateClass:'animate__animated', offset:90, mobile:false, live:false }).init();
+    new WOW({
+      boxClass:'wow',
+      animateClass:'animate__animated',
+      offset:90,
+      mobile:true,   // ← povoleno na mobilech
+      live:false
+    }).init();
+  } else {
+    // Fallback: když WOW neběží (reduce motion / chybí knihovna),
+    // odhal všechny .wow prvky, ať nezůstanou skryté.
+    document.querySelectorAll('.wow').forEach(el => { el.style.visibility = 'visible'; });
   }
 });
 </script>
