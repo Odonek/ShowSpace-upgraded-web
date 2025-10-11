@@ -1021,12 +1021,7 @@ nav, .mobile-menu, #cookie-banner { isolation: isolate; }
   z-index: 2;
 }
 
-/* navigace vždy nad videem a obsahem */
-nav {
-  position: fixed;        /* může zůstat i absolute, ale fixed je nejspolehlivější */
-  top: 0; left: 0; right: 0;
-  z-index: 5000;
-}
+
 
 /* dropdown, mobilní panel, cookie banner, toTop – pořadí nad nav */
 .submenu         { z-index: 6000; }
@@ -1038,3 +1033,24 @@ nav {
 
 /* prevence nových stacking contextů */
 nav, .mobile-menu, #cookie-banner { isolation: isolate; }
+
+/* === NAV nad videem, video pod vším === */
+.hero {
+  position: relative !important;
+  z-index: 0 !important;
+}
+
+.hero-media,
+.hero-media video,
+.hero-overlay {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: -1 !important;     /* video + overlay pod obsahem i pod nav */
+  pointer-events: none !important;
+}
+
+nav {
+  position: absolute !important;  /* zůstává absolute (ne fixed) */
+  top: 0; left: 0; right: 0;
+  z-index: 9999 !important;       /* jistota nad .hero */
+}
