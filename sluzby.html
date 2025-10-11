@@ -15,6 +15,37 @@
   <meta name="theme-color" content="#415A77">
 
   <style>
+    /* === NAVBAR – sticky a bez překrývání obsahu na stránce Služby === */
+body.page-services{
+  --navH: 72px;          /* přibližná výška navigace (logo + padding) */
+}
+
+body.page-services nav{
+  position: sticky !important;
+  top: 0;
+  z-index: 1000;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 4px 14px rgba(0,0,0,.06);
+  padding: 10px 0;
+}
+
+/* jemná mezera za navem, aby nic „nelepilo“ hned pod lištu */
+body.page-services nav + *{ margin-top: 8px; }
+
+/* když skáčeš na kotvy z menu, nezařízne to nadpis pod navigaci */
+body.page-services section{ scroll-margin-top: var(--navH); }
+
+/* volitelné: trochu víc místa u první sekce */
+body.page-services #sluzba-prohlidky.service-section{ padding-top: 32px; }
+
+/* původní vzhled vnitřku navu */
+body.page-services .nav-inner{
+  background:#fff;
+  margin-top:0;
+  border-top: 4px solid var(--accent);
+}
+
     /* ==========================
        LOKÁLNÍ STYLY – SLUŽBY
        ========================== */
