@@ -750,6 +750,18 @@ font-family: var(--font); font-size: 1rem;
 }
 input:focus, textarea:focus{ outline: 2px solid var(--accent); }
 .contact-form .help{ color:#777; }
+/* Mobil: prohoď pořadí – nejdřív formulář, potom kontaktní info */
+@media (max-width: 900px) {
+  #kontakt .contact-grid{
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "form"
+      "info";
+  }
+  #kontakt .contact-card.contact-form { grid-area: form; }
+  #kontakt .contact-card.contact-info { grid-area: info; }
+}
+
 
 /* FOOTER – na střed */
 footer { background: #fff; color: #666; border-top: 1px solid #eee; font-size: .9rem; }
